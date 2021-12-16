@@ -43,14 +43,19 @@ public class Hud implements OnEventInterface {
 			String clientName = "VERGO";
 			GlStateManager.scale(1.5f, 1.5f, 1);
 			if (Vergo.config.modRainbow.isEnabled()) {
-				float rainbowBarMax = Minecraft.getMinecraft().fontRendererObj.getStringWidth(clientName) + 3f;
-				int rainbowOffset = 400;
-				for (int i = 1; i <= rainbowBarMax; i++) {
-					rainbowOffset += 15;
-					Gui.drawRect(i - 1, Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 2, i, Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 3, RenderUtils.getRainbow(rainbowOffset));
-				}
+				//float rainbowBarMax = Minecraft.getMinecraft().fontRendererObj.getStringWidth(clientName) + 3f;
+				//int rainbowOffset = 400;
+				//for (int i = 1; i <= rainbowBarMax; i++) {
+					//rainbowOffset += 15;
+					//Gui.drawRect(i - 1, Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 2, i, Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 3, RenderUtils.getRainbow(rainbowOffset));
+				//}
 			}
-			Minecraft.getMinecraft().fontRendererObj.drawString(clientName, 1, 2, Colors.ARRAY_LIST_MODULE_NAMES.getColor(), false);
+			//Minecraft.getMinecraft().fontRendererObj.drawString(clientName, 1, 2, Colors.ARRAY_LIST_MODULE_NAMES.getColor(), false);
+
+			GlStateManager.enableBlend();
+			RenderUtils.drawImg(new ResourceLocation("hummus/logo/512x512clear.png"), 0, 0, 30, 30);
+			GlStateManager.disableBlend();
+
 			GlStateManager.popMatrix();
 			
 			// Draws the array list

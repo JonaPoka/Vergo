@@ -91,6 +91,20 @@ public class RenderUtils {
 		GL11.glColor4f(1, 1, 1, 1);
 	}
 
+	public static void drawImg(ResourceLocation loc, double posX, double posY, double width, double height) {
+		mc.getTextureManager().bindTexture(loc);
+		float f = 1.0F / (float) width;
+		float f1 = 1.0F / (float) height;
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+		worldrenderer.pos(posX, (posY + height), 0.0D).tex(0 * f, ((0 + (float) height) * f1)).endVertex();
+		worldrenderer.pos((posX + width), (posY + height), 0.0D).tex((0 + (float) width) * f, (0 + (float) height) * f1).endVertex();
+		worldrenderer.pos((posX + width), posY, 0.0D).tex((0 + (float) width) * f, 0 * f1).endVertex();
+		worldrenderer.pos(posX, posY, 0.0D).tex(0 * f, 0 * f1).endVertex();
+		tessellator.draw();
+	}
+
 	public static void drawLine(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
 
 		Tessellator tessellator = Tessellator.getInstance();

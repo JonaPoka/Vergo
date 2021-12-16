@@ -23,7 +23,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 		super("Speed", Category.MOVEMENT);
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "JitterHypixel", "JitterHypixel", "SmoothHypixel", "Mineplex", "Verus lowhop", "Skidded anticheat 1");
+	public ModeSetting mode = new ModeSetting("Mode", "SmoothHypixel", "JitterHypixel", "SmoothHypixel", "Mineplex", "Verus lowhop", "Skidded anticheat 1");
 	
 	public static transient float hypixelYaw = 0;
 
@@ -189,6 +189,15 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 
 	private void jitterHypixelBypass() {
+
+		if(mc.gameSettings.keyBindJump.isKeyDown()) {
+			return;
+		}
+		if(!mc.thePlayer.isSprinting()) {
+			mc.thePlayer.setSprinting(true);
+		}
+
+
 		if(MovementUtils.isOnGround(0.0001)) {
 			mc.timer.timerSpeed = 8.0f;
 			mc.timer.ticksPerSecond = 22.0f;
@@ -200,14 +209,22 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 
 	private void smoothHypixelSpeed() {
-		if(mc.gameSettings.keyBindJump.isKeyDown()) {
-			return;
-		}
-		if(MovementUtils.isOnGround(0.00001)) {
-			mc.thePlayer.jump();
-		} else {
-			mc.thePlayer.motionY = -0.357638932;
-			MovementUtils.setMotion(MovementUtils.getSpeed() * 0.02);
+
+		if (MovementUtils.isMoving()) {
+			if (mc.gameSettings.keyBindJump.isKeyDown()) {
+				return;
+			}
+			if (!mc.thePlayer.isSprinting()) {
+				mc.thePlayer.setSprinting(true);
+			}
+			if (MovementUtils.isOnGround(0.00001)) {
+				mc.timer.timerSpeed = 1.5f;
+				mc.timer.ticksPerSecond = 21f;
+				mc.thePlayer.jump();
+			} else {
+				mc.timer.timerSpeed = 1.1f;
+				mc.timer.ticksPerSecond = 20f;
+			}
 		}
 	}
 	
