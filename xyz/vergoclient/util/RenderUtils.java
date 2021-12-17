@@ -29,8 +29,6 @@ import net.minecraft.util.Vec3;
 
 public class RenderUtils {
 
-	// Made by lavaflowglow 11/19/2020 3:39 AM
-
 	public static boolean shouldSetCustomYaw = false;
 	public static float customYaw = 0;
 
@@ -63,8 +61,6 @@ public class RenderUtils {
 	public static float getCustomPitch() {
 		return customPitch;
 	}
-
-	// Made by lavaflowglow 11/19/2020 3:39 AM
 
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
@@ -121,9 +117,11 @@ public class RenderUtils {
 		GL11.glEnd();
 	}
 
-	public static void drawRoundedRect(double x, double y, double width, double height, float cornerRadius) {
+	public static void drawRoundedRect(double x, double y, double width, double height, float cornerRadius, Color color) {
 		final int slices = 10;
 
+		GlStateManager.color(((float) color.getRed()) / 255, ((float) color.getGreen()) / 255,
+				((float) color.getBlue()) / 255);
 		drawFillRectangle(x + cornerRadius, y, width - 2 * cornerRadius, height);
 		drawFillRectangle(x, y + cornerRadius, cornerRadius, height - 2 * cornerRadius);
 		drawFillRectangle(x + width - cornerRadius, y + cornerRadius, cornerRadius, height - 2 * cornerRadius);

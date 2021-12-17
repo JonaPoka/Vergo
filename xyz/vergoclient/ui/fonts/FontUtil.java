@@ -125,6 +125,7 @@ public class FontUtil {
 	public static JelloFontRenderer jelloFontScale = JelloFontRenderer.createFontRenderer(getJelloFont(24, false));
 	public static JelloFontRenderer jelloFontAddAlt = JelloFontRenderer.createFontRenderer(getJelloFont(24, false));
 	public static JelloFontRenderer jelloFontGui = JelloFontRenderer.createFontRenderer(getJelloFont(25, false));
+	public static JelloFontRenderer jelloFontGuiBigger = JelloFontRenderer.createFontRenderer(getJelloFont(32, false));
 	public static JelloFontRenderer jelloFontDuration = JelloFontRenderer.createFontRenderer(getJelloFont(13, false));
 	public static JelloFontRenderer jelloFontMusic = JelloFontRenderer.createFontRenderer(getJelloFont((float) (12f), false));
 	public static JelloFontRenderer jelloFontAddAlt2 = JelloFontRenderer.createFontRenderer(getJelloFont(35, false));
@@ -153,6 +154,8 @@ public class FontUtil {
 
 	public static JelloFontRenderer bakakakBigger = JelloFontRenderer.createFontRenderer(getBakbak(41));
 	public static JelloFontRenderer bakakakmedium = JelloFontRenderer.createFontRenderer(getBakbak(14));
+	public static JelloFontRenderer bakakakBig = JelloFontRenderer.createFontRenderer(getBakbak(25));
+	public static JelloFontRenderer bakakakBiggish = JelloFontRenderer.createFontRenderer(getBakbak(35));
 	public static JelloFontRenderer bakakRegular = JelloFontRenderer.createFontRenderer(getBakbak(17));
 	
 }

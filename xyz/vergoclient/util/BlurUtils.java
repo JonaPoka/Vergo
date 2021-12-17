@@ -45,7 +45,7 @@ public class BlurUtils {
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         Setshil.write(false);
-        RenderUtils.drawRoundedRect(x, y, areaWidth, areaHeight, 1);
+        //RenderUtils.drawRoundedRect(x, y, areaWidth, areaHeight, 1);
         Setshil.erase(true);
         GlStateManager.enableBlend();
         blur(blurStrength);
@@ -98,7 +98,7 @@ public class BlurUtils {
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         Setshil.write(false);
-        RenderUtils.drawRoundedRect(x, y, areaWidth, areaHeight, 1);
+        //RenderUtils.drawRoundedRect(x, y, areaWidth, areaHeight, 1);
         Setshil.erase(true);
         GlStateManager.enableBlend();
         shaderGroup.loadShaderGroup(mc.timer.renderPartialTicks);
