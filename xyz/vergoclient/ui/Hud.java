@@ -55,8 +55,10 @@ public class Hud implements OnEventInterface {
 
 			GlStateManager.enableBlend();
 			if(Vergo.config.modHud.waterMark.is("Planet")) {
+				GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 				RenderUtils.drawImg(new ResourceLocation("hummus/logo/512x512clear.png"), 0, 0, 30, 30);
 			} else if(Vergo.config.modHud.waterMark.is("Rounded")) {
+				GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 				RenderUtils.drawImg(new ResourceLocation("hummus/logo/512x512-transparent-round.png"), 0, 0, 32, 32);
 			} else if(Vergo.config.modHud.waterMark.is("None")) {
 

@@ -41,7 +41,7 @@ public class ModAutoHead extends Module implements OnEventInterface {
 					if (Minecraft.getMinecraft().thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
 						ItemStack is = Minecraft.getMinecraft().thePlayer.inventoryContainer.getSlot(i).getStack();
 						
-						if (is.getItem() instanceof ItemSkull && is.getDisplayName().equalsIgnoreCase("�6Golden Head")) {
+						if (is.getItem() instanceof ItemSkull && is.getDisplayName().equalsIgnoreCase("§6Golden Head")) {
 							int heldItemBeforeThrow = mc.thePlayer.inventory.currentItem;
 							if (i - 36 < 0) {
 								

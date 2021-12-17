@@ -68,7 +68,7 @@ public class ModBanChecker extends Module implements OnEventInterface {
 		else if (e instanceof EventReceivePacket && e.isPre()) {
 			if (((EventReceivePacket)e).packet instanceof S02PacketChat) {
 				if (((S02PacketChat)((EventReceivePacket)e).packet).getChatComponent().getUnformattedTextForChat().startsWith("Your new API key is ")) {
-					apiKey = ((S02PacketChat)((EventReceivePacket)e).packet).getChatComponent().getFormattedText().replaceAll("�aYour new API key is �r�b", "").replaceAll("�r", "");
+					apiKey = ((S02PacketChat)((EventReceivePacket)e).packet).getChatComponent().getFormattedText().replaceAll("§aYour new API key is §r§b", "").replaceAll("§r", "");
 //					ChatUtils.addChatMessage(apiKey);
 					e.setCanceled(true);
 				}

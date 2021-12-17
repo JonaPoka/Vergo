@@ -23,6 +23,7 @@ import xyz.vergoclient.ui.guis.GuiStartup;
 import xyz.vergoclient.util.ChatFilterBypassUtils;
 import xyz.vergoclient.util.MiscellaneousUtils;
 import xyz.vergoclient.util.NetworkManager;
+import xyz.vergoclient.util.RandomStringUtil;
 import xyz.vergoclient.util.anticheat.Player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -56,7 +57,7 @@ public class Vergo {
 		
 		// Creates startup tasks
 		startupTasks.addAll(Arrays.asList(
-				new StartupTask("Creating, loading and checking files...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						// Starts the file manager
@@ -74,14 +75,14 @@ public class Vergo {
 						
 					}
 				},
-				new StartupTask("Caching icons...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						for (Icons icon : Icons.values())
 							cachedIcons.add(icon.iconLocation);
 					}
 				},
-				new StartupTask("Starting discord rp...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						if (!MiscellaneousUtils.canAccessInternet())
@@ -93,20 +94,20 @@ public class Vergo {
 								break;
 					}
 				},
-				new StartupTask("Starting the module manager...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						config = new ModuleManager();
 						config.init();
 					}
 				},
-				new StartupTask("Initializing the hud...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						Hud.init();
 					}
 				},
-				new StartupTask("Loading the clickgui tabs...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						if (FileManager.clickguiTabs.exists()) {
@@ -120,7 +121,7 @@ public class Vergo {
 						}
 					}
 				},
-				new StartupTask("Creating the command manager...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						commandManager = new CommandManager();
@@ -128,31 +129,31 @@ public class Vergo {
 						ModuleManager.eventListeners.add(commandManager);
 					}
 				},
-				new StartupTask("Starting the file saver...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						FileSaver.init();
 					}
 				},
-				new StartupTask("Hooking the user finder...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						ModuleManager.eventListeners.add(new UserFinder());
 					}
 				},
-				new StartupTask("Hooking the player...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						ModuleManager.eventListeners.add(player);
 					}
 				},
-				new StartupTask("Creating the chat bypass configs...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						ChatFilterBypassUtils.loadConfigs();
 					}
 				},
-				new StartupTask("Adding shutdown hooks...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -166,7 +167,7 @@ public class Vergo {
 						});
 					}
 				},
-				new StartupTask("Logging in with token...") {
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
 						/*if (FileManager.authTokenFile.exists()) {
@@ -211,20 +212,20 @@ public class Vergo {
 			));
 		
 		// This fixes a bug
-		startupTasks.add(new StartupTask("Finishing up..."));
+		startupTasks.add(new StartupTask(RandomStringUtil.getRandomLoadingMsg()));
 		
 		// Runs startup tasks
 		new Thread(() -> {
 			
 			for (StartupTask startupTask : startupTasks) {
-				System.out.println("Starting task \"" + startupTask.taskText + "\"");
+				System.out.println("Vergo >> Initializing \"" + startupTask.taskText + "\"");
 				GuiStartup.percentText = startupTask.taskText;
 				startupTask.task();
 				GuiStartup.percentDoneTarget = ((double)startupTasks.indexOf(startupTask)) / ((double)startupTasks.size() - 1);
 			}
 			
 			// Makes sure the startup screen lingers for at least 2.5 secs
-			GuiStartup.percentText = "Finishing up...";
+			GuiStartup.percentText = RandomStringUtil.getRandomLoadingMsg();
 			try {
 				Thread.sleep(2500);
 			} catch (Exception e) {}

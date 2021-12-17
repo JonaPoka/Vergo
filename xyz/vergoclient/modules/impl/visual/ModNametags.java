@@ -38,12 +38,12 @@ public class ModNametags extends Module implements OnEventInterface {
 				}
 				Vec3 targetPos = MiscellaneousUtils.getRenderEntityPos(player);
 				double x = targetPos.xCoord, y = targetPos.yCoord + player.getEyeHeight() + 1, z = targetPos.zCoord;
-				String text = "�f" + player.getDisplayName().getUnformattedTextForChat();
+				String text = "§f" + player.getDisplayName().getUnformattedTextForChat();
 				String scoreTitle = text;
 				String textNoColorFormatting = "";
 				boolean removeNext = false;
 				for (char c : scoreTitle.toCharArray()) {
-					if (c == "�".toCharArray()[0]) {
+					if (c == "§".toCharArray()[0]) {
 						removeNext = true;
 					}
 					else if (!removeNext) {

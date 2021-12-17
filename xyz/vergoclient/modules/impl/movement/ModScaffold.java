@@ -81,7 +81,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public NumberSetting forwardExtendSetting = new NumberSetting("Forward extend", 0.0, 0.0, 5, 0.1),
 			sidewaysExtendSetting = new NumberSetting("Sideways extend", 0.0, 0.0, 5, 0.1),
 			maxBlocksPlacedPerTickSetting = new NumberSetting("Max blocks placed per tick", 1, 1, 25, 1),
-			timerBoostSetting = new NumberSetting("Timer Boost", 1, 1, 2, 0.01),
+			timerBoostSetting = new NumberSetting("Timer Boost", 1, 1, 3, 0.1),
 			itemSwitchTicks = new NumberSetting("Item switch tick delay", 1, 1, 20, 1);
 	public BooleanSetting keepYSetting = new BooleanSetting("Keep Y", false),
 			sprintSetting = new BooleanSetting("Sprint", false),
@@ -108,7 +108,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		rotationMode.modes.addAll(Arrays.asList("90 snap", "90 snap", "yaw - 180", "Hypixel Slow", "Hypixel Sprint", "None"));
 		forwardExtendSetting.minimum = 0;
 		forwardExtendSetting.name = "Forward extend";
-		addSettings(forwardExtendSetting, sidewaysExtendSetting, maxBlocksPlacedPerTickSetting, timerBoostSetting,
+		addSettings(forwardExtendSetting, sidewaysExtendSetting/*maxBlocksPlacedPerTickSetting*/, timerBoostSetting,
 				keepYSetting, sprintSetting, legitSetting, overrideKeepYSetting, viewRotations, rotationMode,
 				fourDirectionalSpeed, oneDirectionalSpeed, toggleBlink, itemSwitchDelay, clientSideBlockPicker,
 				hitVecFixer, noRotate, fakeMissPackets, towerMode, placeBlockAsync, timerSlow);
@@ -116,7 +116,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	
 	private static transient BlockPos lastPlace = null;
 	private static transient double keepPosY = 0;
-	private static transient TimerUtil legitTimer = new TimerUtil(), crazyTimerU = new TimerUtil();
+	private static transient TimerUtil legitTimer = new TimerUtil(), crazyTimerTimer = new TimerUtil();
 	private static transient boolean switchLook = false;
 	private static transient float oneDirectionalSpeedYaw = 0;
 	private static transient int itemSwitchDelayTicks = 0;
@@ -124,6 +124,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public void onEnable() {
 
 		if(rotationMode.is("Hypixel Slow") || rotationMode.is("Hypixel Sprint")) {
+
 			if(mc.thePlayer.isSprinting()) {
 				mc.thePlayer.setSprinting(false);
 			}
@@ -331,6 +332,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		}
 		
 		if (e instanceof EventMove && e.isPre() && fourDirectionalSpeed.isEnabled()) {
+
 			mc.gameSettings.keyBindLeft.pressed = false;
 			mc.gameSettings.keyBindRight.pressed = false;
 			EventMove event = (EventMove) e;
@@ -372,6 +374,13 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			}
 		}
 		
+	}
+
+	public void doCrazyTimerBoost() {
+		if(crazyTimerTimer.hasTimeElapsed(1000, true)) {
+			mc.timer.timerSpeed = 3.0f;
+			mc.timer.ticksPerSecond = 21f;
+		}
 	}
 	
 	public void attemptBlockPlace(EventUpdate e) {

@@ -143,6 +143,7 @@ public class RenderUtils {
 
 	public static void drawImg(ResourceLocation loc, double posX, double posY, double width, double height) {
 		mc.getTextureManager().bindTexture(loc);
+		//GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 		float f = 1.0F / (float) width;
 		float f1 = 1.0F / (float) height;
 		Tessellator tessellator = Tessellator.getInstance();
@@ -325,12 +326,12 @@ public class RenderUtils {
 		GlStateManager.popMatrix();
 	}
 
-	public static void draw2dCircle(double centerX, double centerY, double circleSize, double circleCompilation) {
+	/*public static void draw2dCircle(double centerX, double centerY, double circleSize, double circleCompilation) {
 		draw2dCircle(centerX, centerY, circleSize, circleCompilation, 4);
-	}
+	}*/
 
 	public static void draw2dCircle(double centerX, double centerY, double circleSize, double circleCompilation,
-			float lineWidth) {
+			float lineWidth, Color color) {
 
 		GlStateManager.pushMatrix();
 		GlStateManager.pushAttrib();
@@ -338,6 +339,7 @@ public class RenderUtils {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glBegin(GL11.GL_LINE_STRIP);
 		for (int rotate = 360 + 90; rotate >= (360 - circleCompilation) + 90; rotate--) {
+			GL11.glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 			double x = centerX + ((Math.cos(Math.toRadians(rotate)) * circleSize));
 			double y = centerY - ((Math.sin(Math.toRadians(rotate)) * circleSize));
 			GL11.glVertex2d(x, y);
