@@ -8,6 +8,10 @@ import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
@@ -141,6 +145,18 @@ public class RenderUtils {
 		//GlStateManager.alphaFunc(GL11.GL_NOTEQUAL, 0);
 	}
 
+	public static void drawBorderedRect(float x, float y, float width, float height, float borderWidth, Color rectColor, Color borderColor) {
+		drawBorderedRect(x, y, width, height, borderWidth, rectColor.getRGB(), borderColor.getRGB());
+	}
+
+	public static void drawBorderedRect(float x, float y, float width, float height, float borderWidth, int rectColor, int borderColor) {
+		Gui.drawRect(x + borderWidth, y + borderWidth, width - borderWidth * 2.0F, height - borderWidth * 2.0F, rectColor);
+		Gui.drawRect(x, y, width, borderWidth, borderColor);
+		Gui.drawRect(x, y + borderWidth, borderWidth, height - borderWidth, borderColor);
+		Gui.drawRect(x + width - borderWidth, y + borderWidth, borderWidth, height - borderWidth, borderColor);
+		Gui.drawRect(x + borderWidth, y + height - borderWidth, width - borderWidth * 2.0F, borderWidth, borderColor);
+	}
+
 	public static void drawImg(ResourceLocation loc, double posX, double posY, double width, double height) {
 		mc.getTextureManager().bindTexture(loc);
 		//GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -154,6 +170,14 @@ public class RenderUtils {
 		worldrenderer.pos((posX + width), posY, 0.0D).tex((0 + (float) width) * f, 0 * f1).endVertex();
 		worldrenderer.pos(posX, posY, 0.0D).tex(0 * f, 0 * f1).endVertex();
 		tessellator.draw();
+	}
+
+	public static void drawBorderedRect(int x, int y, int x1, int y1, int width, Color internalColor, Color borderColor) {
+		Gui.drawRect(x + width, y + width, x1 - width, y1 - width, internalColor.getRGB());
+		Gui.drawRect(x + width, y, x1 - width, y + width, borderColor.getRGB());
+		Gui.drawRect(x, y, x + width, y1, borderColor.getRGB());
+		Gui.drawRect(x1 - width, y, x1, y1, borderColor.getRGB());
+		Gui.drawRect(x + width, y1 - width, x1 - width, y1, borderColor.getRGB());
 	}
 
 	public static void drawLine(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {

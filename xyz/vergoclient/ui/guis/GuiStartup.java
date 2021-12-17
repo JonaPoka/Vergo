@@ -4,6 +4,8 @@ import java.awt.*;
 import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMultiplayer;
+import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.renderer.GlStateManager;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Colors;
@@ -30,7 +32,7 @@ public class GuiStartup extends GuiScreen {
 		waitTimer.reset();
 		
 		if (hasLoaded && mc != null)
-			mc.displayGuiScreen(new GuiMainMenu());
+			mc.displayGuiScreen(new GuiMultiplayer(new GuiAltManager()));
 //		else
 //			Vergo.startup();
 	}
@@ -47,7 +49,7 @@ public class GuiStartup extends GuiScreen {
 		
 		// If it is done loading then show the main menu
 		if (hasLoaded)
-			mc.displayGuiScreen(new GuiMainMenu());
+			mc.displayGuiScreen(new GuiMultiplayer(new GuiAltManager()));
 		
 		// Background
 		Gui.drawRect(0, 0, width, height, new Color(18, 18, 18).getRGB());
