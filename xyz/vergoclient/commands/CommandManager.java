@@ -4,12 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 
-import xyz.vergoclient.commands.impl.CommandBind;
-import xyz.vergoclient.commands.impl.CommandConfig;
-import xyz.vergoclient.commands.impl.CommandHelp;
-import xyz.vergoclient.commands.impl.CommandKeybinds;
-import xyz.vergoclient.commands.impl.CommandSay;
-import xyz.vergoclient.commands.impl.CommandSetSpawn;
+import xyz.vergoclient.commands.impl.*;
 import xyz.vergoclient.commands.implAdmin.CommandAddAdmin;
 import xyz.vergoclient.commands.implAdmin.CommandAddBeta;
 import xyz.vergoclient.commands.implAdmin.CommandBan;
@@ -39,6 +34,7 @@ public class CommandManager implements OnEventInterface {
 	
 	// Create all the commands and add them to the arraylist
 	public void init() {
+		commands.add(new CommandGetYawAndPitch());
 		commands.add(new CommandHelp());
 		commands.add(new CommandConfig());
 		commands.add(new CommandBind());
@@ -48,6 +44,7 @@ public class CommandManager implements OnEventInterface {
 	}
 	
 	public void hummusAdminInit() {
+		commands.add(new CommandGetYawAndPitch());
 		commands.add(new CommandBan());
 		commands.add(new CommandUnban());
 		commands.add(new CommandSpoof());

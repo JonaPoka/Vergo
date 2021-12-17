@@ -3,6 +3,8 @@ package xyz.vergoclient.modules.impl.visual;
 import java.awt.Color;
 import java.text.DecimalFormat;
 
+import net.minecraft.client.entity.AbstractClientPlayer;
+import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventRenderGUI;
@@ -158,7 +160,6 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				GlStateManager.disableBlend();
 				GlStateManager.color(1, 1, 1, 1);
 				GuiInventory.drawEntityOnScreen(27, 58, (int) (45 / target.height), 0, 0, target);
-
 			}
 
 		else if(mode.is("Paper")) {
@@ -256,6 +257,14 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				yOffset.maximum = new ScaledResolution(mc).getScaledHeight() - 65;
 		}
 
+	}
+
+	private void renderPlayer2d(final double n, final double n2, final float n3, final float n4, final int n5, final int n6, final int n7, final int n8, final float n9, final float n10, final AbstractClientPlayer abstractClientPlayer) {
+		mc.getTextureManager().bindTexture(abstractClientPlayer.getLocationSkin());
+		GL11.glEnable(3042);
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		Gui.drawScaledCustomSizeModalRect((int)n, (int)n2, n3, n4, n5, n6, n7, n8, n9, n10);
+		GL11.glDisable(3042);
 	}
 
 }

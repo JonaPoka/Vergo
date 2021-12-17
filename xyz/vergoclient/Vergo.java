@@ -38,7 +38,7 @@ public class Vergo {
 	public static Discord discord = new Discord();
 	
 	// The version of the client
-	public static transient double version = 0.1;
+	public static transient String version = " DEV-BUILD";
 	
 	// Cached icons
 	public static transient CopyOnWriteArrayList<ResourceLocation> cachedIcons = new CopyOnWriteArrayList<>();
@@ -218,7 +218,6 @@ public class Vergo {
 		new Thread(() -> {
 			
 			for (StartupTask startupTask : startupTasks) {
-				System.out.println("Vergo >> Initializing \"" + startupTask.taskText + "\"");
 				GuiStartup.percentText = startupTask.taskText;
 				startupTask.task();
 				GuiStartup.percentDoneTarget = ((double)startupTasks.indexOf(startupTask)) / ((double)startupTasks.size() - 1);

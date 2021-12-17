@@ -63,7 +63,7 @@ public class FontUtil {
 		Font font = null;
 		try {
 			InputStream is = Minecraft.getMinecraft().getResourceManager()
-					.getResource(new ResourceLocation("hummus/font/MinecraftRegular-Bmg3.ttf")).getInputStream();
+					.getResource(new ResourceLocation("Vergo/font/MinecraftRegular-Bmg3.ttf")).getInputStream();
 			font = Font.createFont(0, is);
 			font = font.deriveFont(0, size);
 		} catch (Exception ex) {
@@ -93,7 +93,7 @@ public class FontUtil {
 		Font font = null;
 		try {
 			InputStream is = Minecraft.getMinecraft().getResourceManager()
-					.getResource(new ResourceLocation("hummus/font/arial.ttf")).getInputStream();
+					.getResource(new ResourceLocation("Vergo/font/arial.ttf")).getInputStream();
 			font = Font.createFont(0, is);
 			font = font.deriveFont(0, size);
 		} catch (Exception ex) {
@@ -108,7 +108,7 @@ public class FontUtil {
 		Font font = null;
 		try {
 			InputStream is = Minecraft.getMinecraft().getResourceManager()
-					.getResource(new ResourceLocation("hummus/font/BakbakOne-Regular.ttf")).getInputStream();
+					.getResource(new ResourceLocation("Vergo/font/BakbakOne-Regular.ttf")).getInputStream();
 			font = Font.createFont(0, is);
 			font = font.deriveFont(0, size);
 		} catch (Exception ex) {

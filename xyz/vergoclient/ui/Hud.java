@@ -56,10 +56,10 @@ public class Hud implements OnEventInterface {
 			GlStateManager.enableBlend();
 			if(Vergo.config.modHud.waterMark.is("Planet")) {
 				GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-				RenderUtils.drawImg(new ResourceLocation("hummus/logo/512x512clear.png"), 0, 0, 30, 30);
+				RenderUtils.drawImg(new ResourceLocation("Vergo/logo/512x512clear.png"), 0, 0, 30, 30);
 			} else if(Vergo.config.modHud.waterMark.is("Rounded")) {
 				GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-				RenderUtils.drawImg(new ResourceLocation("hummus/logo/512x512-transparent-round.png"), 0, 0, 32, 32);
+				RenderUtils.drawImg(new ResourceLocation("Vergo/logo/512x512-transparent-round.png"), 0, 0, 32, 32);
 			} else if(Vergo.config.modHud.waterMark.is("None")) {
 
 			}
@@ -80,7 +80,7 @@ public class Hud implements OnEventInterface {
 			
 			/*Gui.drawRect(0, sr.getScaledHeight() - (Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT * 2) - 4, (Minecraft.getMinecraft().fontRendererObj.getStringWidth(AccountUtils.account.username + " - " + new DecimalFormat("#####0000").format(AccountUtils.account.id)) > Minecraft.getMinecraft().fontRendererObj.getStringWidth(MiscellaneousUtils.getFormattedSessionTime() + " - " + new DecimalFormat("###00.00").format(MovementUtils.getBlocksPerSecond()) + " BPS") ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(AccountUtils.account.username + " - " + new DecimalFormat("#####0000").format(AccountUtils.account.id)) : Minecraft.getMinecraft().fontRendererObj.getStringWidth(MiscellaneousUtils.getFormattedSessionTime() + " - " + new DecimalFormat("###00.00").format(MovementUtils.getBlocksPerSecond()) + " BPS")) + 3f, sr.getScaledHeight(), 0x90000000);
 			
-			if (Hummus.config.modRainbow.isEnabled()) {
+			if (Vergo.config.modRainbow.isEnabled()) {
 				float rainbowBarMax = (Minecraft.getMinecraft().fontRendererObj.getStringWidth(AccountUtils.account.username + " - " + new DecimalFormat("#####0000").format(AccountUtils.account.id)) > Minecraft.getMinecraft().fontRendererObj.getStringWidth(MiscellaneousUtils.getFormattedSessionTime() + " - " + new DecimalFormat("###00.00").format(MovementUtils.getBlocksPerSecond()) + " BPS") ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(AccountUtils.account.username + " - " + new DecimalFormat("#####0000").format(AccountUtils.account.id)) : Minecraft.getMinecraft().fontRendererObj.getStringWidth(MiscellaneousUtils.getFormattedSessionTime() + " - " + new DecimalFormat("###00.00").format(MovementUtils.getBlocksPerSecond()) + " BPS")) + 3f;
 				int rainbowOffset = 400;
 				for (int i = 1; i <= rainbowBarMax; i++) {

@@ -24,9 +24,6 @@ public class GuiStartup extends GuiScreen {
 	
 	public static double percentDoneTarget = 0, percentDone = 0;
 	public static String percentText = RandomStringUtil.getRandomLoadingMsg();
-
-	public String FuckMoon = "Out here proving everyone wrong";
-	public String jiggeyGOD = "jiggey is a fucking god.";
 	
 	public GuiStartup() {
 		
@@ -35,7 +32,7 @@ public class GuiStartup extends GuiScreen {
 		if (hasLoaded && mc != null)
 			mc.displayGuiScreen(new GuiMainMenu());
 //		else
-//			Hummus.startup();
+//			Vergo.startup();
 	}
 
 	int count = 0;
@@ -82,7 +79,7 @@ public class GuiStartup extends GuiScreen {
 
 		GlStateManager.enableBlend();
 		GlStateManager.color((float) 1.0, (float) 1.0, (float) 1.0, 1.0f);
-		RenderUtils.drawImg(new ResourceLocation("hummus/logo/512x512clear.png"), width / 2 - 60, height / 2 - 60, 100, 100);
+		RenderUtils.drawImg(new ResourceLocation("Vergo/logo/512x512clear.png"), width / 2 - 60, height / 2 - 60, 100, 100);
 		GlStateManager.disableBlend();
 		FontUtil.bakakakmedium.drawCenteredString(percentText, width / 2 - 10, height / 2 + 70 - FontUtil.arialMedium.FONT_HEIGHT, new Color(144, 106, 235).getRGB());
 

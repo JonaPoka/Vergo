@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import java.awt.*;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.RandomUtils;
@@ -22,11 +23,7 @@ import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.settings.SettingChangeEvent;
-import xyz.vergoclient.util.MovementUtils;
-import xyz.vergoclient.util.RenderUtils;
-import xyz.vergoclient.util.RotationUtils;
-import xyz.vergoclient.util.TimerUtil;
-import xyz.vergoclient.util.WorldUtils;
+import xyz.vergoclient.util.*;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -81,7 +78,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public NumberSetting forwardExtendSetting = new NumberSetting("Forward extend", 0.0, 0.0, 5, 0.1),
 			sidewaysExtendSetting = new NumberSetting("Sideways extend", 0.0, 0.0, 5, 0.1),
 			maxBlocksPlacedPerTickSetting = new NumberSetting("Max blocks placed per tick", 1, 1, 25, 1),
-			timerBoostSetting = new NumberSetting("Timer Boost", 1, 1, 3, 0.1),
+			timerBoostSetting = new NumberSetting("Timer Boost", 1, 1, 2, 0.01),
 			itemSwitchTicks = new NumberSetting("Item switch tick delay", 1, 1, 20, 1);
 	public BooleanSetting keepYSetting = new BooleanSetting("Keep Y", false),
 			sprintSetting = new BooleanSetting("Sprint", false),
@@ -303,8 +300,9 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			
 			GL11.glEnable(32823);
 			GL11.glPolygonOffset(1.0f, -1100000.0f);
-			RenderUtils.drawColoredBox(below.getX() - 0.0001, below.getY() - 0.0001, below.getZ() - 0.0001, below.getX() + 1.0001, below.getY() + 1.0001, below.getZ() + 1.0001, 0x50ffffff);
-			
+
+			RenderUtils.drawColoredBox(below.getX() - 0.0001, below.getY() - 0.0001, below.getZ() - 0.0001, below.getX() + 1.0001, below.getY() + 1.0001, below.getZ() + 1.0001, 0x50C74D8E);
+
 			RenderUtils.drawLine(below.getX(), below.getY(), below.getZ(), below.getX() + 1, below.getY(), below.getZ());
 			RenderUtils.drawLine(below.getX(), below.getY() + 1, below.getZ(), below.getX() + 1, below.getY() + 1, below.getZ());
 			RenderUtils.drawLine(below.getX(), below.getY(), below.getZ(), below.getX(), below.getY(), below.getZ() + 1);
@@ -375,20 +373,13 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		}
 		
 	}
-
-	public void doCrazyTimerBoost() {
-		if(crazyTimerTimer.hasTimeElapsed(1000, true)) {
-			mc.timer.timerSpeed = 3.0f;
-			mc.timer.ticksPerSecond = 21f;
-		}
-	}
 	
 	public void attemptBlockPlace(EventUpdate e) {
 		// Event
 		EventUpdate event = (EventUpdate) e;
 
 		// Info
-		setInfo(lastYaw + " " + lastPitch);
+		setInfo("Mode: " + rotationMode.getMode());
 
 		// prevents flags on Hypixel
 		if (!sprintSetting.isEnabled() && mc.thePlayer.isSprinting()) {
@@ -443,7 +434,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 		}
 
-		if (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null && false) {
+		if (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null) {
 			return;
 		} else {
 			event.setYaw(lastYaw);
@@ -451,11 +442,6 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 			RenderUtils.setCustomYaw(lastYaw);
 			RenderUtils.setCustomPitch(lastPitch);
-
-			if (viewRotations.isEnabled()) {
-				mc.thePlayer.rotationYaw = event.getYaw();
-				mc.thePlayer.rotationPitch = event.getPitch();
-			}
 
 		}
 
@@ -762,23 +748,23 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		double randZ = lastRandZ;
 		
 		if (rotationMode.is("Hypixel Slow")) {
-//			if (randX >= 1.8)
-//				randX = 1.8;
-//			if (randX <= 0.2)
-//				randX = 0.2;
-//			if (randX >= 0.8 && randX <= 1.0)
-//				randX = 0.8;
-//			if (randX >= 1.0 && randX <= 1.2)
-//				randX = 1.2;
-//			
-//			if (randZ >= 1.8)
-//				randZ = 1.8;
-//			if (randZ <= 0.2)
-//				randZ = 0.2;
-//			if (randZ >= 0.8 && randX <= 1.0)
-//				randZ = 0.8;
-//			if (randZ >= 1.0 && randX <= 1.2)
-//				randZ = 1.2;
+			if (randX >= 1.8)
+				randX = 1.8;
+			if (randX <= 0.2)
+				randX = 0.2;
+			if (randX >= 0.8 && randX <= 1.0)
+				randX = 0.8;
+			if (randX >= 1.0 && randX <= 1.2)
+				randX = 1.2;
+
+			if (randZ >= 1.8)
+				randZ = 1.8;
+			if (randZ <= 0.2)
+				randZ = 0.2;
+			if (randZ >= 0.8 && randX <= 1.0)
+				randZ = 0.8;
+			if (randZ >= 1.0 && randX <= 1.2)
+				randZ = 1.2;
 		}
 		
 		if (offsetX != 0) {

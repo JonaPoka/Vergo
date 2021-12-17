@@ -197,7 +197,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 			mc.thePlayer.setSprinting(true);
 		}
 
-
 		if(MovementUtils.isOnGround(0.0001)) {
 			mc.timer.timerSpeed = 8.0f;
 			mc.timer.ticksPerSecond = 22.0f;
