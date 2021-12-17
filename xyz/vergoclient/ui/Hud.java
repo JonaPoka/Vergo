@@ -13,6 +13,7 @@ import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
+import xyz.vergoclient.util.BlurUtils;
 import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.TimerUtil;
 import net.minecraft.client.Minecraft;
@@ -53,7 +54,13 @@ public class Hud implements OnEventInterface {
 			//Minecraft.getMinecraft().fontRendererObj.drawString(clientName, 1, 2, Colors.ARRAY_LIST_MODULE_NAMES.getColor(), false);
 
 			GlStateManager.enableBlend();
-			RenderUtils.drawImg(new ResourceLocation("hummus/logo/512x512clear.png"), 0, 0, 30, 30);
+			if(Vergo.config.modHud.waterMark.is("Planet")) {
+				RenderUtils.drawImg(new ResourceLocation("hummus/logo/512x512clear.png"), 0, 0, 30, 30);
+			} else if(Vergo.config.modHud.waterMark.is("Rounded")) {
+				RenderUtils.drawImg(new ResourceLocation("hummus/logo/512x512-transparent-round.png"), 0, 0, 32, 32);
+			} else if(Vergo.config.modHud.waterMark.is("None")) {
+
+			}
 			GlStateManager.disableBlend();
 
 			GlStateManager.popMatrix();
@@ -146,8 +153,12 @@ public class Hud implements OnEventInterface {
 				GlStateManager.scale(1, squeeze, 1);
 //				GlStateManager.translate(-(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4), -((offset) * (fr.FONT_HEIGHT * 1.5)), 0);
 				GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
-				
-				Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
+
+				if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
+					Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
+				} else {
+
+				}
 				
 				// Used for a jello font renderer
 //				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 2.5f, Colors.ARRAYLISTMODULENAMES.getColor());
@@ -206,13 +217,17 @@ public class Hud implements OnEventInterface {
 					squeeze = 1;
 				
 //				GlStateManager.translate(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT * 1.5), 0);
-				//GlStateManager.translate((float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 0, 0);
+				GlStateManager.translate((float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 0, 0);
 //				GlStateManager.scale(squeeze, squeeze, 1);
 				GlStateManager.scale(1, squeeze, 1);
 //				GlStateManager.translate(-(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4), -((offset) * (fr.FONT_HEIGHT * 1.5)), 0);
-				//GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
+				GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
 				
-				Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
+				if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
+					Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
+				} else {
+
+				}
 				
 				// Used for a jello font renderer
 //				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 2.5f, Colors.ARRAYLISTMODULENAMES.getColor());

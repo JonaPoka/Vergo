@@ -12,13 +12,11 @@ public class ModHud extends Module {
 		super("Hud", Category.VISUAL);
 	}
 	
-	public ModeSetting arrayListFont = new ModeSetting("ArrayList Font", "Helvetica Neue", "Arial", "Arial", "Helvetica Neue", "Helvetica Neue Bold"),
-			arrayListColors = new ModeSetting("ArrayList colors", "Rainbow", "Default", "Rainbow", "United States", "Transgender"),
-			scoreboardPosition = new ModeSetting("Scoreboard position", "Right", "Left", "Right");
+	public ModeSetting waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "None"),
+			arrayListFont = new ModeSetting("ArrayList Font", "Helvetica Neue Bold", "Arial", "Arial", "Helvetica Neue", "Helvetica Neue Bold"),
+			arrayListColors = new ModeSetting("ArrayList colors", "Rainbow", "Default", "Rainbow");
 	public BooleanSetting renderScoreboardNumbers = new BooleanSetting("Render Scoreboard Numbers", false),
-			renderPumpkinOverlay = new BooleanSetting("Render pumpkin overlay", false),
-			renderNauseaEffect = new BooleanSetting("Render nausea effect", false),
-			renderBlindnessEffect = new BooleanSetting("Render blindness effect", false);
+						  arrayListBackground = new BooleanSetting("ArrayList Background", true);
 	
 	@Override
 	public void loadSettings() {
@@ -26,8 +24,7 @@ public class ModHud extends Module {
 		arrayListFont.modes.clear();
 		arrayListFont.modes.addAll(Arrays.asList("Minecraft", "Arial", "Helvetica Neue", "Helvetica Neue Bold"));
 		
-		addSettings(arrayListFont, arrayListColors, scoreboardPosition, renderScoreboardNumbers, renderPumpkinOverlay,
-				renderNauseaEffect, renderBlindnessEffect);
+		addSettings(waterMark, arrayListFont, arrayListColors, arrayListBackground, renderScoreboardNumbers);
 	}
 	
 	@Override
@@ -38,11 +35,6 @@ public class ModHud extends Module {
 	@Override
 	public boolean isDisabled() {
 		return false;
-	}
-	
-	@Override
-	public String getInfo() {
-		return arrayListFont.getMode() + " - " + arrayListColors.getMode();
 	}
 	
 }

@@ -733,12 +733,6 @@ public abstract class EntityLivingBase extends Entity
 
     public boolean isPotionActive(Potion potionIn)
     {
-    	if (potionIn == Potion.confusion && Vergo.config.modHud.renderNauseaEffect.isDisabled()) {
-    		return false;
-    	}
-    	else if (potionIn == Potion.blindness && Vergo.config.modHud.renderBlindnessEffect.isDisabled()) {
-    		return false;
-    	}
         return this.activePotionsMap.containsKey(Integer.valueOf(potionIn.id));
     }
 

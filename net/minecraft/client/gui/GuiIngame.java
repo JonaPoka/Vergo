@@ -138,7 +138,7 @@ public class GuiIngame extends Gui
 
         ItemStack itemstack = this.mc.thePlayer.inventory.armorItemInSlot(3);
 
-        if (this.mc.gameSettings.thirdPersonView == 0 && itemstack != null && itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin) && Vergo.config.modHud.renderPumpkinOverlay.isEnabled())
+        if (this.mc.gameSettings.thirdPersonView == 0 && itemstack != null && itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin))
         {	
             this.renderPumpkinOverlay(scaledresolution);
         }
@@ -594,8 +594,6 @@ public class GuiIngame extends Gui
         int k1 = p_180475_2_.getScaledHeight() / 2 + j1 / 3;
         byte b0 = 3;
         int j = p_180475_2_.getScaledWidth() - i - b0;
-        if (Vergo.config.modHud.scoreboardPosition.is("Left"))
-        	j = b0;
         int k = 0;
 
         for (Object score1 : arraylist1)
@@ -608,8 +606,6 @@ public class GuiIngame extends Gui
             	s2 = "";
             int l = k1 - k * this.getFontRenderer().FONT_HEIGHT;
             int i1 = p_180475_2_.getScaledWidth() - b0 + 2;
-            if (Vergo.config.modHud.scoreboardPosition.is("Left"))
-            	i1 = b0 + 2 + i;
             drawRect(j - 2, l, i1, l + this.getFontRenderer().FONT_HEIGHT, 1342177280);
             this.getFontRenderer().drawString(s1, j, l, 553648127);
             this.getFontRenderer().drawString(s2, i1 - this.getFontRenderer().getStringWidth(s2), l, 553648127);
