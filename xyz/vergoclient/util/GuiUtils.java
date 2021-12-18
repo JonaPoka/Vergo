@@ -1,6 +1,9 @@
 package xyz.vergoclient.util;
 
+import net.minecraft.client.gui.Gui;
 import xyz.vergoclient.util.datas.DataDouble5;
+
+import java.awt.*;
 
 public class GuiUtils {
 	

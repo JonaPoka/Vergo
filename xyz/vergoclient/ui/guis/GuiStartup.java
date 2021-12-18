@@ -3,20 +3,13 @@ package xyz.vergoclient.ui.guis;
 import java.awt.*;
 import java.io.IOException;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiMultiplayer;
-import net.minecraft.client.multiplayer.ServerList;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import xyz.vergoclient.Vergo;
-import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.ui.fonts.FontUtil;
-import xyz.vergoclient.util.RainbowUtils;
 import xyz.vergoclient.util.RandomStringUtil;
 import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.TimerUtil;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiStartup extends GuiScreen {

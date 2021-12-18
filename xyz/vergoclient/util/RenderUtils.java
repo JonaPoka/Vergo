@@ -145,18 +145,6 @@ public class RenderUtils {
 		//GlStateManager.alphaFunc(GL11.GL_NOTEQUAL, 0);
 	}
 
-	public static void drawBorderedRect(float x, float y, float width, float height, float borderWidth, Color rectColor, Color borderColor) {
-		drawBorderedRect(x, y, width, height, borderWidth, rectColor.getRGB(), borderColor.getRGB());
-	}
-
-	public static void drawBorderedRect(float x, float y, float width, float height, float borderWidth, int rectColor, int borderColor) {
-		Gui.drawRect(x + borderWidth, y + borderWidth, width - borderWidth * 2.0F, height - borderWidth * 2.0F, rectColor);
-		Gui.drawRect(x, y, width, borderWidth, borderColor);
-		Gui.drawRect(x, y + borderWidth, borderWidth, height - borderWidth, borderColor);
-		Gui.drawRect(x + width - borderWidth, y + borderWidth, borderWidth, height - borderWidth, borderColor);
-		Gui.drawRect(x + borderWidth, y + height - borderWidth, width - borderWidth * 2.0F, borderWidth, borderColor);
-	}
-
 	public static void drawImg(ResourceLocation loc, double posX, double posY, double width, double height) {
 		mc.getTextureManager().bindTexture(loc);
 		//GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);

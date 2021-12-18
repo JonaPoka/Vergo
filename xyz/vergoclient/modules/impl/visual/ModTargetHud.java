@@ -46,10 +46,10 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 	public ModeSetting mode = new ModeSetting("Mode", "Complex", "Complex", "Paper", "Coinchan");
 	public NumberSetting xOffset = new NumberSetting("X position", (new ScaledResolution(mc).getScaledWidth() / 2) - 110, 0, new ScaledResolution(mc).getScaledWidth() - 220, 1),
-			yOffset = new NumberSetting("Y position", ((new ScaledResolution(mc).getScaledHeight() / 8) * 6) - 32.5, 0, new ScaledResolution(mc).getScaledHeight() - 65, 1);
-		    /*heartSliderX = new NumberSetting("Heart SliderX", 45, 0, 200, 1 ), heartSliderY = new NumberSetting("Heart SliderY", 45, 0, 200, 1 ),
-			healthSliderX = new NumberSetting("Health SliderX", 45, 0, 200, 1 ), healthSliderY = new NumberSetting("Health SliderY", 45, 0, 200, 1 ),
-			healthWidth = new NumberSetting("Health Width", 140, 0, 250, 1),
+			yOffset = new NumberSetting("Y position", ((new ScaledResolution(mc).getScaledHeight() / 8) * 6) - 32.5, 0, new ScaledResolution(mc).getScaledHeight() - 65, 1),
+		    /*heartSliderX = new NumberSetting("Heart SliderX", 45, 0, 200, 1 ), heartSliderY = new NumberSetting("Heart SliderY", 45, 0, 200, 1 ),*/
+			healthSliderX = new NumberSetting("Health SliderX", 45, 0, 800, 1 ), healthSliderY = new NumberSetting("Health SliderY", 45, 0, 800, 1 );
+			/*healthWidth = new NumberSetting("Health Width", 140, 0, 250, 1),
 		    nameSliderX = new NumberSetting("NameSliderX", 0, 0, 200, 1), nameSliderY = new NumberSetting("NameSliderY", 0, 0, 200, 1 ),
 			characterX = new NumberSetting("CharX", 0, 0, 200, 1), characterY = new NumberSetting("CharY", 0, 0, 200, 1),
 	        characterScale = new NumberSetting("CharScale", 0, 0, 1000, 1);*/
@@ -76,7 +76,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 			yOffset.setValue(yOffset.getMaximum());
 		}
 
-		addSettings(mode, xOffset, yOffset/*, heartSliderX, heartSliderY, healthSliderX, healthSliderY, healthWidth, nameSliderX, nameSliderY, characterX, characterY, characterScale*/);
+		addSettings(mode, xOffset, yOffset/*, heartSliderX, heartSliderY,*/, healthSliderX, healthSliderY/* healthWidth, nameSliderX, nameSliderY, characterX, characterY, characterScale*/);
 	}
 
 	public static transient double healthBarTarget = 0, healthBar = 0, hurtTime = 0, hurtTimeTarget = 0;
@@ -259,30 +259,33 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				GlStateManager.popMatrix();
 		} else if(mode.is("Coinchan")) {
 
-				EntityLivingBase target = null;
+				EntityLivingBase ent = null;
 
 				if (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null) {
-					target = ModKillAura.target;
+					ent = ModKillAura.target;
 				} else {
 					if (Vergo.config.modTPAura.isEnabled() && ModTPAura.target != null) {
-						target = ModTPAura.target;
+						ent = ModTPAura.target;
 					}
 				}
 
-				if (target == null) {
+				if (ent == null) {
 					if (mc.currentScreen instanceof GuiClickGui || mc.currentScreen instanceof GuiNewClickGui) {
-						target = mc.thePlayer;
+						ent = mc.thePlayer;
 					} else {
 						return;
 					}
 				}
+
+				int x = 484;
+				int y = 359;
 
 				// EXTREMELY SECRET. DO NOT FUCKING RE-USE. SERIOUSLY, I WILL GET FUCKING SUED.
 
 				Color color;
 
 				GL11.glPushMatrix();
-				String playerName = target.getName();
+				String playerName = ent.getName();
 
 				String clientTag = "";
 
@@ -292,26 +295,26 @@ public class ModTargetHud extends Module implements OnEventInterface {
 					clientTag = "\247" + user.rank.charAt(0) + "[" + user.rank.substring(1) + "|" + user.username + "] \247f";
 				}*/
 
-				String healthStr = Math.round(target.getHealth() * 10) / 10d + " hp";
-				float width = (float) Math.max(75, FontUtil.arialBig.getStringWidth(clientTag + playerName) + 25);
+				String healthStr = Math.round(ent.getHealth() * 10) / 10d + " hp";
+				float width = (float) Math.max(75, FontUtil.arialMedium.getStringWidth(clientTag + playerName) + 25);
 
 				/*if (BlurBuffer.blurEnabled()) {
 					BlurBuffer.blurRoundArea(x + .5f, y + .5f, 28 + width - 1f, 30 - 1f, 2f, true);
 				}*/
 
 				//更改TargetHUD在屏幕坐标的初始位置
-				GL11.glTranslatef(300, 250, 0);
-				RenderUtils.drawBorderedRect(0, 0, 40 + width, 40, 1, new Color(0, 0, 0, 255), new Color(70, 70, 70, 255));
+				GL11.glTranslatef(x, y, 0);
+				RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, new Color(0, 0, 0, 255), new Color(70, 70, 70, 255));
 
-				FontUtil.arialBig.drawString(clientTag + playerName, 30f, 3f, Colors.WHITE.getColor());
-				FontUtil.arialBig.drawString(healthStr, 37 + width - FontUtil.arialBig.getStringWidth(healthStr) - 2, 4f, 0xffcccccc);
+				FontUtil.arialMedium.drawString(clientTag + playerName, 30f, 3f, 0xffffffff);
+				FontUtil.arialMedium.drawString(healthStr, 37 + width - FontUtil.arialMedium.getStringWidth(healthStr) - 2, 4f, 0xffcccccc);
 
-				boolean isNaN = Float.isNaN(target.getHealth());
-				float health = isNaN ? 20 : target.getHealth();
-				float maxHealth = isNaN ? 20 : target.getMaxHealth();
+				boolean isNaN = Float.isNaN(ent.getHealth());
+				float health = isNaN ? 20 : ent.getHealth();
+				float maxHealth = isNaN ? 20 : ent.getMaxHealth();
 				float healthPercent = MiscellaneousUtils.clampValue(health / maxHealth, 0, 1);
 
-				RenderUtils.drawRoundedRect(25, 31.5f, 26 + width - 2, 34.5f, 3, new Color(15, 15, 15));
+				//RenderUtils2.drawRoundedRect(25, 31.5f, 26 + width - 2, 34.5f, RenderUtils2.reAlpha(0, 0.35f));
 
 				float barWidth = (26 + width - 2) - 37;
 				float drawPercent = 47 + (barWidth / 100) * (healthPercent * 100);
@@ -320,16 +323,16 @@ public class ModTargetHud extends Module implements OnEventInterface {
 					this.animation = drawPercent;
 				}
 
-				if (target.hurtTime <= 6) {
+				if (ent.hurtTime <= 6) {
 					this.animation = AnimationUtils.getAnimationState(this.animation, drawPercent, (float) Math.max(10, (Math.abs(this.animation - drawPercent) * 30) * 0.4));
 				}
 
 
-				RenderUtils.drawRoundedRect(30, 31.5f, this.animation,8f, 2, new Color(77, 255, 91));
-				RenderUtils.drawRoundedRect(30, 31.5f, drawPercent, 8f, 2, new Color(10, 38, 11));
+				RenderUtils.drawRoundedRect(x + 3, y + 8, this.animation, 3, 3f, new Color(255, 29, 97));
+				RenderUtils.drawRoundedRect(x + 3, y + 8, drawPercent, 3, 3f, new Color(255, 29, 97));
 
-				float f3 = 37 + (barWidth / 100f) * (target.getTotalArmorValue() * 5);
-				this.renderArmor((EntityPlayer) target);
+				float f3 = 37 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
+				this.renderArmor((EntityPlayer) ent);
 
 				GlStateManager.disableBlend();
 				GlStateManager.enableAlpha();
@@ -338,11 +341,11 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				// 3D model of the target
 
 				for (NetworkPlayerInfo info : GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.getNetHandler().getPlayerInfoMap())) {
-					if (mc.theWorld.getPlayerEntityByUUID(info.getGameProfile().getId()) == target) {
+					if (mc.theWorld.getPlayerEntityByUUID(info.getGameProfile().getId()) == ent) {
 						mc.getTextureManager().bindTexture(info.getLocationSkin());
 						GlStateManager.disableBlend();
 						GlStateManager.color(1, 1, 1, 1);
-						GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / target.height), 0, 0, target);
+						GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
 						GL11.glPopMatrix();
 						GlStateManager.bindTexture(0);
 						break;
