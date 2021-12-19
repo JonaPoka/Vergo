@@ -9,7 +9,9 @@ public class RandomStringUtil {
 				"FATAL ERROR! ABORTING!", "Failed to load 948 files. Aborting...", "jiggey was here", "Gabe Newell is daddy", "Unboxing CS:GO Cases...", "Making you wait whilst I load slowly.",
 				"Vergo Has Crashed!", "Selling feet pics on OnlyFans xoxoxoxoxo", "Buy my OF, $35/month", "Loading the best client ever..", "HOLY FUUUUUUUUUUUUUUUUUUUUUUUUU",
 				"SOUNDPADS, SPEAKERS, ANTENNA!", "yo momma's fucking hot boi!", "Smocking with Snoop Dogg", "WatchDawg aint got shit on us", "Hypixel crying right now",
-				"LAUGH!", "RAID SHADOW LEGENDS!", "I hope you die of corona", "Stop watching me load!", "FUCK YOU BITCH", "Watching Boko No Piko");
+				"LAUGH!", "RAID SHADOW LEGENDS!", "I hope you die of corona", "Stop watching me load!", "FUCK YOU BITCH", "Watching Boko No Piko", "Did you know Zebras don't wear condoms?", "Rismose is sussy",
+				"Vergo just casually fucking your mom", "Who's an edgy cheater? You are!", "Vergo giving you Stockholm syndrome", "Wonder how tear is coping with this", "Coin is sexy", "I like pancakes",
+				"Oh... Hello there", "To all our early supporters, <3", "Oh, you... didn't mean to load me right?", "No.");
 		return theFunny.getRandomObject();
 	}
 	
