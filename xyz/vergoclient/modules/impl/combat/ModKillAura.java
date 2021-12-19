@@ -79,7 +79,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 	public ModeSetting targetSelectionSetting = new ModeSetting("Target selection", "Switch", "Switch", "Single"),
 			targetSortingSetting = new ModeSetting("Target sorting", "Health", "Health", "Distance"),
 			rotationSetting = new ModeSetting("Rotation", "Lock", "Smooth", "Lock", "Spin", "None", "Almost legit", "Bezier Curve"),
-			autoblockSetting = new ModeSetting("Autoblock mode", "None", "None", "Legit", "Hypixel1", "Fake", "Test");
+			autoblockSetting = new ModeSetting("Autoblock mode", "Test", "None", "Legit", "Hypixel1", "Fake", "Test");
 
 	@Override
 	public void loadSettings() {

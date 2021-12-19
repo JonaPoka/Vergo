@@ -125,7 +125,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			if(mc.thePlayer.isSprinting()) {
 				mc.thePlayer.setSprinting(false);
 			}
-			mc.timer.timerSpeed = 0.8f;
+			mc.timer.timerSpeed = 1.5f;
 		}
 		
 		timer.reset();
