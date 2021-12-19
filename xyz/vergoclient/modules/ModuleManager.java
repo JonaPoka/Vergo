@@ -57,7 +57,6 @@ public class ModuleManager {
 	public ModAutoArmor modAutoArmor = new ModAutoArmor();
 	public ModAutotool modAutotool = new ModAutotool();
 	public ModInventoryManager modInventoryManager = new ModInventoryManager();
-	public ModSumoBot modSumoBot = new ModSumoBot();
 	public ModAntiVoid modAntivoid = new ModAntiVoid();
 	public ModScaffold modScaffold = new ModScaffold();
 	public ModBlink modBlink = new ModBlink();
@@ -107,7 +106,6 @@ public class ModuleManager {
 		modAutoArmor = new LoaderModule<ModAutoArmor>(modAutoArmor).generate();
 		modAutotool = new LoaderModule<ModAutotool>(modAutotool).generate();
 		modInventoryManager = new LoaderModule<ModInventoryManager>(modInventoryManager).generate();
-		modSumoBot = new LoaderModule<ModSumoBot>(modSumoBot).generate();
 		modAntivoid = new LoaderModule<ModAntiVoid>(modAntivoid).generate();
 		modScaffold = new LoaderModule<ModScaffold>(modScaffold).generate();
 		modBlink = new LoaderModule<ModBlink>(modBlink).generate();
