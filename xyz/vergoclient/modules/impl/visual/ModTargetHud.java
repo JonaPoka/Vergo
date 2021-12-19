@@ -8,6 +8,9 @@ import javafx.animation.Animation;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.item.ItemArmor;
@@ -48,7 +51,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 	public float animation = 0;
 
-	public ModeSetting mode = new ModeSetting("Mode", "Rismose","Filler", "Rismose");
+	public ModeSetting mode = new ModeSetting("Mode", "Rismose","coinchan", "Rismose");
 	public NumberSetting xOffset = new NumberSetting("X position", (new ScaledResolution(mc).getScaledWidth() / 2) - 110, 0, new ScaledResolution(mc).getScaledWidth() - 220, 1);
 	public NumberSetting yOffset = new NumberSetting("Y position", ((new ScaledResolution(mc).getScaledHeight() / 8) * 6) - 32.5, 0, new ScaledResolution(mc).getScaledHeight() - 65, 1);
 	public NumberSetting heartSliderX = new NumberSetting("Heart SliderX", 45, 0, 200, 1);
@@ -96,7 +99,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 	public void onEvent(Event e) {
 		if (e instanceof EventRenderGUI && e.isPre()) {
 
-			if (mode.is("Complex")) {
+			/*if (mode.is("Complex")) {
 
 				EntityLivingBase target = null;
 
@@ -186,8 +189,8 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				// 3D model of the target
 				GlStateManager.disableBlend();
 				GlStateManager.color(1, 1, 1, 1);
-				GuiInventory.drawEntityOnScreen(27, 58, (int) (45 / target.height), 0, 0, target);
-			} else if (mode.is("Rismose")) {
+				GuiInventory.drawEntityOnScreen(27, 58, (int) (45 / target.height), 0, 0, target);*/
+			if (mode.is("Rismose")) {
 
 
 				EntityLivingBase target = null;
@@ -228,8 +231,6 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				}
 
 				ScaledResolution sr = new ScaledResolution(mc);
-				FontRenderer fr = mc.fontRendererObj;
-				DecimalFormat dec = new DecimalFormat("#");
 
 				healthBarTarget = sr.getScaledWidth() / 2 - 41 + (((140) / (target.getMaxHealth())) * (target.getHealth()));
 
@@ -264,20 +265,27 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				RenderUtils.drawRoundedRect(8, 46, hurtTime, 7f, 3, new Color(255, 153, 51));
 
 
+				if(target instanceof EntityMob || target instanceof EntityAnimal) {
 
-				this.renderArmor((EntityPlayer) target);
+				} else if(target instanceof EntityPlayer) {
+					this.renderArmor((EntityPlayer) target);
+				}
 
 				GlStateManager.resetColor();
 				for (NetworkPlayerInfo info : GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.getNetHandler().getPlayerInfoMap())) {
-					if (mc.theWorld.getPlayerEntityByUUID(info.getGameProfile().getId()) == target) {
-						mc.getTextureManager().bindTexture(info.getLocationSkin());
-						GlStateManager.resetColor();
-						drawScaledCustomSizeModalRect(16, 7, 8.0f, 8.0f, 8, 8, 22, 22, 64.0f, 64.0f);
-						if (((EntityPlayer) target).isWearing(EnumPlayerModelParts.HAT)) {
-							drawScaledCustomSizeModalRect(16, 7, 40.0f, 8.0f, 8, 8, 22, 22, 64.0f, 64.0f);
+					if(target instanceof EntityMob || target instanceof EntityAnimal) {
+
+					} else if(target instanceof EntityPlayer) {
+						if (mc.theWorld.getPlayerEntityByUUID(info.getGameProfile().getId()) == target) {
+							mc.getTextureManager().bindTexture(info.getLocationSkin());
+							GlStateManager.resetColor();
+							drawScaledCustomSizeModalRect(16, 7, 8.0f, 8.0f, 8, 8, 22, 22, 64.0f, 64.0f);
+							if (((EntityPlayer) target).isWearing(EnumPlayerModelParts.HAT)) {
+								drawScaledCustomSizeModalRect(16, 7, 40.0f, 8.0f, 8, 8, 22, 22, 64.0f, 64.0f);
+							}
+							GlStateManager.bindTexture(0);
+							break;
 						}
-						GlStateManager.bindTexture(0);
-						break;
 					}
 				}
 
@@ -308,8 +316,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				GlStateManager.popMatrix();
 			}
 
-		} else if (mode.is("Paper")) {
-
+		/*} else if (mode.is("Paper")) {
 			EntityLivingBase target = null;
 
 			if (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null) {
@@ -348,8 +355,6 @@ public class ModTargetHud extends Module implements OnEventInterface {
 			}
 
 			ScaledResolution sr = new ScaledResolution(mc);
-			FontRenderer fr = mc.fontRendererObj;
-			DecimalFormat dec = new DecimalFormat("#");
 
 			healthBarTarget = sr.getScaledWidth() / 2 - 41 + (((140) / (target.getMaxHealth())) * (target.getHealth()));
 
@@ -389,9 +394,9 @@ public class ModTargetHud extends Module implements OnEventInterface {
 					FontUtil.bakakakBig.drawString(target.getDisplayName().getFormattedText(), 85 - newLength, 13, color);
 				}
 			}
-			GlStateManager.popAttrib();
-			GlStateManager.popMatrix();
-		} else if (mode.is("Coinchan")) {
+			//GlStateManager.popAttrib();
+			//GlStateManager.popMatrix();*/
+		} else if (mode.is("coinchan")) {
 
 			EntityLivingBase ent = null;
 
@@ -418,27 +423,28 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 			Color color;
 
-			GL11.glPushMatrix();
+			GlStateManager.pushMatrix();
+			GlStateManager.pushAttrib();
 			String playerName = ent.getName();
 
 			String clientTag = "";
 
-				/*IRCUser user = IRCUser.getIRCUserByIGN(playerName);
+			//IRCUser user = IRCUser.getIRCUserByIGN(playerName);
 
-				if (user != null) {
-					clientTag = "\247" + user.rank.charAt(0) + "[" + user.rank.substring(1) + "|" + user.username + "] \247f";
-				}*/
+			//if (user != null) {
+			//	clientTag = "\247" + user.rank.charAt(0) + "[" + user.rank.substring(1) + "|" + user.username + "] \247f";
+			//}
 
 			String healthStr = Math.round(ent.getHealth() * 10) / 10d + " hp";
 			float width = (float) Math.max(75, FontUtil.arialMedium.getStringWidth(clientTag + playerName) + 25);
 
-				/*if (BlurBuffer.blurEnabled()) {
-					BlurBuffer.blurRoundArea(x + .5f, y + .5f, 28 + width - 1f, 30 - 1f, 2f, true);
-				}*/
+			/*if (BlurBuffer.blurEnabled()) {
+				BlurBuffer.blurRoundArea(x + .5f, y + .5f, 28 + width - 1f, 30 - 1f, 2f, true);
+			}*/
 
 			//更改TargetHUD在屏幕坐标的初始位置
-			GL11.glTranslatef(x, y, 0);
-			RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, new Color(0, 0, 0, 255), new Color(70, 70, 70, 255));
+			GlStateManager.translate(x, y, 0);
+			RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, new Color(20, 20, 20, 200), new Color(70, 70, 70, 200));
 
 			FontUtil.arialMedium.drawString(clientTag + playerName, 30f, 3f, 0xffffffff);
 			FontUtil.arialMedium.drawString(healthStr, 37 + width - FontUtil.arialMedium.getStringWidth(healthStr) - 2, 4f, 0xffcccccc);
@@ -448,7 +454,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 			float maxHealth = isNaN ? 20 : ent.getMaxHealth();
 			float healthPercent = MiscellaneousUtils.clampValue(health / maxHealth, 0, 1);
 
-			//RenderUtils2.drawRoundedRect(25, 31.5f, 26 + width - 2, 34.5f, RenderUtils2.reAlpha(0, 0.35f));
+			RenderUtils2.drawRoundedRect(30, 31.5f, 26 + width - 2, 34.5f, RenderUtils2.reAlpha(0, 0.35f));
 
 			float barWidth = (26 + width - 2) - 37;
 			float drawPercent = 47 + (barWidth / 100) * (healthPercent * 100);
@@ -462,8 +468,8 @@ public class ModTargetHud extends Module implements OnEventInterface {
 			}
 
 
-			RenderUtils.drawRoundedRect(x + 3, y + 8, this.animation, 3, 3f, new Color(255, 29, 97));
-			RenderUtils.drawRoundedRect(x + 3, y + 8, drawPercent, 3, 3f, new Color(255, 29, 97));
+			RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 34.5f, new Color(142, 2, 32).getRGB());
+			RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 34.5f, new Color(142, 2, 32).getRGB());
 
 			float f3 = 37 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
 			this.renderArmor((EntityPlayer) ent);
@@ -473,23 +479,12 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 			GlStateManager.resetColor();
 			// 3D model of the target
+			GlStateManager.disableBlend();
+			GlStateManager.color(1, 1, 1, 1);
+			GlStateManager.enableBlend();
 
-			for (NetworkPlayerInfo info : GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.getNetHandler().getPlayerInfoMap())) {
-				if (mc.theWorld.getPlayerEntityByUUID(info.getGameProfile().getId()) == ent) {
-					mc.getTextureManager().bindTexture(info.getLocationSkin());
-					GlStateManager.disableBlend();
-					GlStateManager.color(1, 1, 1, 1);
-					GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
-					GL11.glPopMatrix();
-					GlStateManager.bindTexture(0);
-					break;
-				}
-			}
-		} else if (e instanceof EventTick && e.isPre()) {
-			if (xOffset.maximum > new ScaledResolution(mc).getScaledWidth() - 220)
-				xOffset.maximum = new ScaledResolution(mc).getScaledWidth() - 220;
-			if (yOffset.maximum > new ScaledResolution(mc).getScaledHeight() - 65)
-				yOffset.maximum = new ScaledResolution(mc).getScaledHeight() - 65;
+			GlStateManager.popAttrib();
+			GlStateManager.popMatrix();
 		}
 	}
 
