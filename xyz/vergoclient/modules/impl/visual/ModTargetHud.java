@@ -197,10 +197,6 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 				if (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null) {
 					target = ModKillAura.target;
-				} else {
-					if (Vergo.config.modTPAura.isEnabled() && ModTPAura.target != null) {
-						target = ModTPAura.target;
-					}
 				}
 
 				if (target == null) {
@@ -265,17 +261,17 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				RenderUtils.drawRoundedRect(8, 46, hurtTime, 7f, 3, new Color(255, 153, 51));
 
 
-				if(target instanceof EntityMob || target instanceof EntityAnimal) {
+				if (target instanceof EntityMob || target instanceof EntityAnimal) {
 
-				} else if(target instanceof EntityPlayer) {
+				} else if (target instanceof EntityPlayer) {
 					this.renderArmor((EntityPlayer) target);
 				}
 
 				GlStateManager.resetColor();
 				for (NetworkPlayerInfo info : GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.getNetHandler().getPlayerInfoMap())) {
-					if(target instanceof EntityMob || target instanceof EntityAnimal) {
+					if (target instanceof EntityMob || target instanceof EntityAnimal) {
 
-					} else if(target instanceof EntityPlayer) {
+					} else if (target instanceof EntityPlayer) {
 						if (mc.theWorld.getPlayerEntityByUUID(info.getGameProfile().getId()) == target) {
 							mc.getTextureManager().bindTexture(info.getLocationSkin());
 							GlStateManager.resetColor();
@@ -314,7 +310,6 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				}
 				GlStateManager.popAttrib();
 				GlStateManager.popMatrix();
-			}
 
 		/*} else if (mode.is("Paper")) {
 			EntityLivingBase target = null;
@@ -396,95 +391,89 @@ public class ModTargetHud extends Module implements OnEventInterface {
 			}
 			//GlStateManager.popAttrib();
 			//GlStateManager.popMatrix();*/
-		} else if (mode.is("coinchan")) {
+			} else if (mode.is("coinchan")) {
 
-			EntityLivingBase ent = null;
+				EntityLivingBase ent = null;
 
-			if (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null) {
-				ent = ModKillAura.target;
-			} else {
-				if (Vergo.config.modTPAura.isEnabled() && ModTPAura.target != null) {
-					ent = ModTPAura.target;
+				if (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null) {
+					ent = ModKillAura.target;
 				}
-			}
 
-			if (ent == null) {
-				if (mc.currentScreen instanceof GuiClickGui || mc.currentScreen instanceof GuiNewClickGui) {
-					ent = mc.thePlayer;
-				} else {
-					return;
+				if (ent == null) {
+					if (mc.currentScreen instanceof GuiClickGui || mc.currentScreen instanceof GuiNewClickGui) {
+						ent = mc.thePlayer;
+					} else {
+						return;
+					}
 				}
-			}
 
-			int x = 484;
-			int y = 359;
+				int x = 484;
+				int y = 359;
 
-			// EXTREMELY SECRET. DO NOT FUCKING RE-USE. SERIOUSLY, I WILL GET FUCKING SUED.
+				// EXTREMELY SECRET. DO NOT FUCKING RE-USE. SERIOUSLY, I WILL GET FUCKING SUED.
 
-			Color color;
+				Color color;
 
-			GlStateManager.pushMatrix();
-			GlStateManager.pushAttrib();
-			String playerName = ent.getName();
+				GlStateManager.pushMatrix();
+				String playerName = ent.getName();
 
-			String clientTag = "";
+				String clientTag = "";
 
-			//IRCUser user = IRCUser.getIRCUserByIGN(playerName);
+				//IRCUser user = IRCUser.getIRCUserByIGN(playerName);
 
-			//if (user != null) {
-			//	clientTag = "\247" + user.rank.charAt(0) + "[" + user.rank.substring(1) + "|" + user.username + "] \247f";
-			//}
+				//if (user != null) {
+				//	clientTag = "\247" + user.rank.charAt(0) + "[" + user.rank.substring(1) + "|" + user.username + "] \247f";
+				//}
 
-			String healthStr = Math.round(ent.getHealth() * 10) / 10d + " hp";
-			float width = (float) Math.max(75, FontUtil.arialMedium.getStringWidth(clientTag + playerName) + 25);
+				String healthStr = Math.round(ent.getHealth() * 10) / 10d + " hp";
+				float width = (float) Math.max(75, FontUtil.arialMedium.getStringWidth(clientTag + playerName) + 25);
 
 			/*if (BlurBuffer.blurEnabled()) {
 				BlurBuffer.blurRoundArea(x + .5f, y + .5f, 28 + width - 1f, 30 - 1f, 2f, true);
 			}*/
 
-			//更改TargetHUD在屏幕坐标的初始位置
-			GlStateManager.translate(x, y, 0);
-			RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, new Color(20, 20, 20, 200), new Color(70, 70, 70, 200));
+				//更改TargetHUD在屏幕坐标的初始位置
+				GlStateManager.translate(x, y, 0);
+				RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, new Color(20, 20, 20, 200), new Color(70, 70, 70, 200));
 
-			FontUtil.arialMedium.drawString(clientTag + playerName, 30f, 3f, 0xffffffff);
-			FontUtil.arialMedium.drawString(healthStr, 37 + width - FontUtil.arialMedium.getStringWidth(healthStr) - 2, 4f, 0xffcccccc);
+				FontUtil.arialMedium.drawString(clientTag + playerName, 30f, 3f, 0xffffffff);
+				FontUtil.arialMedium.drawString(healthStr, 37 + width - FontUtil.arialMedium.getStringWidth(healthStr) - 2, 4f, 0xffcccccc);
 
-			boolean isNaN = Float.isNaN(ent.getHealth());
-			float health = isNaN ? 20 : ent.getHealth();
-			float maxHealth = isNaN ? 20 : ent.getMaxHealth();
-			float healthPercent = MiscellaneousUtils.clampValue(health / maxHealth, 0, 1);
+				boolean isNaN = Float.isNaN(ent.getHealth());
+				float health = isNaN ? 20 : ent.getHealth();
+				float maxHealth = isNaN ? 20 : ent.getMaxHealth();
+				float healthPercent = MiscellaneousUtils.clampValue(health / maxHealth, 0, 1);
 
-			RenderUtils2.drawRoundedRect(30, 31.5f, 26 + width - 2, 34.5f, RenderUtils2.reAlpha(0, 0.35f));
+				RenderUtils2.drawRoundedRect(30, 31.5f, 26 + width - 2, 34.5f, RenderUtils2.reAlpha(0, 0.35f));
 
-			float barWidth = (26 + width - 2) - 37;
-			float drawPercent = 47 + (barWidth / 100) * (healthPercent * 100);
+				float barWidth = (26 + width - 2) - 37;
+				float drawPercent = 47 + (barWidth / 100) * (healthPercent * 100);
 
-			if (this.animation <= 0) {
-				this.animation = drawPercent;
+				if (this.animation <= 0) {
+					this.animation = drawPercent;
+				}
+
+				if (ent.hurtTime <= 6) {
+					this.animation = AnimationUtils.getAnimationState(this.animation, drawPercent, (float) Math.max(10, (Math.abs(this.animation - drawPercent) * 30) * 0.4));
+				}
+
+
+				RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 5f, new Color(142, 2, 32).getRGB());
+				RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 5f, new Color(142, 2, 32).getRGB());
+
+				float f3 = 37 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
+				this.renderArmor((EntityPlayer) ent);
+
+				GlStateManager.disableBlend();
+				GlStateManager.enableAlpha();
+
+				GlStateManager.resetColor();
+				// 3D model of the target
+				GlStateManager.disableBlend();
+				GlStateManager.color(1, 1, 1, 1);
+				GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
+				GL11.glPopMatrix();
 			}
-
-			if (ent.hurtTime <= 6) {
-				this.animation = AnimationUtils.getAnimationState(this.animation, drawPercent, (float) Math.max(10, (Math.abs(this.animation - drawPercent) * 30) * 0.4));
-			}
-
-
-			RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 34.5f, new Color(142, 2, 32).getRGB());
-			RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 34.5f, new Color(142, 2, 32).getRGB());
-
-			float f3 = 37 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
-			this.renderArmor((EntityPlayer) ent);
-
-			GlStateManager.disableBlend();
-			GlStateManager.enableAlpha();
-
-			GlStateManager.resetColor();
-			// 3D model of the target
-			GlStateManager.disableBlend();
-			GlStateManager.color(1, 1, 1, 1);
-			GlStateManager.enableBlend();
-
-			GlStateManager.popAttrib();
-			GlStateManager.popMatrix();
 		}
 	}
 

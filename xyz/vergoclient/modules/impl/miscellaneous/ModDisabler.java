@@ -24,7 +24,7 @@ public class ModDisabler extends Module implements OnEventInterface {
 		super("Disabler", Category.MISCELLANEOUS);
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Brokenlens", "Brokenlens", "Cancel C00 & C0F", "Mineplex Combat", "Hypixel timer blink", "Test");
+	public ModeSetting mode = new ModeSetting("Mode", "None", "None"/*"Brokenlens", "Cancel C00 & C0F", "Mineplex Combat", "Hypixel timer blink", "Test"*/);
 	
 	public static transient CopyOnWriteArrayList<Packet> testPackets = new CopyOnWriteArrayList<Packet>();
 	public static transient TimerUtil testTimer = new TimerUtil();
@@ -33,8 +33,8 @@ public class ModDisabler extends Module implements OnEventInterface {
 	public void loadSettings() {
 		
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Brokenlens", "Cancel C00 & C0F", "Mineplex Combat", "Hypixel timer blink", "Test"));
-		
+		//mode.modes.addAll(Arrays.asList("Cancel C00 & C0F", "Mineplex Combat", "Hypixel timer blink", "Test"));
+		mode.modes.addAll(Arrays.asList("None"));
 		addSettings(mode);
 		
 	}

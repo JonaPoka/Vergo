@@ -22,7 +22,7 @@ public class ModSmallItems extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 		if (e instanceof EventTick && e.isPre()) {
-			setInfo(scale.getValueAsInt() + "%");;
+
 		}
 	}
 	

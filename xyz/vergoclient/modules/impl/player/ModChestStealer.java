@@ -39,8 +39,6 @@ public class ModChestStealer extends Module implements OnEventInterface {
 		
 		if (e instanceof EventTick && e.isPre() && mc.thePlayer.ticksExisted % tickDelay.getValueAsInt() == 0) {
 			
-			setInfo("Hypixel");
-			
 			if (mc.currentScreen instanceof GuiChest && !(mc.currentScreen instanceof GuiCrafting)) {
 				
 				if (checkChestNames.isEnabled() && !((GuiChest)mc.currentScreen).lowerChestInventory.getDisplayName().getUnformattedTextForChat().equals("Chest")) {

@@ -17,10 +17,4 @@ public class ModReach extends Module {
 		addSettings(combatReach, blockReach);
 	}
 	
-	// We override getInfo because it would use more resources to implement OnEventInterface and set the info on an event
-	@Override
-	public String getInfo() {
-		return  " Combat: " + combatReach.getValueAsDouble() + " Block: " + blockReach.getValueAsDouble();
-	}
-	
 }

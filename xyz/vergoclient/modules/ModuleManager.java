@@ -45,9 +45,8 @@ public class ModuleManager {
 	public ModWTap modWTap = new ModWTap();
 	public ModAutoPot modAutoPot = new ModAutoPot();
 	public ModAutoHead modAutoHead = new ModAutoHead();
-	public ModTPAura modTPAura = new ModTPAura();
+	//public ModTPAura modTPAura = new ModTPAura();
 	public ModVelocity modVelocity = new ModVelocity();
-	public ModDebugPotions modDebugPotions = new ModDebugPotions();
 	public ModNightMode modNightMode = new ModNightMode();
 	public ModSmallItems modSmallItems = new ModSmallItems();
 	public ModAnimations modAnimations = new ModAnimations();
@@ -62,7 +61,6 @@ public class ModuleManager {
 	public ModAntiVoid modAntivoid = new ModAntiVoid();
 	public ModScaffold modScaffold = new ModScaffold();
 	public ModBlink modBlink = new ModBlink();
-	public ModPacketCanceler modPacketCanceler = new ModPacketCanceler();
 	public ModBedBreaker modBedBreaker = new ModBedBreaker();
 	public ModChestStealer modChestStealer = new ModChestStealer();
 	public ModPlayerESP modPlayerESP = new ModPlayerESP();
@@ -70,7 +68,6 @@ public class ModuleManager {
 	public ModNoFall modNoFall = new ModNoFall();
 	public ModDownClip modDownClip = new ModDownClip();
 	public ModSpeed modSpeed = new ModSpeed();
-	public ModPacketDebugger modPacketDebugger = new ModPacketDebugger();
 	public ModTeams modTeams = new ModTeams();
 	public ModBanChecker modBanChecker = new ModBanChecker();
 	public ModCakeEater modCakeEater = new ModCakeEater();
@@ -98,9 +95,8 @@ public class ModuleManager {
 		modWTap = new LoaderModule<ModWTap>(modWTap).generate();
 		modAutoPot = new LoaderModule<ModAutoPot>(modAutoPot).generate();
 		modAutoHead = new LoaderModule<ModAutoHead>(modAutoHead).generate();
-		modTPAura = new LoaderModule<ModTPAura>(modTPAura).generate();
+		//modTPAura = new LoaderModule<ModTPAura>(modTPAura).generate();
 		modVelocity = new LoaderModule<ModVelocity>(modVelocity).generate();
-		modDebugPotions = new LoaderModule<ModDebugPotions>(modDebugPotions).generate();
 		modNightMode = new LoaderModule<ModNightMode>(modNightMode).generate();
 		modSmallItems = new LoaderModule<ModSmallItems>(modSmallItems).generate();
 		modAnimations = new LoaderModule<ModAnimations>(modAnimations).generate();
@@ -115,7 +111,6 @@ public class ModuleManager {
 		modAntivoid = new LoaderModule<ModAntiVoid>(modAntivoid).generate();
 		modScaffold = new LoaderModule<ModScaffold>(modScaffold).generate();
 		modBlink = new LoaderModule<ModBlink>(modBlink).generate();
-		modPacketCanceler = new LoaderModule<ModPacketCanceler>(modPacketCanceler).generate();
 		modBedBreaker = new LoaderModule<ModBedBreaker>(modBedBreaker).generate();
 		modChestStealer = new LoaderModule<ModChestStealer>(modChestStealer).generate();
 		modPlayerESP = new LoaderModule<ModPlayerESP>(modPlayerESP).generate();
@@ -123,7 +118,6 @@ public class ModuleManager {
 		modNoFall = new LoaderModule<ModNoFall>(modNoFall).generate();
 		modDownClip = new LoaderModule<ModDownClip>(modDownClip).generate();
 		modSpeed = new LoaderModule<ModSpeed>(modSpeed).generate();
-		modPacketDebugger = new LoaderModule<ModPacketDebugger>(modPacketDebugger).generate();
 		modTeams = new LoaderModule<ModTeams>(modTeams).generate();
 		modBanChecker = new LoaderModule<ModBanChecker>(modBanChecker).generate();
 		modCakeEater = new LoaderModule<ModCakeEater>(modCakeEater).generate();

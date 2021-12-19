@@ -305,7 +305,9 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		} else if (e instanceof EventUpdate && e.isPre()) {
 			EventUpdate event = (EventUpdate) e;
 
-			setInfo(new DecimalFormat("0.00").format(currentAps) + " APS");
+			if(rotationSetting.is("Lock")) {
+				setInfo("WatchDawg");
+			}
 
 			// Sets the target
 			setTarget();

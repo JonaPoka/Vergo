@@ -37,10 +37,4 @@ public class ModBlink extends Module {
 			e.setCanceled(true);
 		}
 	}
-	
-	@Override
-	public String getInfo() {
-		return packets.size() + " packets";
-	}
-	
 }

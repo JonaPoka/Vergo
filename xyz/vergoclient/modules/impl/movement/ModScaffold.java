@@ -79,7 +79,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			sidewaysExtendSetting = new NumberSetting("Sideways extend", 0.0, 0.0, 5, 0.1),
 			maxBlocksPlacedPerTickSetting = new NumberSetting("Max blocks placed per tick", 1, 1, 25, 1),
 			timerBoostSetting = new NumberSetting("Timer Boost", 1, 1, 2, 0.01),
-			itemSwitchTicks = new NumberSetting("Item switch tick delay", 1, 1, 20, 1);
+			itemSwitchTicks = new NumberSetting("Item switch tick delay", 1, 1, 20, 1),
+			blinkBlaster = new NumberSetting("Blink Blaster", 230, 100, 1000, 10);
 	public BooleanSetting keepYSetting = new BooleanSetting("Keep Y", false),
 			sprintSetting = new BooleanSetting("Sprint", false),
 //			towerSetting = new BooleanSetting("Tower", false),
@@ -105,10 +106,10 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		rotationMode.modes.addAll(Arrays.asList("90 snap", "90 snap", "yaw - 180", "Hypixel Slow", "Hypixel Sprint", "None"));
 		forwardExtendSetting.minimum = 0;
 		forwardExtendSetting.name = "Forward extend";
-		addSettings(forwardExtendSetting, sidewaysExtendSetting/*maxBlocksPlacedPerTickSetting*/, timerBoostSetting,
+		addSettings(forwardExtendSetting, sidewaysExtendSetting/*maxBlocksPlacedPerTickSetting*/, blinkBlaster, timerBoostSetting,
 				keepYSetting, sprintSetting, legitSetting, overrideKeepYSetting, viewRotations, rotationMode,
-				fourDirectionalSpeed, oneDirectionalSpeed, toggleBlink, itemSwitchDelay, clientSideBlockPicker,
-				hitVecFixer, noRotate, fakeMissPackets, towerMode, placeBlockAsync, timerSlow);
+				fourDirectionalSpeed,/*, oneDirectionalSpeed,*/ toggleBlink, /*itemSwitchDelay, clientSideBlockPicker,*/
+				hitVecFixer, noRotate, /*fakeMissPackets, towerMode, placeBlockAsync,*/ timerSlow);
 	}
 	
 	private static transient BlockPos lastPlace = null;
@@ -428,8 +429,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		// Blink toggle
 		if (toggleBlink.isEnabled()) {
 
-			if (blinkTimer.hasTimeElapsed(230, true)) {
-				Vergo.config.modBlink.toggle();
+			if (blinkTimer.hasTimeElapsed(blinkBlaster.getValueAsInt(), true)) {
+				Vergo.config.modBlink.silentToggle();
 			}
 
 		}

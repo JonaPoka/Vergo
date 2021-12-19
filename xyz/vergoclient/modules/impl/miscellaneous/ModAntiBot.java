@@ -34,7 +34,7 @@ public class ModAntiBot extends Module implements OnEventInterface {
 	public void mineplexBotChecker(Event e) {
 		
 		if (e instanceof EventTick && e.isPre()) {
-			setInfo("Mineplex");
+			setInfo("GWEN");
 		}
 		else if (e instanceof EventReceivePacket && e.isPre()) {
 			EventReceivePacket event = (EventReceivePacket)e;
@@ -91,7 +91,7 @@ public class ModAntiBot extends Module implements OnEventInterface {
 	public void hypixelBotChecker(Event e) {
 		if (e instanceof EventTick && e.isPre()) {
 			
-			setInfo("Hypixel");
+			setInfo("WatchBot");
 			
 			if (mc.thePlayer.ticksExisted == 0) {
 				players.clear();
