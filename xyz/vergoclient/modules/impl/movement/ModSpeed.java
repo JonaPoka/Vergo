@@ -2,6 +2,9 @@ package xyz.vergoclient.modules.impl.movement;
 
 import java.util.Arrays;
 
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C13PacketPlayerAbilities;
+import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.util.*;
 
 import xyz.vergoclient.Vergo;
@@ -24,6 +27,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 	
 	public ModeSetting mode = new ModeSetting("Mode", "SmoothHypixel", "JitterHypixel", "SmoothHypixel", "Mineplex", "Verus lowhop", "Skidded anticheat 1");
+
+	public NumberSetting packetShooter = new NumberSetting("Packet Shooter", 100, 0, 500, 5);
 	
 	public static transient float hypixelYaw = 0;
 
@@ -33,7 +38,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 	public void loadSettings() {
 		mode.modes.clear();
 		mode.modes.addAll(Arrays.asList("JitterHypixel", "SmoothHypixel", "Mineplex", "Verus lowhop", "Skidded anticheat 1"));
-		addSettings(mode);
+		addSettings(mode, packetShooter);
 	}
 	
 	@Override
@@ -208,6 +213,12 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 
 	private void smoothHypixelSpeed() {
+
+		if(hypixelTimer.hasTimeElapsed(150, true)) {
+			mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C13PacketPlayerAbilities(mc.thePlayer.capabilities));
+			ChatUtils.addChatMessage("Packet Shot!");
+			hypixelTimer.reset();
+		}
 
 		if (MovementUtils.isMoving()) {
 			if (mc.gameSettings.keyBindJump.isKeyDown()) {

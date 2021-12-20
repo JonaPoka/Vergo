@@ -8,6 +8,10 @@ import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -15,6 +19,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Icons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -71,26 +76,37 @@ public class RenderUtils {
 	public static Tessellator tessellator = Tessellator.getInstance();
 
 	// Someone gave me this code
-	public static void drawPlayerBox(Double posX, Double posY, Double posZ) {
-		double x = posX - 0.5 - Minecraft.getMinecraft().getRenderManager().renderPosX;
-		double y = posY - Minecraft.getMinecraft().getRenderManager().renderPosY;
-		double z = posZ - 0.5 - Minecraft.getMinecraft().getRenderManager().renderPosZ;
-		GL11.glBlendFunc(770, 771);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glLineWidth(2.0F);
-		GL11.glColor4d(0, 1, 0, 0.15F);
+	public static void drawPlayerBox(Double posX, Double posY, Double posZ, AbstractClientPlayer player){
+		double x =
+				posX - 0.5
+						- Minecraft.getMinecraft().getRenderManager().renderPosX;
+		double y =
+				posY
+						- Minecraft.getMinecraft().getRenderManager().renderPosY;
+		double z =
+				posZ - 0.5
+						- Minecraft.getMinecraft().getRenderManager().renderPosZ;
+		//GL11.glBlendFunc(770, 771);
+		//GL11.glEnable(GL11.GL_BLEND);
+		GL11.glLineWidth(3.0F);
+		GL11.glColor4d(0, 0, 0, 1F);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glDepthMask(false);
-		// drawColorBox(new AxisAlignedBB(x, y, z, x + 1.0, y + 1.0, z + 1.0));
-		GL11.glColor4d(1, 1, 1, 0.5F);
-		RenderGlobal.func_181561_a(new AxisAlignedBB(x, y, z, x + 1.0, y + 2.0, z + 1.0));
+		//drawColorBox(new AxisAlignedBB(x, y, z, x + 1.0, y + 1.0, z + 1.0));
+		GL11.glColor4d(1, 1, 1, 1F);
+		RenderGlobal.func_181561_a(new AxisAlignedBB(x, y, z,
+				x + 1.0, y + 2.0, z + 1.0));
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDepthMask(true);
 		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glColor4f(1, 1, 1, 1);
+		if(Vergo.config.modRainbow.isEnabled()) {
+
+			Color espBox = new Color(0, 82, 204, 1.0f);
+			GL11.glColor4d(espBox.getRed(), espBox.getGreen(), espBox.getBlue(), 1);
+
+		} else {
+			GL11.glColor4f(0, 0, 0, 1);
+		}
 	}
+
 	// Hello
 	public static void drawFillRectangle(double x, double y, double width, double height) {
 		GlStateManager.enableBlend();
