@@ -292,7 +292,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 
 				// Name
-				if (target.getDisplayName().getFormattedText().length() < 9) {
+				/* if (target.getDisplayName().getFormattedText().length() < 9) {
 					int length = target.getDisplayName().getFormattedText().length();
 					int nine = 9;
 					int newLength = length - nine;
@@ -307,7 +307,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 						int newLength = length - nine;
 						FontUtil.bakakakBig.drawString(target.getDisplayName().getFormattedText(), 85 - newLength, 13, color);
 					}
-				}
+				} */
 				GlStateManager.popAttrib();
 				GlStateManager.popMatrix();
 
