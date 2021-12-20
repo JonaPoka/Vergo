@@ -54,6 +54,7 @@ public class ModuleManager {
 	public ModTargetStrafe modTargetStrafe = new ModTargetStrafe();
 	public ModSprint modSprint = new ModSprint();
 	public ModStrafe modStrafe = new ModStrafe();
+	public ModLongJump modLongJump = new ModLongJump();
 	public ModAutoArmor modAutoArmor = new ModAutoArmor();
 	public ModAutotool modAutotool = new ModAutotool();
 	public ModInventoryManager modInventoryManager = new ModInventoryManager();
@@ -94,6 +95,7 @@ public class ModuleManager {
 		modWTap = new LoaderModule<ModWTap>(modWTap).generate();
 		modAutoPot = new LoaderModule<ModAutoPot>(modAutoPot).generate();
 		modAutoHead = new LoaderModule<ModAutoHead>(modAutoHead).generate();
+		modLongJump = new LoaderModule<ModLongJump>(modLongJump).generate();
 		//modTPAura = new LoaderModule<ModTPAura>(modTPAura).generate();
 		modVelocity = new LoaderModule<ModVelocity>(modVelocity).generate();
 		modNightMode = new LoaderModule<ModNightMode>(modNightMode).generate();

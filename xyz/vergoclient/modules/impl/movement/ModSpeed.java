@@ -65,7 +65,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 		
 		if (mode.is("JitterHypixel")) {
 			onHypixelEvent(e);
-		} else if(mode.is("SmoothHypixel") || mode.is("Hypixel LoFi")) {
+		} else if(mode.is("SmoothHypixel")) {
 			onHypixelEvent(e);
 		}
 		else if (mode.is("Mineplex")) {
@@ -188,30 +188,10 @@ public class ModSpeed extends Module implements OnEventInterface {
 				}
 			} else if(mode.is("SmoothHypixel")) {
 				smoothHypixelSpeed();
-			} else if(mode.is("Hypixel LoFi")) {
-				hypixelLoFi();
 			}
 			
 		}
 		
-	}
-
-	private void hypixelLoFi() {
-
-		if(mc.gameSettings.keyBindJump.isPressed()) {
-			return;
-		}
-
-		if(!mc.thePlayer.isSprinting()) {
-			mc.thePlayer.setSprinting(true);
-		}
-
-		if(MovementUtils.isOnGround(0.0001)) {
-			mc.thePlayer.jump();
-		} else {
-			mc.thePlayer.motionY = -0.8233333462;
-		}
-
 	}
 
 	private void jitterHypixelBypass() {

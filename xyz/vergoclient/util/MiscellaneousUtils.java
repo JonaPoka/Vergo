@@ -17,6 +17,9 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.util.datas.DataDouble3;
@@ -48,24 +51,31 @@ import net.minecraft.util.Vec3;
 import xyz.vergoclient.files.impl.FileAlts;
 
 public class MiscellaneousUtils {
-	
-	public static void damagePlayer(double damage) {
-		
-		Minecraft mc = Minecraft.getMinecraft();
-		
-		if (damage > MathHelper.floor_double(mc.thePlayer.getMaxHealth()))
-			damage = MathHelper.floor_double(mc.thePlayer.getMaxHealth());
 
-		double offset = 0.0625;
-		if (mc.thePlayer != null && mc.getNetHandler() != null && mc.thePlayer.onGround) {
-			for (int i = 0; i <= ((3 + damage) / offset); i++) {
-				mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,
-						mc.thePlayer.posY + offset, mc.thePlayer.posZ, false));
-				mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,
-						mc.thePlayer.posY, mc.thePlayer.posZ, (i == ((3 + damage) / offset))));
-			}
+	public static Minecraft mc = Minecraft.getMinecraft();
+
+	public static float getMaxFallDist() {
+		PotionEffect potioneffect = mc.thePlayer.getActivePotionEffect(Potion.jump);
+		int f = potioneffect != null ? (potioneffect.getAmplifier() + 1) : 0;
+		return mc.thePlayer.getMaxFallHeight() + f;
+	}
+
+	public static void damage() {
+		double damageOffset = 0, damageY = 0, damageYTwo = 0;
+		damageOffset = 0.06011F;
+		damageY = 0.000495765F;
+		damageYTwo = 0.0049575F;
+		NetHandlerPlayClient netHandler = Minecraft.getMinecraft().getNetHandler();
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		double x = player.posX;
+		double y = player.posY;
+		double z = player.posZ;
+		for (int i = 0; i < (getMaxFallDist() / (damageOffset - 0.005F)) + 1; i++) {
+			netHandler.getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(x, y + damageOffset, z, false));
+			netHandler.getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(x, y + damageY, z, false));
+			netHandler.getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(x, y + damageYTwo + damageOffset * 0.000001, z, false));
 		}
-		
+		netHandler.getNetworkManager().sendPacketNoEvent(new C03PacketPlayer(true));
 	}
 
 	public static float clampValue(final float value, final float floor, final float cap) {
