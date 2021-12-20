@@ -52,8 +52,8 @@ public class ModTargetHud extends Module implements OnEventInterface {
 	public float animation = 0;
 
 	public ModeSetting mode = new ModeSetting("Mode", "Rismose","coinchan", "Rismose");
-	public NumberSetting xOffset = new NumberSetting("X position", (new ScaledResolution(mc).getScaledWidth() / 2) - 110, 0, new ScaledResolution(mc).getScaledWidth() - 220, 1);
-	public NumberSetting yOffset = new NumberSetting("Y position", ((new ScaledResolution(mc).getScaledHeight() / 8) * 6) - 32.5, 0, new ScaledResolution(mc).getScaledHeight() - 65, 1);
+	public NumberSetting xOffset = new NumberSetting("X position", 400, 0, 1000, 1);
+	public NumberSetting yOffset = new NumberSetting("Y position", 400, 0, 1000, 1);
 	public NumberSetting heartSliderX = new NumberSetting("Heart SliderX", 45, 0, 200, 1);
 	public NumberSetting heartSliderY = new NumberSetting("Heart SliderY", 45, 0, 200, 1);
 	public NumberSetting healthSliderX = new NumberSetting("Health SliderX", 45, 0, 800, 1);
@@ -70,9 +70,6 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 	@Override
 	public void loadSettings() {
-
-		xOffset.maximum = new ScaledResolution(mc).getScaledWidth() - 220;
-		yOffset.maximum = new ScaledResolution(mc).getScaledHeight() - 65;
 
 		if (xOffset.getValueAsDouble() < 0) {
 			xOffset.setValue(0);
@@ -213,7 +210,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				GlStateManager.translate(xOffset.getValueAsDouble(), yOffset.getValueAsDouble(), 0);
 
 				// Lower is faster, higher is slower
-				double barSpeed = 3;
+				double barSpeed = 5;
 				if (healthBar > healthBarTarget) {
 					healthBar = ((healthBar) - ((healthBar - healthBarTarget) / barSpeed));
 				} else if (healthBar < healthBarTarget) {
@@ -228,7 +225,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 				ScaledResolution sr = new ScaledResolution(mc);
 
-				healthBarTarget = sr.getScaledWidth() / 2 - 41 + (((140) / (target.getMaxHealth())) * (target.getHealth()));
+				healthBarTarget = (((117) / (target.getMaxHealth())) * (target.getHealth()));
 
 				int color = 0xff3396FF;
 
@@ -238,7 +235,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				}
 
 				// Main box
-				RenderUtils.drawRoundedRect(0, 0, 135, 60, 4, new Color(37, 38, 54));
+				RenderUtils.drawRoundedRect(0, 0, 133, 60, 4, new Color(37, 38, 54));
 
 				// Health bar
 				healthBarTarget = (117 * (target.getHealth() / target.getMaxHealth()));
@@ -264,7 +261,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				if (target instanceof EntityMob || target instanceof EntityAnimal) {
 
 				} else if (target instanceof EntityPlayer) {
-					this.renderArmor((EntityPlayer) target);
+					this.renderArmor((EntityPlayer) target, 85);
 				}
 
 				GlStateManager.resetColor();
@@ -436,7 +433,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				GlStateManager.translate(x, y, 0);
 				RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, new Color(20, 20, 20, 200), new Color(70, 70, 70, 200));
 
-				FontUtil.arialMedium.drawString(clientTag + playerName, 30f, 3f, 0xffffffff);
+				FontUtil.arialMedium.drawString(clientTag + playerName, 30f, 4f, 0xffffffff);
 				FontUtil.arialMedium.drawString(healthStr, 37 + width - FontUtil.arialMedium.getStringWidth(healthStr) - 2, 4f, 0xffcccccc);
 
 				boolean isNaN = Float.isNaN(ent.getHealth());
@@ -444,7 +441,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				float maxHealth = isNaN ? 20 : ent.getMaxHealth();
 				float healthPercent = MiscellaneousUtils.clampValue(health / maxHealth, 0, 1);
 
-				RenderUtils2.drawRoundedRect(30, 31.5f, 26 + width - 2, 34.5f, RenderUtils2.reAlpha(0, 0.35f));
+				//RenderUtils2.drawRoundedRect(30, 31.5f, 26 + width - 2, 34.5f, RenderUtils2.reAlpha(0, 0.35f));
 
 				float barWidth = (26 + width - 2) - 37;
 				float drawPercent = 47 + (barWidth / 100) * (healthPercent * 100);
@@ -458,11 +455,14 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				}
 
 
-				RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 5f, new Color(142, 2, 32).getRGB());
-				RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 5f, new Color(142, 2, 32).getRGB());
+				/*RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 5f, new Color(142, 2, 32).getRGB());
+				RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 5f, new Color(142, 2, 32).getRGB());*/
 
-				float f3 = 37 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
-				this.renderArmor((EntityPlayer) ent);
+				RenderUtils.drawRoundedRect( 27, 27, this.animation, 5f, 3f, new Color(142, 2, 32));
+				RenderUtils.drawRoundedRect(27, 27, drawPercent, 5f, 3f, new Color(142, 2, 32));
+
+				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
+				this.renderArmor((EntityPlayer) ent, 75);
 
 				GlStateManager.disableBlend();
 				GlStateManager.enableAlpha();
@@ -478,8 +478,8 @@ public class ModTargetHud extends Module implements OnEventInterface {
 	}
 
 
-	public void renderArmor(EntityPlayer player) {
-		int xOffset = 85;
+	public void renderArmor(EntityPlayer player, int xLocation) {
+		int xOffset = xLocation;
 
 		int index;
 		ItemStack stack;
@@ -498,7 +498,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 					armourStack.stackSize = 1;
 				}
 
-				renderItemStack(armourStack, xOffset, 11);
+				renderItemStack(armourStack, xOffset, 10);
 				xOffset += 16;
 			}
 		}

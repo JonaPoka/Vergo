@@ -21,7 +21,6 @@ public class GuiDisconnected extends GuiScreen
         this.reason = I18n.format(reasonLocalizationKey, new Object[0]);
 //        this.reason += " §f" + (ModuleManager.preBanned ? "(Pre banned)" : "You got it banned");
         this.message = chatComp;
-        this.message.appendText("\n\n\n§f" + (ModuleManager.preBanned ? "(Pre banned)" : "You got it banned"));
     }
 
     /**
