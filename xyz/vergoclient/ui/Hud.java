@@ -179,7 +179,7 @@ public class Hud implements OnEventInterface {
 			
 			arrayListColor++;
 			
-			JelloFontRenderer fr = Vergo.config.modHud.arrayListFont.is("Helvetica Neue") ? FontUtil.jelloFontAddAlt3 : Vergo.config.modHud.arrayListFont.is("Helvetica Neue Bold") ? FontUtil.jelloFontBoldSmall : FontUtil.arialSlightlyLargerThanRegular;
+			JelloFontRenderer fr = Vergo.config.modHud.arrayListFont.is("Helvetica Neue") ? FontUtil.jelloFontAddAlt3 : Vergo.config.modHud.arrayListFont.is("Helvetica Neue Bold") ? FontUtil.jelloFontBoldSmall : Vergo.config.modHud.arrayListFont.is("Jura") ? FontUtil.juraNormal : FontUtil.arialSlightlyLargerThanRegular;
 //			FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 			

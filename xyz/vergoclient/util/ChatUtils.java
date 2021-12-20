@@ -17,7 +17,7 @@ public class ChatUtils {
 		if (displayRawMessage) {
 			addChatMessage(new ChatComponentText(message + ""));
 		}else {
-			addChatMessage(new ChatComponentText("[ Vergo ] " + message));
+			addChatMessage(new ChatComponentText("§4Vergo §f>> " + message));
 		}
 	}
 	
@@ -36,7 +36,7 @@ public class ChatUtils {
 		if (ModuleManager.currentlyLoadingConfig)
 			return;
 		
-		ChatComponentText component = new ChatComponentText("[ Vergo ] " + message);
+		ChatComponentText component = new ChatComponentText("§4Vergo §f>> " + message);
 		component.setChatStyle(style);
 		addChatMessage(component);
 	}

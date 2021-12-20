@@ -13,7 +13,7 @@ public class ModHud extends Module {
 	}
 	
 	public ModeSetting waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "None"),
-			arrayListFont = new ModeSetting("ArrayList Font", "Helvetica Neue Bold", "Arial", "Arial", "Helvetica Neue", "Helvetica Neue Bold"),
+			arrayListFont = new ModeSetting("ArrayList Font", "Helvetica Neue Bold", "Arial", "Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura"),
 			arrayListColors = new ModeSetting("ArrayList colors", "Rainbow", "Default", "Rainbow");
 	public BooleanSetting renderScoreboardNumbers = new BooleanSetting("Render Scoreboard Numbers", false),
 						  arrayListBackground = new BooleanSetting("ArrayList Background", true);
@@ -22,7 +22,7 @@ public class ModHud extends Module {
 	public void loadSettings() {
 		
 		arrayListFont.modes.clear();
-		arrayListFont.modes.addAll(Arrays.asList("Minecraft", "Arial", "Helvetica Neue", "Helvetica Neue Bold"));
+		arrayListFont.modes.addAll(Arrays.asList("Minecraft", "Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura"));
 		
 		addSettings(waterMark, arrayListFont, arrayListColors, arrayListBackground, renderScoreboardNumbers);
 	}
