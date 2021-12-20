@@ -118,6 +118,21 @@ public class FontUtil {
 		}
 		return font;
 	}
+
+	private static Font getJura(int size) {
+		Font font = null;
+		try {
+			InputStream is = Minecraft.getMinecraft().getResourceManager()
+					.getResource(new ResourceLocation("Vergo/font/jura.ttf")).getInputStream();
+			font = Font.createFont(0, is);
+			font = font.deriveFont(0, size);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("Error loading font");
+			font = new Font("default", 0, +10);
+		}
+		return font;
+	}
 	
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static FontRenderer fr = mc.fontRendererObj;
@@ -157,5 +172,7 @@ public class FontUtil {
 	public static JelloFontRenderer bakakakBig = JelloFontRenderer.createFontRenderer(getBakbak(25));
 	public static JelloFontRenderer bakakakBiggish = JelloFontRenderer.createFontRenderer(getBakbak(35));
 	public static JelloFontRenderer bakakRegular = JelloFontRenderer.createFontRenderer(getBakbak(17));
+
+	public static JelloFontRenderer juraNormal = JelloFontRenderer.createFontRenderer(getJura(18));
 	
 }

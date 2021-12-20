@@ -34,7 +34,7 @@ public class ModAutoArmor extends Module implements OnEventInterface {
 	public void onEvent(Event e) {
 
 		if (e instanceof EventTick && e.isPre()) {
-			setInfo(mode.getMode());
+			setInfo("Hypickle");
 		}
 		else if (e instanceof EventUpdate && e.isPre() && mc.thePlayer.ticksExisted % tickDelay.getValueAsInt() == 0) {
 			if (mode.is("While not moving") && (MovementUtils.isMoving() || mc.currentScreen instanceof GuiContainer)) {

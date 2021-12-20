@@ -5,6 +5,7 @@ import java.util.Arrays;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C13PacketPlayerAbilities;
 import xyz.vergoclient.settings.NumberSetting;
+import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.util.*;
 
 import xyz.vergoclient.Vergo;
@@ -27,8 +28,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 	
 	public ModeSetting mode = new ModeSetting("Mode", "SmoothHypixel", "JitterHypixel", "SmoothHypixel", "Mineplex", "Verus lowhop", "Skidded anticheat 1");
-
-	public NumberSetting packetShooter = new NumberSetting("Packet Shooter", 100, 0, 500, 5);
 	
 	public static transient float hypixelYaw = 0;
 
@@ -37,14 +36,14 @@ public class ModSpeed extends Module implements OnEventInterface {
 	@Override
 	public void loadSettings() {
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("JitterHypixel", "SmoothHypixel", "Mineplex", "Verus lowhop", "Skidded anticheat 1"));
-		addSettings(mode, packetShooter);
+		mode.modes.addAll(Arrays.asList("JitterHypixel", "SmoothHypixel", "Hypixel LoFi"));
+		addSettings(mode);
 	}
 	
 	@Override
 	public void onEnable() {
 		hypixelYaw = mc.thePlayer.rotationYaw;
-		if (mode.is("JitterHypixel") || mode.is("SmoothHypixel")) {
+		if (mode.is("JitterHypixel") || mode.is("SmoothHypixel") || mode.is("Hypixel LoFi")) {
 			mc.timer.timerSpeed = 1;
 			mc.timer.ticksPerSecond = 20;
 		}
@@ -66,7 +65,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 		
 		if (mode.is("JitterHypixel")) {
 			onHypixelEvent(e);
-		} else if(mode.is("SmoothHypixel")) {
+		} else if(mode.is("SmoothHypixel") || mode.is("Hypixel LoFi")) {
 			onHypixelEvent(e);
 		}
 		else if (mode.is("Mineplex")) {
@@ -174,6 +173,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 				setInfo("WatchDoggyDog");
 			} else if(mode.is("SmoothHypixel")) {
 				setInfo("SmoothDoggyDog");
+			} else if (mode.is("Hypixel LoFi")) {
+				setInfo("LowDoggyDog");
 			}
 
 		} else if (e instanceof EventUpdate && e.isPre()) {
@@ -187,10 +188,30 @@ public class ModSpeed extends Module implements OnEventInterface {
 				}
 			} else if(mode.is("SmoothHypixel")) {
 				smoothHypixelSpeed();
+			} else if(mode.is("Hypixel LoFi")) {
+				hypixelLoFi();
 			}
 			
 		}
 		
+	}
+
+	private void hypixelLoFi() {
+
+		if(mc.gameSettings.keyBindJump.isPressed()) {
+			return;
+		}
+
+		if(!mc.thePlayer.isSprinting()) {
+			mc.thePlayer.setSprinting(true);
+		}
+
+		if(MovementUtils.isOnGround(0.0001)) {
+			mc.thePlayer.jump();
+		} else {
+			mc.thePlayer.motionY = -0.8233333462;
+		}
+
 	}
 
 	private void jitterHypixelBypass() {
@@ -203,8 +224,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 		}
 
 		if(MovementUtils.isOnGround(0.0001)) {
-			mc.timer.timerSpeed = 8.0f;
-			mc.timer.ticksPerSecond = 22.0f;
+			mc.timer.timerSpeed = 15.0f;
+			mc.timer.ticksPerSecond = 24.0f;
 			mc.thePlayer.jump();
 		} else {
 			mc.timer.timerSpeed = 1.0f;
@@ -213,12 +234,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 
 	private void smoothHypixelSpeed() {
-
-		if(hypixelTimer.hasTimeElapsed(150, true)) {
-			mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C13PacketPlayerAbilities(mc.thePlayer.capabilities));
-			ChatUtils.addChatMessage("Packet Shot!");
-			hypixelTimer.reset();
-		}
 
 		if (MovementUtils.isMoving()) {
 			if (mc.gameSettings.keyBindJump.isKeyDown()) {

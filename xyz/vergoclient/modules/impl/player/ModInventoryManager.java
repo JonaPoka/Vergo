@@ -30,7 +30,7 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.client.C0DPacketCloseWindow;
 import net.minecraft.network.play.client.C0BPacketEntityAction.Action;
 
-public class ModInventoryManager extends Module implements OnEventInterface{
+public class 	ModInventoryManager extends Module implements OnEventInterface{
 
 	public ModInventoryManager() {
 		super("InventoryManager", Category.PLAYER);
@@ -62,7 +62,8 @@ public class ModInventoryManager extends Module implements OnEventInterface{
 	public void onEvent(Event e) {
 		
 		if (e instanceof EventTick && e.isPost()) {
-			setInfo(mode.getMode());
+			setInfo("Hypixel");
+
 			if (mc.thePlayer.ticksExisted % 60 == 0) {
 //				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0DPacketCloseWindow(mc.thePlayer.inventoryContainer.windowId));
 			}
@@ -83,8 +84,6 @@ public class ModInventoryManager extends Module implements OnEventInterface{
 	
 	private void moveOrDropLoop(Event e) {
 		if (e instanceof EventTick && e.isPre()) {
-			
-			setInfo("Hypixel");
 			
 //			if ((mc.currentScreen == null || (!(mc.currentScreen instanceof GuiChest)) && !(mc.currentScreen instanceof GuiContainerCreative)) && mc.thePlayer.ticksExisted % 4 == 0) {
 			if (mode.is("Silent") ? ((mc.currentScreen == null || (!(mc.currentScreen instanceof GuiChest)) && !(mc.currentScreen instanceof GuiContainerCreative))) : (mc.currentScreen != null && mc.currentScreen instanceof GuiInventory)) {
