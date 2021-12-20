@@ -13,6 +13,7 @@ import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.guis.GuiStartup;
 import xyz.vergoclient.util.MiscellaneousUtils;
 import xyz.vergoclient.util.OSUtil;
+import xyz.vergoclient.util.RandomStringUtil;
 import xyz.vergoclient.util.ServerUtils;
 import net.minecraft.client.Minecraft;
 
@@ -127,10 +128,10 @@ public class Discord extends Thread {
 	public static File getDiscordLib() {
 		if (OSUtil.isWindows()) {
 			if (!FileManager.discordLibWindows.exists()) {
-				GuiStartup.percentText = "Downloading discord dll...";
+				GuiStartup.percentText = RandomStringUtil.getRandomLoadingMsg();
 				FileManager.downloadFile("https://github.com/Hummus-Appreciation-Club/discord-game-lib-dll-download/raw/main/discord_game_sdk.dll", FileManager.discordLibWindows);
 			}
-			GuiStartup.percentText = "Starting discord rp...";
+			GuiStartup.percentText = RandomStringUtil.getRandomLoadingMsg();
 			try {
 				Thread.sleep(500);
 			} catch (Exception e) {}
@@ -142,7 +143,7 @@ public class Discord extends Thread {
 				GuiStartup.percentText = "Downloading discord so...";
 				FileManager.downloadFile("https://github.com/Hummus-Appreciation-Club/discord-game-lib-dll-download/raw/main/discord_game_sdk.so", FileManager.discordLibUnix);
 			}
-			GuiStartup.percentText = "Starting discord rp...";
+			GuiStartup.percentText = RandomStringUtil.getRandomLoadingMsg();
 			try {
 				Thread.sleep(500);
 			} catch (Exception e) {}
