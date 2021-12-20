@@ -244,7 +244,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				}
 
 				// Hurt time bar
-				hurtTimeTarget = 117 - (177 * ((float) target.hurtResistantTime / (float) target.maxHurtResistantTime));
+				hurtTimeTarget = 117 - (117 * ((float) target.hurtResistantTime / (float) target.maxHurtResistantTime));
 				if (hurtTime > 117) {
 					hurtTime = 117;
 				}
@@ -268,7 +268,10 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				for (NetworkPlayerInfo info : GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.getNetHandler().getPlayerInfoMap())) {
 					if (target instanceof EntityMob || target instanceof EntityAnimal) {
 
+						GlStateManager.resetColor();
+
 					} else if (target instanceof EntityPlayer) {
+						GlStateManager.resetColor();
 						if (mc.theWorld.getPlayerEntityByUUID(info.getGameProfile().getId()) == target) {
 							mc.getTextureManager().bindTexture(info.getLocationSkin());
 							GlStateManager.resetColor();
