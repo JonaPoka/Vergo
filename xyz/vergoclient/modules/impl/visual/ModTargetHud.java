@@ -244,7 +244,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				}
 
 				// Hurt time bar
-				hurtTimeTarget = 117 - (177 * ((float) target.hurtResistantTime / (float) target.maxHurtResistantTime));
+				hurtTimeTarget = 117 - (117 * ((float) target.hurtResistantTime / (float) target.maxHurtResistantTime));
 				if (hurtTime > 117) {
 					hurtTime = 117;
 				}
