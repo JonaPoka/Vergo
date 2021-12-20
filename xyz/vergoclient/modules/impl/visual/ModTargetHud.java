@@ -268,7 +268,10 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				for (NetworkPlayerInfo info : GuiPlayerTabOverlay.field_175252_a.sortedCopy(mc.getNetHandler().getPlayerInfoMap())) {
 					if (target instanceof EntityMob || target instanceof EntityAnimal) {
 
+						GlStateManager.resetColor();
+
 					} else if (target instanceof EntityPlayer) {
+						GlStateManager.resetColor();
 						if (mc.theWorld.getPlayerEntityByUUID(info.getGameProfile().getId()) == target) {
 							mc.getTextureManager().bindTexture(info.getLocationSkin());
 							GlStateManager.resetColor();
