@@ -46,31 +46,6 @@ public class GuiStartup extends GuiScreen {
 		
 		// Background
 		Gui.drawRect(0, 0, width, height, new Color(18, 18, 18).getRGB());
-		
-		/* Moves the progress bar
-		if (percentDone != percentDoneTarget)
-			percentDone += (percentDoneTarget - percentDone) / 8;
-		
-		if (percentDone >= 0.9995670207585011) {
-			percentDone = 1;
-		}
-
-		if (percentDoneTarget >= 1)
-			if(count == 0) {
-				percentText = RandomStringUtil.getRandomLoadingMsg();
-				count++;
-			}
-		
-		// Progress bar
-		Gui.drawRect(width / 8, height - 20, (width / 8) * 7, height - 5, Colors.START_GUI_PROGRESS_BAR_BACKGROUND.getColor());
-		Gui.drawRect(width / 8, height - 20, (width / 8) + (((width / 8) * 6) * percentDone), height - 5, Colors.START_GUI_PROGRESS_BAR_PROGRESS.getColor());
-		
-		// Draws text in middle of screen and above progress bar
-		FontUtil.bakakakmedium.drawCenteredString(percentText, width / 2, height - 25 - FontUtil.arialMedium.FONT_HEIGHT, Colors.START_GUI_PROGRESS_BAR_PROGRESS.getColor());
-		FontUtil.bakakakBigger.drawCenteredString(percentDone >= 0.9 ? jiggeyGOD : "Vergo", width / 2, (height / 3) - FontUtil.arialBigger.FONT_HEIGHT, Colors.START_GUI_PROGRESS_BAR_PROGRESS.getColor());
-		FontUtil.bakakakBigger.drawCenteredString(percentDone >= 0.9 ? FuckMoon : "Rismose & jiggey", width / 2, (height / 2) - FontUtil.arialBigger.FONT_HEIGHT, Colors.START_GUI_PROGRESS_BAR_PROGRESS.getColor());
-		*/
-
 
 		GlStateManager.enableBlend();
 		GlStateManager.color((float) 1.0, (float) 1.0, (float) 1.0, 1.0f);
