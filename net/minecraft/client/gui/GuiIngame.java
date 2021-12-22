@@ -48,6 +48,7 @@ import net.minecraft.util.StringUtils;
 import net.minecraft.world.border.WorldBorder;
 import optifine.Config;
 import optifine.CustomColors;
+import xyz.vergoclient.util.BlurUtils;
 
 public class GuiIngame extends Gui
 {
@@ -556,6 +557,7 @@ public class GuiIngame extends Gui
 
     private void renderScoreboard(ScoreObjective p_180475_1_, ScaledResolution p_180475_2_)
     {
+
         Scoreboard scoreboard = p_180475_1_.getScoreboard();
         Collection collection = scoreboard.getSortedScores(p_180475_1_);
         ArrayList arraylist = Lists.newArrayList(Iterables.filter(collection, new Predicate()

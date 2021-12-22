@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.event.Event;
@@ -24,6 +26,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public class Hud implements OnEventInterface {
+
+	protected static Minecraft mc;
 	
 	public static void init() {
 		ModuleManager.eventListeners.add(new Hud());
@@ -38,8 +42,6 @@ public class Hud implements OnEventInterface {
 			
 			// Draws the watermark in the corner
 			GlStateManager.pushMatrix();
-
-
 			
 			String clientName = "VERGO";
 			GlStateManager.scale(1.5f, 1.5f, 1);
@@ -157,7 +159,7 @@ public class Hud implements OnEventInterface {
 				GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
 
 				if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
-					Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
+					//Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
 				} else {
 
 				}
@@ -226,7 +228,7 @@ public class Hud implements OnEventInterface {
 				GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
 				
 				if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
-					Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
+					//Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
 				} else {
 
 				}

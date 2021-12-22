@@ -1,5 +1,9 @@
 package xyz.vergoclient.ui.guis;
 
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.keybinds.KeyboardManager;
 import xyz.vergoclient.modules.Module;
@@ -16,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import xyz.vergoclient.modules.impl.miscellaneous.ModClickgui;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
+import xyz.vergoclient.util.BlurUtils;
 import xyz.vergoclient.util.GuiUtils;
 import xyz.vergoclient.util.TimerUtil;
 import xyz.vergoclient.util.datas.DataDouble5;
@@ -92,7 +97,7 @@ public class GuiClickGui extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		
+
 		// Allows the user to drag the tabs
 		if (selectedTab != null) {
 			selectedTab.x = mouseX - selectedTab.offsetX;
@@ -460,6 +465,13 @@ public class GuiClickGui extends GuiScreen {
 		selectedTab = null;
 		selectedButton = null;
 		clickguiButtons.clear();
+		if (OpenGlHelper.shadersSupported && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
+			if (this.mc.entityRenderer.theShaderGroup != null) {
+				this.mc.entityRenderer.theShaderGroup.deleteShaderGroup();
+			}
+
+			mc.entityRenderer.loadShader(new ResourceLocation("shader/post/blur.json"));
+		}
 	}
 	
 	public static ArrayList<Module> getModulesWithCategory(Module.Category category){
@@ -494,6 +506,10 @@ public class GuiClickGui extends GuiScreen {
 			KeyboardManager.keypress(keyCode);
 			if (keyCode == Keyboard.KEY_ESCAPE)
 				mc.displayGuiScreen(null);
+			if (mc.entityRenderer.theShaderGroup != null) {
+				mc.entityRenderer.theShaderGroup.deleteShaderGroup();
+				mc.entityRenderer.theShaderGroup = null;
+			}
 		}
 	}
 	

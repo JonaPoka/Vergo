@@ -5,8 +5,11 @@ import java.io.IOException;
 
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.ui.fonts.FontUtil;
+import xyz.vergoclient.util.BlurUtils;
 import xyz.vergoclient.util.RandomStringUtil;
 import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.TimerUtil;

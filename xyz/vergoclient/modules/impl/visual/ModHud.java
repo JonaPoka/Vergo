@@ -5,6 +5,7 @@ import java.util.Arrays;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
+import xyz.vergoclient.settings.NumberSetting;
 
 public class ModHud extends Module {
 
@@ -17,6 +18,8 @@ public class ModHud extends Module {
 			arrayListColors = new ModeSetting("ArrayList colors", "Rainbow", "Default", "Rainbow");
 	public BooleanSetting renderScoreboardNumbers = new BooleanSetting("Render Scoreboard Numbers", false),
 						  arrayListBackground = new BooleanSetting("ArrayList Background", true);
+
+	public NumberSetting blurStrength = new NumberSetting("Blur Strength", 5, 0, 30, 1);
 	
 	@Override
 	public void loadSettings() {
@@ -24,7 +27,7 @@ public class ModHud extends Module {
 		arrayListFont.modes.clear();
 		arrayListFont.modes.addAll(Arrays.asList("Minecraft", "Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura"));
 		
-		addSettings(waterMark, arrayListFont, arrayListColors, arrayListBackground, renderScoreboardNumbers);
+		addSettings(blurStrength, waterMark, arrayListFont, arrayListColors, arrayListBackground, renderScoreboardNumbers);
 	}
 	
 	@Override

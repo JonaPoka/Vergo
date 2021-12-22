@@ -161,6 +161,28 @@ public class RenderUtils {
 		//GlStateManager.alphaFunc(GL11.GL_NOTEQUAL, 0);
 	}
 
+	public static void drawRoundedRectNoColor(double x, double y, double width, double height, float cornerRadius) {
+		final int slices = 10;
+
+		drawFillRectangle(x + cornerRadius, y, width - 2 * cornerRadius, height);
+		drawFillRectangle(x, y + cornerRadius, cornerRadius, height - 2 * cornerRadius);
+		drawFillRectangle(x + width - cornerRadius, y + cornerRadius, cornerRadius, height - 2 * cornerRadius);
+
+		drawCirclePart(x + cornerRadius, y + cornerRadius, -MathHelper.PI, -MathHelper.PId2, cornerRadius, slices);
+		drawCirclePart(x + cornerRadius, y + height - cornerRadius, -MathHelper.PId2, 0.0F, cornerRadius, slices);
+
+		drawCirclePart(x + width - cornerRadius, y + cornerRadius, MathHelper.PId2, MathHelper.PI, cornerRadius, slices);
+		drawCirclePart(x + width - cornerRadius, y + height - cornerRadius, 0, MathHelper.PId2, cornerRadius, slices);
+
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+		GlStateManager.disableBlend();
+
+		//GlStateManager.enableAlpha();
+		//GlStateManager.alphaFunc(GL11.GL_NOTEQUAL, 0);
+	}
+
 	public static void drawImg(ResourceLocation loc, double posX, double posY, double width, double height) {
 		mc.getTextureManager().bindTexture(loc);
 		//GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
