@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Random;
 
 import xyz.vergoclient.files.FileManager;
-import xyz.vergoclient.ui.guis.GuiStartup;
+import xyz.vergoclient.ui.guis.GuiStart;
 
 public class ChatFilterBypassUtils {
 
@@ -60,11 +60,11 @@ public class ChatFilterBypassUtils {
 	public static void loadConfigs() {
 
 		if (!FileManager.chatBypassWords.exists()) {
-			GuiStartup.percentText = "Downloading the chat bypass word list...";
+			GuiStart.percentText = "Downloading the chat bypass word list...";
 			FileManager.downloadFile(
 					"https://docs.google.com/spreadsheets/d/1zB0Ma2Qf0teh8TBzNaTJS9At9c9b8LgA45WVyNpqLj8/export?format=csv",
 					FileManager.chatBypassWords);
-			GuiStartup.percentText = "Creating the chat bypass configs...";
+			GuiStart.percentText = "Creating the chat bypass configs...";
 		}
 
 		try {

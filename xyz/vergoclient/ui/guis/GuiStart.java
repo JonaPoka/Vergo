@@ -12,7 +12,7 @@ import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.TimerUtil;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiStartup extends GuiScreen {
+public class GuiStart extends GuiScreen {
 	
 	public static boolean hasLoaded = false, hasStartedLoading = false;
 	public static TimerUtil waitTimer = new TimerUtil();
@@ -20,7 +20,7 @@ public class GuiStartup extends GuiScreen {
 	public static double percentDoneTarget = 0, percentDone = 0;
 	public static String percentText = RandomStringUtil.getRandomLoadingMsg();
 	
-	public GuiStartup() {
+	public GuiStart() {
 		
 		waitTimer.reset();
 		

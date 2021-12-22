@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 
-import xyz.vergoclient.ui.guis.GuiStartup;
+import xyz.vergoclient.ui.guis.GuiStart;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -182,7 +182,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
      */
     public void initGui()
     {
-    	mc.displayGuiScreen(new GuiStartup());
+    	mc.displayGuiScreen(new GuiStart());
         this.viewportTexture = new DynamicTexture(256, 256);
         this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
         Calendar calendar = Calendar.getInstance();

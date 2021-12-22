@@ -7,7 +7,7 @@ import xyz.vergoclient.event.impl.EventSendPacket;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.files.FileManager;
 import xyz.vergoclient.security.account.AccountUtils;
-import xyz.vergoclient.ui.guis.GuiStartup;
+import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.datas.DataDouble6;
 import net.minecraft.client.Minecraft;
@@ -188,7 +188,7 @@ public class ModuleManager {
 		}
 
 		// To prevent bugs
-		if (!GuiStartup.hasLoaded || ModuleManager.currentlyLoadingConfig || Minecraft.getMinecraft() == null
+		if (!GuiStart.hasLoaded || ModuleManager.currentlyLoadingConfig || Minecraft.getMinecraft() == null
 				|| Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
 			return;
 

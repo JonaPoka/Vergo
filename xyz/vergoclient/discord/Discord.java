@@ -1,17 +1,13 @@
 package xyz.vergoclient.discord;
 
 import java.io.File;
-import java.text.DecimalFormat;
 import java.time.Instant;
 
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.activity.Activity;
-import org.apache.logging.log4j.core.jmx.Server;
 import xyz.vergoclient.files.FileManager;
-import xyz.vergoclient.security.account.AccountUtils;
-import xyz.vergoclient.ui.guis.GuiStartup;
-import xyz.vergoclient.util.MiscellaneousUtils;
+import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.util.OSUtil;
 import xyz.vergoclient.util.RandomStringUtil;
 import xyz.vergoclient.util.ServerUtils;
@@ -128,10 +124,10 @@ public class Discord extends Thread {
 	public static File getDiscordLib() {
 		if (OSUtil.isWindows()) {
 			if (!FileManager.discordLibWindows.exists()) {
-				GuiStartup.percentText = RandomStringUtil.getRandomLoadingMsg();
+				GuiStart.percentText = RandomStringUtil.getRandomLoadingMsg();
 				FileManager.downloadFile("https://github.com/Hummus-Appreciation-Club/discord-game-lib-dll-download/raw/main/discord_game_sdk.dll", FileManager.discordLibWindows);
 			}
-			GuiStartup.percentText = RandomStringUtil.getRandomLoadingMsg();
+			GuiStart.percentText = RandomStringUtil.getRandomLoadingMsg();
 			try {
 				Thread.sleep(500);
 			} catch (Exception e) {}
@@ -140,10 +136,10 @@ public class Discord extends Thread {
 		}
 		else if (OSUtil.isLinux() || OSUtil.isMac()) {
 			if (!FileManager.discordLibUnix.exists()) {
-				GuiStartup.percentText = "Downloading discord so...";
+				GuiStart.percentText = "Downloading discord so...";
 				FileManager.downloadFile("https://github.com/Hummus-Appreciation-Club/discord-game-lib-dll-download/raw/main/discord_game_sdk.so", FileManager.discordLibUnix);
 			}
-			GuiStartup.percentText = RandomStringUtil.getRandomLoadingMsg();
+			GuiStart.percentText = RandomStringUtil.getRandomLoadingMsg();
 			try {
 				Thread.sleep(500);
 			} catch (Exception e) {}

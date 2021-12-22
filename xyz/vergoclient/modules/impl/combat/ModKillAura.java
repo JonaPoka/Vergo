@@ -226,6 +226,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		target = null;
 		block(false);
 		mc.thePlayer.clearItemInUse();
+		mc.gameSettings.keyBindUseItem.pressed = false;
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import xyz.vergoclient.event.impl.EventKey;
 import xyz.vergoclient.files.impl.FileKeybinds;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.ModuleManager;
-import xyz.vergoclient.ui.guis.GuiStartup;
+import xyz.vergoclient.ui.guis.GuiStart;
 import net.minecraft.client.Minecraft;
 
 public class KeyboardManager {
@@ -24,7 +24,7 @@ public class KeyboardManager {
 	public static void toggleModules(int key) {
 		
 		// To prevent bugs
-		if (!GuiStartup.hasLoaded || ModuleManager.currentlyLoadingConfig || Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
+		if (!GuiStart.hasLoaded || ModuleManager.currentlyLoadingConfig || Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
 			return;
 		
 		for (Keybind bind : keybinds.keybinds) {

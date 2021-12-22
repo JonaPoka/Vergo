@@ -1,15 +1,11 @@
 package xyz.vergoclient.modules.impl.movement;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.*;
-import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import xyz.vergoclient.event.Event;
-import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
@@ -30,7 +26,7 @@ public class ModLongJump extends Module implements OnEventInterface {
 
     public ModeSetting mode = new ModeSetting("Mode", "Hypixel Bow", "Hypixel Bow", "Velocity Test");
 
-    public NumberSetting veloTestX = new NumberSetting("Velo X", -10, -200, 200, 1), veloTestY = new NumberSetting("Velo Y", -10, -200, 200, 1);
+    public NumberSetting speedSlider = new NumberSetting("SpeedSlider", 2.2, 0.3, 3.0, 0.01), heightSlider = new NumberSetting("Height Slider", 2.34, 1.0, 3.0, 0.01);
 
     public BooleanSetting automated = new BooleanSetting("Automated", false), autoLook = new BooleanSetting("Auto Look", false),//, autoMove = new BooleanSetting("Auto Move", false),
                           //autoJump = new BooleanSetting("Auto Jump", false);
@@ -44,7 +40,7 @@ public class ModLongJump extends Module implements OnEventInterface {
         mode.modes.clear();
         mode.modes.addAll(Arrays.asList("Hypixel Bow", "Velocity Test"));
 
-        addSettings(mode, automated, autoLook, movementUtilMove, otherMethod);//, autoMove, autoJump);
+        addSettings(mode, speedSlider, heightSlider, automated, autoLook);//, autoMove, autoJump);
     }
 
     public int i;
@@ -94,9 +90,14 @@ public class ModLongJump extends Module implements OnEventInterface {
 
     @Override
     public void onDisable() {
+
+        mc.timer.timerSpeed = 1.0f;
+
     }
 
     public boolean veloWasOn = false;
+
+    public float oldPitch;
 
     @Override
     public void onEvent(Event e) {
@@ -106,8 +107,16 @@ public class ModLongJump extends Module implements OnEventInterface {
             if (mode.is("Hypixel Bow")) {
                 if (!hasHurt) {
                     if (mc.thePlayer.ticksExisted - ticks == 3) {
+                        //oldPitch = mc.thePlayer.rotationPitch;
                         mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -89.5f, true));
                         mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
+                        //mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, oldPitch, true));
+                        if(automated.isEnabled()) {
+                            if (autoLook.isEnabled()) {
+                                mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -4.954367f, true));
+                            }
+                        }
+
                         MovementUtils.setMotion(0);
 
                         // Switch back to original slot
@@ -129,9 +138,7 @@ public class ModLongJump extends Module implements OnEventInterface {
 
                     if(automated.isEnabled()) {
                         if(autoLook.isEnabled()) {
-                            if (mc.thePlayer.ticksExisted - ticks == 3) {
-                                mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -0.954367f, true));
-                            }
+                                mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -4.954367f, true));
                         }
                         /*if(autoMove.isEnabled()) {
                             mc.thePlayer.setSprinting(true);
@@ -143,31 +150,13 @@ public class ModLongJump extends Module implements OnEventInterface {
                         }*/
                     }
 
-                    mc.thePlayer.motionY *= 2.6;
-                    if(movementUtilMove.isEnabled()) {
-                        MovementUtils.setMotion(MovementUtils.getSpeed() * 3);
-                    } else {
-                        mc.thePlayer.motionZ *= 2;
-                    }
+                    mc.thePlayer.motionY *= heightSlider.getValueAsDouble();
+                    MovementUtils.setMotion(MovementUtils.getSpeed() * speedSlider.getValueAsDouble());
 
                     hasHurt = false;
                     toggle();
                 }
 
-            } else if(mode.is("Velocity Test")) {
-                EventReceivePacket event = (EventReceivePacket)e;
-                if (event.packet instanceof S12PacketEntityVelocity) {
-                    S12PacketEntityVelocity packet = (S12PacketEntityVelocity) event.packet;
-                    if (mc.theWorld.getEntityByID(packet.getEntityID()) != null && mc.theWorld.getEntityByID(packet.getEntityID()) instanceof EntityPlayer && ((EntityPlayer) mc.theWorld.getEntityByID(packet.getEntityID())).isUser()) {
-                        if (veloTestX.getValueAsDouble() <= 0 && veloTestY.getValueAsDouble() <= 0) {
-                            e.setCanceled(true);
-                        } else {
-                            packet.setMotionX((int) ((((double) packet.getMotionX()) / 100) * veloTestX.getValueAsDouble()));
-                            packet.setMotionY((int) ((((double) packet.getMotionY()) / 100) * veloTestY.getValueAsDouble()));
-                            packet.setMotionZ((int) ((((double) packet.getMotionZ()) / 100) * veloTestX.getValueAsDouble()));
-                        }
-                    }
-                }
             }
         }
     }

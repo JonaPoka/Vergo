@@ -19,13 +19,12 @@ import xyz.vergoclient.ui.Hud;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.ui.guis.GuiClickGui;
 import xyz.vergoclient.userFinder.UserFinder;
-import xyz.vergoclient.ui.guis.GuiStartup;
+import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.util.ChatFilterBypassUtils;
 import xyz.vergoclient.util.MiscellaneousUtils;
 import xyz.vergoclient.util.NetworkManager;
 import xyz.vergoclient.util.RandomStringUtil;
 import xyz.vergoclient.util.anticheat.Player;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import xyz.vergoclient.modules.Module;
 
@@ -218,17 +217,17 @@ public class Vergo {
 		new Thread(() -> {
 			
 			for (StartupTask startupTask : startupTasks) {
-				GuiStartup.percentText = startupTask.taskText;
+				GuiStart.percentText = startupTask.taskText;
 				startupTask.task();
-				GuiStartup.percentDoneTarget = ((double)startupTasks.indexOf(startupTask)) / ((double)startupTasks.size() - 1);
+				GuiStart.percentDoneTarget = ((double)startupTasks.indexOf(startupTask)) / ((double)startupTasks.size() - 1);
 			}
 			
 			// Makes sure the startup screen lingers for at least 2.5 secs
-			GuiStartup.percentText = RandomStringUtil.getRandomLoadingMsg();
+			GuiStart.percentText = RandomStringUtil.getRandomLoadingMsg();
 			try {
 				Thread.sleep(2500);
 			} catch (Exception e) {}
-				GuiStartup.hasLoaded = true;
+				GuiStart.hasLoaded = true;
 
 		}).start();
 		
