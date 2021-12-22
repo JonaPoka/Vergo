@@ -53,18 +53,14 @@ public class ModAutoPlay extends Module implements OnEventInterface {
                 S02PacketChat packet = (S02PacketChat) packetEvent.packet;
 
                 if(teamMode.is("Solo Normal") || teamMode.is("Solo Insane")) {
-                    ChatUtils.addChatMessage(packet.getChatComponent().getUnformattedText());
                     if (packet.getChatComponent().getUnformattedText().contains("You died! Want to play again?") || packet.getChatComponent().getUnformattedText().contains("You won! Want to play again?") ||
                             packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to return to lobby!")) {
                         gameDelay.reset();
-
-                        ChatUtils.addChatMessage("DEBUG! Message Read. Timer : " + gameDelay.lastMS + "TIME: " + commandDelay.getValueAsInt());
+                        ChatUtils.addChatMessage("Sending you to a new game...");
                             if (teamMode.is("Solo Normal")) {
                                 mc.thePlayer.sendChatMessage("/play solo_normal");
-                                ChatUtils.addChatMessage("Test Debug");
                             } else if (teamMode.is("Solo Insane")) {
                                 mc.thePlayer.sendChatMessage("/play solo_insane");
-                                ChatUtils.addChatMessage("Test Debug");
                             }
                     }
                 }

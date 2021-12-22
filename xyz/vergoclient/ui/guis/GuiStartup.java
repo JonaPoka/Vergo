@@ -26,6 +26,7 @@ public class GuiStartup extends GuiScreen {
 		
 		if (hasLoaded && mc != null)
 			mc.displayGuiScreen(new GuiMultiplayer(new GuiAltManager()));
+			//mc.displayGuiScreen(new GuiSelectWorld(new GuiAltManager()));
 //		else
 //			Vergo.startup();
 	}
@@ -43,7 +44,8 @@ public class GuiStartup extends GuiScreen {
 		// If it is done loading then show the main menu
 		if (hasLoaded)
 			mc.displayGuiScreen(new GuiMultiplayer(new GuiAltManager()));
-		
+			//mc.displayGuiScreen(new GuiSelectWorld(new GuiAltManager()));
+
 		// Background
 		Gui.drawRect(0, 0, width, height, new Color(18, 18, 18).getRGB());
 

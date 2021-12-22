@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -31,8 +32,10 @@ public class ModLongJump extends Module implements OnEventInterface {
 
     public NumberSetting veloTestX = new NumberSetting("Velo X", -10, -200, 200, 1), veloTestY = new NumberSetting("Velo Y", -10, -200, 200, 1);
 
-    public BooleanSetting automated = new BooleanSetting("Automated", false), autoLook = new BooleanSetting("Auto Look", false);//, autoMove = new BooleanSetting("Auto Move", false),
+    public BooleanSetting automated = new BooleanSetting("Automated", false), autoLook = new BooleanSetting("Auto Look", false),//, autoMove = new BooleanSetting("Auto Move", false),
                           //autoJump = new BooleanSetting("Auto Jump", false);
+                          movementUtilMove = new BooleanSetting("Movement Utils Method", true),
+                          otherMethod = new BooleanSetting("Other Method", false);
 
     public static transient TimerUtil hypixelTimer = new TimerUtil();
 
@@ -41,7 +44,7 @@ public class ModLongJump extends Module implements OnEventInterface {
         mode.modes.clear();
         mode.modes.addAll(Arrays.asList("Hypixel Bow", "Velocity Test"));
 
-        addSettings(mode, automated, autoLook);//, autoMove, autoJump);
+        addSettings(mode, automated, autoLook, movementUtilMove, otherMethod);//, autoMove, autoJump);
     }
 
     public int i;
@@ -55,6 +58,12 @@ public class ModLongJump extends Module implements OnEventInterface {
     public void onEnable() {
         if (mode.is("Hypixel Bow")) {
             setInfo("hypickle bow");
+        }
+
+        if(movementUtilMove.isEnabled()) {
+            if(otherMethod.isDisabled()) {
+                otherMethod.setEnabled(false);
+            }
         }
 
         if(MovementUtils.isMoving()) {
@@ -121,7 +130,7 @@ public class ModLongJump extends Module implements OnEventInterface {
                     if(automated.isEnabled()) {
                         if(autoLook.isEnabled()) {
                             if (mc.thePlayer.ticksExisted - ticks == 3) {
-                                mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C05PacketPlayerLook(268.9386f, -0.954367f, true));
+                                mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -0.954367f, true));
                             }
                         }
                         /*if(autoMove.isEnabled()) {
@@ -134,8 +143,12 @@ public class ModLongJump extends Module implements OnEventInterface {
                         }*/
                     }
 
-                    mc.thePlayer.motionY *= 2.3;
-                    MovementUtils.setMotion(MovementUtils.getSpeed() * 0.2);
+                    mc.thePlayer.motionY *= 2;
+                    if(movementUtilMove.isEnabled()) {
+                        MovementUtils.setMotion(MovementUtils.getSpeed() * 3.5);
+                    } else {
+                        mc.thePlayer.motionZ *= 2;
+                    }
 
                     hasHurt = false;
                     toggle();

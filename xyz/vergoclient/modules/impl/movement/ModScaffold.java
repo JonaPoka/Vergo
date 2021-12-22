@@ -107,15 +107,14 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		forwardExtendSetting.minimum = 0;
 		forwardExtendSetting.name = "Forward extend";
 		addSettings(forwardExtendSetting, sidewaysExtendSetting/*maxBlocksPlacedPerTickSetting*/, blinkBlaster, timerBoostSetting,
-				keepYSetting, sprintSetting, legitSetting, overrideKeepYSetting, viewRotations, rotationMode,
+				/*keepYSetting,*/ sprintSetting, /*legitSetting, overrideKeepYSetting,*/ viewRotations, rotationMode,
 				fourDirectionalSpeed,/*, oneDirectionalSpeed,*/ toggleBlink, /*itemSwitchDelay, clientSideBlockPicker,*/
 				hitVecFixer, noRotate, /*fakeMissPackets, towerMode, placeBlockAsync,*/ timerSlow);
 	}
 	
 	private static transient BlockPos lastPlace = null;
 	private static transient double keepPosY = 0;
-	private static transient TimerUtil legitTimer = new TimerUtil(), crazyTimerTimer = new TimerUtil();
-	private static transient boolean switchLook = false;
+	private static transient TimerUtil legitTimer = new TimerUtil();
 	private static transient float oneDirectionalSpeedYaw = 0;
 	private static transient int itemSwitchDelayTicks = 0;
 	
@@ -126,7 +125,13 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			if(mc.thePlayer.isSprinting()) {
 				mc.thePlayer.setSprinting(false);
 			}
-			mc.timer.timerSpeed = 0.8f;
+
+			if(timerSlow.isEnabled()) {
+				if(timerBoostSetting.getValueAsInt() != 1) {
+					timerBoostSetting.value	= 1;
+				}
+				mc.timer.timerSpeed = 0.8f;
+			}
 		}
 		
 		timer.reset();
