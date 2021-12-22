@@ -46,6 +46,9 @@ public class ModAutoPlay extends Module implements OnEventInterface {
 
     @Override
     public void onEvent(Event e) {
+
+        setInfo(teamMode.getMode());
+
         if (e instanceof EventReceivePacket && e.isPre()) {
             EventReceivePacket packetEvent = (EventReceivePacket) e;
 

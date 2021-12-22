@@ -143,9 +143,9 @@ public class ModLongJump extends Module implements OnEventInterface {
                         }*/
                     }
 
-                    mc.thePlayer.motionY *= 2;
+                    mc.thePlayer.motionY *= 2.6;
                     if(movementUtilMove.isEnabled()) {
-                        MovementUtils.setMotion(MovementUtils.getSpeed() * 3.5);
+                        MovementUtils.setMotion(MovementUtils.getSpeed() * 3);
                     } else {
                         mc.thePlayer.motionZ *= 2;
                     }
