@@ -112,13 +112,17 @@ public class ModLongJump extends Module implements OnEventInterface {
 
                 if(mc.thePlayer.hurtTime == 9) {
                     hasHurt = true;
+                } else if (mc.thePlayer.hurtTime > 9) {
+                    toggle();
                 }
 
                 if(hasHurt) {
 
                     if(automated.isEnabled()) {
                         if(autoLook.isEnabled()) {
-                            mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C05PacketPlayerLook(268.9386f, -0.954367f, false));
+                            if (mc.thePlayer.ticksExisted - ticks == 3) {
+                                mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C05PacketPlayerLook(268.9386f, -0.954367f, true));
+                            }
                         }
                         /*if(autoMove.isEnabled()) {
                             mc.thePlayer.setSprinting(true);
@@ -130,8 +134,8 @@ public class ModLongJump extends Module implements OnEventInterface {
                         }*/
                     }
 
-                    mc.thePlayer.motionY *= 1.13444;
-                    MovementUtils.setMotion(0.63);
+                    mc.thePlayer.motionY *= 2.3;
+                    MovementUtils.setMotion(MovementUtils.getSpeed() * 0.2);
 
                     hasHurt = false;
                     toggle();

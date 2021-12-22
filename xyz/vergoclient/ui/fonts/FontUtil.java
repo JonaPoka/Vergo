@@ -173,6 +173,6 @@ public class FontUtil {
 	public static JelloFontRenderer bakakakBiggish = JelloFontRenderer.createFontRenderer(getBakbak(35));
 	public static JelloFontRenderer bakakRegular = JelloFontRenderer.createFontRenderer(getBakbak(17));
 
-	public static JelloFontRenderer juraNormal = JelloFontRenderer.createFontRenderer(getJura(24));
+	public static JelloFontRenderer juraNormal = JelloFontRenderer.createFontRenderer(getJura(18));
 	
 }

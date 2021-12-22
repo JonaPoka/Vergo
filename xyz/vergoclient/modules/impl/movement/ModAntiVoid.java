@@ -90,7 +90,6 @@ public class ModAntiVoid extends Module implements OnEventInterface {
 				antivoid = true;
 				mc.thePlayer.onGround = false;
 				noSpam.reset();
-				ChatUtils.addChatMessage("Antivoid saved you");
 				if (autoEnableScaffold.isEnabled() && Vergo.config.modScaffold.isDisabled())
 					Vergo.config.modScaffold.toggle();
 			}
@@ -158,7 +157,6 @@ public class ModAntiVoid extends Module implements OnEventInterface {
 						
 					}
 					antivoid = false;
-					ChatUtils.addChatMessage("Antivoid saved you");
 					resumeCheckingAfterFall = true;
 					if (autoEnableScaffold.isEnabled() && Vergo.config.modScaffold.isDisabled())
 						Vergo.config.modScaffold.toggle();

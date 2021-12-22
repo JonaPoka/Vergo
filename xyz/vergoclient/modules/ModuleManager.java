@@ -36,6 +36,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ModuleManager {
 
+	public ModAutoPlay modAutoPlay = new ModAutoPlay();
 	public ModClickgui modClickgui = new ModClickgui();
 	public ModTimer modTimer = new ModTimer();
 	public ModFly modFly = new ModFly();
@@ -86,6 +87,7 @@ public class ModuleManager {
 	public ModInstantAutoGapple modAutoInstantGapple = new ModInstantAutoGapple();
 	
 	private void loadModules() {
+		modAutoPlay = new LoaderModule<ModAutoPlay>(modAutoPlay).generate();
 		modClickgui = new LoaderModule<ModClickgui>(modClickgui).generate();
 		modTimer = new LoaderModule<ModTimer>(modTimer).generate();
 		modFly = new LoaderModule<ModFly>(modFly).generate();
