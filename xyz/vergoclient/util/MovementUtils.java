@@ -5,6 +5,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
+
+import javax.vecmath.Vector3f;
+import java.util.ArrayList;
 
 public class MovementUtils {
 	
@@ -47,6 +51,66 @@ public class MovementUtils {
         final double yaw = Math.toRadians(mc.thePlayer.rotationYaw);
         mc.thePlayer.setPosition(mc.thePlayer.posX + (-Math.sin(yaw) * length), mc.thePlayer.posY, mc.thePlayer.posZ + (Math.cos(yaw) * length));
     }
+
+	public static float getDirection() {
+		float yaw = mc.thePlayer.rotationYaw;
+		if (mc.thePlayer.moveForward < 0.0f) {
+			yaw += 180.0f;
+		}
+		float forward = 1.0f;
+		if (mc.thePlayer.moveForward < 0.0f) {
+			forward = -0.5f;
+		} else {
+			if (mc.thePlayer.moveForward > 0.0f) {
+				forward = 0.5f;
+			}
+		}
+		if (mc.thePlayer.moveStrafing > 0.0f) {
+			yaw -= 90.0f * forward;
+		}
+		if (mc.thePlayer.moveStrafing < 0.0f) {
+			yaw += 90.0f * forward;
+		}
+		return yaw *= 0.017453292f;
+	}
+
+	public static double getDistance(double x1, double y1, double z1, double x2, double y2, double z2) {
+		double d0 = x1 - x2;
+		double d2 = y1 - y2;
+		double d3 = z1 - z2;
+		return MathHelper.sqrt_double(d0 * d0 + d2 * d2 + d3 * d3);
+	}
+
+	public static float getDirection(float yaw) {
+
+		if (mc.thePlayer.moveForward < 0.0f) {
+			yaw += 180.0f;
+		}
+		float forward = 1.0f;
+
+		if (mc.thePlayer.moveForward < 0.0f) {
+			forward = -0.5f;
+		} else {
+
+			if (mc.thePlayer.moveForward > 0.0f) {
+				forward = 0.5f;
+			}
+		}
+
+		if (mc.thePlayer.moveStrafing > 0.0f) {
+			yaw -= 90.0f * forward;
+		}
+
+		if (mc.thePlayer.moveStrafing < 0.0f) {
+			yaw += 90.0f * forward;
+		}
+		return yaw *= 0.017453292f;
+	}
+
+	public static void setSpeed(double speed) {
+		mc.thePlayer.motionX = - Math.sin(getDirection()) * speed;
+		mc.thePlayer.motionZ = Math.cos(getDirection()) * speed;
+	}
     
     // Found on github
     public static void setMotion(double speed) {

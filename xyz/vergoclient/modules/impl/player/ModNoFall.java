@@ -10,6 +10,7 @@ import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.ModeSetting;
+import xyz.vergoclient.util.ChatUtils;
 import xyz.vergoclient.util.MovementUtils;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
@@ -27,12 +28,18 @@ public class ModNoFall extends Module implements OnEventInterface {
 	@Override
 	public void loadSettings() {
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Hypixel", "Hypixel", "Packet", "AAC"));
+		mode.modes.addAll(Arrays.asList("Packet", "Packet", "AAC"));
 		addSettings(mode);
 	}
 
 	@Override
+	public void onEnable() {
+		ChatUtils.addChatMessage("Module Detected. Proceed with caution.");
+	}
+
+	@Override
 	public void onEvent(Event e) {
+
 		if (mode.is("Packet"))
 			onNoFallPacketEvent(e);
 		else if (mode.is("Hypixel"))
@@ -59,7 +66,7 @@ public class ModNoFall extends Module implements OnEventInterface {
 	private void onNoFallHypixelEvent(Event e) {
 
 		if (e instanceof EventTick && e.isPre()) {
-			setInfo("Hypixel (By Thomaz#3000)");
+			setInfo("Hypixel");
 		}
 
 		if (e instanceof EventReceivePacket && e.isPre()) {

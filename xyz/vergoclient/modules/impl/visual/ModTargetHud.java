@@ -2,6 +2,7 @@ package xyz.vergoclient.modules.impl.visual;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 import com.mojang.authlib.GameProfile;
 import javafx.animation.Animation;
@@ -86,6 +87,9 @@ public class ModTargetHud extends Module implements OnEventInterface {
 		if (yOffset.getValueAsDouble() > xOffset.getMaximum()) {
 			yOffset.setValue(yOffset.getMaximum());
 		}
+
+		mode.modes.clear();
+		mode.modes.addAll(Arrays.asList("Rismose","coinchan"));
 
 		addSettings(mode, xOffset, yOffset, heartSliderX, heartSliderY, healthSliderX, healthSliderY, healthWidth, hurtSliderX, hurtSliderY, hurtWidth, nameSliderX, nameSliderY, characterX, characterY, characterScale);
 	}

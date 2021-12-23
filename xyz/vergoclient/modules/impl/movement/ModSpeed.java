@@ -1,13 +1,7 @@
 package xyz.vergoclient.modules.impl.movement;
 
-import java.util.Arrays;
-
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C13PacketPlayerAbilities;
-import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.ui.fonts.FontUtil;
-import xyz.vergoclient.util.*;
-
+import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventTick;
@@ -18,8 +12,8 @@ import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.TimerUtil;
 import xyz.vergoclient.util.WorldUtils;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+
+import java.util.Arrays;
 
 public class ModSpeed extends Module implements OnEventInterface {
 

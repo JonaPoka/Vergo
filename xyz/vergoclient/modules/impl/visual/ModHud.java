@@ -18,16 +18,14 @@ public class ModHud extends Module {
 			arrayListColors = new ModeSetting("ArrayList colors", "Rainbow", "Default", "Rainbow");
 	public BooleanSetting renderScoreboardNumbers = new BooleanSetting("Render Scoreboard Numbers", false),
 						  arrayListBackground = new BooleanSetting("ArrayList Background", true);
-
-	public NumberSetting blurStrength = new NumberSetting("Blur Strength", 5, 0, 30, 1);
 	
 	@Override
 	public void loadSettings() {
-		
+
 		arrayListFont.modes.clear();
-		arrayListFont.modes.addAll(Arrays.asList("Minecraft", "Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura"));
+		arrayListFont.modes.addAll(Arrays.asList("Arial", "Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura"));
 		
-		addSettings(blurStrength, waterMark, arrayListFont, arrayListColors, arrayListBackground, renderScoreboardNumbers);
+		addSettings(waterMark, arrayListFont, arrayListColors, arrayListBackground, renderScoreboardNumbers);
 	}
 	
 	@Override

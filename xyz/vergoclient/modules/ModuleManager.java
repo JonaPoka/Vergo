@@ -18,8 +18,6 @@ import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.network.play.server.S40PacketDisconnect;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import xyz.vergoclient.modules.impl.combat.*;
 import xyz.vergoclient.modules.impl.miscellaneous.*;
@@ -200,24 +198,6 @@ public class ModuleManager {
 					MiscellaneousUtils.setAltUnbannedHypixel();
 				}
 			} catch (Exception e2) {
-
-			}
-
-			// Checks if the person is banned form hummus
-			if (banCheckTimer.hasTimeElapsed(15000, true)) {
-
-				new Thread(() -> {
-					try {
-
-						String isBanned = NetworkManager.getNetworkManager().sendPost(
-								new HttpPost("https://hummusclient.info/api/account/isBanned"),
-								new BasicNameValuePair("token", AccountUtils.account.token));
-						AccountUtils.setBanned(isBanned.equalsIgnoreCase("true"));
-
-					} catch (Exception e1) {
-
-					}
-				}).start();
 
 			}
 
