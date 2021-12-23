@@ -46,35 +46,35 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public ModScaffold() {
 		super("Scaffold", Category.MOVEMENT);
 	}
-	
+
 	@Override
 	public void onSettingChange(SettingChangeEvent e) {
-		
+
 		if (e.setting.equals(keepYSetting)) {
-			
+
 			if (settings.contains(overrideKeepYSetting)) {
 				settings.remove(overrideKeepYSetting);
 			}
-			
+
 			if (keepYSetting.isEnabled()) {
 				settings.add(overrideKeepYSetting);
 			}
-			
+
 		}
 		else if (e.setting == itemSwitchDelay) {
-			
+
 			if (settings.contains(itemSwitchTicks)) {
 				settings.remove(itemSwitchTicks);
 			}
-			
+
 			if (itemSwitchDelay.isEnabled()) {
 				settings.add(itemSwitchTicks);
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	public NumberSetting forwardExtendSetting = new NumberSetting("Forward extend", 0.0, 0.0, 5, 0.1),
 			sidewaysExtendSetting = new NumberSetting("Sideways extend", 0.0, 0.0, 5, 0.1),
 			maxBlocksPlacedPerTickSetting = new NumberSetting("Max blocks placed per tick", 1, 1, 25, 1),
@@ -83,8 +83,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			blinkBlaster = new NumberSetting("Blink Blaster", 230, 100, 1000, 10);
 	public BooleanSetting keepYSetting = new BooleanSetting("Keep Y", false),
 			sprintSetting = new BooleanSetting("Sprint", false),
-//			towerSetting = new BooleanSetting("Tower", false),
-			legitSetting = new BooleanSetting("Legit", false),
+	//			towerSetting = new BooleanSetting("Tower", false),
+	legitSetting = new BooleanSetting("Legit", false),
 			timerSlow = new BooleanSetting("Timer Slow", true),
 			overrideKeepYSetting = new BooleanSetting("Override keep y when jump is pressed", true),
 			viewRotations = new BooleanSetting("View rotations", false),
@@ -99,7 +99,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			placeBlockAsync = new BooleanSetting("Async block placements", true);
 	public ModeSetting rotationMode = new ModeSetting("Rotation setting", "Hypixel Sprint", "90 snap", "yaw - 180", "Hypixel Slow", "Hypixel Sprint", "None"),
 			towerMode = new ModeSetting("Tower mode", "None", "None", "Hypixel", "NCP", "Test");
-	
+
 	@Override
 	public void loadSettings() {
 		rotationMode.modes.clear();
@@ -111,13 +111,13 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 				fourDirectionalSpeed,/*, oneDirectionalSpeed,*/ toggleBlink, /*itemSwitchDelay, clientSideBlockPicker,*/
 				hitVecFixer, noRotate, /*fakeMissPackets, towerMode, placeBlockAsync,*/ timerSlow);
 	}
-	
+
 	private static transient BlockPos lastPlace = null;
 	private static transient double keepPosY = 0;
 	private static transient TimerUtil legitTimer = new TimerUtil();
 	private static transient float oneDirectionalSpeedYaw = 0;
 	private static transient int itemSwitchDelayTicks = 0;
-	
+
 	public void onEnable() {
 
 		if(rotationMode.is("Hypixel Slow") || rotationMode.is("Hypixel Sprint")) {
@@ -133,60 +133,60 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 				mc.timer.timerSpeed = 0.8f;
 			}
 		}
-		
+
 		timer.reset();
-		
+
 		oneDirectionalSpeedYaw = mc.thePlayer.rotationYaw;
 		itemSwitchDelayTicks = 0;
-		
+
 		if (Vergo.config.modBlink.isEnabled()) {
 			Vergo.config.modBlink.toggle();
 		}
-		
+
 		lastRandX = 0;
 		lastRandZ = 0;
-		
+
 		if (lastBlockPos != null && lastFacing != null) {
 			getRotations(lastBlockPos, lastFacing, false);
 		}
-		
+
 		float[] rots = new float[] {mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};
-		
+
 		lastYaw = rots[0];
 		lastPitch = rots[1];
-		
+
 //		lastYaw = mc.thePlayer.rotationYaw;
 //		lastPitch = mc.thePlayer.rotationPitch;
 		lastSlot = -1;
 		keepPosY = mc.thePlayer.posY - 1;
-		
+
 		BlockPos block = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1, mc.thePlayer.posZ);
-		
+
 		for (double i = mc.thePlayer.posY - 1; i > mc.thePlayer.posY - 5; i -= 0.5) {
-			
+
 			try {
 				if (mc.theWorld.getBlockState(block).getBlock() != Blocks.air) {
-					
+
 					keepPosY = block.getY();
 					break;
-					
+
 				}
 			} catch (Exception e) {
-				
+
 			}
-			
+
 			block = block.add(0, -1, 0);
-			
+
 		}
-		
+
 	}
-	
+
 	public void onDisable() {
-		
+
 		if (Vergo.config.modBlink.isEnabled()) {
 			Vergo.config.modBlink.toggle();
 		}
-		
+
 		if (lastSlot != mc.thePlayer.inventory.currentItem) {
 			mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
 		}
@@ -195,7 +195,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		if (legitSetting.isEnabled() && mc.thePlayer.isSneaking())
 			mc.gameSettings.keyBindSneak.pressed = false;
 	}
-	
+
 	public static transient float lastYaw = 0, lastPitch = 0, lastRandX = 0, lastRandY = 0, lastRandZ = 0;
 	public static transient BlockPos lastBlockPos = null;
 	public static transient BlockPos offsets = BlockPos.ORIGIN;
@@ -204,31 +204,31 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public static transient int lastSlot = -1;
 	public static transient EnumFacing facing = null;
 	public static transient long lastPlacedBlockTime = System.currentTimeMillis();
-	
+
 	public void onEvent(Event e) {
-		
+
 		if (e instanceof EventRenderGUI && e.isPre()) {
-			
+
 			int blocksLeft = 0;
-			
+
 			for (short g = 0; g < 9; g++) {
-				
+
 				if (mc.thePlayer.inventoryContainer.getSlot(g + 36).getHasStack()
 						&& mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem() instanceof ItemBlock
 						&& mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().stackSize != 0
 						&& !((ItemBlock) mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem()).getBlock()
-								.getLocalizedName().toLowerCase().contains("chest")
+						.getLocalizedName().toLowerCase().contains("chest")
 						&& !((ItemBlock) mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem()).getBlock()
-								.getLocalizedName().toLowerCase().contains("table")) {
+						.getLocalizedName().toLowerCase().contains("table")) {
 					blocksLeft += mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().stackSize;
 				}
-				
+
 			}
-			
+
 			String left = blocksLeft + " block" + (blocksLeft != 1 ? "s" : "") + " left";
-			
+
 			if (blocksLeft > 0) {
-				
+
 				mc.fontRendererObj.drawString(left,
 						((float) (new ScaledResolution(mc).getScaledWidth_double() / 2)
 								- (mc.fontRendererObj.getStringWidth(left) / 2)),
@@ -244,15 +244,15 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 								- (mc.fontRendererObj.FONT_HEIGHT - 18)),
 						0xff2121, true);
 			}
-			
+
 		}
-		
+
 		if (e instanceof EventSneaking) {
-			
+
 			if (e.isPre()) {
-				
+
 				EventSneaking sneak = (EventSneaking) e;
-				
+
 				if (sneak.entity instanceof EntityPlayer && ((EntityPlayer)sneak.entity).isUser() && MovementUtils.isOnGround(0.0001, ((EntityPlayer)sneak.entity))) {
 					if (rotationMode.is("Hypixel Slow")) {
 //						sneak.hitboxExpand = -0.1;
@@ -263,47 +263,47 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 				}
 				sneak.offset = -1D;
 				sneak.revertFlagAfter = !legitSetting.isEnabled();
-				
+
 			}
-			
+
 		}
-		
+
 		if (e instanceof EventReceivePacket && e.isPre()) {
-			
+
 //			if (Hummus.config.modKillAura.isEnabled() && ModKillAura.target != null) {
 //				return;
 //			}
-			
+
 			if (((EventReceivePacket)e).packet instanceof S2FPacketSetSlot) {
 				lastSlot = ((S2FPacketSetSlot)((EventReceivePacket)e).packet).slot;
 				//e.setCanceled(true);
 			}
-			
+
 		}
-		
+
 		if (e instanceof EventSendPacket & e.isPre()) {
-			
+
 //			if (Hummus.config.modKillAura.isEnabled() && ModKillAura.target != null) {
 //				return;
 //			}
 			if (((EventSendPacket)e).packet instanceof C09PacketHeldItemChange) {
 				lastSlot = ((C09PacketHeldItemChange)((EventSendPacket)e).packet).getSlotId();
 			}
-			
+
 		}
-		
+
 		if (e instanceof EventRender3D && e.isPre()) {
-			
+
 			BlockPos below = lastPlace;
-			
+
 			if (below == null) {
 				return;
 			}
 			GlStateManager.pushMatrix();
 			GlStateManager.pushAttrib();
-			
+
 			GlStateManager.depthMask(false);
-			
+
 			GL11.glEnable(32823);
 			GL11.glPolygonOffset(1.0f, -1100000.0f);
 
@@ -324,17 +324,17 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			RenderUtils.drawLine(below.getX() + 1, below.getY(), below.getZ() + 1, below.getX() + 1, below.getY() + 1, below.getZ() + 1);
 			RenderUtils.drawLine(below.getX() + 1, below.getY() + 1, below.getZ(), below.getX() + 1, below.getY() + 1, below.getZ() + 1);
 			RenderUtils.drawLine(below.getX() + 1, below.getY(), below.getZ(), below.getX() + 1, below.getY(), below.getZ() + 1);
-			
+
 			GL11.glDisable(32823);
 			GL11.glPolygonOffset(1.0f, 1100000.0f);
-			
+
 			GlStateManager.depthMask(true);
-			
+
 			GlStateManager.popAttrib();
 			GlStateManager.popMatrix();
-			
+
 		}
-		
+
 		if (e instanceof EventMove && e.isPre() && fourDirectionalSpeed.isEnabled()) {
 
 			mc.gameSettings.keyBindLeft.pressed = false;
@@ -361,7 +361,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			mc.thePlayer.motionX = motionX;
 			mc.thePlayer.motionZ = motionZ;
 		}
-		
+
 		if (e instanceof EventReceivePacket && noRotate.isEnabled()) {
 			if (((EventReceivePacket)e).packet instanceof S08PacketPlayerPosLook) {
 				if (System.currentTimeMillis() < lastPlacedBlockTime + 750) {
@@ -371,15 +371,15 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 				}
 			}
 		}
-		
+
 		if (e instanceof EventUpdate && e.isPre()) {
 			for (int i = 0; i < maxBlocksPlacedPerTickSetting.getValueAsInt(); i++) {
 				attemptBlockPlace(((EventUpdate)e));
 			}
 		}
-		
+
 	}
-	
+
 	public void attemptBlockPlace(EventUpdate e) {
 		// Event
 		EventUpdate event = (EventUpdate) e;
@@ -406,7 +406,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 //		                	mc.timer.timerSpeed = 0.818f;
 			}
 		}
-		
+
 		// KeepY
 		if (MovementUtils.isOnGround(0.00001)) {
 			keepPosY = ((int) mc.thePlayer.posY) - 1;
@@ -510,7 +510,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			}
 
 		}
-		
+
 		// Checks how many blocks you have
 		int blocksLeft = 0;
 
@@ -520,21 +520,21 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 					&& mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem() instanceof ItemBlock
 					&& mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().stackSize != 0
 					&& !((ItemBlock) mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem()).getBlock()
-							.getLocalizedName().toLowerCase().contains("chest")
+					.getLocalizedName().toLowerCase().contains("chest")
 					&& !((ItemBlock) mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem()).getBlock()
-							.getLocalizedName().toLowerCase().contains("table")) {
+					.getLocalizedName().toLowerCase().contains("table")) {
 				blocksLeft += mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().stackSize;
 			}
 
 		}
-		
+
 		// Sets the item to hold
 		int switchItemDelaySlot = lastSlot;
 		ItemStack block = setStackToPlace();
 		if (itemSwitchDelay.isEnabled() && lastSlot != switchItemDelaySlot) {
 			itemSwitchDelayTicks = itemSwitchTicks.getValueAsInt();
 		}
-		
+
 		// To prevent bans on some anticheats
 		if (itemSwitchDelayTicks > 0 && itemSwitchDelay.isEnabled()) {
 			itemSwitchDelayTicks--;
@@ -543,7 +543,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 						.sendPacket(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, block, 0, 0, 0));
 			return;
 		}
-		
+
 		// If it shouldn't place a block then don't try to
 		if (targetPos == null || blocksLeft == 0) {
 			legitTimer.reset();
@@ -552,55 +552,55 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 						.sendPacket(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, block, 0, 0, 0));
 			return;
 		}
-		
+
 		// Finds a block to place on
 		BlockInfo info = findFacingAndBlockPosForBlock(targetPos);
-		
+
 		// Returns if it cannot find a block to place on
 		if (info == null || (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null && false)) {
 			return;
 		}
-		
+
 		if (isTowering()) {
 			if (towerMode.is("NCP")) {
 				MovementUtils.setMotion(0);
 //				MovementUtils.setMotion(0);
 //				mc.thePlayer.setPosition(mc.thePlayer.lastTickPosX, mc.thePlayer.posY, mc.thePlayer.lastTickPosZ);
-                if (MovementUtils.isOnGround(0.0001)) {
-                    if (MovementUtils.isOnGround(0.76) && !MovementUtils.isOnGround(0.75) && mc.thePlayer.motionY > 0.23 && mc.thePlayer.motionY < 0.25) {
-                        mc.thePlayer.motionY = Math.round(mc.thePlayer.posY) - mc.thePlayer.posY;
-                    }
-                    if (MovementUtils.isOnGround(1.0E-4)) {
-                        mc.thePlayer.motionY = 0.41999998688697815;
-                    } else if (mc.thePlayer.posY >= Math.round(mc.thePlayer.posY) - 1.0E-4 && mc.thePlayer.posY <= Math.round(mc.thePlayer.posY) + 1.0E-4 && towerTimer.hasTimeElapsed(120, true)) {
-                        mc.thePlayer.motionY = 0.0;
-                        towerTimer.reset();
-                    }
-                } else if (mc.theWorld.getBlockState(targetPos).getBlock().getMaterial().isReplaceable() && info != null && towerTimer.hasTimeElapsed(120, true)) {
-                    mc.thePlayer.motionY = 0.41955;
-                    towerTimer.reset();
-                }
+				if (MovementUtils.isOnGround(0.0001)) {
+					if (MovementUtils.isOnGround(0.76) && !MovementUtils.isOnGround(0.75) && mc.thePlayer.motionY > 0.23 && mc.thePlayer.motionY < 0.25) {
+						mc.thePlayer.motionY = Math.round(mc.thePlayer.posY) - mc.thePlayer.posY;
+					}
+					if (MovementUtils.isOnGround(1.0E-4)) {
+						mc.thePlayer.motionY = 0.41999998688697815;
+					} else if (mc.thePlayer.posY >= Math.round(mc.thePlayer.posY) - 1.0E-4 && mc.thePlayer.posY <= Math.round(mc.thePlayer.posY) + 1.0E-4 && towerTimer.hasTimeElapsed(120, true)) {
+						mc.thePlayer.motionY = 0.0;
+						towerTimer.reset();
+					}
+				} else if (mc.theWorld.getBlockState(targetPos).getBlock().getMaterial().isReplaceable() && info != null && towerTimer.hasTimeElapsed(120, true)) {
+					mc.thePlayer.motionY = 0.41955;
+					towerTimer.reset();
+				}
 			}
 			else if (towerMode.is("Hypixel")) {
 				MovementUtils.setMotion(0);
 				mc.thePlayer.setPosition(mc.thePlayer.lastTickPosX, mc.thePlayer.posY, mc.thePlayer.lastTickPosZ);
-                if (mc.thePlayer.onGround) {
-                    if (MovementUtils.isOnGround(0.76) && !MovementUtils.isOnGround(0.75) && mc.thePlayer.motionY > 0.23 && mc.thePlayer.motionY < 0.25) {
-                        mc.thePlayer.motionY = Math.round(mc.thePlayer.posY) - mc.thePlayer.posY;
-                    }
-                    if (MovementUtils.isOnGround(0.00000001)) {
-                        mc.thePlayer.motionY = 0.40099998688697815;
-                    } else if (mc.thePlayer.posY >= Math.round(mc.thePlayer.posY) - 1.0E-4 && mc.thePlayer.posY <= Math.round(mc.thePlayer.posY) + 1.0E-4 && towerTimer.hasTimeElapsed(210, false)) {
-                        mc.thePlayer.motionY = 0;
-                        towerTimer.reset();
-                    }
-                } else if (mc.theWorld.getBlockState(targetPos).getBlock().getMaterial().isReplaceable() && info != null && towerTimer.hasTimeElapsed(210, false)) {
-                    mc.thePlayer.motionY = 0.40955;
-                    towerTimer.reset();
-                }
+				if (mc.thePlayer.onGround) {
+					if (MovementUtils.isOnGround(0.76) && !MovementUtils.isOnGround(0.75) && mc.thePlayer.motionY > 0.23 && mc.thePlayer.motionY < 0.25) {
+						mc.thePlayer.motionY = Math.round(mc.thePlayer.posY) - mc.thePlayer.posY;
+					}
+					if (MovementUtils.isOnGround(0.00000001)) {
+						mc.thePlayer.motionY = 0.40099998688697815;
+					} else if (mc.thePlayer.posY >= Math.round(mc.thePlayer.posY) - 1.0E-4 && mc.thePlayer.posY <= Math.round(mc.thePlayer.posY) + 1.0E-4 && towerTimer.hasTimeElapsed(210, false)) {
+						mc.thePlayer.motionY = 0;
+						towerTimer.reset();
+					}
+				} else if (mc.theWorld.getBlockState(targetPos).getBlock().getMaterial().isReplaceable() && info != null && towerTimer.hasTimeElapsed(210, false)) {
+					mc.thePlayer.motionY = 0.40955;
+					towerTimer.reset();
+				}
 			}
 		}
-		
+
 		if (info.facing == EnumFacing.UP && mc.thePlayer.posY - info.pos.getY() > 0
 				&& mc.thePlayer.posY - info.pos.getY() <= 2.1 && !MovementUtils.isOnGround(0.0001)) {
 			return;
@@ -627,7 +627,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		if (legitSetting.isDisabled() || legitTimer.hasTimeElapsed(RandomUtils.nextInt(50, 75) * 2, true)) {
 			// For rendering
 			lastPlace = targetPos;
-			
+
 			if (placeBlockAsync.isEnabled()) {
 				new Thread(() -> {
 					placeBlock(event, info, block);
@@ -635,14 +635,14 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			}else {
 				placeBlock(event, info, block);
 			}
-			
+
 		} else if (legitSetting.isEnabled() && !mc.thePlayer.isSneaking())
 			mc.gameSettings.keyBindSneak.pressed = MovementUtils.isOnGround(0.0001);
 
 		if (Vergo.config.modSprint.isEnabled() && sprintSetting.isEnabled())
 			mc.thePlayer.setSprinting(true);
 	}
-	
+
 	private void placeBlock(EventUpdate event, BlockInfo info, ItemStack block) {
 		try {
 			Vec3 badVec = RotationUtils.getVectorForRotation(event.pitch, event.yaw);
@@ -670,16 +670,16 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			e2.printStackTrace();
 		}
 	}
-	
+
 	public float[] getRotations(BlockPos paramBlockPos, EnumFacing paramEnumFacing, boolean newBlock) {
-		
+
 		if (rotationMode.is("None")) {
 			return new float[] {mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};
 		}
-		
+
 		if (rotationMode.is("Hypixel Slow")) {
 			lastRandY = 0.4f;
-			
+
 			if (!newBlock) {
 				lastRandX += RandomUtils.nextFloat(0.01f, 0.05f);
 				lastRandZ = lastRandX;
@@ -687,10 +687,10 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		}
 		else if (rotationMode.is("Hypixel Sprint")) {
 			lastRandY = 0.4f;
-			
+
 			lastRandX = 0.6f;
 			lastRandZ = lastRandX;
-			
+
 			if (!newBlock) {
 				lastRandX = 0.2f;
 				lastRandZ = lastRandX;
@@ -715,28 +715,28 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			lastRandY = 0.5f;
 			lastRandZ = 0.5f;
 		}
-		
+
 		if (lastRandX > 2) {
 			lastRandX -= 2;
 		}
-		
+
 		if (lastRandZ > 2) {
 			lastRandZ -= 2;
 		}
-		
+
 		if (lastRandX < 0) {
 			lastRandX = 0;
 		}
-		
+
 		if (lastRandZ < 0) {
 			lastRandZ = 0;
 		}
 
 		double offsetX = 0, offsetZ = 0;
-		
+
 		double aimOffset1 = 1;
 		double aimOffset2 = 0.000001;
-		
+
 		offsetX = (double) paramEnumFacing.getFrontOffsetX() * aimOffset1;
 		offsetZ = (double) paramEnumFacing.getFrontOffsetZ() * aimOffset1;
 
@@ -745,14 +745,14 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		} else if (paramEnumFacing.getFrontOffsetX() == -1 && paramEnumFacing.getFrontOffsetZ() == 0) {
 			offsetX = aimOffset2;
 		}
-		
+
 		lastBlockPos = paramBlockPos;
 		lastFacing = paramEnumFacing;
-		
+
 		double randX = lastRandX;
 		double randY = lastRandY;
 		double randZ = lastRandZ;
-		
+
 		if (rotationMode.is("Hypixel Slow")) {
 			if (randX >= 1.8)
 				randX = 1.8;
@@ -772,57 +772,57 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			if (randZ >= 1.0 && randX <= 1.2)
 				randZ = 1.2;
 		}
-		
+
 		if (offsetX != 0) {
 			randX = 0;
 		}
 		if (offsetZ != 0) {
 			randZ = 0;
 		}
-		
+
 		if (randX > 1) {
 			randX = 2 - randX;
 		}
-		
+
 		if (randZ > 1) {
 			randZ = 2 - randZ;
 		}
-		
+
 		double d1 = (double) paramBlockPos.getX() - mc.thePlayer.posX + offsetX + randX;
 		double d2 = (double) paramBlockPos.getZ() - mc.thePlayer.posZ + offsetZ + randZ;
 		double d3 = mc.thePlayer.posY + (double) mc.thePlayer.getEyeHeight() - ((double) paramBlockPos.getY() + randY);
 		double d4 = (double) MathHelper.sqrt_double(d1 * d1 + d2 * d2);
-		
+
 		float f1 = (float) (Math.atan2(d2, d1) * 180.0D / 3.141592653589793D) - 90.0F;
 		float f2 = (float) (Math.atan2(d3, d4) * 180.0D / 3.141592653589793D);
-		
+
 		if (f2 > 90)
 			f2 = 90;
 
 		if (f2 < -90)
 			f2 = -90;
-		
+
 //        mc.thePlayer.rotationYaw = f1;
 //        mc.thePlayer.rotationPitch = f2;
-		
+
 		if (rotationMode.is("90 snap")) {
 			float yaw = 0;
 			switch (paramEnumFacing) {
-			case NORTH:
-				yaw = 360;
-				break;
-			case EAST:
-				yaw = 90;
-				break;
-			case SOUTH:
-				yaw = 180;
-				break;
-			case WEST:
-				yaw = 270;
-				break;
-			default:
-				yaw = 0;
-				break;
+				case NORTH:
+					yaw = 360;
+					break;
+				case EAST:
+					yaw = 90;
+					break;
+				case SOUTH:
+					yaw = 180;
+					break;
+				case WEST:
+					yaw = 270;
+					break;
+				default:
+					yaw = 0;
+					break;
 			}
 			return new float[] {yaw, RandomUtils.nextFloat(89, 90)};
 		}
@@ -834,7 +834,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			return new float[] {oneDirectionalSpeedYaw - 180, f2};
 		}
 		else if (rotationMode.is("Hypixel Slow")) {
-			
+
 			if (!newBlock) {
 				lastYaw = RotationUtils.updateRotation(lastYaw, f1, RandomUtils.nextFloat(20, 30));
 				if (((f1 - lastYaw) * (f1 - lastYaw < 0 ? -1 : 1)) % 360 > 5) {
@@ -846,10 +846,10 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 //				return new float[] {lastYaw, f2};
 			}
 			return new float[] {f1, f2};
-			
+
 		}
 		else if (rotationMode.is("Hypixel Sprint")) {
-			
+
 			if (!newBlock) {
 				lastYaw = RotationUtils.updateRotation(lastYaw, f1, RandomUtils.nextFloat(20, 30));
 				if (((f1 - lastYaw) * (f1 - lastYaw < 0 ? -1 : 1)) % 360 > 10) {
@@ -861,21 +861,21 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 //				return new float[] {lastYaw, f2};
 			}
 			return new float[] {f1, f2};
-			
+
 		}
-		
+
 		return new float[] {f1, f2};
-		
+
 	}
-	
+
 	private BlockInfo findFacingAndBlockPosForBlock(BlockPos input) {
-		
+
 		BlockInfo output = new BlockInfo();
 		output.pos = input;
-		
+
 		// One block
 		for (EnumFacing face : EnumFacing.VALUES) {
-			
+
 			if (mc.theWorld.getBlockState(output.pos.offset(face)).getBlock() != Blocks.air && shouldCancelCheck(face)) {
 
 				output.pos = output.pos.offset(face);
@@ -988,35 +988,35 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		return null;
 
 	}
-	
+
 	public ItemStack setStackToPlace() {
-		
+
 		ItemStack block = mc.thePlayer.getCurrentEquippedItem();
-		
+
 		if (block != null && block.getItem() != null && !(block.getItem() instanceof ItemBlock)) {
 			block = null;
 		}
-		
+
 		int slot = mc.thePlayer.inventory.currentItem;
-		
+
 		for (short g = 0; g < 9; g++) {
-			
+
 			if (mc.thePlayer.inventoryContainer.getSlot(g + 36).getHasStack()
 					&& mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem() instanceof ItemBlock
 					&& mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().stackSize != 0
 					&& !((ItemBlock) mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem()).getBlock()
-							.getLocalizedName().toLowerCase().contains("chest")
+					.getLocalizedName().toLowerCase().contains("chest")
 					&& !((ItemBlock) mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem()).getBlock()
-							.getLocalizedName().toLowerCase().contains("table")
+					.getLocalizedName().toLowerCase().contains("table")
 					&& (block == null
 					|| (block.getItem() instanceof ItemBlock && mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().stackSize >= block.stackSize))) {
-				
+
 				//mc.thePlayer.inventory.currentItem = g;
 				slot = g;
 				block = mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack();
-				
+
 			}
-			
+
 		}
 		if (lastSlot + (lastSlot >= 36 ? -36 : 0) != slot) {
 //			ChatUtils.addChatMessage("test " + slot + " " + (lastSlot + (lastSlot >= 36 ? -36 : 0)));
@@ -1028,34 +1028,34 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		}
 		return block;
 	}
-	
+
 	public boolean isTowering() {
 //		return !towerMode.is("None") && mc.gameSettings.keyBindJump.isKeyDown() && !MovementUtils.isMoving();
 		return !towerMode.is("None") && mc.gameSettings.keyBindJump.isKeyDown();
 	}
-	
+
 	public boolean shouldCancelCheck(EnumFacing face) {
-		
+
 		if (keepYSetting.isEnabled() && overrideKeepYSetting.isEnabled() && mc.gameSettings.keyBindJump.isKeyDown()) {
 			keepPosY = mc.thePlayer.posY;
 			return true;
 		}
-		
+
 		if (mc.thePlayer.posY - keepPosY > 4)
 			return true;
-		
+
 		if (keepYSetting.isEnabled() && mc.thePlayer.posY - 1 >= keepPosY) {
 			return !(face == EnumFacing.UP);
 		}else {
 			return true;
 		}
 	}
-	
+
 	private class BlockInfo {
-		
+
 		BlockPos pos, targetPos;
 		EnumFacing facing;
-		
+
 	}
-	
+
 }

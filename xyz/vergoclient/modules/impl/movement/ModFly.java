@@ -31,7 +31,7 @@ public class ModFly extends Module implements OnEventInterface, OnSettingChangeI
 		super("Fly", Category.MOVEMENT);
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "None");
+	public ModeSetting mode = new ModeSetting("Mode", "None", "None");
 	
 	@Override
 	public void loadSettings() {

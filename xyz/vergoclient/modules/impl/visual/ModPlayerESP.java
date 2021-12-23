@@ -31,6 +31,9 @@ public class ModPlayerESP extends Module implements OnEventInterface {
 	
 	@Override
 	public void loadSettings() {
+		mode.modes.clear();
+		mode.modes.addAll(Arrays.asList("2D"));
+
 		addSettings(mode);
 	}
 	

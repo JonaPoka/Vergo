@@ -33,6 +33,7 @@ public class ModeSetting extends Setting {
 			return this.modes.get(index);
 		} catch (Exception e) {
 			e.printStackTrace();
+			e.fillInStackTrace();
 		}
 		return "";
 		

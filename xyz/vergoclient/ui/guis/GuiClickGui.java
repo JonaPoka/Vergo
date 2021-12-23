@@ -465,13 +465,13 @@ public class GuiClickGui extends GuiScreen {
 		selectedTab = null;
 		selectedButton = null;
 		clickguiButtons.clear();
-		if (OpenGlHelper.shadersSupported && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
+		/*if (OpenGlHelper.shadersSupported && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
 			if (this.mc.entityRenderer.theShaderGroup != null) {
 				this.mc.entityRenderer.theShaderGroup.deleteShaderGroup();
 			}
 
 			mc.entityRenderer.loadShader(new ResourceLocation("shader/post/blur.json"));
-		}
+		}*/
 	}
 	
 	public static ArrayList<Module> getModulesWithCategory(Module.Category category){
@@ -506,10 +506,10 @@ public class GuiClickGui extends GuiScreen {
 			KeyboardManager.keypress(keyCode);
 			if (keyCode == Keyboard.KEY_ESCAPE)
 				mc.displayGuiScreen(null);
-			if (mc.entityRenderer.theShaderGroup != null) {
+			/*if (mc.entityRenderer.theShaderGroup != null) {
 				mc.entityRenderer.theShaderGroup.deleteShaderGroup();
 				mc.entityRenderer.theShaderGroup = null;
-			}
+			}*/
 		}
 	}
 	

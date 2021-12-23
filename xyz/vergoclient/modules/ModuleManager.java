@@ -71,7 +71,6 @@ public class ModuleManager {
 	public ModBanChecker modBanChecker = new ModBanChecker();
 	public ModCakeEater modCakeEater = new ModCakeEater();
 	public ModRainbow modRainbow = new ModRainbow();
-	public ModTriggerBot modTriggerBot = new ModTriggerBot();
 	public ModReach modReach = new ModReach();
 	public ModAutoSaveConfig modAutoSaveConfig = new ModAutoSaveConfig();
 	public ModHud modHud = new ModHud();
@@ -96,7 +95,6 @@ public class ModuleManager {
 		modAutoPot = new LoaderModule<ModAutoPot>(modAutoPot).generate();
 		modAutoHead = new LoaderModule<ModAutoHead>(modAutoHead).generate();
 		modLongJump = new LoaderModule<ModLongJump>(modLongJump).generate();
-		//modTPAura = new LoaderModule<ModTPAura>(modTPAura).generate();
 		modVelocity = new LoaderModule<ModVelocity>(modVelocity).generate();
 		modNightMode = new LoaderModule<ModNightMode>(modNightMode).generate();
 		modSmallItems = new LoaderModule<ModSmallItems>(modSmallItems).generate();
@@ -122,7 +120,6 @@ public class ModuleManager {
 		modBanChecker = new LoaderModule<ModBanChecker>(modBanChecker).generate();
 		modCakeEater = new LoaderModule<ModCakeEater>(modCakeEater).generate();
 		modRainbow = new LoaderModule<ModRainbow>(modRainbow).generate();
-		modTriggerBot = new LoaderModule<ModTriggerBot>(modTriggerBot).generate();
 		modReach = new LoaderModule<ModReach>(modReach).generate();
 		modAutoSaveConfig = new LoaderModule<ModAutoSaveConfig>(modAutoSaveConfig).generate();
 		modHud = new LoaderModule<ModHud>(modHud).generate();
@@ -228,8 +225,8 @@ public class ModuleManager {
 	public static void onSettingChange(SettingChangeEvent e) {
 
 		// To prevent bugs
-//		if (!GuiStartup.hasLoaded || ModuleManager.currentlyLoadingConfig || Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
-//			return;
+		if (!GuiStart.hasLoaded || ModuleManager.currentlyLoadingConfig || Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
+			return;
 
 		for (Module m : modules) {
 			if (m instanceof OnSettingChangeInterface) {
@@ -303,11 +300,17 @@ public class ModuleManager {
 		
 		if (!file.exists()) {
 			ChatUtils.addChatMessage("That file does not exist");
+			ModuleManager newConfig = new ModuleManager();
+			newConfig.modules.clear();
+			newConfig.init();
 			currentlyLoadingConfig = false;
 			return new ModuleManager();
 		}
 		
 		ModuleManager newConfig = new ModuleManager();
+		newConfig.modules.clear();
+		newConfig.init();
+
 		
 		JSONObject config = new JSONObject(FileManager.readFromFile(new File(FileManager.configDir, configName + ".json")));
 		for (Module module : newConfig.modules) {
@@ -325,6 +328,7 @@ public class ModuleManager {
 							case "num":
 								if (setting instanceof NumberSetting) {
 									((NumberSetting)setting).setValue(settingJson.getDouble("value"));
+									System.out.println("NUMBER: " + setting.name + settingJson.getDouble("value"));
 								}
 								break;
 							case "mode":
@@ -332,6 +336,7 @@ public class ModuleManager {
 									((ModeSetting)setting).index = settingJson.getInt("value");
 									((ModeSetting)setting).cycle(false);
 									((ModeSetting)setting).cycle(true);
+									System.out.println("MODE: " + setting.name + ((ModeSetting)setting).index);
 								}
 								break;
 							case "file":
@@ -345,6 +350,7 @@ public class ModuleManager {
 							case "bool":
 								if (setting instanceof BooleanSetting) {
 									((BooleanSetting)setting).setEnabled(settingJson.getBoolean("isEnabled"));
+									System.out.println("BOOLEAN: " + setting.name + settingJson.getBoolean("isEnabled"));
 								}
 								break;
 							case "key":

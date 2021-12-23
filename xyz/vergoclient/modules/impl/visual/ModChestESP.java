@@ -33,8 +33,7 @@ public class ModChestESP extends Module implements OnEventInterface {
 	
 	@Override
 	public void loadSettings() {
-		addSettings(normalRed, normalGreen, normalBlue, normalAlpha/*, throughWallsRed, throughWallsGreen,
-				throughWallsBlue, throughWallsAlpha*/);
+		addSettings(normalRed, normalGreen, normalBlue, normalAlpha);
 	}
 	
 	@Override

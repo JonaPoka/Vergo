@@ -27,7 +27,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class Hud implements OnEventInterface {
 
-	protected static Minecraft mc;
+	//protected static Minecraft mc;
 	
 	public static void init() {
 		ModuleManager.eventListeners.add(new Hud());
@@ -42,18 +42,8 @@ public class Hud implements OnEventInterface {
 			
 			// Draws the watermark in the corner
 			GlStateManager.pushMatrix();
-			
-			String clientName = "VERGO";
+
 			GlStateManager.scale(1.5f, 1.5f, 1);
-			if (Vergo.config.modRainbow.isEnabled()) {
-				//float rainbowBarMax = Minecraft.getMinecraft().fontRendererObj.getStringWidth(clientName) + 3f;
-				//int rainbowOffset = 400;
-				//for (int i = 1; i <= rainbowBarMax; i++) {
-					//rainbowOffset += 15;
-					//Gui.drawRect(i - 1, Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 2, i, Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 3, RenderUtils.getRainbow(rainbowOffset));
-				//}
-			}
-			//Minecraft.getMinecraft().fontRendererObj.drawString(clientName, 1, 2, Colors.ARRAY_LIST_MODULE_NAMES.getColor(), false);
 
 			GlStateManager.enableBlend();
 			if(Vergo.config.modHud.waterMark.is("Planet")) {
@@ -79,23 +69,6 @@ public class Hud implements OnEventInterface {
 				int imageWidth = 1, imageHeight = 1;
 				Gui.drawModalRectWithCustomSizedTexture(sr.getScaledWidth() + 10, sr.getScaledHeight() + 10, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
 			}
-			
-			/*Gui.drawRect(0, sr.getScaledHeight() - (Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT * 2) - 4, (Minecraft.getMinecraft().fontRendererObj.getStringWidth(AccountUtils.account.username + " - " + new DecimalFormat("#####0000").format(AccountUtils.account.id)) > Minecraft.getMinecraft().fontRendererObj.getStringWidth(MiscellaneousUtils.getFormattedSessionTime() + " - " + new DecimalFormat("###00.00").format(MovementUtils.getBlocksPerSecond()) + " BPS") ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(AccountUtils.account.username + " - " + new DecimalFormat("#####0000").format(AccountUtils.account.id)) : Minecraft.getMinecraft().fontRendererObj.getStringWidth(MiscellaneousUtils.getFormattedSessionTime() + " - " + new DecimalFormat("###00.00").format(MovementUtils.getBlocksPerSecond()) + " BPS")) + 3f, sr.getScaledHeight(), 0x90000000);
-			
-			if (Vergo.config.modRainbow.isEnabled()) {
-				float rainbowBarMax = (Minecraft.getMinecraft().fontRendererObj.getStringWidth(AccountUtils.account.username + " - " + new DecimalFormat("#####0000").format(AccountUtils.account.id)) > Minecraft.getMinecraft().fontRendererObj.getStringWidth(MiscellaneousUtils.getFormattedSessionTime() + " - " + new DecimalFormat("###00.00").format(MovementUtils.getBlocksPerSecond()) + " BPS") ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(AccountUtils.account.username + " - " + new DecimalFormat("#####0000").format(AccountUtils.account.id)) : Minecraft.getMinecraft().fontRendererObj.getStringWidth(MiscellaneousUtils.getFormattedSessionTime() + " - " + new DecimalFormat("###00.00").format(MovementUtils.getBlocksPerSecond()) + " BPS")) + 3f;
-				int rainbowOffset = 400;
-				for (int i = 1; i <= rainbowBarMax; i++) {
-					rainbowOffset += 15;
-					Gui.drawRect(i - 1, sr.getScaledHeight() - (Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT * 2) - 4, i, sr.getScaledHeight() - (Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT * 2) - 5, RenderUtils.getRainbow(rainbowOffset));
-				}
-			}
-			
-			// Shows the logged in user and the session time
-
-			Minecraft.getMinecraft().fontRendererObj.drawString(AccountUtils.account.username + " - " + new DecimalFormat("#####0000").format(AccountUtils.account.id), 1, sr.getScaledHeight() - Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT - 1, Colors.ARRAY_LIST_MODULE_NAMES.getColor(), true);
-			Minecraft.getMinecraft().fontRendererObj.drawString(MiscellaneousUtils.getFormattedSessionTime() + " - " + new DecimalFormat("###00.00").format(MovementUtils.getBlocksPerSecond()) + " BPS", 1, sr.getScaledHeight() - (Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT * 2) - 1, Colors.ARRAY_LIST_MODULE_NAMES.getColor(), true);
-			*/
 		}
 		
 	}

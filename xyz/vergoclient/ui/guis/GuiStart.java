@@ -30,6 +30,7 @@ public class GuiStart extends GuiScreen {
 		if (hasLoaded && mc != null)
 			mc.displayGuiScreen(new GuiMultiplayer(new GuiAltManager()));
 			//mc.displayGuiScreen(new GuiSelectWorld(new GuiAltManager()));
+			//mc.displayGuiScreen(new GuiMainMenu());
 //		else
 //			Vergo.startup();
 	}
@@ -48,6 +49,7 @@ public class GuiStart extends GuiScreen {
 		if (hasLoaded)
 			mc.displayGuiScreen(new GuiMultiplayer(new GuiAltManager()));
 			//mc.displayGuiScreen(new GuiSelectWorld(new GuiAltManager()));
+			//mc.displayGuiScreen(new GuiMainMenu());
 
 		// Background
 		Gui.drawRect(0, 0, width, height, new Color(18, 18, 18).getRGB());

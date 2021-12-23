@@ -24,8 +24,10 @@ public class ModStrafe extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 		if (e instanceof EventUpdate && e.isPre()) {
-			
-			setInfo(autoJumpSetting.isEnabled() ? "Jump" : "Normal");
+
+			if(autoJumpSetting.isEnabled()) {
+				setInfo("Auto-Jump");
+			}
 			
 			if (MovementUtils.isOnGround(0.0001) && autoJumpSetting.isEnabled() && MovementUtils.isMoving() && !mc.gameSettings.keyBindJump.pressed) {
 				mc.thePlayer.jump();

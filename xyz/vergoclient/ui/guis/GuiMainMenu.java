@@ -6,6 +6,8 @@ import java.io.IOException;
 import net.minecraft.util.ResourceLocation;
 import org.apache.http.client.methods.HttpGet;
 
+import org.lwjgl.opengl.Display;
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
@@ -37,7 +39,7 @@ public class GuiMainMenu extends GuiScreen {
 
 		serverStatusBlink = 0;
 
-		DisplayUtils.setTitle("Main menu");
+		Display.setTitle("Vergo " + Vergo.version);
 
 	}
 
@@ -97,7 +99,7 @@ public class GuiMainMenu extends GuiScreen {
 		Gui.drawRect(0, 0, width, height, new Color(18, 18, 18).getRGB());
 
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-		RenderUtils.drawImg(new ResourceLocation("Vergo/logo/120x120-transparent-round.png"), widthMiddle - 60, (buttonWindowY - (buttonWindowHeight / 2) - (titleFontRenderer.FONT_HEIGHT) + 1) + 7, 120, 120);
+		RenderUtils.drawImg(new ResourceLocation("Vergo/logo/120x120-transparent-round.png"), width / 2 - 60, height /2 - 80, 120, 120);
 
 		// Draw buttons
 		buttonWindowY += 10;

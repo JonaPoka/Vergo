@@ -1,15 +1,12 @@
 package xyz.vergoclient.modules.impl.visual;
 
-import java.awt.Color;
-import java.text.DecimalFormat;
-import java.util.Arrays;
-
-import com.mojang.authlib.GameProfile;
-import javafx.animation.Animation;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,30 +14,24 @@ import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import optifine.MathUtils;
 import org.lwjgl.opengl.GL11;
-import sun.font.FontManager;
 import xyz.vergoclient.Vergo;
-import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventRenderGUI;
-import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.modules.impl.combat.ModKillAura;
-import xyz.vergoclient.modules.impl.combat.ModTPAura;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.guis.GuiClickGui;
 import xyz.vergoclient.ui.guis.GuiNewClickGui;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.EntityLivingBase;
-import xyz.vergoclient.util.*;
+import xyz.vergoclient.util.AnimationUtils;
+import xyz.vergoclient.util.MiscellaneousUtils;
+import xyz.vergoclient.util.RenderUtils;
+import xyz.vergoclient.util.RenderUtils2;
+
+import java.awt.*;
 
 import static net.minecraft.client.gui.Gui.drawScaledCustomSizeModalRect;
 
@@ -87,9 +78,6 @@ public class ModTargetHud extends Module implements OnEventInterface {
 		if (yOffset.getValueAsDouble() > xOffset.getMaximum()) {
 			yOffset.setValue(yOffset.getMaximum());
 		}
-
-		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Rismose","coinchan"));
 
 		addSettings(mode, xOffset, yOffset, heartSliderX, heartSliderY, healthSliderX, healthSliderY, healthWidth, hurtSliderX, hurtSliderY, hurtWidth, nameSliderX, nameSliderY, characterX, characterY, characterScale);
 	}
@@ -192,8 +180,6 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				GlStateManager.color(1, 1, 1, 1);
 				GuiInventory.drawEntityOnScreen(27, 58, (int) (45 / target.height), 0, 0, target);*/
 			if (mode.is("Rismose")) {
-
-
 				EntityLivingBase target = null;
 
 				if (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null) {
@@ -213,6 +199,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				GlStateManager.pushAttrib();
 				GlStateManager.translate(xOffset.getValueAsDouble(), yOffset.getValueAsDouble(), 0);
 
+				GL11.glPolygonOffset(1.0f, 1099998.0f);
 				// Lower is faster, higher is slower
 				double barSpeed = 5;
 				if (healthBar > healthBarTarget) {
@@ -314,87 +301,6 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				} */
 				GlStateManager.popAttrib();
 				GlStateManager.popMatrix();
-
-		/*} else if (mode.is("Paper")) {
-			EntityLivingBase target = null;
-
-			if (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null) {
-				target = ModKillAura.target;
-			} else {
-				if (Vergo.config.modTPAura.isEnabled() && ModTPAura.target != null) {
-					target = ModTPAura.target;
-				}
-			}
-
-			if (target == null) {
-				if (mc.currentScreen instanceof GuiClickGui || mc.currentScreen instanceof GuiNewClickGui) {
-					target = mc.thePlayer;
-				} else {
-					healthBar = 0;
-					return;
-				}
-			}
-
-			GlStateManager.pushMatrix();
-			GlStateManager.pushAttrib();
-			GlStateManager.translate(xOffset.getValueAsDouble(), yOffset.getValueAsDouble(), 0);
-
-			// Lower is faster, higher is slower
-			double barSpeed = 5;
-			if (healthBar > healthBarTarget) {
-				healthBar = ((healthBar) - ((healthBar - healthBarTarget) / barSpeed));
-			} else if (healthBar < healthBarTarget) {
-				healthBar = ((healthBar) + ((healthBarTarget - healthBar) / barSpeed));
-			}
-
-			if (hurtTime > hurtTimeTarget) {
-				hurtTime = ((hurtTime) - ((hurtTime - hurtTimeTarget) / barSpeed));
-			} else if (hurtTime < healthBarTarget) {
-				hurtTime = ((hurtTime) + ((hurtTimeTarget - hurtTime) / barSpeed));
-			}
-
-			ScaledResolution sr = new ScaledResolution(mc);
-
-			healthBarTarget = sr.getScaledWidth() / 2 - 41 + (((140) / (target.getMaxHealth())) * (target.getHealth()));
-
-			int color = 0xff3396FF;
-
-			if (Vergo.config.modRainbow.isEnabled()) {
-				float hue1 = System.currentTimeMillis() % (int) ((4) * 1000) / (float) ((4) * 1000);
-				color = Color.HSBtoRGB(hue1, 0.65f, 1);
-			}
-
-			// Main box
-			RenderUtils.drawRoundedRect(0, 0, 220, 65, 3, new Color(37, 38, 54));
-
-			// Health bar
-			healthBarTarget = (140 * (target.getHealth() / target.getMaxHealth()));
-			if (healthBar > 140) {
-				healthBar = 140;
-			}
-
-			RenderUtils.drawRoundedRect(16, 43, 188, 12f, 2, new Color(23, 23, 33));
-			RenderUtils.drawRoundedRect(16, 43, healthBar + 48, 12f, 2, new Color(48, 194, 124));
-
-			// Name
-			if (target.getDisplayName().getFormattedText().length() < 9) {
-				int length = target.getDisplayName().getFormattedText().length();
-				int nine = 9;
-				int newLength = length - nine;
-				FontUtil.bakakakBig.drawString(target.getDisplayName().getFormattedText(), 85 + newLength, 13, color);
-			}
-			if (target.getDisplayName().getFormattedText().length() == 9) {
-				FontUtil.bakakakBig.drawString(target.getDisplayName().getFormattedText(), 85, 13, color);
-			} else {
-				if (target.getDisplayName().getFormattedText().length() >= 10) {
-					int length = target.getDisplayName().getFormattedText().length();
-					int nine = 9;
-					int newLength = length - nine;
-					FontUtil.bakakakBig.drawString(target.getDisplayName().getFormattedText(), 85 - newLength, 13, color);
-				}
-			}
-			//GlStateManager.popAttrib();
-			//GlStateManager.popMatrix();*/
 			} else if (mode.is("coinchan")) {
 
 				EntityLivingBase ent = null;
@@ -465,8 +371,8 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				/*RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 5f, new Color(142, 2, 32).getRGB());
 				RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 5f, new Color(142, 2, 32).getRGB());*/
 
-				RenderUtils.drawRoundedRect( 27, 27, this.animation, 5f, 3f, new Color(142, 2, 32));
-				RenderUtils.drawRoundedRect(27, 27, drawPercent, 5f, 3f, new Color(142, 2, 32));
+				RenderUtils.drawRoundedRect( 27, 27, ent.getHealth(), 5f, 3f, new Color(142, 2, 32));
+				RenderUtils.drawRoundedRect(27, 27, ent.getHealth(), 5f, 3f, new Color(142, 2, 32));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
 				this.renderArmor((EntityPlayer) ent, 75);
