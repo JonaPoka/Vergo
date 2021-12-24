@@ -155,29 +155,7 @@ public class RenderUtils {
 		drawCirclePart(x + width - cornerRadius, y + height - cornerRadius, 0, MathHelper.PId2, cornerRadius, slices);
 
 		GL11.glDisable(GL11.GL_BLEND);
-		glEnable(GL11.GL_TEXTURE_2D);
-
-		GlStateManager.disableBlend();
-
-		//GlStateManager.enableAlpha();
-		//GlStateManager.alphaFunc(GL11.GL_NOTEQUAL, 0);
-	}
-
-	public static void drawRoundedRectNoColor(double x, double y, double width, double height, float cornerRadius) {
-		final int slices = 10;
-
-		drawFillRectangle(x + cornerRadius, y, width - 2 * cornerRadius, height);
-		drawFillRectangle(x, y + cornerRadius, cornerRadius, height - 2 * cornerRadius);
-		drawFillRectangle(x + width - cornerRadius, y + cornerRadius, cornerRadius, height - 2 * cornerRadius);
-
-		drawCirclePart(x + cornerRadius, y + cornerRadius, -MathHelper.PI, -MathHelper.PId2, cornerRadius, slices);
-		drawCirclePart(x + cornerRadius, y + height - cornerRadius, -MathHelper.PId2, 0.0F, cornerRadius, slices);
-
-		drawCirclePart(x + width - cornerRadius, y + cornerRadius, MathHelper.PId2, MathHelper.PI, cornerRadius, slices);
-		drawCirclePart(x + width - cornerRadius, y + height - cornerRadius, 0, MathHelper.PId2, cornerRadius, slices);
-
-		GL11.glDisable(GL11.GL_BLEND);
-		glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 		GlStateManager.disableBlend();
 
@@ -206,52 +184,6 @@ public class RenderUtils {
 		Gui.drawRect(x, y, x + width, y1, borderColor.getRGB());
 		Gui.drawRect(x1 - width, y, x1, y1, borderColor.getRGB());
 		Gui.drawRect(x + width, y1 - width, x1 - width, y1, borderColor.getRGB());
-	}
-
-	static void enableGL2D() {
-		glDisable(2929);
-		glEnable(3042);
-		glDisable(3553);
-		glBlendFunc(770, 771);
-		glDepthMask(true);
-		glEnable(2848);
-		glHint(3154, 4354);
-		glHint(3155, 4354);
-	}
-
-	public static void disableGL2D() {
-		glEnable(3553);
-		glDisable(3042);
-		glDisable(2848);
-		glHint(3154, 4352);
-		glHint(3155, 4352);
-	}
-
-	public static void drawFullCircle(float cx, float cy, float r, final int c) {
-		r *= 2.0f;
-		cx *= 2.0f;
-		cy *= 2.0f;
-		final float theta = 0.19634953f;
-		final float p = (float) Math.cos(theta);
-		final float s = (float) Math.sin(theta);
-		float x = r;
-		float y = 0.0f;
-		enableGL2D();
-		glEnable(2848);
-		glHint(3154, 4354);
-		glEnable(3024);
-		GlStateManager.scale(0.5f, 0.5f, 0.5f);
-		GL11.glBegin(9);
-		for (int ii = 0; ii < 32; ++ii) {
-			glVertex2f(x + cx, y + cy);
-			float t = x;
-			x = p * x - s * y;
-			y = s * t + p * y;
-		}
-		glEnd();
-		glScalef(2.0f, 2.0f, 2.0f);
-		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-		disableGL2D();
 	}
 
 	public static void drawLine(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
