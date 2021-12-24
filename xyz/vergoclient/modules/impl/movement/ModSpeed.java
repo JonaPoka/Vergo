@@ -9,6 +9,7 @@ import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.ModeSetting;
+import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.TimerUtil;
 import xyz.vergoclient.util.WorldUtils;
@@ -22,6 +23,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 	
 	public ModeSetting mode = new ModeSetting("Mode", "SmoothHypixel", "JitterHypixel", "SmoothHypixel", "Hypixel LoFi");
+
+	public NumberSetting motionY = new NumberSetting("MotionY", 0.0, -1, 1, 0.01);
 	
 	public static transient float hypixelYaw = 0;
 
@@ -31,7 +34,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 	public void loadSettings() {
 		mode.modes.clear();
 		mode.modes.addAll(Arrays.asList("JitterHypixel", "SmoothHypixel", "Hypixel LoFi"));
-		addSettings(mode);
+		addSettings(mode, motionY);
 	}
 	
 	@Override
@@ -40,9 +43,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 		if (mode.is("JitterHypixel") || mode.is("SmoothHypixel") || mode.is("Hypixel LoFi")) {
 			mc.timer.timerSpeed = 1;
 			mc.timer.ticksPerSecond = 20;
-		}
-		else if (mode.is("Mineplex")) {
-			MovementUtils.setMotion(0);
 		}
 	}
 
@@ -61,6 +61,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 			onHypixelEvent(e);
 		} else if(mode.is("SmoothHypixel")) {
 			onHypixelEvent(e);
+		} else if(mode.is("Hypixel LoFi")) {
+			onHypixelEvent(e);
 		}
 	}
 	
@@ -78,7 +80,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 			} else if(mode.is("SmoothHypixel")) {
 				setInfo("SmoothDoggyDog");
 			} else if (mode.is("Hypixel LoFi")) {
-				setInfo("LowDoggyDog");
+				setInfo("ButtaDowg");
 			}
 
 		} else if (e instanceof EventUpdate && e.isPre()) {
@@ -90,10 +92,27 @@ public class ModSpeed extends Module implements OnEventInterface {
 				}
 			} else if(mode.is("SmoothHypixel")) {
 				smoothHypixelSpeed();
+			} else if(mode.is("Hypixel LoFi")) {
+				if(MovementUtils.isMoving()) {
+					hypixelLoFi();
+				}
 			}
 			
 		}
 		
+	}
+
+	private void hypixelLoFi() {
+		if(mc.gameSettings.keyBindJump.isKeyDown()) {
+
+		}
+
+		if(MovementUtils.isOnGround(0.0001)) {
+			mc.thePlayer.jump();
+		} else {
+			mc.thePlayer.motionY += motionY.getValueAsDouble();
+		}
+
 	}
 
 	private void jitterHypixelBypass() {

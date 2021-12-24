@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.combat;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -67,7 +68,8 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			rayTraceCheck = new BooleanSetting("Raytrace", false),
 			viewRotations = new BooleanSetting("View rotations", false),
 			movementMatchRotation = new BooleanSetting("Movement Match Rotation", false),
-			visualizeRange = new BooleanSetting("Visualize range", true);
+			visualizeRange = new BooleanSetting("Visualize Range", false),
+			visualizeTargetCircle = new BooleanSetting("Visualize Target", true);
 	public ModeSetting targetSelectionSetting = new ModeSetting("Target selection", "Switch", "Switch", "Single"),
 			targetSortingSetting = new ModeSetting("Target sorting", "Health", "Health", "Distance"),
 			rotationSetting = new ModeSetting("Rotation", "Lock", "Smooth", "Lock", "Spin", "None", "Almost legit", "Bezier Curve"),
@@ -84,7 +86,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 		addSettings(rangeSetting, minApsSetting, maxApsSetting, combatPacketsPerHit, targetPlayersSetting, targetAnimalsSetting,
 				targetMobsSetting, targetOtherSetting, rayTraceCheck, targetSelectionSetting, targetSortingSetting,
-				rotationSetting, autoblockSetting, viewRotations, movementMatchRotation, visualizeRange);
+				rotationSetting, autoblockSetting, visualizeTargetCircle, visualizeRange);
 
 	}
 
@@ -229,45 +231,91 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		mc.gameSettings.keyBindUseItem.pressed = false;
 	}
 
+	public float animation;
+
 	@Override
 	public void onEvent(Event e) {
 
-		if (e instanceof EventRender3D && e.isPre() && visualizeRange.isEnabled()) {
+		if (e instanceof EventRender3D && e.isPre()) {
 
-			final float timer = mc.timer.renderPartialTicks;
-			final double x = mc.thePlayer.lastTickPosX + (mc.thePlayer.posX - mc.thePlayer.lastTickPosX) * timer;
-			final double y = mc.thePlayer.lastTickPosY + (mc.thePlayer.posY - mc.thePlayer.lastTickPosY) * timer;
-			final double z = mc.thePlayer.lastTickPosZ + (mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ) * timer;
 
-			GlStateManager.pushMatrix();
-			GlStateManager.pushAttrib();
-			Vec3 lastLine = null;
+			if(visualizeRange.isEnabled()) {
+				final float timer = mc.timer.renderPartialTicks;
+				final double x = mc.thePlayer.lastTickPosX + (mc.thePlayer.posX - mc.thePlayer.lastTickPosX) * timer;
+				final double y = mc.thePlayer.lastTickPosY + (mc.thePlayer.posY - mc.thePlayer.lastTickPosY) * timer;
+				final double z = mc.thePlayer.lastTickPosZ + (mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ) * timer;
 
-			for (short i = 0; i <= 360 * 2; i++) {
+				GlStateManager.pushMatrix();
+				GlStateManager.pushAttrib();
+				Vec3 lastLine = null;
 
-//				float f = (mc.thePlayer.rotationYaw + i) * 0.017453292F;
-				float f = (float) ((mc.thePlayer.rotationYaw + i) * (Math.PI / 180));
-				double x2 = x, z2 = z;
-				x2 -= (double) (MathHelper.sin(f) * rangeSetting.getValueAsDouble()) * -1;
-				z2 += (double) (MathHelper.cos(f) * rangeSetting.getValueAsDouble()) * -1;
+				for (short i = 0; i <= 360 * 2; i++) {
 
-				if (lastLine == null) {
-					lastLine = new Vec3(x2, y, z2);
-					continue;
+					float f = (float) ((mc.thePlayer.rotationYaw + i) * (Math.PI / 180));
+					double x2 = x, z2 = z;
+					x2 -= (double) (MathHelper.sin(f) * rangeSetting.getValueAsDouble()) * -1;
+					z2 += (double) (MathHelper.cos(f) * rangeSetting.getValueAsDouble()) * -1;
+
+					if (lastLine == null) {
+						lastLine = new Vec3(x2, y, z2);
+						continue;
+					}
+
+					if (i != 0) {
+						RenderUtils.drawLine(lastLine.xCoord, lastLine.yCoord, lastLine.zCoord, x2, lastLine.yCoord, z2);
+					}
+
+					lastLine.xCoord = x2;
+					lastLine.zCoord = z2;
+
 				}
-
-				if (i != 0) {
-					RenderUtils.drawLine(lastLine.xCoord, lastLine.yCoord, lastLine.zCoord, x2, lastLine.yCoord, z2);
-				}
-
-				// RenderUtils.drawLine(lastLine.xCoord, lastLine.yCoord, lastLine.zCoord, x2,
-				// lastLine.yCoord, z2);
-				lastLine.xCoord = x2;
-				lastLine.zCoord = z2;
-
+				GlStateManager.popMatrix();
+				GlStateManager.popAttrib();
 			}
-			GlStateManager.popMatrix();
-			GlStateManager.popAttrib();
+
+			if(visualizeTargetCircle.isEnabled() && target != null) {
+
+				final float timer = mc.timer.renderPartialTicks;
+				final double x = target.lastTickPosX + (target.posX - target.lastTickPosX) * timer;
+				final double y = target.lastTickPosY + (target.posY - target.lastTickPosY) * timer;
+				final double z = target.lastTickPosZ + (target.posZ - target.lastTickPosZ) * timer;
+
+				// Animation up and down. Don't change... PLEASE
+
+				GlStateManager.pushMatrix();
+				GlStateManager.pushAttrib();
+				Vec3 lastLine = null;
+
+				for (short i = 0; i <= 360 * 2; i++) {
+
+					float f = (float) ((target.rotationYaw + i) * (Math.PI / 180));
+					double x2 = x, z2 = z;
+					x2 -= (double) (MathHelper.sin(f) * 0.7) * -1;
+					z2 += (double) (MathHelper.cos(f) * 0.7) * -1;
+
+					if (lastLine == null) {
+						lastLine = new Vec3(x2, y, z2);
+						continue;
+					}
+
+					if (i != 0) {
+						GL11.glColor4f(0.7f, 0.52f, 1.0f, 0.05f);
+						RenderUtils.drawLine(lastLine.xCoord, y, lastLine.zCoord, x2, y + 2, z2);
+
+						/*GL11.glColor4f(0.7f, 0.52f, 1.0f, 0.25f);
+						RenderUtils.drawLine(lastLine.xCoord, y + 0.5, lastLine.zCoord, x2, y + 0.2, z2);
+
+						GL11.glColor4f(0.7f, 0.52f, 1.0f, 0.2f);
+						RenderUtils.drawLine(lastLine.xCoord, y + 0.2, lastLine.zCoord, x2, y + 0.1, z2);*/
+					}
+
+					lastLine.xCoord = x2;
+					lastLine.zCoord = z2;
+
+				}
+				GlStateManager.popMatrix();
+				GlStateManager.popAttrib();
+			}
 		}
 
 		if (e instanceof EventRender3D && e.isPre() && target != null && rotationSetting.is("Almost legit")) {

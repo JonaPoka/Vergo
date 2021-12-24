@@ -36,6 +36,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public class RenderUtils {
 
 	public static boolean shouldSetCustomYaw = false;
@@ -95,7 +97,7 @@ public class RenderUtils {
 		GL11.glColor4d(1, 1, 1, 1F);
 		RenderGlobal.func_181561_a(new AxisAlignedBB(x, y, z,
 				x + 1.0, y + 2.0, z + 1.0));
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 		if(Vergo.config.modRainbow.isEnabled()) {
 
@@ -153,7 +155,7 @@ public class RenderUtils {
 		drawCirclePart(x + width - cornerRadius, y + height - cornerRadius, 0, MathHelper.PId2, cornerRadius, slices);
 
 		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		glEnable(GL11.GL_TEXTURE_2D);
 
 		GlStateManager.disableBlend();
 
@@ -175,7 +177,7 @@ public class RenderUtils {
 		drawCirclePart(x + width - cornerRadius, y + height - cornerRadius, 0, MathHelper.PId2, cornerRadius, slices);
 
 		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		glEnable(GL11.GL_TEXTURE_2D);
 
 		GlStateManager.disableBlend();
 
@@ -206,6 +208,52 @@ public class RenderUtils {
 		Gui.drawRect(x + width, y1 - width, x1 - width, y1, borderColor.getRGB());
 	}
 
+	static void enableGL2D() {
+		glDisable(2929);
+		glEnable(3042);
+		glDisable(3553);
+		glBlendFunc(770, 771);
+		glDepthMask(true);
+		glEnable(2848);
+		glHint(3154, 4354);
+		glHint(3155, 4354);
+	}
+
+	public static void disableGL2D() {
+		glEnable(3553);
+		glDisable(3042);
+		glDisable(2848);
+		glHint(3154, 4352);
+		glHint(3155, 4352);
+	}
+
+	public static void drawFullCircle(float cx, float cy, float r, final int c) {
+		r *= 2.0f;
+		cx *= 2.0f;
+		cy *= 2.0f;
+		final float theta = 0.19634953f;
+		final float p = (float) Math.cos(theta);
+		final float s = (float) Math.sin(theta);
+		float x = r;
+		float y = 0.0f;
+		enableGL2D();
+		glEnable(2848);
+		glHint(3154, 4354);
+		glEnable(3024);
+		GlStateManager.scale(0.5f, 0.5f, 0.5f);
+		GL11.glBegin(9);
+		for (int ii = 0; ii < 32; ++ii) {
+			glVertex2f(x + cx, y + cy);
+			float t = x;
+			x = p * x - s * y;
+			y = s * t + p * y;
+		}
+		glEnd();
+		glScalef(2.0f, 2.0f, 2.0f);
+		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		disableGL2D();
+	}
+
 	public static void drawLine(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
 
 		Tessellator tessellator = Tessellator.getInstance();
@@ -220,25 +268,25 @@ public class RenderUtils {
 		maxZ -= Minecraft.getMinecraft().getRenderManager().renderPosZ;
 
 		GL11.glBlendFunc(770, 771);
-		GL11.glEnable(GL11.GL_BLEND);
+		glEnable(GL11.GL_BLEND);
 		GL11.glLineWidth(3.0F);
-		GL11.glColor4d(0, 1, 0, 1);
+		//GL11.glColor4d(0, 1, 0, 1);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(false);
 		// drawColorBox(new AxisAlignedBB(x, y, z, x + 1.0, y + 1.0, z + 1.0));
-		GL11.glColor4d(1, 1, 1, 1);
+		//GL11.glColor4d(1, 1, 1, 1);
 
 		worldrenderer.begin(1, DefaultVertexFormats.POSITION);
 		worldrenderer.pos(minX, minY, minZ).endVertex();
 		worldrenderer.pos(maxX, maxY, maxZ).endVertex();
 		tessellator.draw();
 
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		glEnable(GL11.GL_TEXTURE_2D);
+		glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(true);
 		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glColor4f(1, 1, 1, 1);
+		//GL11.glColor4f(1, 1, 1, 1);
 
 	}
 
@@ -436,7 +484,7 @@ public class RenderUtils {
 		ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
 		int factor = scaledResolution.getScaleFactor();
 
-		GL11.glEnable(GL11.GL_SCISSOR_TEST);
+		glEnable(GL11.GL_SCISSOR_TEST);
 
 		GL11.glScissor(x * factor, (scaledResolution.getScaledHeight() - (y + height)) * factor,
 				((x + width) - x) * factor, ((y + height) - y) * factor);
@@ -450,10 +498,10 @@ public class RenderUtils {
 
 	public static void drawHorizontalGradient(double x, double y, double width, double height, int leftColor,
 			int rightColor) {
-		GL11.glEnable(GL11.GL_BLEND);
+		glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glBlendFunc(770, 771);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
+		glEnable(GL11.GL_LINE_SMOOTH);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glPushMatrix();
 		GL11.glBegin(7);
@@ -465,7 +513,7 @@ public class RenderUtils {
 		GL11.glVertex2d(x + width, y);
 		GL11.glEnd();
 		GL11.glPopMatrix();
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -473,10 +521,10 @@ public class RenderUtils {
 
 	public static void drawVerticalGradient(double x, double y, double width, double height, int topColor,
 			int bottomColor) {
-		GL11.glEnable(GL11.GL_BLEND);
+		glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glBlendFunc(770, 771);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
+		glEnable(GL11.GL_LINE_SMOOTH);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glPushMatrix();
 		GL11.glBegin(7);
@@ -488,7 +536,7 @@ public class RenderUtils {
 		GL11.glVertex2d(x + width, y + height);
 		GL11.glEnd();
 		GL11.glPopMatrix();
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glShadeModel(GL11.GL_SMOOTH);

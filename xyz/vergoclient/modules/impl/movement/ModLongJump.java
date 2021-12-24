@@ -18,6 +18,7 @@ import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.TimerUtil;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class ModLongJump extends Module implements OnEventInterface {
 
@@ -93,6 +94,9 @@ public class ModLongJump extends Module implements OnEventInterface {
 
     public float oldPitch;
 
+    Random r = new Random();
+    float random = -88.5f + r.nextFloat() * (-90 - -89f);
+
     @Override
     public void onEvent(Event e) {
 
@@ -100,8 +104,9 @@ public class ModLongJump extends Module implements OnEventInterface {
             //Aim up and shoot shoot shoot!
             if (mode.is("Hypixel Bow")) {
                 if (!hasHurt) {
+
                     if (mc.thePlayer.ticksExisted - ticks == 3) {
-                        mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -89.5f, true));
+                        mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, random, true));
                         mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
 
                         MovementUtils.setMotion(0);
