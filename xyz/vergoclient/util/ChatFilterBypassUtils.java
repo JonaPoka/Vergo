@@ -57,52 +57,6 @@ public class ChatFilterBypassUtils {
 
 	private static int largestWordLength = 0;
 
-	public static void loadConfigs() {
-
-		if (!FileManager.chatBypassWords.exists()) {
-			GuiStart.percentText = "Downloading the chat bypass word list...";
-			FileManager.downloadFile(
-					"https://docs.google.com/spreadsheets/d/1zB0Ma2Qf0teh8TBzNaTJS9At9c9b8LgA45WVyNpqLj8/export?format=csv",
-					FileManager.chatBypassWords);
-			GuiStart.percentText = "Creating the chat bypass configs...";
-		}
-
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					FileManager.chatBypassWords.toURI().toURL().openConnection().getInputStream()));
-			String line = "";
-			int counter = 0;
-			while ((line = reader.readLine()) != null) {
-				counter++;
-				String[] content = null;
-				try {
-					content = line.split(",");
-					if (content.length == 0) {
-						continue;
-					}
-					String word = content[0];
-					String[] ignore_in_combination_with_words = new String[] {};
-					if (content.length > 1) {
-						ignore_in_combination_with_words = content[1].split("_");
-					}
-
-					if (word.length() > largestWordLength) {
-						largestWordLength = word.length();
-					}
-					words.put(word.replaceAll(" ", ""), ignore_in_combination_with_words);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	private static ArrayList<String> findWords(String input) {
 		if (input == null) {
 			return new ArrayList<>();

@@ -2,10 +2,12 @@ package xyz.vergoclient.modules.impl.movement;
 
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.*;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import org.apache.commons.lang3.RandomUtils;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
@@ -28,7 +30,7 @@ public class ModLongJump extends Module implements OnEventInterface {
 
     public ModeSetting mode = new ModeSetting("Mode", "Hypixel Bow", "Hypixel Bow", "Velocity Test");
 
-    public NumberSetting speedSlider = new NumberSetting("SpeedSlider", 1.82, 0.3, 3.0, 0.01), heightSlider = new NumberSetting("Height Slider", 1.99, 1.0, 3.0, 0.01);
+    public NumberSetting speedSlider = new NumberSetting("SpeedSlider", 0.3, 0, 3.0, 0.01), heightSlider = new NumberSetting("Height Slider", 1.99, 1.0, 3.0, 0.01);
 
     public BooleanSetting automated = new BooleanSetting("Automated", false), autoLook = new BooleanSetting("Auto Look", false),
                           autoMove = new BooleanSetting("Auto Move", false), autoJump = new BooleanSetting("Auto Jump", false);
@@ -37,7 +39,7 @@ public class ModLongJump extends Module implements OnEventInterface {
     @Override
     public void loadSettings() {
         mode.modes.clear();
-        mode.modes.addAll(Arrays.asList("Hypixel Bow", "Velocity Test"));
+        mode.modes.addAll(Arrays.asList("Hypixel Bow", "Hypixel Test"));
 
         addSettings(mode, speedSlider, heightSlider, automated, autoLook, autoMove, autoJump);
     }
@@ -52,7 +54,7 @@ public class ModLongJump extends Module implements OnEventInterface {
     @Override
     public void onEnable() {
         if (mode.is("Hypixel Bow")) {
-            setInfo("hypickle bow");
+            setInfo("Hypickle");
         }
 
         if(MovementUtils.isMoving()) {
@@ -102,7 +104,7 @@ public class ModLongJump extends Module implements OnEventInterface {
 
         if (e instanceof EventUpdate && e.isPre()) {
             //Aim up and shoot shoot shoot!
-            if (mode.is("Hypixel Bow")) {
+            if (mode.is("Hypixel HighJump")) {
                 if (!hasHurt) {
 
                     if (mc.thePlayer.ticksExisted - ticks == 3) {
@@ -153,7 +155,55 @@ public class ModLongJump extends Module implements OnEventInterface {
                     toggle();
                 }
 
+            } else if(mode.is("Hypixel Test"))  {
+
+                setInfo("Hypixel LowJump");
+
+                if (!hasHurt) {
+
+                    if (mc.thePlayer.ticksExisted - ticks == 3) {
+                        mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, random, true));
+                        mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
+
+                        MovementUtils.setMotion(0);
+
+                        // Switch back to original slot
+                        if (i != slotId) {
+                            mc.getNetHandler().getNetworkManager().sendPacket(new C09PacketHeldItemChange(slotId));
+                        }
+
+                    }
+                }
+
+                if(mc.thePlayer.hurtTime == 9) {
+                    hasHurt = true;
+                }
+
+                if(hasHurt) {
+
+                    if(automated.isEnabled()) {
+                        if(autoLook.isEnabled()) {
+                            mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -4.954367f, true));
+                        }
+                        if(autoMove.isEnabled()) {
+                            mc.thePlayer.setSprinting(true);
+                            mc.thePlayer.movementInput.moveForward = 1;
+                        }
+                        if(autoJump.isEnabled()) {
+                            mc.thePlayer.jump();
+                        }
+                    }
+
+                    MovementUtils.setMotion(speedSlider.getValueAsDouble());
+
+                    hasHurt = false;
+                    toggle();
+                }
+
             }
+
+
+
         }
     }
 

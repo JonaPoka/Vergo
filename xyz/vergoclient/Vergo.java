@@ -146,12 +146,6 @@ public class Vergo {
 				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
-						ChatFilterBypassUtils.loadConfigs();
-					}
-				},
-				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
-					@Override
-					public void task() {
 						Runtime.getRuntime().addShutdownHook(new Thread() {
 							public void run() {
 								try {

@@ -14,7 +14,7 @@ import com.google.gson.GsonBuilder;
 public class FileManager {
 	
 	// Files used by the client
-	public static File mainDir = new File("hummus"),
+	public static File mainDir = new File("Vergo"),
 			configDir = new File(mainDir, "configs"),
 			keybindsDir = new File(mainDir, "keybinds"),
 			libsDir = new File(mainDir, "libs"),
@@ -22,20 +22,11 @@ public class FileManager {
 			assetsDir = new File(mainDir, "assets"),
 			capesDir = new File(mainDir, "capes"),
 			scriptsDir = new File(mainDir, "scripts"),
-			defaultConfigFile = new File(configDir, "default.json"),
 			defaultKeybindsFile = new File(keybindsDir, "default.json"),
 			altsFile = new File(mainDir, "alts.json"),
-			authTokenFile = new File(mainDir, "authToken.txt"),
 			discordLibUnix = new File(libsDir, "discord_game_sdk.so"),
 			discordLibWindows = new File(libsDir, "discord_game_sdk.dll"),
-			killsultFurry = new File(killsultDir, "furry.txt"),
-			killsultToxic = new File(killsultDir, "toxic.txt"),
-			killsultKinky = new File(killsultDir, "kinky.txt"),
-			killsultSkidma = new File(killsultDir, "skidma.txt"),
-			killsultFemboy = new File(killsultDir, "femboy.txt"),
-			clickguiTabs = new File(mainDir, "tabs.json"),
-			chatBypassWords = new File(assetsDir, "ChatBypassV1.csv"),
-			exampleScript = new File(scriptsDir, "example script.js");
+			clickguiTabs = new File(mainDir, "tabs.json");
 	
 	// Creates dirs if they don't exist
 	public static void init() {
@@ -56,9 +47,6 @@ public class FileManager {
 		if (!scriptsDir.exists()) 
 			scriptsDir.mkdirs();
 		createKillsultFiles();
-		if (!exampleScript.exists()) {
-			writeToFile(exampleScript, "var EventUpdate = Java.type(\"info.hummusclient.event.impl.EventUpdate\");\nvar EventTick = Java.type(\"info.hummusclient.event.impl.EventTick\");\nvar EventRenderGUI = Java.type(\"info.hummusclient.event.impl.EventRenderGUI\");\nfunction init() {\n	\n}\nfunction getName() {\n	return \"Test script\";\n}\nfunction getCategory() {\n	return Category.MISCELLANEOUS;\n}\nfunction onEnable() {\n	ChatUtils.addChatMessage(\"Started test module\");\n}\nfunction onDisable() {\n	ChatUtils.addChatMessage(\"Stopped test module\");\n}\nfunction onEvent(e) {\n	if (e instanceof EventTick && e.isPre()) {\n		module.setInfo(\"Example setInfo\");\n	}\n	else if (e instanceof EventUpdate && e.isPre()) {\n		var event = ScriptUtils.castTo(e, EventUpdate);\n		ChatUtils.addChatMessage(event.x + \" \" + event.y + \" \" + event.z);\n		ChatUtils.addChatMessage(\"The player has existed for \" + mc.thePlayer.ticksExisted + \" ticks\");\n	}\n	else if (e instanceof EventRenderGUI && e.isPre()) {\n		mc.fontRendererObj.drawString(mc.thePlayer.posX + \" \" + mc.thePlayer.posY + \" \" + mc.thePlayer.posZ, 5, 5, -1, true);\n	}\n}");
-		}
 	}
 	
 	// Creates killsult files
@@ -155,17 +143,6 @@ public class FileManager {
 				+ "%player% touch's themselves to femboys \n"
 				+ "%player% is such a good femboy that it's turning me on \n"
 				+ "%player% puts on thigh highs \n";
-		
-		if (!killsultFurry.exists())
-			writeToFile(killsultFurry, furry);
-		if (!killsultToxic.exists())
-			writeToFile(killsultToxic, toxic);
-		if (!killsultKinky.exists())
-			writeToFile(killsultKinky, kinky);
-		if (!killsultSkidma.exists())
-			writeToFile(killsultSkidma, skidma);
-		if (!killsultFemboy.exists())
-			writeToFile(killsultFemboy, femboy);
 		
 	}
 	

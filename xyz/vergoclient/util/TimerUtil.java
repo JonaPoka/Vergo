@@ -12,7 +12,6 @@ public class TimerUtil {
 		
 		if (lastMS > System.currentTimeMillis()) {
 			lastMS = System.currentTimeMillis();
-//			Command.sendPrivateChatMessage("Fixed timer, did you set the clock on your pc back or something?");
 		}
 		
 		if (System.currentTimeMillis()-lastMS > time) {
@@ -27,6 +26,28 @@ public class TimerUtil {
 			return false;
 		}
 		
+	}
+
+	private long time = System.nanoTime() / 1000000L;
+
+	public boolean reach(long time) {
+		return this.time() >= time;
+	}
+
+	public void reset1() {
+		this.time = System.nanoTime() / 1000000L;
+	}
+
+	public boolean sleep(long time) {
+		if (this.time() >= time) {
+			this.reset();
+			return true;
+		}
+		return false;
+	}
+
+	public long time() {
+		return System.nanoTime() / 1000000L - this.time;
 	}
 	
 }
