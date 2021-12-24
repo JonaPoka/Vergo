@@ -290,6 +290,42 @@ public class RenderUtils {
 
 	}
 
+	public static void drawLineColoured(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, Color color) {
+
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
+		minX -= Minecraft.getMinecraft().getRenderManager().renderPosX;
+		minY -= Minecraft.getMinecraft().getRenderManager().renderPosY;
+		minZ -= Minecraft.getMinecraft().getRenderManager().renderPosZ;
+
+		maxX -= Minecraft.getMinecraft().getRenderManager().renderPosX;
+		maxY -= Minecraft.getMinecraft().getRenderManager().renderPosY;
+		maxZ -= Minecraft.getMinecraft().getRenderManager().renderPosZ;
+
+		GL11.glBlendFunc(770, 771);
+		glEnable(GL11.GL_BLEND);
+		GL11.glLineWidth(3.0F);
+		//GL11.glColor4d(0, 1, 0, 1);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		// drawColorBox(new AxisAlignedBB(x, y, z, x + 1.0, y + 1.0, z + 1.0));
+		//GL11.glColor4d(1, 1, 1, 1);
+
+		worldrenderer.begin(1, DefaultVertexFormats.POSITION);
+		worldrenderer.pos(minX, minY, minZ).endVertex();
+		worldrenderer.pos(maxX, maxY, maxZ).endVertex();
+		tessellator.draw();
+
+		glEnable(GL11.GL_TEXTURE_2D);
+		glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(true);
+		GL11.glDisable(GL11.GL_BLEND);
+		//GL11.glColor4f(1, 1, 1, 1);
+
+	}
+
 	public static void drawColoredBox(double corner1X, double corner1Y, double corner1Z, double corner2X,
 			double corner2Y, double corner2Z, int color) {
 
