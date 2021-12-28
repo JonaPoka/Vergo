@@ -3,8 +3,11 @@ package xyz.vergoclient.modules.impl.movement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.player.EntityPlayer;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
+import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
@@ -22,89 +25,71 @@ import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C13PacketPlayerAbilities;
 import net.minecraft.util.BlockPos;
+import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.TimerUtil;
 
 
-public class ModFly extends Module implements OnEventInterface, OnSettingChangeInterface {
+public class ModFly extends Module implements OnEventInterface {
+
+	Timer timer;
 
 	public ModFly() {
 		super("Fly", Category.MOVEMENT);
+		this.timer = new Timer();
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "None", "None");
-	
+	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Hypixel");
+
+	public NumberSetting scale = new NumberSetting("TheFunny", 5, 0, 100, 0.1);
+
 	@Override
 	public void loadSettings() {
 		
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("None"));
+		mode.modes.addAll(Arrays.asList("Hypixel"));
 		
-		addSettings(mode);
-	}
-
-	public TimerUtil tU = new TimerUtil();
-	
-	@Override
-	public void onSettingChange(SettingChangeEvent e) {
-		if (e.setting == mode) {
-
-		}
+		addSettings(mode, scale);
 	}
 	
 	@Override
 	public void onEnable() {
-		ChatUtils.addChatMessage("Nothing to use. Disabling.");
-		toggle();
+
 	}
 	
 	@Override
 	public void onDisable() {
-
-		MovementUtils.setMotion(MovementUtils.getBaseMoveSpeed());
-		mc.thePlayer.motionY = 0;
 		
 	}
 	
 	@Override
 	public void onEvent(Event e) {
 
-		if (e instanceof EventTick && e.isPre()) {
-			if(mode.is("Hypixel Lag TP")) {
-				setInfo("Lagpixel");
-			} else if(mode.is("KRYPTIC")) {
-				setInfo("Debug");
-			}
+		if(e instanceof EventMove) {
+
+			doTheFunnyFly(((EventMove)e));
+
 		}
 
-		if (e instanceof EventUpdate && e.isPre()) {
+	}
 
-			if(mode.is("Hypixel Lag TP")) {
+	private void doTheFunnyFly(EventMove eventMove) {
 
-				if(tU.hasTimeElapsed(10, true)) {
-					Vergo.config.modBlink.toggle();
-				}
-
-				float playersYaw = mc.thePlayer.rotationYaw;
-
-				MovementUtils.getDirection(playersYaw);
-
-				mc.thePlayer.jump();
-				mc.getNetHandler().getNetworkManager().sendPacket( new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 1.0D, mc.thePlayer.posZ, false));
-
-			} else if(mode.is("KRYPTIC")) {
-				int i = 0;
-				while (i <= 48) {
-					Vergo.config.modBlink.silentToggle();
-					this.mc.thePlayer.sendQueue.getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(this.mc.thePlayer.posX, this.mc.thePlayer.posY + 0.0514865, this.mc.thePlayer.posZ, false));
-					this.mc.thePlayer.sendQueue.getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(this.mc.thePlayer.posX, this.mc.thePlayer.posY + 0.0618865, this.mc.thePlayer.posZ, false));
-					this.mc.thePlayer.sendQueue.getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(this.mc.thePlayer.posX, this.mc.thePlayer.posY + 1.0E-12, this.mc.thePlayer.posZ, false));
-					Vergo.config.modBlink.silentToggle();
-					++i;
-				}
-				this.mc.thePlayer.sendQueue.getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(this.mc.thePlayer.posX, this.mc.thePlayer.posY, this.mc.thePlayer.posZ, true));
-			}
+		if(this.timer.delay(1200L)) {
+			ChatUtils.addChatMessage("Move!");
+			this.HClip(scale.getValueAsFloat());
+			this.timer.reset();
+		}else {
+			eventMove.setX(0.0);
+			eventMove.setY(0.0);
+			eventMove.setZ(0.0);
 		}
+	}
 
+	private void HClip(final double horizontal) {
+		final double playerYaw = Math.toRadians(mc.thePlayer.rotationYaw);
+		mc.thePlayer.posX = horizontal * -Math.sin(mc.thePlayer.rotationYaw);
+		mc.thePlayer.posY = 2.0;
+		mc.thePlayer.posZ = horizontal * Math.cos(mc.thePlayer.rotationYaw);
 	}
 	
 }

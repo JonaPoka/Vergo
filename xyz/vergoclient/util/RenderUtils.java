@@ -111,6 +111,7 @@ public class RenderUtils {
 
 	// Hello
 	public static void drawFillRectangle(double x, double y, double width, double height) {
+
 		GlStateManager.enableBlend();
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);

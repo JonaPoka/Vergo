@@ -28,26 +28,4 @@ public class TimerUtil {
 		
 	}
 
-	private long time = System.nanoTime() / 1000000L;
-
-	public boolean reach(long time) {
-		return this.time() >= time;
-	}
-
-	public void reset1() {
-		this.time = System.nanoTime() / 1000000L;
-	}
-
-	public boolean sleep(long time) {
-		if (this.time() >= time) {
-			this.reset();
-			return true;
-		}
-		return false;
-	}
-
-	public long time() {
-		return System.nanoTime() / 1000000L - this.time;
-	}
-	
 }

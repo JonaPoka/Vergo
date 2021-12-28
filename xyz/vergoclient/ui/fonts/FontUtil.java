@@ -133,6 +133,21 @@ public class FontUtil {
 		}
 		return font;
 	}
+
+	private static Font getComfortaa(int size) {
+		Font font = null;
+		try {
+			InputStream is = Minecraft.getMinecraft().getResourceManager()
+					.getResource(new ResourceLocation("Vergo/font/Comfortaa-Medium.ttf")).getInputStream();
+			font = Font.createFont(0, is);
+			font = font.deriveFont(0, size);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("Error loading font");
+			font = new Font("default", 0, +10);
+		}
+		return font;
+	}
 	
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static FontRenderer fr = mc.fontRendererObj;
@@ -174,5 +189,7 @@ public class FontUtil {
 	public static JelloFontRenderer bakakRegular = JelloFontRenderer.createFontRenderer(getBakbak(17));
 
 	public static JelloFontRenderer juraNormal = JelloFontRenderer.createFontRenderer(getJura(18));
+
+	public static JelloFontRenderer comfortaaNormal = JelloFontRenderer.createFontRenderer(getComfortaa(18));
 	
 }

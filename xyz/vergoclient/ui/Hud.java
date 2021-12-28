@@ -1,11 +1,13 @@
 package xyz.vergoclient.ui;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.event.Event;
@@ -15,15 +17,14 @@ import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.BlurUtils;
+import xyz.vergoclient.util.DisplayUtils;
 import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.TimerUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Hud implements OnEventInterface {
 
@@ -39,7 +40,13 @@ public class Hud implements OnEventInterface {
 	public void onEvent(Event e) {
 		
 		if (e instanceof EventRenderGUI && e.isPre()) {
-			
+
+			if(Vergo.config.modHud.theFunny.isEnabled()) {
+				Display.setTitle("PAWG (Phat Ass White Girls)");
+			} else {
+				DisplayUtils.setTitle("1");
+			}
+
 			// Draws the watermark in the corner
 			GlStateManager.pushMatrix();
 
@@ -81,143 +88,148 @@ public class Hud implements OnEventInterface {
 		
 		arrayListRainbow = 0;
 		arrayListColor = -1;
-		
-		if (Vergo.config.modHud.arrayListFont.is("Minecraft")) {
 			
+		if(Vergo.config.modHud.hudMode.is("Vergo")) {
 			arrayListColor++;
-			
-			FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+
+			JelloFontRenderer fr = Vergo.config.modHud.hudMode.is("Vergo") ? FontUtil.comfortaaNormal : FontUtil.arialSlightlyLargerThanRegular;
+
 			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-			
+
 			ArrayList<Module> modules = new ArrayList<>();
-			ModuleManager.modules.forEach(module -> {if (module.arrayListAnimation > 0.01 || module.isEnabled()) modules.add(module);});
+			ModuleManager.modules.forEach(module -> {
+				if (module.arrayListAnimation > 0.01 || module.isEnabled()) modules.add(module);
+			});
 			modules.sort(Comparator.comparingDouble(module -> fr.getStringWidth(module.getName() + (module.getInfo().isEmpty() ? "" : " " + module.getInfo()))));
 			Collections.reverse(modules);
-			
+
 			boolean updateToggleMovement = arrayListToggleMovement.hasTimeElapsed(1000 / 40, true);
-			
+
 			double offset = 0;
 			for (Module module : modules) {
-				
+
 				arrayListRainbow += 125;
 				arrayListColor++;
-				
+
 				String textToRender = module.getName() + " §7" + module.getInfo();
 				if (module.getInfo().isEmpty())
 					textToRender = module.getName();
-				
+
 				if (updateToggleMovement) {
 					if (module.isEnabled()) {
 						module.arrayListAnimation += (1 - module.arrayListAnimation) / 8;
 						if (module.arrayListAnimation > 1)
 							module.arrayListAnimation = 1;
-					}else {
+					} else {
 						module.arrayListAnimation -= module.arrayListAnimation / 3;
 						if (module.arrayListAnimation < 0)
 							module.arrayListAnimation = 0;
 					}
 				}
-				
+
 				GlStateManager.pushMatrix();
-				
+
 				double squeeze = module.arrayListAnimation * 2;
 				if (squeeze > 1)
 					squeeze = 1;
-				
-//				GlStateManager.translate(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT * 1.5), 0);
+
 				GlStateManager.translate((float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 0, 0);
-//				GlStateManager.scale(squeeze, squeeze, 1);
+
 				GlStateManager.scale(1, squeeze, 1);
-//				GlStateManager.translate(-(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4), -((offset) * (fr.FONT_HEIGHT * 1.5)), 0);
+
 				GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
 
 				if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
-					Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
-				} else {
+					Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
+				}
 
-				}
-				
-				// Used for a jello font renderer
-//				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 2.5f, Colors.ARRAYLISTMODULENAMES.getColor());
-				
-				// Used for the minecraft font renderer
-				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 2.5f, Colors.ARRAY_LIST_MODULE_NAMES.getColor(), false);
-				
-				GlStateManager.popMatrix();
-				offset++;
-				if (squeeze != 1) {
-					offset--;
-					offset += squeeze;
-				}
-			}
-		}else {
-			
-			arrayListColor++;
-			
-			JelloFontRenderer fr = Vergo.config.modHud.arrayListFont.is("Helvetica Neue") ? FontUtil.jelloFontAddAlt3 : Vergo.config.modHud.arrayListFont.is("Helvetica Neue Bold") ? FontUtil.jelloFontBoldSmall : Vergo.config.modHud.arrayListFont.is("Jura") ? FontUtil.juraNormal : FontUtil.arialSlightlyLargerThanRegular;
-//			FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
-			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-			
-			ArrayList<Module> modules = new ArrayList<>();
-			ModuleManager.modules.forEach(module -> {if (module.arrayListAnimation > 0.01 || module.isEnabled()) modules.add(module);});
-			modules.sort(Comparator.comparingDouble(module -> fr.getStringWidth(module.getName() + (module.getInfo().isEmpty() ? "" : " " + module.getInfo()))));
-			Collections.reverse(modules);
-			
-			boolean updateToggleMovement = arrayListToggleMovement.hasTimeElapsed(1000 / 40, true);
-			
-			double offset = 0;
-			for (Module module : modules) {
-				
-				arrayListRainbow += 125;
-				arrayListColor++;
-				
-				String textToRender = module.getName() + " §7" + module.getInfo();
-				if (module.getInfo().isEmpty())
-					textToRender = module.getName();
-				
-				if (updateToggleMovement) {
-					if (module.isEnabled()) {
-						module.arrayListAnimation += (1 - module.arrayListAnimation) / 8;
-						if (module.arrayListAnimation > 1)
-							module.arrayListAnimation = 1;
-					}else {
-						module.arrayListAnimation -= module.arrayListAnimation / 3;
-						if (module.arrayListAnimation < 0)
-							module.arrayListAnimation = 0;
-					}
-				}
-				
-				GlStateManager.pushMatrix();
-				
-				double squeeze = module.arrayListAnimation * 2;
-				if (squeeze > 1)
-					squeeze = 1;
-				
-//				GlStateManager.translate(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT * 1.5), 0);
-				GlStateManager.translate((float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 0, 0);
-//				GlStateManager.scale(squeeze, squeeze, 1);
-				GlStateManager.scale(1, squeeze, 1);
-//				GlStateManager.translate(-(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4), -((offset) * (fr.FONT_HEIGHT * 1.5)), 0);
-				GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
-				
-				if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
-					Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
-				} else {
 
-				}
-				
-				// Used for a jello font renderer
-//				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 2.5f, Colors.ARRAYLISTMODULENAMES.getColor());
-				
+				Gui.drawRect(sr.getScaledWidth() - 3, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), Colors.ARRAY_LIST_MODULE_NAMES.getColor());
+
 				// Used for the minecraft font renderer
 				GlStateManager.colorState.alpha = 1;
-				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 2.5f, Colors.ARRAY_LIST_MODULE_NAMES.getColor());
-				
+				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 5), (float) (offset * (fr.FONT_HEIGHT + 4)) + 4f, Colors.ARRAY_LIST_MODULE_NAMES.getColor());
+
 				GlStateManager.popMatrix();
 				offset++;
 				if (squeeze != 1) {
 					offset--;
 					offset += squeeze;
+				}
+
+			}
+		}else {
+
+			if(Vergo.config.modHud.hudMode.is("Young")) {
+				arrayListColor++;
+
+				JelloFontRenderer fr = Vergo.config.modHud.arrayListFont.is("Helvetica Neue") ? FontUtil.jelloFontAddAlt3 : Vergo.config.modHud.arrayListFont.is("Helvetica Neue Bold") ? FontUtil.jelloFontBoldSmall : Vergo.config.modHud.arrayListFont.is("Jura") ? FontUtil.juraNormal : FontUtil.arialSlightlyLargerThanRegular;
+//			FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+				ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+
+				ArrayList<Module> modules = new ArrayList<>();
+				ModuleManager.modules.forEach(module -> {
+					if (module.arrayListAnimation > 0.01 || module.isEnabled()) modules.add(module);
+				});
+				modules.sort(Comparator.comparingDouble(module -> fr.getStringWidth(module.getName() + (module.getInfo().isEmpty() ? "" : " " + module.getInfo()))));
+				Collections.reverse(modules);
+
+				boolean updateToggleMovement = arrayListToggleMovement.hasTimeElapsed(1000 / 40, true);
+
+				double offset = 0;
+				for (Module module : modules) {
+
+					arrayListRainbow += 125;
+					arrayListColor++;
+
+					String textToRender = module.getName() + " §7" + module.getInfo();
+					if (module.getInfo().isEmpty())
+						textToRender = module.getName();
+
+					if (updateToggleMovement) {
+						if (module.isEnabled()) {
+							module.arrayListAnimation += (1 - module.arrayListAnimation) / 8;
+							if (module.arrayListAnimation > 1)
+								module.arrayListAnimation = 1;
+						} else {
+							module.arrayListAnimation -= module.arrayListAnimation / 3;
+							if (module.arrayListAnimation < 0)
+								module.arrayListAnimation = 0;
+						}
+					}
+
+					GlStateManager.pushMatrix();
+
+					double squeeze = module.arrayListAnimation * 2;
+					if (squeeze > 1)
+						squeeze = 1;
+
+//				GlStateManager.translate(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT * 1.5), 0);
+					GlStateManager.translate((float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 0, 0);
+//				GlStateManager.scale(squeeze, squeeze, 1);
+					GlStateManager.scale(1, squeeze, 1);
+//				GlStateManager.translate(-(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4), -((offset) * (fr.FONT_HEIGHT * 1.5)), 0);
+					GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
+
+					if (Vergo.config.modHud.arrayListBackground.isEnabled()) {
+						Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
+					} else {
+
+					}
+
+					// Used for a jello font renderer
+//				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 2.5f, Colors.ARRAYLISTMODULENAMES.getColor());
+
+					// Used for the minecraft font renderer
+					GlStateManager.colorState.alpha = 1;
+					fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 2.5f, Colors.ARRAY_LIST_MODULE_NAMES.getColor());
+
+					GlStateManager.popMatrix();
+					offset++;
+					if (squeeze != 1) {
+						offset--;
+						offset += squeeze;
+					}
 				}
 			}
 		}

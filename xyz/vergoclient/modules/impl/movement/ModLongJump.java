@@ -9,6 +9,7 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import xyz.vergoclient.event.Event;
+import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
@@ -17,6 +18,7 @@ import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.util.ChatUtils;
 import xyz.vergoclient.util.MovementUtils;
+import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.TimerUtil;
 
 import java.util.Arrays;
@@ -24,8 +26,12 @@ import java.util.Random;
 
 public class ModLongJump extends Module implements OnEventInterface {
 
+    Timer timer;
+
+
     public ModLongJump() {
         super("LongJump", Category.MOVEMENT);
+        this.timer = new Timer();
     }
 
     public ModeSetting mode = new ModeSetting("Mode", "Hypixel Bow", "Hypixel Bow", "Velocity Test");
@@ -97,7 +103,7 @@ public class ModLongJump extends Module implements OnEventInterface {
     public float oldPitch;
 
     Random r = new Random();
-    float random = -88.5f + r.nextFloat() * (-90 - -89f);
+    float random = -88.500000f + r.nextFloat() * (-90.000000f - -89.000000f);
 
     @Override
     public void onEvent(Event e) {
@@ -110,8 +116,6 @@ public class ModLongJump extends Module implements OnEventInterface {
                     if (mc.thePlayer.ticksExisted - ticks == 3) {
                         mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, random, true));
                         mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
-
-                        MovementUtils.setMotion(0);
 
                         // Switch back to original slot
                         if (i != slotId) {
@@ -152,7 +156,8 @@ public class ModLongJump extends Module implements OnEventInterface {
                     hasHurt = false;
 
                     mc.thePlayer.movementInput.moveForward = 0;
-                    toggle();
+
+
                 }
 
             } else if(mode.is("Hypixel Test"))  {
@@ -164,8 +169,6 @@ public class ModLongJump extends Module implements OnEventInterface {
                     if (mc.thePlayer.ticksExisted - ticks == 3) {
                         mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, random, true));
                         mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
-
-                        MovementUtils.setMotion(0);
 
                         // Switch back to original slot
                         if (i != slotId) {
@@ -197,6 +200,7 @@ public class ModLongJump extends Module implements OnEventInterface {
                     MovementUtils.setMotion(speedSlider.getValueAsDouble());
 
                     hasHurt = false;
+
                     toggle();
                 }
 

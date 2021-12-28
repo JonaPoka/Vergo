@@ -1,30 +1,19 @@
 package xyz.vergoclient.ui.guis;
 
-import java.awt.*;
-import java.io.IOException;
-
+import net.minecraft.client.gui.*;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import org.apache.http.client.methods.HttpGet;
-
 import org.lwjgl.opengl.Display;
 import xyz.vergoclient.Vergo;
-import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.DisplayUtils;
 import xyz.vergoclient.util.GuiUtils;
-import xyz.vergoclient.util.NetworkManager;
 import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.TimerUtil;
 import xyz.vergoclient.util.datas.DataDouble5;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiLanguage;
-import net.minecraft.client.gui.GuiMultiplayer;
-import net.minecraft.client.gui.GuiOptions;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSelectWorld;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
+
+import java.awt.*;
+import java.io.IOException;
 
 public class GuiMainMenu extends GuiScreen {
 
@@ -40,7 +29,6 @@ public class GuiMainMenu extends GuiScreen {
 		serverStatusBlink = 0;
 
 		Display.setTitle("Vergo " + Vergo.version);
-
 	}
 
 	public static double scrollPercent = 0, buttonWindowY = 0, serverStatusBlink = 0;

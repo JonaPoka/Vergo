@@ -15,14 +15,19 @@ public class ModHud extends Module {
 		super("Hud", Category.VISUAL);
 	}
 	
-	public ModeSetting waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "None"),
+	public ModeSetting hudMode = new ModeSetting("Mode", "Young", "Vergo", "Young"),
+			waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "None"),
 			arrayListFont = new ModeSetting("ArrayList Font", "Helvetica Neue Bold", "Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura"),
 			arrayListColors = new ModeSetting("ArrayList colors", "Rainbow", "Default", "Rainbow");
 	public BooleanSetting renderScoreboardNumbers = new BooleanSetting("Render Scoreboard Numbers", false),
-						  arrayListBackground = new BooleanSetting("ArrayList Background", true);
+						  arrayListBackground = new BooleanSetting("ArrayList Background", true),
+						  theFunny = new BooleanSetting("TheFunnyName", false);
 
 	@Override
 	public void loadSettings() {
+
+		hudMode.modes.clear();
+		hudMode.modes.addAll(Arrays.asList("Young", "Vergo"));
 
 		arrayListFont.modes.clear();
 		arrayListFont.modes.addAll(Arrays.asList("Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura"));
@@ -33,7 +38,7 @@ public class ModHud extends Module {
 		arrayListColors.modes.clear();
 		arrayListColors.modes.addAll(Arrays.asList("Default", "Rainbow"));
 		
-		addSettings(waterMark, arrayListFont, arrayListColors, arrayListBackground, renderScoreboardNumbers);
+		addSettings(hudMode, waterMark, arrayListFont, arrayListColors, arrayListBackground, renderScoreboardNumbers, theFunny);
 
 	}
 	

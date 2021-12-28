@@ -26,66 +26,8 @@ public class ModAntiBot extends Module implements OnEventInterface {
 	public void onEvent(Event e) {
 		if (ServerUtils.isOnHypixel())
 			hypixelBotChecker(e);
-//		else if (ServerUtils.isOnMineplex())
 		else
-			mineplexBotChecker(e);
-	}
-	
-	public void mineplexBotChecker(Event e) {
-		
-		if (e instanceof EventTick && e.isPre()) {
-			setInfo("GWEN");
-		}
-		else if (e instanceof EventReceivePacket && e.isPre()) {
-			EventReceivePacket event = (EventReceivePacket)e;
-			if (event.packet instanceof S0CPacketSpawnPlayer && !mc.isSingleplayer()) {
-				
-				S0CPacketSpawnPlayer p = (S0CPacketSpawnPlayer) event.packet;
-				
-				new Thread() {
-					public void run() {
-						try {
-							Thread.sleep(50);
-							Entity entity = mc.theWorld.getEntityByID(p.getEntityID());
-							if (entity instanceof EntityPlayer) {
-								
-								// Makes the entity into an EntityPlayer object so I can handle it as the EntityPlayer
-								EntityPlayer entityPlayer = (EntityPlayer)entity;
-								double oldDistanceToPlayer = mc.thePlayer.getDistanceToEntity(entityPlayer);
-								Thread.sleep(150);
-								
-								if (entityPlayer.isInvisible()) {
-			                        mc.theWorld.removeEntity(entityPlayer);
-									ChatUtils.addChatMessage("Removed a bot from your game (" + entityPlayer.getDisplayName().getFormattedText() + ")");
-									return;
-			                    }
-								
-								for (EntityPlayer player : mc.theWorld.playerEntities) {
-									if (player.getName().equals(entityPlayer.getName()) && player != entityPlayer) {
-										if (player.ticksExisted > entityPlayer.ticksExisted) {
-					                        mc.theWorld.removeEntity(entityPlayer);
-											ChatUtils.addChatMessage("Removed a bot from your game (" + entityPlayer.getDisplayName().getFormattedText() + ")");
-											return;
-										}
-									}
-								}
-								
-								double currentDistanceToPlayer = mc.thePlayer.getDistanceToEntity(entityPlayer);
-								if (oldDistanceToPlayer - currentDistanceToPlayer > 20) {
-			                        mc.theWorld.removeEntity(entityPlayer);
-									ChatUtils.addChatMessage("Removed a bot from your game (" + entityPlayer.getDisplayName().getFormattedText() + ")");
-									return;
-								}
-								
-							}
-						} catch (Exception e2) {
-							e2.printStackTrace();
-						}
-					}
-				}.start();
-				
-			}
-		}
+			toggle();
 	}
 	
 	public void hypixelBotChecker(Event e) {

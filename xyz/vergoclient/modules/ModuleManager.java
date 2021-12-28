@@ -328,7 +328,6 @@ public class ModuleManager {
 							case "num":
 								if (setting instanceof NumberSetting) {
 									((NumberSetting)setting).setValue(settingJson.getDouble("value"));
-									System.out.println("NUMBER: " + setting.name + settingJson.getDouble("value"));
 								}
 								break;
 							case "mode":
@@ -336,7 +335,6 @@ public class ModuleManager {
 									((ModeSetting)setting).index = settingJson.getInt("value");
 									((ModeSetting)setting).cycle(false);
 									((ModeSetting)setting).cycle(true);
-									System.out.println("MODE: " + setting.name + ((ModeSetting)setting).index);
 								}
 								break;
 							case "file":
@@ -350,7 +348,6 @@ public class ModuleManager {
 							case "bool":
 								if (setting instanceof BooleanSetting) {
 									((BooleanSetting)setting).setEnabled(settingJson.getBoolean("isEnabled"));
-									System.out.println("BOOLEAN: " + setting.name + settingJson.getBoolean("isEnabled"));
 								}
 								break;
 							case "key":
