@@ -47,6 +47,8 @@ public class ModuleManager {
 	//public ModTPAura modTPAura = new ModTPAura();
 	public ModVelocity modVelocity = new ModVelocity();
 	public ModNightMode modNightMode = new ModNightMode();
+	public ModStep modStep = new ModStep();
+	public ModInvMove modInvMove = new ModInvMove();
 	public ModSmallItems modSmallItems = new ModSmallItems();
 	public ModAnimations modAnimations = new ModAnimations();
 	public ModNoSlow modNoSlow = new ModNoSlow();
@@ -94,6 +96,8 @@ public class ModuleManager {
 		modWTap = new LoaderModule<ModWTap>(modWTap).generate();
 		modAutoPot = new LoaderModule<ModAutoPot>(modAutoPot).generate();
 		modAutoHead = new LoaderModule<ModAutoHead>(modAutoHead).generate();
+		modStep = new LoaderModule<ModStep>(modStep).generate();
+		modInvMove = new LoaderModule<ModInvMove>(modInvMove).generate();
 		modLongJump = new LoaderModule<ModLongJump>(modLongJump).generate();
 		modVelocity = new LoaderModule<ModVelocity>(modVelocity).generate();
 		modNightMode = new LoaderModule<ModNightMode>(modNightMode).generate();

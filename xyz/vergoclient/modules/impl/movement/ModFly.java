@@ -38,7 +38,7 @@ public class ModFly extends Module implements OnEventInterface {
 		this.timer = new Timer();
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Hypixel");
+	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Hypixel", "Vanilla");
 
 	public NumberSetting scale = new NumberSetting("TheFunny", 5, 0, 100, 0.1);
 
@@ -46,7 +46,7 @@ public class ModFly extends Module implements OnEventInterface {
 	public void loadSettings() {
 		
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Hypixel"));
+		mode.modes.addAll(Arrays.asList("Hypixel", "Vanilla"));
 		
 		addSettings(mode, scale);
 	}
@@ -58,7 +58,7 @@ public class ModFly extends Module implements OnEventInterface {
 	
 	@Override
 	public void onDisable() {
-		
+		mc.thePlayer.capabilities.isFlying = false;
 	}
 	
 	@Override
@@ -66,7 +66,15 @@ public class ModFly extends Module implements OnEventInterface {
 
 		if(e instanceof EventMove) {
 
-			doTheFunnyFly(((EventMove)e));
+			if(mode.is("Hypixel")) {
+				doTheFunnyFly(((EventMove) e));
+			}
+
+			else if(mode.is("Vanilla")) {
+				if (!mc.thePlayer.capabilities.isFlying) {
+					mc.thePlayer.capabilities.isFlying = true;
+				}
+			}
 
 		}
 

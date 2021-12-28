@@ -14,7 +14,7 @@ public class TimerUtil {
 			lastMS = System.currentTimeMillis();
 		}
 		
-		if (System.currentTimeMillis()-lastMS > time) {
+		if (System.currentTimeMillis() - lastMS > time) {
 			
 			if (reset)
 				reset();

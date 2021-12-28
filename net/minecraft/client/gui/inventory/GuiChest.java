@@ -2,6 +2,8 @@ package net.minecraft.client.gui.inventory;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;

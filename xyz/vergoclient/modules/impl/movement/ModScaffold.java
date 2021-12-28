@@ -1,29 +1,5 @@
 package xyz.vergoclient.modules.impl.movement;
 
-import java.awt.*;
-import java.util.Arrays;
-
-import org.apache.commons.lang3.RandomUtils;
-import org.lwjgl.opengl.GL11;
-
-import xyz.vergoclient.Vergo;
-import xyz.vergoclient.event.Event;
-import xyz.vergoclient.event.impl.EventMove;
-import xyz.vergoclient.event.impl.EventReceivePacket;
-import xyz.vergoclient.event.impl.EventRender3D;
-import xyz.vergoclient.event.impl.EventRenderGUI;
-import xyz.vergoclient.event.impl.EventSendPacket;
-import xyz.vergoclient.event.impl.EventSneaking;
-import xyz.vergoclient.event.impl.EventUpdate;
-import xyz.vergoclient.modules.Module;
-import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.modules.OnSettingChangeInterface;
-import xyz.vergoclient.modules.impl.combat.ModKillAura;
-import xyz.vergoclient.settings.BooleanSetting;
-import xyz.vergoclient.settings.ModeSetting;
-import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.settings.SettingChangeEvent;
-import xyz.vergoclient.util.*;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,11 +16,30 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import org.apache.commons.lang3.RandomUtils;
+import org.lwjgl.opengl.GL11;
+import xyz.vergoclient.Vergo;
+import xyz.vergoclient.event.Event;
+import xyz.vergoclient.event.impl.*;
+import xyz.vergoclient.modules.Module;
+import xyz.vergoclient.modules.OnEventInterface;
+import xyz.vergoclient.modules.OnSettingChangeInterface;
+import xyz.vergoclient.modules.impl.combat.ModKillAura;
+import xyz.vergoclient.settings.BooleanSetting;
+import xyz.vergoclient.settings.ModeSetting;
+import xyz.vergoclient.settings.NumberSetting;
+import xyz.vergoclient.settings.SettingChangeEvent;
+import xyz.vergoclient.util.*;
+
+import java.util.Arrays;
 
 public class ModScaffold extends Module implements OnEventInterface, OnSettingChangeInterface {
 
+	Timer boostTiming;
+
 	public ModScaffold() {
 		super("Scaffold", Category.MOVEMENT);
+		this.boostTiming = new Timer();
 	}
 
 	@Override
@@ -96,7 +91,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			hitVecFixer = new BooleanSetting("Hit vec fixer", true),
 			noRotate = new BooleanSetting("NoRotate", false),
 			fakeMissPackets = new BooleanSetting("Fake miss packets", false),
-			placeBlockAsync = new BooleanSetting("Async block placements", true);
+			placeBlockAsync = new BooleanSetting("Async block placements", true),
+			swaggyPaggyBoost = new BooleanSetting("Boost of Insanity", true);
 	public ModeSetting rotationMode = new ModeSetting("Rotation setting", "Hypixel Sprint", "90 snap", "yaw - 180", "Hypixel Slow", "Hypixel Sprint", "None"),
 			towerMode = new ModeSetting("Tower mode", "None", "None", "Hypixel", "NCP", "Test");
 
@@ -106,7 +102,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		rotationMode.modes.addAll(Arrays.asList("90 snap", "90 snap", "yaw - 180", "Hypixel Slow", "Hypixel Sprint", "None"));
 		forwardExtendSetting.minimum = 0;
 		forwardExtendSetting.name = "Forward extend";
-		addSettings(forwardExtendSetting, sidewaysExtendSetting/*maxBlocksPlacedPerTickSetting*/, blinkBlaster, timerBoostSetting,
+		addSettings(forwardExtendSetting, swaggyPaggyBoost, sidewaysExtendSetting/*maxBlocksPlacedPerTickSetting*/, blinkBlaster, timerBoostSetting,
 				/*keepYSetting,*/ sprintSetting, /*legitSetting, overrideKeepYSetting,*/ viewRotations, rotationMode,
 				fourDirectionalSpeed,/*, oneDirectionalSpeed,*/ toggleBlink, /*itemSwitchDelay, clientSideBlockPicker,*/
 				hitVecFixer, noRotate, /*fakeMissPackets, towerMode, placeBlockAsync,*/ timerSlow);
@@ -115,26 +111,29 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	private static transient BlockPos lastPlace = null;
 	private static transient double keepPosY = 0;
 	private static transient TimerUtil legitTimer = new TimerUtil();
+	private static transient TimerUtil boostTimer = new TimerUtil();
 	private static transient float oneDirectionalSpeedYaw = 0;
 	private static transient int itemSwitchDelayTicks = 0;
 
 	public void onEnable() {
 
+		this.boostTiming.reset();
+
 		if(rotationMode.is("Hypixel Slow") || rotationMode.is("Hypixel Sprint")) {
 
-			if(mc.thePlayer.isSprinting()) {
+			if (mc.thePlayer.isSprinting()) {
 				mc.thePlayer.setSprinting(false);
 			}
 
-			if(timerSlow.isEnabled()) {
-				if(timerBoostSetting.getValueAsInt() != 1) {
-					timerBoostSetting.value	= 1;
+			if (timerSlow.isEnabled()) {
+				if (timerBoostSetting.getValueAsInt() != 1) {
+					timerBoostSetting.value = 1;
 				}
 				mc.timer.timerSpeed = 0.8f;
+			} else {
+				mc.timer.timerSpeed = 1.0f;
 			}
 		}
-
-		timer.reset();
 
 		oneDirectionalSpeedYaw = mc.thePlayer.rotationYaw;
 		itemSwitchDelayTicks = 0;
@@ -335,6 +334,12 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 		}
 
+		if(e instanceof EventMove && e.isPre()) {
+			if(MovementUtils.isOnGround(0.001)) {
+				insanityBoost(((EventMove) e));
+			}
+		}
+
 		if (e instanceof EventMove && e.isPre() && fourDirectionalSpeed.isEnabled()) {
 
 			mc.gameSettings.keyBindLeft.pressed = false;
@@ -378,6 +383,26 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			}
 		}
 
+	}
+
+	private void insanityBoost(EventMove e) {
+		if(swaggyPaggyBoost.isEnabled()) {
+
+			if(this.boostTiming.delay(1L)) {
+				if(MovementUtils.isOnGround(0.0001)) {
+					mc.timer.timerSpeed = 5f;
+					mc.timer.ticksPerSecond = 22f;
+				} else {
+					return;
+				}
+			}
+
+			if(this.boostTiming.delay(300L)) {
+				mc.timer.timerSpeed = 1f;
+				mc.timer.ticksPerSecond = 20f;
+			}
+
+		}
 	}
 
 	public void attemptBlockPlace(EventUpdate e) {

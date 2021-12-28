@@ -17,6 +17,7 @@ import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
+import xyz.vergoclient.util.BlurUtils;
 import xyz.vergoclient.util.DisplayUtils;
 import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.TimerUtil;
