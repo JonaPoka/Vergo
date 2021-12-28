@@ -110,7 +110,7 @@ public class ModLongJump extends Module implements OnEventInterface {
 
         if (e instanceof EventUpdate && e.isPre()) {
             //Aim up and shoot shoot shoot!
-            if (mode.is("Hypixel HighJump")) {
+            if (mode.is("Hypixel Bow")) {
                 if (!hasHurt) {
 
                     if (mc.thePlayer.ticksExisted - ticks == 3) {

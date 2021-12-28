@@ -16,6 +16,8 @@ public class ModHud extends Module {
 	}
 	
 	public ModeSetting hudMode = new ModeSetting("Mode", "Young", "Vergo", "Young"),
+			vergoColor = new ModeSetting("Vergo Color Scheme", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green"),
+			barDirection = new ModeSetting("Align Color Bar", "Right", "Right", "Left", "None"),
 			waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "None"),
 			arrayListFont = new ModeSetting("ArrayList Font", "Helvetica Neue Bold", "Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura"),
 			arrayListColors = new ModeSetting("ArrayList colors", "Rainbow", "Default", "Rainbow");
@@ -29,16 +31,22 @@ public class ModHud extends Module {
 		hudMode.modes.clear();
 		hudMode.modes.addAll(Arrays.asList("Young", "Vergo"));
 
+		vergoColor.modes.clear();
+		vergoColor.modes.addAll(Arrays.asList("Burgundy", "Sea Blue", "Nuclear Green"));
+
 		arrayListFont.modes.clear();
 		arrayListFont.modes.addAll(Arrays.asList("Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura"));
 
 		waterMark.modes.clear();
 		waterMark.modes.addAll(Arrays.asList("Rounded", "Planet", "None"));
 
-		arrayListColors.modes.clear();
-		arrayListColors.modes.addAll(Arrays.asList("Default", "Rainbow"));
+		barDirection.modes.clear();
+		barDirection.modes.addAll(Arrays.asList("Right", "Left", "None"));
+
+		//arrayListColors.modes.clear();
+		//arrayListColors.modes.addAll(Arrays.asList("Default", "Rainbow"));
 		
-		addSettings(hudMode, waterMark, arrayListFont, arrayListColors, arrayListBackground, renderScoreboardNumbers, theFunny);
+		addSettings(hudMode, vergoColor, barDirection, waterMark, arrayListFont, /*arrayListColors*/ arrayListBackground, renderScoreboardNumbers, theFunny);
 
 	}
 	

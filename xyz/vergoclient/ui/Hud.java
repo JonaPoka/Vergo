@@ -79,7 +79,11 @@ public class Hud implements OnEventInterface {
 	public static transient TimerUtil arrayListToggleMovement = new TimerUtil();
 	public static int arrayListRainbow = 0;
 	public static int arrayListColor = -1;
-	
+
+	public static float align = 4.5f;
+
+	public Color waveColor = null;
+
 	public void drawArrayList() {
 		
 		arrayListRainbow = 0;
@@ -135,16 +139,46 @@ public class Hud implements OnEventInterface {
 
 				GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
 
-				if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
-					Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x90000000);
+				if(Vergo.config.modHud.vergoColor.is("Burgundy")) {
+
+					waveColor = ColorUtils.fadeColor(new Color(196, 0, 69), (int) offset, 20);
+
+				} else if(Vergo.config.modHud.vergoColor.is("Sea Blue")) {
+
+					waveColor = ColorUtils.fadeColor(new Color(4, 120, 219), (int)offset, 20);
+
+				} else if(Vergo.config.modHud.vergoColor.is("Nuclear Green")) {
+
+					waveColor = ColorUtils.fadeColor(new Color(60, 213, 69), (int) offset, 20);
+
+				} else {
+
+					waveColor = new Color(250, 250, 250);
+
+				}
+
+				if(Vergo.config.modHud.barDirection.is("Right")) {
+					if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
+						Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x70000000);
+					}
+					align = 4.5f;
+					Gui.drawRect(sr.getScaledWidth() - 2, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
+				} else if(Vergo.config.modHud.barDirection.is("Left")){
+					if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
+						Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x70000000);
+					}
+					align = 2.7f;
+					Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
+				} else {
+					if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
+						Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x70000000);
+					}
 				}
 
 
-				Gui.drawRect(sr.getScaledWidth() - 3, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), Colors.ARRAY_LIST_MODULE_NAMES.getColor());
-
-				// Used for the minecraft font renderer
 				GlStateManager.colorState.alpha = 1;
-				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 5), (float) (offset * (fr.FONT_HEIGHT + 4)) + 4f, Colors.ARRAY_LIST_MODULE_NAMES.getColor());
+
+				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - align), (float) (offset * (fr.FONT_HEIGHT + 4)) + 4f, waveColor.getRGB());
 
 				GlStateManager.popMatrix();
 				offset++;

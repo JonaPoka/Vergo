@@ -352,6 +352,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 			// Sets the target
 			setTarget();
+			//mc.leftClickCounter = 0;
 
 			// If there is no target return
 			if (target == null) {
@@ -401,7 +402,6 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 				// Send hit packet
 				for (int i = 0; i < combatPacketsPerHit.getValueAsInt(); i++) {
 					mc.thePlayer.swingItem();
-					mc.leftClickCounter = 0;
 					mc.getNetHandler().getNetworkManager().sendPacket(new C02PacketUseEntity(target, Action.ATTACK));
 				}
 

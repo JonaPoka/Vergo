@@ -1,11 +1,14 @@
 package xyz.vergoclient.userFinder;
 
 import com.google.gson.Gson;
+import net.minecraft.util.ResourceLocation;
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.event.impl.EventSetCape;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.OnEventInterface;
+import xyz.vergoclient.modules.impl.visual.ModCape;
 import xyz.vergoclient.security.ApiResponse;
 import xyz.vergoclient.security.ApiResponse.ResponseStatus;
 import xyz.vergoclient.security.account.AccountUtils;
@@ -114,7 +117,7 @@ public class UserFinder implements OnEventInterface {
 		else if (e instanceof EventSetCape) {
 			EventSetCape event = (EventSetCape) e;
 			if (event.player.isUser() || hummusUsers.keySet().contains(event.player.getName())) {
-				//event.resourceLocation = Hummus.config.modCape.isEnabled() && !Hummus.config.modCape.capeFile.is("None") && ModCape.capeLocation != null ? ModCape.capeLocation : new ResourceLocation("hummus/cape.png");
+				event.resourceLocation = Vergo.config.modCape.isEnabled() && !Vergo.config.modCape.capeFile.is("None") && ModCape.capeLocation != null ? ModCape.capeLocation : new ResourceLocation("Vergo/cape.png");
 			}
 		}
 		

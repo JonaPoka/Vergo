@@ -29,9 +29,6 @@ public class ModDisabler extends Module implements OnEventInterface {
 	
 	public static transient CopyOnWriteArrayList<Packet> packets = new CopyOnWriteArrayList<Packet>();
 
-	private static final int VERUS_DISABLE_AUTOBAN_CHANNEL = 65536;
-	private static final short VERUS_DISABLE_AUTOBAN_UID = 32767;
-
 	@Override
 	public void loadSettings() {
 

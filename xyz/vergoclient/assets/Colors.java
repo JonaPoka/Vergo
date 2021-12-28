@@ -48,11 +48,6 @@ public enum Colors {
 	public int getColor() {
 		
 		if (Hud.arrayListColor != -1 && getColorNoRainbowOverride() == ARRAY_LIST_MODULE_NAMES.getColorNoRainbowOverride()) {
-			if(Vergo.config.modHud.hudMode.is("Vergo")) {
-				if (getColorNoRainbowOverride() == ARRAY_LIST_MODULE_NAMES.getColorNoRainbowOverride()) {
-					return ColorUtils.fadeColor(new Color(196, 0, 69), 200, 200).getRGB();
-				}
-			}
 			if (Vergo.config.modHud.arrayListColors.is("Default")) {
 				return color;
 			}

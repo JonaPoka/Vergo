@@ -205,14 +205,12 @@ public class MiscellaneousUtils {
 		return dateAndTime;
 		
 	}
-	
-	// Made by lavaflowglow 4/5/2021 6:58 PM
+
 	public static void connectToServer(String ip, int port, Minecraft mc) {
 		ServerData connect = new ServerData("temp", ip + ":" + port, false);
 		mc.displayGuiScreen(new GuiConnecting(mc.currentScreen, mc, connect));
 	}
-	
-	// Made by lavaflowglow 4/5/2021 1:30 PM
+
 	public static void setPosAndMotionWithDataDouble6(DataDouble6 posAndMotion) {
 		
 		Minecraft.getMinecraft().thePlayer.setPosition(posAndMotion.x, posAndMotion.y, posAndMotion.z);
