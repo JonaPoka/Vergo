@@ -106,7 +106,13 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
     {
         if (keyCode == 1)
         {
+            if (mc.entityRenderer.theShaderGroup != null) {
+                mc.entityRenderer.theShaderGroup.deleteShaderGroup();
+                mc.entityRenderer.theShaderGroup = null;
+            }
+
             this.mc.displayGuiScreen((GuiScreen)null);
+
 
             if (this.mc.currentScreen == null)
             {

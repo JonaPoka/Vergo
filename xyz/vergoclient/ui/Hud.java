@@ -1,13 +1,11 @@
 package xyz.vergoclient.ui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.event.Event;
@@ -17,10 +15,7 @@ import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.BlurUtils;
-import xyz.vergoclient.util.DisplayUtils;
-import xyz.vergoclient.util.RenderUtils;
-import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -29,7 +24,7 @@ import java.util.Comparator;
 
 public class Hud implements OnEventInterface {
 
-	//protected static Minecraft mc;
+	protected static Minecraft mc;
 	
 	public static void init() {
 		ModuleManager.eventListeners.add(new Hud());

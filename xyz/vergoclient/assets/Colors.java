@@ -1,5 +1,6 @@
 package xyz.vergoclient.assets;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -7,6 +8,7 @@ import xyz.vergoclient.Vergo;
 import xyz.vergoclient.ui.Hud;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.ui.guis.GuiMainMenu;
+import xyz.vergoclient.util.ColorUtils;
 import xyz.vergoclient.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 
@@ -46,15 +48,12 @@ public enum Colors {
 	public int getColor() {
 		
 		if (Hud.arrayListColor != -1 && getColorNoRainbowOverride() == ARRAY_LIST_MODULE_NAMES.getColorNoRainbowOverride()) {
-			if (Vergo.config.modHud.arrayListColors.is("Transgender")) {
-				ArrayList<Integer> transgender = new ArrayList<Integer>(Arrays.asList(0xff58c8f2, 0xfff5aab9, 0xffffffff, 0xfff5aab9));
-				return transgender.get(((Hud.arrayListColor - 1) % transgender.size()));
+			if(Vergo.config.modHud.hudMode.is("Vergo")) {
+				if (getColorNoRainbowOverride() == ARRAY_LIST_MODULE_NAMES.getColorNoRainbowOverride()) {
+					return ColorUtils.fadeColor(new Color(196, 0, 69), 200, 200).getRGB();
+				}
 			}
-			else if (Vergo.config.modHud.arrayListColors.is("United States")) {
-				ArrayList<Integer> unitedStates = new ArrayList<Integer>(Arrays.asList(0xffd92353, 0xffffffff, 0xff2a6dbf));
-				return unitedStates.get(((Hud.arrayListColor - 1) % unitedStates.size()));
-			}
-			else if (Vergo.config.modHud.arrayListColors.is("Default")) {
+			if (Vergo.config.modHud.arrayListColors.is("Default")) {
 				return color;
 			}
 			else if (Vergo.config.modHud.arrayListColors.is("Rainbow")) {

@@ -314,6 +314,10 @@ public class ModuleManager {
 		ModuleManager newConfig = new ModuleManager();
 		newConfig.modules.clear();
 		newConfig.init();
+		if (Minecraft.getMinecraft().entityRenderer.theShaderGroup != null) {
+			Minecraft.getMinecraft().entityRenderer.theShaderGroup.deleteShaderGroup();
+			Minecraft.getMinecraft().entityRenderer.theShaderGroup = null;
+		}
 
 		
 		JSONObject config = new JSONObject(FileManager.readFromFile(new File(FileManager.configDir, configName + ".json")));

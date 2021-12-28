@@ -4,8 +4,11 @@ import java.io.IOException;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.realms.RealmsBridge;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiIngameMenu extends GuiScreen
 {
@@ -18,6 +21,13 @@ public class GuiIngameMenu extends GuiScreen
      */
     public void initGui()
     {
+        if (OpenGlHelper.shadersSupported && mc.getRenderViewEntity() instanceof EntityPlayer) {
+            if (mc.entityRenderer.theShaderGroup != null) {
+                mc.entityRenderer.theShaderGroup.deleteShaderGroup();
+            }
+
+            mc.entityRenderer.loadShader(new ResourceLocation("Vergo/blurLess.json"));
+        }
         this.field_146445_a = 0;
         this.buttonList.clear();
         int i = -16;
@@ -76,6 +86,10 @@ public class GuiIngameMenu extends GuiScreen
                 break;
 
             case 4:
+                if (mc.entityRenderer.theShaderGroup != null) {
+                    mc.entityRenderer.theShaderGroup.deleteShaderGroup();
+                    mc.entityRenderer.theShaderGroup = null;
+                }
                 this.mc.displayGuiScreen((GuiScreen)null);
                 this.mc.setIngameFocus();
                 break;

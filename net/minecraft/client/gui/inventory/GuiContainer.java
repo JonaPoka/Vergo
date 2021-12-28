@@ -2,6 +2,7 @@ package net.minecraft.client.gui.inventory;
 
 import com.google.common.collect.Sets;
 
+import net.minecraft.entity.player.EntityPlayer;
 import xyz.vergoclient.keybinds.KeyboardManager;
 
 import java.io.IOException;
@@ -91,6 +92,13 @@ public abstract class GuiContainer extends GuiScreen
      */
     public void initGui()
     {
+        if (OpenGlHelper.shadersSupported && mc.getRenderViewEntity() instanceof EntityPlayer) {
+            if (mc.entityRenderer.theShaderGroup != null) {
+                mc.entityRenderer.theShaderGroup.deleteShaderGroup();
+            }
+
+            mc.entityRenderer.loadShader(new ResourceLocation("Vergo/blurLess.json"));
+        }
         super.initGui();
         this.mc.thePlayer.openContainer = this.inventorySlots;
         this.guiLeft = (this.width - this.xSize) / 2;
@@ -749,6 +757,10 @@ public abstract class GuiContainer extends GuiScreen
     {
         if (this.mc.thePlayer != null)
         {
+            if (mc.entityRenderer.theShaderGroup != null) {
+                mc.entityRenderer.theShaderGroup.deleteShaderGroup();
+                mc.entityRenderer.theShaderGroup = null;
+            }
             this.inventorySlots.onContainerClosed(this.mc.thePlayer);
         }
     }
