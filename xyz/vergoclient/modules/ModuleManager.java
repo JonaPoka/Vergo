@@ -86,6 +86,7 @@ public class ModuleManager {
 	public ModCape modCape = new ModCape();
 	public ModAutoClicker modAutoClicker = new ModAutoClicker();
 	public ModInstantAutoGapple modAutoInstantGapple = new ModInstantAutoGapple();
+	public ModNotifications modNotifications = new ModNotifications();
 	
 	private void loadModules() {
 		modAutoPlay = new LoaderModule<ModAutoPlay>(modAutoPlay).generate();
@@ -138,6 +139,7 @@ public class ModuleManager {
 		modTargetHud = new LoaderModule<ModTargetHud>(modTargetHud).generate();
 		modAutoClicker = new LoaderModule<ModAutoClicker>(modAutoClicker).generate();
 		modAutoInstantGapple = new LoaderModule<ModInstantAutoGapple>(modAutoInstantGapple).generate();
+		modNotifications = new LoaderModule<ModNotifications>(modNotifications).generate();
 	}
 
 	public static CopyOnWriteArrayList<OnEventInterface> eventListeners = new CopyOnWriteArrayList<>();

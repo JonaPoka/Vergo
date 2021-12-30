@@ -1,7 +1,6 @@
 package xyz.vergoclient.modules.impl.movement;
 
 import net.minecraft.client.gui.ScaledResolution;
-import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventRenderGUI;
 import xyz.vergoclient.event.impl.EventTick;
@@ -11,8 +10,6 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.ui.notifications.Notification;
-import xyz.vergoclient.ui.notifications.NotificationType;
 import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.TimerUtil;
@@ -57,9 +54,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 		}
 
 		ticks = mc.thePlayer.ticksExisted;
-
-		Notification.post(NotificationType.SUCCESS, "Speed Toggled!", "You have enabled Speed " + mode.getMode() + "!");
-		System.out.println("Triggered, you should be able to see me! [3]");
 	}
 
 	@Override

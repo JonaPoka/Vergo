@@ -5,14 +5,6 @@ import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 
 import xyz.vergoclient.commands.impl.*;
-import xyz.vergoclient.commands.implAdmin.CommandAddAdmin;
-import xyz.vergoclient.commands.implAdmin.CommandAddBeta;
-import xyz.vergoclient.commands.implAdmin.CommandBan;
-import xyz.vergoclient.commands.implAdmin.CommandRemoveAdmin;
-import xyz.vergoclient.commands.implAdmin.CommandRemoveBeta;
-import xyz.vergoclient.commands.implAdmin.CommandSpoof;
-import xyz.vergoclient.commands.implAdmin.CommandUnban;
-import xyz.vergoclient.commands.implAdmin.CommandUnspoof;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventChatMessage;
 import xyz.vergoclient.event.impl.EventKey;
@@ -41,18 +33,6 @@ public class CommandManager implements OnEventInterface {
 		commands.add(new CommandSetSpawn());
 		commands.add(new CommandKeybinds());
 		commands.add(new CommandSay());
-	}
-	
-	public void hummusAdminInit() {
-		commands.add(new CommandGetYawAndPitch());
-		commands.add(new CommandBan());
-		commands.add(new CommandUnban());
-		commands.add(new CommandSpoof());
-		commands.add(new CommandUnspoof());
-		commands.add(new CommandAddBeta());
-		commands.add(new CommandRemoveBeta());
-		commands.add(new CommandAddAdmin());
-		commands.add(new CommandRemoveAdmin());
 	}
 	
 	// Event hook so we can use the commands

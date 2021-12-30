@@ -3,11 +3,6 @@ package xyz.vergoclient;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
-
 import xyz.vergoclient.assets.Icons;
 import xyz.vergoclient.commands.CommandManager;
 import xyz.vergoclient.discord.Discord;
@@ -16,11 +11,9 @@ import xyz.vergoclient.files.FileSaver;
 import xyz.vergoclient.files.impl.FileKeybinds;
 import xyz.vergoclient.keybinds.KeyboardManager;
 import xyz.vergoclient.modules.ModuleManager;
-import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.Hud;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.ui.guis.GuiClickGui;
-import xyz.vergoclient.ui.notifications.NotificationManager;
 import xyz.vergoclient.userFinder.UserFinder;
 import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.util.*;
@@ -44,8 +37,6 @@ public class Vergo {
 	
 	// Startup tasks
 	public static transient CopyOnWriteArrayList<StartupTask> startupTasks = new CopyOnWriteArrayList<>();
-
-	public static NotificationManager notificationManager = new NotificationManager();
 
 	// The command manager
 	public static transient CommandManager commandManager;
@@ -100,7 +91,6 @@ public class Vergo {
 					public void task() {
 						config = new ModuleManager();
 						config.init();
-						Vergo.notificationManager.drawScreen(new ScaledResolution(Minecraft.getMinecraft()));
 					}
 				},
 				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {

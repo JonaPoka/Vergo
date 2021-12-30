@@ -31,7 +31,7 @@ public class Hud implements OnEventInterface {
 	}
 	
 	public static ResourceLocation test = null;
-	
+
 	@Override
 	public void onEvent(Event e) {
 		

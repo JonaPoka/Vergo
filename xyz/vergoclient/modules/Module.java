@@ -1,13 +1,13 @@
 package xyz.vergoclient.modules;
 
-import java.util.Arrays;
-import java.util.concurrent.CopyOnWriteArrayList;
-
+import net.minecraft.client.Minecraft;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Icons;
 import xyz.vergoclient.settings.Setting;
 import xyz.vergoclient.util.anticheat.Player;
-import net.minecraft.client.Minecraft;
+
+import java.util.Arrays;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Module {
 	
@@ -85,6 +85,7 @@ public abstract class Module {
 			
 		}else {
 			if (enabled) {
+
 				onEnable();
 			}else {
 				onDisable();
@@ -98,7 +99,6 @@ public abstract class Module {
 	}
 	
 	public boolean isEnabled() {
-
 		return enabled;
 	}
 	
