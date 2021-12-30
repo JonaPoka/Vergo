@@ -38,8 +38,8 @@ public class ModLongJump extends Module implements OnEventInterface {
 
     public NumberSetting speedSlider = new NumberSetting("SpeedSlider", 0.3, 0, 3.0, 0.01), heightSlider = new NumberSetting("Height Slider", 1.99, 1.0, 3.0, 0.01);
 
-    public BooleanSetting automated = new BooleanSetting("Automated", false), autoLook = new BooleanSetting("Auto Look", false),
-                          autoMove = new BooleanSetting("Auto Move", false), autoJump = new BooleanSetting("Auto Jump", false);
+    public BooleanSetting automated = new BooleanSetting("Automated", false), autoMove = new BooleanSetting("Auto Move", false),
+                          autoJump = new BooleanSetting("Auto Jump", false);
     public static transient TimerUtil hypixelTimer = new TimerUtil();
 
     @Override
@@ -47,7 +47,7 @@ public class ModLongJump extends Module implements OnEventInterface {
         mode.modes.clear();
         mode.modes.addAll(Arrays.asList("Hypixel Bow", "Hypixel Test"));
 
-        addSettings(mode, speedSlider, heightSlider, automated, autoLook, autoMove, autoJump);
+        addSettings(mode, speedSlider, heightSlider, automated, autoMove, autoJump);
     }
 
     public int i;
@@ -59,9 +59,18 @@ public class ModLongJump extends Module implements OnEventInterface {
 
     @Override
     public void onEnable() {
+
+
+        mc.gameSettings.keyBindSprint.pressed = false;
+        mc.gameSettings.keyBindForward.pressed = false;
+
         if (mode.is("Hypixel Bow")) {
-            setInfo("Hypickle");
+            mode.setMode("Hypixel Test");
+        } else if(mode.is("Hypixel Test")) {
+            setInfo("Hypickle New");
         }
+
+        this.timer.reset();
 
         if(MovementUtils.isMoving()) {
             mc.thePlayer.movementInput.moveForward = 0.0f;
@@ -96,9 +105,16 @@ public class ModLongJump extends Module implements OnEventInterface {
 
         mc.timer.timerSpeed = 1.0f;
 
+        jumpCount = 0;
+
+        mc.gameSettings.keyBindForward .pressed = false;
+        mc.gameSettings.keyBindSprint.pressed = false;
+
     }
 
     public boolean veloWasOn = false;
+
+    public int jumpCount = 0;
 
     public float oldPitch;
 
@@ -132,9 +148,6 @@ public class ModLongJump extends Module implements OnEventInterface {
                 if(hasHurt) {
 
                     if(automated.isEnabled()) {
-                        if(autoLook.isEnabled()) {
-                                mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -4.954367f, true));
-                        }
                         if(autoMove.isEnabled()) {
                             mc.thePlayer.setSprinting(true);
                             mc.thePlayer.movementInput.moveForward = 1;
@@ -175,6 +188,8 @@ public class ModLongJump extends Module implements OnEventInterface {
                             mc.getNetHandler().getNetworkManager().sendPacket(new C09PacketHeldItemChange(slotId));
                         }
 
+                        this.timer.reset();
+
                     }
                 }
 
@@ -182,26 +197,49 @@ public class ModLongJump extends Module implements OnEventInterface {
                     hasHurt = true;
                 }
 
+                if(this.timer.delay(1000L)) {
+                    mc.timer.timerSpeed = 0.8f;
+                }
+
+                if(this.timer.delay(1200L)) {
+                    mc.timer.timerSpeed = 1.0f;
+                }
+
+                if(this.timer.delay(1500L)) {
+                    toggle();
+                    mc.gameSettings.keyBindForward.pressed = false;
+                }
+
                 if(hasHurt) {
 
                     if(automated.isEnabled()) {
-                        if(autoLook.isEnabled()) {
-                            mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -4.954367f, true));
-                        }
+
                         if(autoMove.isEnabled()) {
-                            mc.thePlayer.setSprinting(true);
-                            mc.thePlayer.movementInput.moveForward = 1;
+                            mc.gameSettings.keyBindForward.pressed = true;
+                            mc.gameSettings.keyBindSprint.pressed = true;
                         }
+
                         if(autoJump.isEnabled()) {
-                            mc.thePlayer.jump();
+                            if(mc.gameSettings.keyBindJump.isKeyDown() || mc.gameSettings.keyBindJump.isPressed()) {
+
+                            }
+                            if(jumpCount == 0) {
+                                mc.thePlayer.jump();
+                                jumpCount++;
+                            } else {
+
+                            }
                         }
+
                     }
 
                     MovementUtils.setMotion(speedSlider.getValueAsDouble());
 
-                    hasHurt = false;
+                    if(this.timer.delay(1000L)) {
+                        hasHurt = false;
+                        jumpCount = 0;
+                    }
 
-                    toggle();
                 }
 
             }

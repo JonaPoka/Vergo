@@ -37,6 +37,8 @@ public class Hud implements OnEventInterface {
 		
 		if (e instanceof EventRenderGUI && e.isPre()) {
 
+			//System.out.println("Triggered, you should be able to see me! [2]");
+
 			if(Vergo.config.modHud.theFunny.isEnabled()) {
 				Display.setTitle("PAWG (Phat Ass White Girls)");
 			} else {
@@ -141,15 +143,15 @@ public class Hud implements OnEventInterface {
 
 				if(Vergo.config.modHud.vergoColor.is("Burgundy")) {
 
-					waveColor = ColorUtils.fadeColor(new Color(196, 0, 69), (int) offset, 20);
+					waveColor = ColorUtils.fadeColor(new Color(196, 0, 69), (int) offset, 30);
 
 				} else if(Vergo.config.modHud.vergoColor.is("Sea Blue")) {
 
-					waveColor = ColorUtils.fadeColor(new Color(4, 120, 219), (int)offset, 20);
+					waveColor = ColorUtils.fadeColor(new Color(4, 120, 219), (int)offset, 30);
 
 				} else if(Vergo.config.modHud.vergoColor.is("Nuclear Green")) {
 
-					waveColor = ColorUtils.fadeColor(new Color(60, 213, 69), (int) offset, 20);
+					waveColor = ColorUtils.fadeColor(new Color(60, 213, 69), (int) offset, 30);
 
 				} else {
 

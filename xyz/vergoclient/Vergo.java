@@ -3,6 +3,8 @@ package xyz.vergoclient;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -18,6 +20,7 @@ import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.Hud;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.ui.guis.GuiClickGui;
+import xyz.vergoclient.ui.notifications.NotificationManager;
 import xyz.vergoclient.userFinder.UserFinder;
 import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.util.*;
@@ -41,7 +44,9 @@ public class Vergo {
 	
 	// Startup tasks
 	public static transient CopyOnWriteArrayList<StartupTask> startupTasks = new CopyOnWriteArrayList<>();
-	
+
+	public static NotificationManager notificationManager = new NotificationManager();
+
 	// The command manager
 	public static transient CommandManager commandManager;
 	
@@ -95,6 +100,7 @@ public class Vergo {
 					public void task() {
 						config = new ModuleManager();
 						config.init();
+						Vergo.notificationManager.drawScreen(new ScaledResolution(Minecraft.getMinecraft()));
 					}
 				},
 				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
@@ -146,57 +152,7 @@ public class Vergo {
 				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
-						Runtime.getRuntime().addShutdownHook(new Thread() {
-							public void run() {
-								try {
-									NetworkManager.getNetworkManager().sendPost(new HttpPost("https://hummusclient.info/api/user/logoutFromAlt"), new BasicNameValuePair("token", AccountUtils.account.token));
-								} catch (Exception e) {
-									
-								}
-							}
-						});
-					}
-				},
-				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
-					@Override
-					public void task() {
-						/*if (FileManager.authTokenFile.exists()) {
-							try {
-								String response = NetworkManager.getNetworkManager().sendPost(new HttpPost("https://hummusclient.info/api/account/checkToken"), new BasicNameValuePair("token", FileManager.readFromFile(FileManager.authTokenFile)));
-								JSONObject json = new JSONObject(response);
-								ApiResponse apiResponse = new ApiResponse();
-								for (ApiResponse.ResponseStatus responseStatus : ApiResponse.ResponseStatus.values()) {
-									if (responseStatus.toString().equals(json.getString("status"))) {
-										apiResponse.status = responseStatus;
-									}
-								}
-								apiResponse.statusText = json.getString("statusText");
-								apiResponse.responseObject = json.get("responseObject");
-//								ApiResponse apiResponse = new Gson().fromJson(response, ApiResponse.class);
-								if (apiResponse.status == ResponseStatus.OK) {
-									AccountUtils.account = new Gson().fromJson(new JSONObject(response).getJSONObject("responseObject").toString(), Account.class);
-									FileManager.writeToFile(FileManager.authTokenFile, AccountUtils.account.token);
-									if (AccountUtils.account.isAdmin || AccountUtils.account.id == 1) {
-										commandManager.hummusAdminInit();
-									}
-									new Thread(() -> {
-										while (true) {
-											try {
-												ApiResponse apiResponse1 = new Gson().fromJson(NetworkManager.getNetworkManager().sendPost(new HttpPost("https://hummusclient.info/api/user/loginToAlt"), new BasicNameValuePair("token", AccountUtils.account.token), new BasicNameValuePair("username", Minecraft.getMinecraft().session.getUsername())), ApiResponse.class);
-												if (apiResponse1.status == ResponseStatus.OK) {
-													break;
-												}
-												Thread.sleep(10000);
-											} catch (Exception e) {
-												
-											}
-										}
-									}).start();
-								}
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}*/
+
 					}
 				}
 			));

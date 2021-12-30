@@ -2,6 +2,8 @@ package xyz.vergoclient.ui.fonts;
 
 import java.awt.Font;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import net.minecraft.client.Minecraft;
@@ -191,5 +193,8 @@ public class FontUtil {
 	public static JelloFontRenderer juraNormal = JelloFontRenderer.createFontRenderer(getJura(18));
 
 	public static JelloFontRenderer comfortaaNormal = JelloFontRenderer.createFontRenderer(getComfortaa(18));
-	
+	public static JelloFontRenderer comfortaaSmall = JelloFontRenderer.createFontRenderer(getComfortaa(14));
+
+
+
 }

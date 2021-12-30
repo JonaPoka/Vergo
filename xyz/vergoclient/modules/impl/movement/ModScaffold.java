@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
@@ -385,13 +386,22 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 	}
 
+	public 	boolean wasOnBefore;
+
 	private void insanityBoost(EventMove e) {
 		if(swaggyPaggyBoost.isEnabled()) {
 
+			if(fourDirectionalSpeed.isDisabled()) {
+				fourDirectionalSpeed.setEnabled(true);
+				wasOnBefore = false;
+			} else {
+				wasOnBefore = true;
+			}
+
 			if(this.boostTiming.delay(1L)) {
 				if(MovementUtils.isOnGround(0.0001)) {
-					mc.timer.timerSpeed = 5f;
-					mc.timer.ticksPerSecond = 22f;
+					mc.timer.timerSpeed = 3f;
+					mc.timer.ticksPerSecond = 21f;
 				} else {
 					return;
 				}
@@ -400,6 +410,12 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			if(this.boostTiming.delay(300L)) {
 				mc.timer.timerSpeed = 1f;
 				mc.timer.ticksPerSecond = 20f;
+
+				if(!wasOnBefore) {
+					fourDirectionalSpeed.setEnabled(false);
+				} else {
+					return;
+				}
 			}
 
 		}

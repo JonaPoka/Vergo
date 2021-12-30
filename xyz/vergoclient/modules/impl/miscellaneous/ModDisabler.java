@@ -52,7 +52,17 @@ public class ModDisabler extends Module implements OnEventInterface {
 
 	@Override
 	public void onEvent(Event e) {
-
+		if (mode.is("Test")) {
+			if (mc.thePlayer.ticksExisted % 69 == 0) {
+				// credit to spec da savag yt
+				// credit him if u use it
+				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0CPacketInput());
+				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SLEEPING));
+				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0DPacketCloseWindow(mc.thePlayer.getEntityId()));
+				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C02PacketUseEntity(mc.thePlayer, C02PacketUseEntity.Action.ATTACK));
+				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C05PacketPlayerLook(0, -91, true));
+			}
+		}
 	}
 	
 }

@@ -67,23 +67,6 @@ public class SessionChanger {
 		
 		Minecraft.getMinecraft().proxy = temp;
 		
-		// If the login was successful
-		if (!currentUsername.equals(Minecraft.getMinecraft().session.getUsername())) {
-			new Thread(() -> {
-				while (true) {
-					try {
-						ApiResponse apiResponse = new Gson().fromJson(NetworkManager.getNetworkManager().sendPost(new HttpPost("https://hummusclient.info/api/user/loginToAlt"), new BasicNameValuePair("token", AccountUtils.account.token), new BasicNameValuePair("username", Minecraft.getMinecraft().session.getUsername())), ApiResponse.class);
-						if (apiResponse.status == ApiResponse.ResponseStatus.OK) {
-							break;
-						}
-						Thread.sleep(10000);
-					} catch (Exception e) {
-						
-					}
-				}
-			}).start();
-		}
-		
 	}
 
 	//Sets the session.

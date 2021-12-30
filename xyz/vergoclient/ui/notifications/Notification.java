@@ -1,47 +1,45 @@
 package xyz.vergoclient.ui.notifications;
 
-
-import javafx.animation.Animation;
+import xyz.vergoclient.Vergo;
+import xyz.vergoclient.util.Animation;
 import xyz.vergoclient.util.AnimationUtils;
-import xyz.vergoclient.util.Timer;
 
 public class Notification {
-
     private final NotificationType type;
     public float y;
-    public boolean fading;
+    public boolean vanishing;
     Timer timer = new Timer();
-
-    private float width, height, roundAmount, timeToLast;
-    private String title;
-    private String message;
-    private boolean heightBudge;
+    private float width, height, roundness, time;
+    private String title, description;
+    private boolean heightAdjusted;
     private Animation animation;
     private AnimationUtils.Direction direction;
 
-    public Notification(NotificationType type, String title, String message) {
-        // This is the MAIN notification handler. It sets everything that need's to be set.
-        this.type = type;
+    public Notification(NotificationType type, String title, String description) {
         this.title = title;
-        this.message = message;
-        width = 120;
-        height = 30;
-        roundAmount = 3;
-        timeToLast = (long) 3000;
-        this.timer = new Timer();
+        this.description = description;
+        width = 145;
+        height = 45;
+        roundness = 4;
+        time = (long) (timer.getTime() * 1000);
+        timer = new Timer();
+        this.type = type;
     }
 
-    public static void post(NotificationType type, String title, String message) {
-        // This will eventually be the main thing to send a notification. This is not written and therefore will be ignored.
-        // NotificationManager.whateverFunctionICallIt
+    public static void post(NotificationType type, String title, String description) {
+        Vergo.notificationManager.add(new Notification(type, title, description));
     }
 
-    public boolean isHeightBudged() {
-        return heightBudge;
+    public void post() {
+        Vergo.notificationManager.add(this);
     }
 
-    public void setHeightBudge(boolean value) {
-        this.heightBudge = value;
+    public boolean isHeightAdjusted() {
+        return heightAdjusted;
+    }
+
+    public void setHeightAdjusted(boolean bool) {
+        heightAdjusted = bool;
     }
 
     public NotificationType getType() {
@@ -52,48 +50,48 @@ public class Notification {
         return width;
     }
 
-    public void setWidth(float newWidth) {
-        this.width = newWidth;
+    public void setWidth(float width) {
+        this.width = width;
     }
 
     public float getHeight() {
         return height;
     }
 
-    public void setHeight(float newHeight) {
-        this.height = newHeight;
+    public void setHeight(float height) {
+        this.height = height;
     }
 
-    public float getRoundAmount() {
-        return getRoundAmount();
+    public float getRoundness() {
+        return roundness;
     }
 
-    public void setRoundAmount(float newRoundAmount) {
-        this.roundAmount = newRoundAmount;
+    public void setRoundness(float roundness) {
+        this.roundness = roundness;
     }
 
     public float getTime() {
-        return timeToLast;
+        return time;
     }
 
-    public void setTime(float newTime) {
-        this.timeToLast = newTime;
+    public void setTime(float time) {
+        this.time = time;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String newTitle) {
-        this.title = newTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getMessage() {
-        return message;
+    public String getDescription() {
+        return description;
     }
 
-    public void setMessage(String newMessage) {
-        this.message = newMessage;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void startAnimation(Animation animation) {
@@ -108,7 +106,8 @@ public class Notification {
         return animation;
     }
 
-    public AnimationUtils.Direction getDirection() {
+    public
+    AnimationUtils.Direction getDirection() {
         return direction;
     }
 
@@ -116,16 +115,8 @@ public class Notification {
         this.direction = direction;
     }
 
-    /*public boolean animationInProgress() {
-        return animation != null && !animation.;
-    }*/
-
-
-    public enum NotificationType {
-        SUCCESS,
-        DISABLE,
-        INFO,
-        WARNING
+    public boolean animationInProgress() {
+        return animation != null && !animation.isDone();
     }
 
 }
