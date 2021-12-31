@@ -94,7 +94,7 @@ public class Hud implements OnEventInterface {
 		if(Vergo.config.modHud.hudMode.is("Vergo")) {
 			arrayListColor++;
 
-			JelloFontRenderer fr = Vergo.config.modHud.hudMode.is("Vergo") ? FontUtil.comfortaaNormal : FontUtil.arialSlightlyLargerThanRegular;
+			JelloFontRenderer fr = Vergo.config.modHud.hudMode.is("Vergo") ? FontUtil.neurialGrotesk : FontUtil.arialSlightlyLargerThanRegular;
 
 			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
@@ -180,7 +180,7 @@ public class Hud implements OnEventInterface {
 
 				GlStateManager.colorState.alpha = 1;
 
-				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - align), (float) (offset * (fr.FONT_HEIGHT + 4)) + 4f, waveColor.getRGB());
+				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - align), (float) (offset * (fr.FONT_HEIGHT + 4)) + 3f, waveColor.getRGB());
 
 				GlStateManager.popMatrix();
 				offset++;

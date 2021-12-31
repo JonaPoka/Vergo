@@ -10,7 +10,7 @@ public class RandomStringUtil {
 				"Vergo Has Crashed!", "Selling feet pics on OnlyFans xoxoxoxoxo", "Buy my OF, $35/month", "Loading the best client ever..", "HOLY FUUUUUUUUUUUUUUUUUUUUUUUUU",
 				"SOUNDPADS, SPEAKERS, ANTENNA!", "yo momma's fucking hot boi!", "Smocking with Snoop Dogg", "WatchDawg aint got shit on us", "Hypixel crying right now",
 				"LAUGH!", "RAID SHADOW LEGENDS!", "I hope you die of corona", "Stop watching me load!", "FUCK YOU BITCH", "Watching Boko No Piko", "Did you know Zebras don't wear condoms?", "Rismose is sussy",
-				"Vergo just casually fucking your mom", "Who's an edgy cheater? You are!", "Vergo giving you Stockholm syndrome", "Wonder how tear is coping with this", "Coin is sexy", "I like pancakes",
+				"Vergo just casually fucking your mom", "Who's an edgy cheater? You are!", "Vergo giving you Stockholm syndrome", "Coin is sexy", "I like pancakes",
 				"Oh... Hello there", "To all our early supporters, <3", "Oh, you... didn't mean to load me... right?", "No.", "We love coiny", "QUACK!", "Meow?", "Imagine having friends...", "Åååååhhhh, jag kommer",
 				"Stefan Löfven är en heting geting", "Oh there you are!", "Oh no, not you again", "You're looking mighty sexy tonight!", "You are so hot", "ooh wooh", "daddy has returned UwU", "Sovetskaya mraz'",
 				"You must be really fucking popular, cheating on Minecraft..", "Join the Discord for free cake!", "THE CAKE IS A LIE!", "jiggey is actually kinda... SUSSY", "I dunno Walt, you're seeming pretty sus lately...",
