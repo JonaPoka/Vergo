@@ -10,6 +10,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
+import xyz.vergoclient.event.impl.EventSendPacket;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
@@ -34,9 +35,9 @@ public class ModLongJump extends Module implements OnEventInterface {
         this.timer = new Timer();
     }
 
-    public ModeSetting mode = new ModeSetting("Mode", "Hypixel Bow", "Hypixel Bow", "Velocity Test");
+    public ModeSetting mode = new ModeSetting("Mode", "Hypixel Test", /*"Hypixel Bow",*/ "Hypixel Test");
 
-    public NumberSetting speedSlider = new NumberSetting("SpeedSlider", 0.3, 0, 3.0, 0.01), heightSlider = new NumberSetting("Height Slider", 1.99, 1.0, 3.0, 0.01);
+    public NumberSetting speedSlider = new NumberSetting("SpeedSlider", 0.6, 0, 3.0, 0.01);//, heightSlider = new NumberSetting("Height Slider", 1.99, 1.0, 3.0, 0.01);
 
     public BooleanSetting automated = new BooleanSetting("Automated", false), autoMove = new BooleanSetting("Auto Move", false),
                           autoJump = new BooleanSetting("Auto Jump", false);
@@ -45,9 +46,9 @@ public class ModLongJump extends Module implements OnEventInterface {
     @Override
     public void loadSettings() {
         mode.modes.clear();
-        mode.modes.addAll(Arrays.asList("Hypixel Bow", "Hypixel Test"));
+        mode.modes.addAll(Arrays.asList("Hypixel Test"));
 
-        addSettings(mode, speedSlider, heightSlider, automated, autoMove, autoJump);
+        addSettings(mode, speedSlider/*, heightSlider*/, automated, autoMove, autoJump);
     }
 
     public int i;
@@ -157,7 +158,7 @@ public class ModLongJump extends Module implements OnEventInterface {
                         }
                     }
 
-                    mc.thePlayer.motionY *= heightSlider.getValueAsDouble();
+                    //mc.thePlayer.motionY *= heightSlider.getValueAsDouble();
 
                     int x = 0;
                     while(x < 5) {

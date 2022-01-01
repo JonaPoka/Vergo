@@ -10,6 +10,7 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
+import xyz.vergoclient.util.ChatUtils;
 import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.TimerUtil;
@@ -28,7 +29,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 	
 	public ModeSetting mode = new ModeSetting("Mode", "SmoothHypixel", "JitterHypixel", "SmoothHypixel", "Hypixel LoFi");
 
-	public NumberSetting motionY = new NumberSetting("MotionY", 0.0, -1, 1, 0.01);
+	public NumberSetting motionY = new NumberSetting("MotionY", 1.0, 1.0, 3, 0.01);
 
 	public BooleanSetting toggleBPS = new BooleanSetting("Toggle BPS", false);
 	
@@ -128,16 +129,21 @@ public class ModSpeed extends Module implements OnEventInterface {
 			mc.thePlayer.setSprinting(true);
 		}
 
-		if(MovementUtils.isOnGround(0.00001)) {
-			//mc.timer.timerSpeed = 1.4f;
-			mc.thePlayer.jump();
-		} else {
-			//mc.timer.timerSpeed = 1.0f;
-			if(mc.thePlayer.motionY <= 0.14100) {
-				MovementUtils.setSpeed(0.29230);
+		if (MovementUtils.isMoving()) {
+			if (mc.gameSettings.keyBindJump.isKeyDown()) {
+
+			}
+			if (!mc.thePlayer.isSprinting()) {
+				mc.thePlayer.setSprinting(true);
+			}
+			if (mc.thePlayer.onGround) {
+				mc.thePlayer.jump();
+				mc.timer.timerSpeed = 1.09f;
+				mc.thePlayer.motionX *= 1.0788F;
+				mc.thePlayer.motionZ *= 1.0788F;
+				mc.thePlayer.moveStrafing *= 2;
 			} else {
-				MovementUtils.setSpeed(0.1810);
-				this.jumpTimer.reset();
+				mc.thePlayer.jumpMovementFactor = 0.0256F;
 			}
 		}
 

@@ -698,6 +698,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			if (clientSideBlockPicker.isEnabled()) {
 				mc.thePlayer.swingItem();
 			} else {
+				mc.thePlayer.swingItem();
 				mc.getNetHandler().getNetworkManager().sendPacket(new C0APacketAnimation());
 //				mc.thePlayer.swingItem();
 			}
