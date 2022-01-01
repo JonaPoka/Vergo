@@ -15,6 +15,7 @@ import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.modules.impl.miscellaneous.ModAntiBot;
 import xyz.vergoclient.settings.ModeSetting;
+import xyz.vergoclient.util.ESPUtils;
 
 import java.util.Arrays;
 
@@ -27,12 +28,12 @@ public class ModPlayerESP extends Module implements OnEventInterface {
 
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "2D");
+	public ModeSetting mode = new ModeSetting("Mode", "Outline");
 	
 	@Override
 	public void loadSettings() {
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("2D"));
+		mode.modes.addAll(Arrays.asList("Outline"));
 
 		addSettings(mode);
 	}
@@ -67,19 +68,6 @@ public class ModPlayerESP extends Module implements OnEventInterface {
 				if (ent instanceof EntityPlayer && (Vergo.config.modAntibot.isDisabled() || !ModAntiBot.isBot(((EntityPlayer) ent)))) {
 
 					EntityPlayer player = (EntityPlayer) ent;
-
-					if (!player.isUser()) {
-
-						Vec3 vec3 = getVec3(player);
-						float posX = (float) (vec3.xCoord - mc.getRenderManager().viewerPosX);
-						float posY = (float) (vec3.yCoord - mc.getRenderManager().viewerPosY);
-						float posZ = (float) (vec3.zCoord - mc.getRenderManager().viewerPosZ);
-
-						double halfWidth = player.width / 2.0D + 0.18F;
-
-
-
-					}
 				}
 			}
 
