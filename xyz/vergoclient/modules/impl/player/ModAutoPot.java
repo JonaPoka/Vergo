@@ -71,8 +71,8 @@ public class ModAutoPot extends Module implements OnEventInterface {
 										if (!playerEffectsIds.contains(effect.getPotionID()) && (effect.getDuration() > 1 || (mc.thePlayer.getHealth() / mc.thePlayer.getMaxHealth()) < 0.5f)) {
 											int heldItemBeforeThrow = mc.thePlayer.inventory.currentItem;
 											
-											((EventUpdate)e).setPitch(90);
-											RenderUtils.setCustomPitch(90);
+											((EventUpdate)e).setPitch(89.5f);
+											RenderUtils.setCustomPitch(89.5f);
 											RenderUtils.setCustomYaw(((EventUpdate)e).yaw + (RandomUtils.nextFloat(0, 20) - 10));
 //											mc.thePlayer.rotationYaw += (RandomUtils.nextFloat(0, 20) - 10);
 //											mc.thePlayer.rotationPitch += (RandomUtils.nextFloat(0, 20) - 10);
@@ -81,7 +81,7 @@ public class ModAutoPot extends Module implements OnEventInterface {
 											mc.getNetHandler().getNetworkManager()
 											.sendPacketNoEvent(new C09PacketHeldItemChange(finalI - 36));
 										
-											mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, 90, mc.thePlayer.onGround));
+											mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, 89.5f, mc.thePlayer.onGround));
 											
 											
 											

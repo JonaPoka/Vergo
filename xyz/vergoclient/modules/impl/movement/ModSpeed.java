@@ -1,6 +1,7 @@
 package xyz.vergoclient.modules.impl.movement;
 
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.potion.Potion;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventRenderGUI;
 import xyz.vergoclient.event.impl.EventTick;
@@ -137,11 +138,15 @@ public class ModSpeed extends Module implements OnEventInterface {
 				mc.thePlayer.setSprinting(true);
 			}
 			if (mc.thePlayer.onGround) {
-				mc.thePlayer.jump();
-				mc.timer.timerSpeed = 1.09f;
-				mc.thePlayer.motionX *= 1.0788F;
-				mc.thePlayer.motionZ *= 1.0788F;
-				mc.thePlayer.moveStrafing *= 2;
+				if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+					mc.thePlayer.jump();
+				} else {
+					mc.thePlayer.jump();
+					mc.timer.timerSpeed = 1.09f;
+					mc.thePlayer.motionX *= 1.0788F;
+					mc.thePlayer.motionZ *= 1.0788F;
+					mc.thePlayer.moveStrafing *= 2;
+				}
 			} else {
 				mc.thePlayer.jumpMovementFactor = 0.0256F;
 			}

@@ -41,12 +41,13 @@ import net.minecraft.util.Vec3;
 
 public class ModKillAura extends Module implements OnSettingChangeInterface, OnEventInterface {
 
+	// Timers
+	Timer blockTimer;
+
 	public ModKillAura() {
 		super("KillAura", Category.COMBAT);
+		this.blockTimer = new Timer();
 	}
-
-	// Timers
-	public TimerUtil hypixelBlockingTimer = new TimerUtil();
 
 	// Settings
 	public NumberSetting rangeSetting = new NumberSetting("Range", 3.8, 0.5, 6, 0.1),
@@ -221,6 +222,8 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		bezierCurveHelper.clearPoints();
 		bezierCurveHelper.clearProgress();
 		target = null;
+
+		this.blockTimer.reset();
 	}
 
 	@Override
@@ -740,7 +743,10 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		// Start blocking
 		if (shouldBlock && !isBlocking) {
 
-			mc.gameSettings.keyBindUseItem.pressed = true;
+			if(this.blockTimer.delay(1L)) {
+				ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
+				mc.gameSettings.keyBindUseItem.pressed = true;
+			}
 
 			isBlocking = true;
 		}
@@ -748,7 +754,11 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		// Stop blocking
 		else if (!shouldBlock && isBlocking) {
 			if (autoblockSetting.is("Hypixel")) {
-				mc.gameSettings.keyBindUseItem.pressed = false;
+				if(this.blockTimer.delay(100L)) {
+					ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
+					mc.gameSettings.keyBindUseItem.pressed = false;
+					this.blockTimer.reset();
+				}
 			}
 
 			isBlocking = false;
