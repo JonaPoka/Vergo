@@ -40,13 +40,8 @@ public class ModPlayerESP extends Module implements OnEventInterface {
 	
 	@Override
 	public void onEvent(Event e) {
-
-		if (e instanceof EventTick && e.isPre()) {
-			setInfo(mode.getMode());
-		}
-
-		if (mode.is("2D")) {
-			doTwoD(e);
+		if (mode.is("Outline")) {
+			doTheFunny(e);
 		}
 	}
 
@@ -58,7 +53,7 @@ public class ModPlayerESP extends Module implements OnEventInterface {
 		return new Vec3(x, y, z);
 	}
     
-    private void doTwoD(Event e) {
+    private void doTheFunny(Event e) {
 		int offset = 0;
 
 		if (e instanceof EventPlayerRender && e.isPre()) {
