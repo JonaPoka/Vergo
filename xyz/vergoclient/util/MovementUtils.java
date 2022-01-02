@@ -123,19 +123,19 @@ public class MovementUtils {
         } else {
             if (forward != 0.0D) {
                 if (strafe > 0.0D) {
-                    yaw += (forward > 0.0D ? -45 : 45);
+                    yaw += (forward > 0.0D ? -44 : 44);
                 } else if (strafe < 0.0D) {
-                    yaw += (forward > 0.0D ? 45 : -45);
+                    yaw += (forward > 0.0D ? 44 : -44);
                 }
                 strafe = 0.0D;
                 if (forward > 0.0D) {
-                    forward = 1;
+                    forward = 0.9;
                 } else if (forward < 0.0D) {
-                    forward = -1;
+                    forward = -0.9;
                 }
             }
-            mc.thePlayer.motionX = forward * speed * Math.cos(Math.toRadians(yaw + 90.0F)) + strafe * speed * Math.sin(Math.toRadians(yaw + 90.0F)); 
-            mc.thePlayer.motionZ = forward * speed * Math.sin(Math.toRadians(yaw + 90.0F)) - strafe * speed * Math.cos(Math.toRadians(yaw + 90.0F));
+            mc.thePlayer.motionX = forward * speed * Math.cos(Math.toRadians(yaw + 89.5F)) + strafe * speed * Math.sin(Math.toRadians(yaw + 89.5F));
+            mc.thePlayer.motionZ = forward * speed * Math.sin(Math.toRadians(yaw + 89.5F)) - strafe * speed * Math.cos(Math.toRadians(yaw + 89.5F));
         }
     }
     

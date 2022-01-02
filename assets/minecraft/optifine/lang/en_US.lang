@@ -448,11 +448,11 @@ of.options.SMOOTH_WORLD.tooltip.4=Stabilizes FPS by distributing the internal se
 of.options.SMOOTH_WORLD.tooltip.5=Effective only for local worlds (single player).
 
 of.options.FAST_RENDER=Fast Render
-of.options.FAST_RENDER.tooltip.1=Fast Render
+of.options.FAST_RENDER.tooltip.1=OFF - standard rendering (default)
 of.options.FAST_RENDER.tooltip.2= OFF - standard rendering (default)
-of.options.FAST_RENDER.tooltip.3= ON - optimized rendering (faster)
-of.options.FAST_RENDER.tooltip.4=Uses optimized rendering algorithm which decreases
-of.options.FAST_RENDER.tooltip.5=the GPU load and may substantially increase the FPS.
+of.options.FAST_RENDER.tooltip.3= OFF - standard rendering (default)
+of.options.FAST_RENDER.tooltip.4=OFF - standard rendering (default)
+of.options.FAST_RENDER.tooltip.5=OFF - standard rendering (default)
 
 of.options.FAST_MATH=Fast Math
 of.options.FAST_MATH.tooltip.1=Fast Math

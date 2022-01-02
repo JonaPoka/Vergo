@@ -1807,7 +1807,7 @@ public class GameSettings
             MathHelper.fastMath = this.ofFastMath;
         }
 
-        if (p_setOptionValueOF_1_ == GameSettings.Options.FAST_RENDER)
+        /*if (p_setOptionValueOF_1_ == GameSettings.Options.FAST_RENDER)
         {
             if (!this.ofFastRender && Config.isShaders())
             {
@@ -1823,7 +1823,7 @@ public class GameSettings
             }
 
             Config.updateFramebufferSize();
-        }
+        }*/
 
         if (p_setOptionValueOF_1_ == GameSettings.Options.TRANSLUCENT_BLOCKS)
         {
