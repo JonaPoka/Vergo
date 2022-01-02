@@ -743,7 +743,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		// Start blocking
 		if (shouldBlock && !isBlocking) {
 
-			if(this.blockTimer.delay(1L)) {
+			if(this.blockTimer.delay(0L)) {
 				ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
 				mc.gameSettings.keyBindUseItem.pressed = true;
 			}
