@@ -11,7 +11,6 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.util.ChatUtils;
 import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.TimerUtil;
@@ -32,7 +31,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 
 	public NumberSetting motionY = new NumberSetting("MotionY", 1.0, 1.0, 3, 0.01);
 
-	public BooleanSetting toggleBPS = new BooleanSetting("Toggle BPS", false);
+	public BooleanSetting toggleBPS = new BooleanSetting("Toggle BPS", false), overrideFOV = new BooleanSetting("Override FOV", true);
 	
 	public static transient float hypixelYaw = 0;
 
@@ -75,11 +74,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 			onHypixelEvent(e);
 		}
 	}
-	
-	private static transient double testSpeed = 0, testLastDist = 0;
-	private static transient boolean testLastOnGround = false;
-	
-	public static transient int hypixelJump = 0;
 	
 	private void onHypixelEvent(Event e) {
 
@@ -131,6 +125,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 		}
 
 		if (MovementUtils.isMoving()) {
+
 			if (mc.gameSettings.keyBindJump.isKeyDown()) {
 
 			}

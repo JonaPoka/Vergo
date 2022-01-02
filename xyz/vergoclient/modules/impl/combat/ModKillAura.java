@@ -754,9 +754,9 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		// Stop blocking
 		else if (!shouldBlock && isBlocking) {
 			if (autoblockSetting.is("Hypixel")) {
-				if(this.blockTimer.delay(100L)) {
-					ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
+				if(this.blockTimer.delay(500L)) {
 					mc.gameSettings.keyBindUseItem.pressed = false;
+					ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
 					this.blockTimer.reset();
 				}
 			}
