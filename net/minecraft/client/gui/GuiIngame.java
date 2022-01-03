@@ -354,11 +354,7 @@ public class GuiIngame extends Gui
             this.overlayPlayerList.renderPlayerlist(i, scoreboard, scoreobjective1);
         }
 
-        if(ModuleManager.currentlyLoadingConfig) {
-            return;
-        } else {
-            NotificationManager.render();
-        }
+        NotificationManager.render();
         
         EventRenderGUI event = new EventRenderGUI();
         event.setType(EventType.PRE);

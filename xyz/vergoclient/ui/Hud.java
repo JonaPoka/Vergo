@@ -2,6 +2,8 @@ package xyz.vergoclient.ui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -41,6 +43,18 @@ public class Hud implements OnEventInterface {
 				Display.setTitle("PAWG (Phat Ass White Girls)");
 			} else {
 				DisplayUtils.setTitle("1");
+			}
+
+			if (Vergo.config.modHud.bpsMode.is("Always On")) {
+				GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+				FontUtil.comfortaaNormal.drawStringWithShadow(Math.round(MovementUtils.getBlocksPerSecond()) + " BPS", (double) GuiScreen.width - GuiScreen.width + 2, GuiScreen.height - 20, new Color(0xFFFFFF).getRGB());
+			} else if (Vergo.config.modHud.bpsMode.is("Speed Only")) {
+				if (Vergo.config.modSpeed.isEnabled()) {
+					GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+					FontUtil.comfortaaNormal.drawStringWithShadow(Math.round(MovementUtils.getBlocksPerSecond()) + " BPS", (double) GuiScreen.width - GuiScreen.width + 2, GuiScreen.height - 20, new Color(0xFFFFFF).getRGB());
+				}
+			} else {
+				return;
 			}
 
 			// Draws the watermark in the corner

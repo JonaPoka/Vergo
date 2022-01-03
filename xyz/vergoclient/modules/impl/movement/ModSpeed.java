@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.potion.Potion;
 import xyz.vergoclient.event.Event;
@@ -11,10 +12,12 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
+import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.TimerUtil;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class ModSpeed extends Module implements OnEventInterface {
@@ -78,12 +81,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 	private void onHypixelEvent(Event e) {
 
 		if(e instanceof EventRenderGUI && e.isPre()) {
-			mc.fontRendererObj.drawString(Math.round(MovementUtils.getBlocksPerSecond()) + " BPS",
-					((float) (new ScaledResolution(mc).getScaledWidth() / 2 - 20)
-							- (mc.fontRendererObj.getStringWidth(MovementUtils.getBlocksPerSecond() + "BPS") / 2)),
-					((float) (new ScaledResolution(mc).getScaledHeight() / 2 + 200)
-							- (mc.fontRendererObj.FONT_HEIGHT - 18)),
-					-1, true);
+			//FontUtil.comfortaaNormal.drawString(Math.round(MovementUtils.getBlocksPerSecond()) + " BPS", (double) GuiScreen.width - GuiScreen.width + 2, GuiScreen.height - 25, new Color(0xFFFFFF).getRGB());
 		}
 		
 		if (e instanceof EventTick && e.isPre()) {

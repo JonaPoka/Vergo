@@ -164,6 +164,56 @@ public class RenderUtils {
 		//GlStateManager.alphaFunc(GL11.GL_NOTEQUAL, 0);
 	}
 
+	public static void drawAlphaRoundedRect(double x, double y, double width, double height, float cornerRadius, Color color) {
+		drawAlphaRoundedRect(x, y, width, height, cornerRadius, color.getRGB());
+	}
+
+	public static void drawAlphaRoundedRect(double x, double y, double width, double height, float cornerRadius, int color) {
+		final int slices = 10;
+
+		enableRender2D();
+		setColor(color);
+		drawFillRectangle(x + cornerRadius, y, width - 2 * cornerRadius, height);
+		drawFillRectangle(x, y + cornerRadius, cornerRadius, height - 2 * cornerRadius);
+		drawFillRectangle(x + width - cornerRadius, y + cornerRadius, cornerRadius, height - 2 * cornerRadius);
+
+		drawCirclePart(x + cornerRadius, y + cornerRadius, -MathHelper.PI, -MathHelper.PId2, cornerRadius, slices);
+		drawCirclePart(x + cornerRadius, y + height - cornerRadius, -MathHelper.PId2, 0.0F, cornerRadius, slices);
+
+		drawCirclePart(x + width - cornerRadius, y + cornerRadius, MathHelper.PId2, MathHelper.PI, cornerRadius, slices);
+		drawCirclePart(x + width - cornerRadius, y + height - cornerRadius, 0, MathHelper.PId2, cornerRadius, slices);
+		disableRender2D();
+	}
+
+	public static void setColor(int colorHex) {
+		float alpha = (float) (colorHex >> 24 & 255) / 255.0F;
+		float red = (float) (colorHex >> 16 & 255) / 255.0F;
+		float green = (float) (colorHex >> 8 & 255) / 255.0F;
+		float blue = (float) (colorHex & 255) / 255.0F;
+		GL11.glColor4f(red, green, blue, alpha);
+	}
+
+
+	public static void enableRender2D() {
+		GL11.glEnable(3042);
+		GL11.glDisable(2884);
+		GL11.glDisable(3553);
+		GL11.glEnable(2848);
+		GL11.glBlendFunc(770, 771);
+		GL11.glLineWidth(1.0F);
+	}
+
+	public static void disableRender2D() {
+		GL11.glDisable(3042);
+		GL11.glEnable(2884);
+		GL11.glEnable(3553);
+		GL11.glDisable(2848);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.shadeModel(7424);
+		GlStateManager.disableBlend();
+		GlStateManager.enableTexture2D();
+	}
+
 	public static void drawImg(ResourceLocation loc, double posX, double posY, double width, double height) {
 		mc.getTextureManager().bindTexture(loc);
 		//GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);

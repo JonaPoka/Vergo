@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,8 +31,11 @@ import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.settings.SettingChangeEvent;
+import xyz.vergoclient.ui.fonts.FontUtil;
+import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.*;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class ModScaffold extends Module implements OnEventInterface, OnSettingChangeInterface {
@@ -225,25 +229,38 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 			}
 
-			String left = blocksLeft + " block" + (blocksLeft != 1 ? "s" : "") + " left";
+			String left = blocksLeft + "";
+
+			JelloFontRenderer jfr = FontUtil.comfortaaSmall;
+			GlStateManager.pushMatrix();
 
 			if (blocksLeft > 0) {
+				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, new Color(10, 10, 10, 200));
+				jfr.drawString(left, GuiScreen.width / 2 - 4, GuiScreen.height / 2 + 40, new Color(0xFFFFFF).getRGB());
+				GlStateManager.resetColor();
+				mc.getRenderItem().renderItemAndEffectIntoGUI(setStackToPlace(), GuiScreen.width / 2 - 8, GuiScreen.height / 2 + 20);
 
-				mc.fontRendererObj.drawString(left,
+
+				/*mc.fontRendererObj.drawString(left,
 						((float) (new ScaledResolution(mc).getScaledWidth_double() / 2)
 								- (mc.fontRendererObj.getStringWidth(left) / 2)),
 						((float) (new ScaledResolution(mc).getScaledHeight_double() / 3)
 								- (mc.fontRendererObj.FONT_HEIGHT - 18)),
-						-1, true);
+						-1, true);*/
 
 			} else {
-				mc.fontRendererObj.drawString(left,
+				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 25, GuiScreen.height / 2 + 20, 25, 25, 3f, new Color(10, 10, 10, 200));
+				jfr.drawString(left, GuiScreen.width / 2 - 1, GuiScreen.height / 2 + 20, new Color(0xFF3232).getRGB());
+
+				/*mc.fontRendererObj.drawString(left,
 						((float) (new ScaledResolution(mc).getScaledWidth_double() / 2)
 								- (mc.fontRendererObj.getStringWidth(left) / 2)),
 						((float) (new ScaledResolution(mc).getScaledHeight_double() / 3)
 								- (mc.fontRendererObj.FONT_HEIGHT - 18)),
-						0xff2121, true);
+						0xff2121, true);*/
 			}
+
+			GlStateManager.popMatrix();
 
 		}
 
@@ -384,6 +401,38 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			}
 		}
 
+	}
+
+	private void renderItemStack(ItemStack stack, int x, int y) {
+		GlStateManager.pushMatrix();
+
+		GlStateManager.disableAlpha();
+		this.mc.getRenderItem().zLevel = -150.0F;
+
+		GlStateManager.disableCull();
+
+		this.mc.getRenderItem().renderItemAndEffectIntoGUI(stack, x, y);
+		this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, stack, x, y);
+
+		GlStateManager.enableCull();
+
+		this.mc.getRenderItem().zLevel = 0;
+
+		GlStateManager.disableBlend();
+
+		GlStateManager.scale(0.5F, 0.5F, 0.5F);
+
+		GlStateManager.disableDepth();
+		GlStateManager.disableLighting();
+
+		GlStateManager.enableLighting();
+		GlStateManager.enableDepth();
+
+		GlStateManager.scale(2.0F, 2.0F, 2.0F);
+
+		GlStateManager.enableAlpha();
+
+		GlStateManager.popMatrix();
 	}
 
 	public 	boolean wasOnBefore;

@@ -16,6 +16,7 @@ public class ModHud extends Module {
 	}
 	
 	public ModeSetting hudMode = new ModeSetting("Mode", "Young", "Vergo", "Young"),
+			bpsMode = new ModeSetting("BPS Mode", "Always On", "Always On", "Speed Only", "Off"),
 			vergoColor = new ModeSetting("Vergo Color Scheme", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green"),
 			barDirection = new ModeSetting("Align Color Bar", "Right", "Right", "Left", "None"),
 			waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "None"),
@@ -30,6 +31,9 @@ public class ModHud extends Module {
 
 		hudMode.modes.clear();
 		hudMode.modes.addAll(Arrays.asList("Young", "Vergo"));
+
+		bpsMode.modes.clear();
+		bpsMode.modes.addAll(Arrays.asList("Always On", "Speed Only", "Off"));
 
 		vergoColor.modes.clear();
 		vergoColor.modes.addAll(Arrays.asList("Burgundy", "Sea Blue", "Nuclear Green"));
@@ -46,7 +50,7 @@ public class ModHud extends Module {
 		//arrayListColors.modes.clear();
 		//arrayListColors.modes.addAll(Arrays.asList("Default", "Rainbow"));
 		
-		addSettings(hudMode, vergoColor, barDirection, waterMark, arrayListFont, /*arrayListColors*/ arrayListBackground, renderScoreboardNumbers, theFunny);
+		addSettings(hudMode, bpsMode, vergoColor, barDirection, waterMark, arrayListFont, /*arrayListColors*/ arrayListBackground, renderScoreboardNumbers, theFunny);
 
 	}
 	

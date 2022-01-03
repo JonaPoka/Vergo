@@ -297,15 +297,15 @@ public class ModuleManager {
 
 	// Loads a config from a file
 	public static ModuleManager getConfig(String configName) {
-		
+
 		File file = new File(FileManager.configDir, configName + ".json");
-		
+
+		currentlyLoadingConfig = true;
+
 		for (Module module : modules) {
 			if (module.isEnabled())
 				module.toggle();
 		}
-		
-		currentlyLoadingConfig = true;
 		
 		if (!file.exists()) {
 			ChatUtils.addChatMessage("That file does not exist");
