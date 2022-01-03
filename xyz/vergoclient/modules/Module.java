@@ -5,15 +5,12 @@ import org.apache.commons.lang3.text.WordUtils;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Icons;
 import xyz.vergoclient.settings.Setting;
-import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.ui.notifications.Notification;
 import xyz.vergoclient.ui.notifications.NotificationManager;
 import xyz.vergoclient.ui.notifications.NotificationType;
-import xyz.vergoclient.util.ChatUtils;
 import xyz.vergoclient.util.anticheat.Player;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Module {
@@ -93,11 +90,11 @@ public abstract class Module {
 		}else {
 			if (enabled) {
 				String message = WordUtils.wrap(getName() + " has been enabled!", 120);
-				NotificationManager.show(new Notification(NotificationType.INFO, getName() + " Enabled!", message, 2));
+				NotificationManager.show(new Notification(NotificationType.INFO, getName() + " Enabled!", message, 1));
 				onEnable();
 			}else {
 				String message = WordUtils.wrap(getName() + " has been disabled!", 120);
-				NotificationManager.show(new Notification(NotificationType.ERROR, getName() + " Disabled!", message, 2));
+				NotificationManager.show(new Notification(NotificationType.ERROR, getName() + " Disabled!", message, 1));
 				onDisable();
 			}
 		}

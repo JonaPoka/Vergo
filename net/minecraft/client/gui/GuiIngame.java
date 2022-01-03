@@ -49,8 +49,8 @@ import net.minecraft.world.border.WorldBorder;
 import optifine.Config;
 import optifine.CustomColors;
 import xyz.vergoclient.modules.ModuleManager;
+import xyz.vergoclient.ui.notifications.Notification;
 import xyz.vergoclient.ui.notifications.NotificationManager;
-import xyz.vergoclient.util.BlurUtils;
 
 public class GuiIngame extends Gui
 {

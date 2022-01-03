@@ -37,8 +37,6 @@ public class Hud implements OnEventInterface {
 		
 		if (e instanceof EventRenderGUI && e.isPre()) {
 
-			//System.out.println("Triggered, you should be able to see me! [2]");
-
 			if(Vergo.config.modHud.theFunny.isEnabled()) {
 				Display.setTitle("PAWG (Phat Ass White Girls)");
 			} else {

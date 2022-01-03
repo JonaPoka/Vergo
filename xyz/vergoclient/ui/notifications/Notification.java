@@ -5,11 +5,12 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
+import xyz.vergoclient.util.RenderUtils;
 
 import java.awt.*;
-import java.util.List;
 
 public class Notification extends GuiScreen {
     private NotificationType type;
@@ -72,8 +73,13 @@ public class Notification extends GuiScreen {
         JelloFontRenderer fontRendererTitle = FontUtil.comfortaaNormal;
         JelloFontRenderer fontRendererMsg = FontUtil.comfortaaSmall;
 
-        drawRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
-        drawRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, GuiScreen.width - offset + 4, GuiScreen.height - 5, color1.getRGB());
+        //drawRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
+        //drawRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, GuiScreen.width - offset + 4, GuiScreen.height - 5, color1.getRGB());
+
+        RenderUtils.drawRoundedRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, width, height, 2f, color);
+        RenderUtils.drawRoundedRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, width - offset + 4, height, 2f, color1);
+
+        //drawRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, GuiScreen.width - offset + 4, GuiScreen.height - 5, color1.getRGB());
 
         fontRendererTitle.drawString(title, (int) (GuiScreen.width - offset + 8), GuiScreen.height - height, -1);
         fontRendererMsg.drawString(messsage, (int) (GuiScreen.width - offset + 8), GuiScreen.height - 15, -1);
