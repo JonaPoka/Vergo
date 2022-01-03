@@ -116,6 +116,10 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 
 	private void hypixelLoFi() {
+		if(mc.thePlayer.isInLava() || mc.thePlayer.isInWater() || mc.thePlayer.isSpectator()) {
+			return;
+		}
+
 		if(mc.gameSettings.keyBindJump.isKeyDown()) {
 
 		}

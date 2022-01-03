@@ -123,15 +123,15 @@ public class MovementUtils {
         } else {
             if (forward != 0.0D) {
                 if (strafe > 0.0D) {
-                    yaw += (forward > 0.0D ? -44 : 44);
+                    yaw += (forward > 0.0D ? -45 : 45);
                 } else if (strafe < 0.0D) {
-                    yaw += (forward > 0.0D ? 44 : -44);
+                    yaw += (forward > 0.0D ? 45 : -45);
                 }
                 strafe = 0.0D;
                 if (forward > 0.0D) {
-                    forward = 0.9;
+                    forward = 1;
                 } else if (forward < 0.0D) {
-                    forward = -0.9;
+                    forward = -1;
                 }
             }
             mc.thePlayer.motionX = forward * speed * Math.cos(Math.toRadians(yaw + 89.5F)) + strafe * speed * Math.sin(Math.toRadians(yaw + 89.5F));

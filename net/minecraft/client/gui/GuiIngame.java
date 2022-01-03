@@ -48,6 +48,8 @@ import net.minecraft.util.StringUtils;
 import net.minecraft.world.border.WorldBorder;
 import optifine.Config;
 import optifine.CustomColors;
+import xyz.vergoclient.modules.ModuleManager;
+import xyz.vergoclient.ui.notifications.NotificationManager;
 import xyz.vergoclient.util.BlurUtils;
 
 public class GuiIngame extends Gui
@@ -350,6 +352,12 @@ public class GuiIngame extends Gui
         {
             this.overlayPlayerList.updatePlayerList(true);
             this.overlayPlayerList.renderPlayerlist(i, scoreboard, scoreobjective1);
+        }
+
+        if(ModuleManager.currentlyLoadingConfig) {
+            return;
+        } else {
+            NotificationManager.render();
         }
         
         EventRenderGUI event = new EventRenderGUI();
