@@ -432,7 +432,7 @@ public class RenderItem implements IResourceManagerReloadListener
         return p_183005_1_.scale.x < 0.0F ^ p_183005_1_.scale.y < 0.0F ^ p_183005_1_.scale.z < 0.0F;
     }
 
-    public void renderItemIntoGUI(ItemStack stack, int x, int y)
+    public void renderItemIntoGUI(ItemStack stack, float x, float y)
     {
         this.renderItemGui = true;
         IBakedModel ibakedmodel = this.itemModelMesher.getItemModel(stack);
@@ -466,7 +466,7 @@ public class RenderItem implements IResourceManagerReloadListener
         this.renderItemGui = false;
     }
 
-    private void setupGuiTransform(int xPosition, int yPosition, boolean isGui3d)
+    private void setupGuiTransform(float xPosition, float yPosition, boolean isGui3d)
     {
         GlStateManager.translate((float)xPosition, (float)yPosition, 100.0F + this.zLevel);
         GlStateManager.translate(8.0F, 8.0F, 0.0F);
@@ -488,7 +488,7 @@ public class RenderItem implements IResourceManagerReloadListener
         }
     }
 
-    public void renderItemAndEffectIntoGUI(final ItemStack stack, int xPosition, int yPosition)
+    public void renderItemAndEffectIntoGUI(final ItemStack stack, float xPosition, float yPosition)
     {
         if (stack != null && stack.getItem() != null)
         {

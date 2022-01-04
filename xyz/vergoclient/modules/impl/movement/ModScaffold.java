@@ -36,6 +36,7 @@ import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.*;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 public class ModScaffold extends Module implements OnEventInterface, OnSettingChangeInterface {
@@ -229,16 +230,24 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 			}
 
-			String left = blocksLeft + "";
+			DecimalFormat decimalFormat = new DecimalFormat("###");
+			String left = decimalFormat.format(blocksLeft);
 
 			JelloFontRenderer jfr = FontUtil.comfortaaSmall;
 			GlStateManager.pushMatrix();
 
 			if (blocksLeft > 0) {
+
 				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, new Color(10, 10, 10, 200));
-				jfr.drawString(left, GuiScreen.width / 2 - 4, GuiScreen.height / 2 + 40, new Color(0xFFFFFF).getRGB());
+				if(blocksLeft <= 99 && blocksLeft > 9) {
+					jfr.drawString("0" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, new Color(0xFFFFFF).getRGB());
+				} else if(blocksLeft <= 9) {
+					jfr.drawString("00" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, new Color(0xFFFFFF).getRGB());
+				} else {
+					jfr.drawString(left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, new Color(0xFFFFFF).getRGB());
+				}
 				GlStateManager.resetColor();
-				mc.getRenderItem().renderItemAndEffectIntoGUI(setStackToPlace(), GuiScreen.width / 2 - 8, GuiScreen.height / 2 + 20);
+				mc.getRenderItem().renderItemAndEffectIntoGUI(setStackToPlace(), GuiScreen.width / 2 - 7.5f, GuiScreen.height / 2 + 20);
 
 
 				/*mc.fontRendererObj.drawString(left,
@@ -249,8 +258,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 						-1, true);*/
 
 			} else {
-				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 25, GuiScreen.height / 2 + 20, 25, 25, 3f, new Color(10, 10, 10, 200));
-				jfr.drawString(left, GuiScreen.width / 2 - 1, GuiScreen.height / 2 + 20, new Color(0xFF3232).getRGB());
+				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, new Color(10, 10, 10, 200));
+				jfr.drawString("000", GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, new Color(0xBF091D).getRGB());
 
 				/*mc.fontRendererObj.drawString(left,
 						((float) (new ScaledResolution(mc).getScaledWidth_double() / 2)
@@ -448,23 +457,22 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			}
 
 			if(this.boostTiming.delay(1L)) {
-				if(MovementUtils.isOnGround(0.0001)) {
-					mc.timer.timerSpeed = 3f;
-					mc.timer.ticksPerSecond = 21f;
-				} else {
-					return;
-				}
+				mc.thePlayer.motionX = mc.thePlayer.motionX * 1.9;
+				mc.thePlayer.motionZ = mc.thePlayer.motionZ * 1.9;
 			}
 
 			if(this.boostTiming.delay(300L)) {
-				mc.timer.timerSpeed = 1f;
-				mc.timer.ticksPerSecond = 20f;
+				mc.thePlayer.motionX = mc.thePlayer.motionX * 1;
+				mc.thePlayer.motionZ = mc.thePlayer.motionZ * 1;
 
 				if(!wasOnBefore) {
 					fourDirectionalSpeed.setEnabled(false);
-				} else {
-					return;
 				}
+
+			}
+
+			if(this.boostTiming.delay(1000L)) {
+				this.boostTiming.reset();
 			}
 
 		}

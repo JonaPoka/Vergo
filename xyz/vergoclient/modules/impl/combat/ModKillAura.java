@@ -745,7 +745,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		// Start blocking
 		if (shouldBlock && !isBlocking) {
 
-			if(this.blockTimer.delay(0L)) {
+			if(this.blockTimer.delay(10L)) {
 				mc.gameSettings.keyBindUseItem.pressed = true;
 				ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
 			}
@@ -756,17 +756,14 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		// Stop blocking
 		else if (!shouldBlock && isBlocking) {
 			if (autoblockSetting.is("Hypixel")) {
-				if(this.blockTimer.delay(500L)) {
+				if(this.blockTimer.delay(300L)) {
 					mc.gameSettings.keyBindUseItem.pressed = false;
 					ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
 					this.blockTimer.reset();
 				}
 			}
 
-			if(target == null) {
-				isBlocking = false;
-				mc.gameSettings.keyBindUseItem.pressed = false;
-			}
+			isBlocking = false;
 		}
 	}
 
