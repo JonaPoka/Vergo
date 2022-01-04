@@ -100,7 +100,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			placeBlockAsync = new BooleanSetting("Async block placements", true),
 			swaggyPaggyBoost = new BooleanSetting("Boost of Insanity", true);
 	public ModeSetting rotationMode = new ModeSetting("Rotation setting", "Hypixel Sprint", "90 snap", "yaw - 180", "Hypixel Slow", "Hypixel Sprint", "None"),
-			towerMode = new ModeSetting("Tower mode", "None", "None", "Hypixel", "NCP", "Test");
+			towerMode = new ModeSetting("Tower mode", "None", "None", "Hypixel"/*, "NCP", "Test"*/);
 
 	@Override
 	public void loadSettings() {
@@ -108,10 +108,10 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		rotationMode.modes.addAll(Arrays.asList("90 snap", "90 snap", "yaw - 180", "Hypixel Slow", "Hypixel Sprint", "None"));
 		forwardExtendSetting.minimum = 0;
 		forwardExtendSetting.name = "Forward extend";
-		addSettings(forwardExtendSetting, swaggyPaggyBoost, sidewaysExtendSetting/*maxBlocksPlacedPerTickSetting*/, blinkBlaster, timerBoostSetting,
-				/*keepYSetting,*/ sprintSetting, /*legitSetting, overrideKeepYSetting,*/ viewRotations, rotationMode,
-				fourDirectionalSpeed,/*, oneDirectionalSpeed,*/ toggleBlink, /*itemSwitchDelay, clientSideBlockPicker,*/
-				hitVecFixer, noRotate, /*fakeMissPackets, towerMode, placeBlockAsync,*/ timerSlow);
+		addSettings(/*forwardExtendSetting,*/ swaggyPaggyBoost, /*sidewaysExtendSetting, maxBlocksPlacedPerTickSetting, blinkBlaster, timerBoostSetting,
+				keepYSetting,*/ sprintSetting, /*legitSetting, overrideKeepYSetting, viewRotations, rotationMode,*/
+				fourDirectionalSpeed,/*, oneDirectionalSpeed, toggleBlink, itemSwitchDelay, clientSideBlockPicker,
+				hitVecFixer, noRotate, fakeMissPackets, towerMode, placeBlockAsync,*/ timerSlow);
 	}
 
 	private static transient BlockPos lastPlace = null;
@@ -124,6 +124,10 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public void onEnable() {
 
 		this.boostTiming.reset();
+
+		if(!rotationMode.is("Hypixel Slow")) {
+			rotationMode.setMode("Hypixel Slow");
+		}
 
 		if(rotationMode.is("Hypixel Slow") || rotationMode.is("Hypixel Sprint")) {
 
@@ -456,14 +460,15 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 				wasOnBefore = true;
 			}
 
-			if(this.boostTiming.delay(1L)) {
+			MovementUtils.setMotion(1.3f);
+
+			/*if(this.boostTiming.delay(1L)) {
 				mc.thePlayer.motionX = mc.thePlayer.motionX * 1.9;
 				mc.thePlayer.motionZ = mc.thePlayer.motionZ * 1.9;
 			}
 
 			if(this.boostTiming.delay(300L)) {
-				mc.thePlayer.motionX = mc.thePlayer.motionX * 1;
-				mc.thePlayer.motionZ = mc.thePlayer.motionZ * 1;
+				MovementUtils.setMotion(1.3f);
 
 				if(!wasOnBefore) {
 					fourDirectionalSpeed.setEnabled(false);
@@ -473,7 +478,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 			if(this.boostTiming.delay(1000L)) {
 				this.boostTiming.reset();
-			}
+			}*/
 
 		}
 	}
