@@ -25,8 +25,10 @@ import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.guis.GuiClickGui;
-import xyz.vergoclient.ui.guis.GuiNewClickGui;
-import xyz.vergoclient.util.*;
+import xyz.vergoclient.util.MiscellaneousUtils;
+import xyz.vergoclient.util.RenderUtils;
+import xyz.vergoclient.util.RenderUtils2;
+import xyz.vergoclient.util.animations.OpacityAnimation;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -82,6 +84,22 @@ public class ModTargetHud extends Module implements OnEventInterface {
 		addSettings(mode, xOffset, yOffset, heartSliderX, heartSliderY, healthSliderX, healthSliderY, healthWidth, hurtSliderX, hurtSliderY, hurtWidth, nameSliderX, nameSliderY, characterX, characterY, characterScale);
 	}
 
+	private OpacityAnimation boxOpacity = new OpacityAnimation(0), textOpacity = new OpacityAnimation(0), barOpacity = new OpacityAnimation(0), armorOpacity = new OpacityAnimation(0);
+
+	@Override
+	public void onEnable() {
+		boxOpacity.setOpacity(0);
+		barOpacity.setOpacity(0);
+		armorOpacity.setOpacity(0);
+		textOpacity.setOpacity(0);
+	}
+
+	@Override
+	public void onDisable() {
+		//opacity.setOpacity(0);
+	}
+
+
 	public static transient double healthBarTarget = 0, healthBar = 0, hurtTime = 0, hurtTimeTarget = 0;
 
 	@Override
@@ -96,7 +114,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				}
 
 				if (target == null) {
-					if (mc.currentScreen instanceof GuiClickGui || mc.currentScreen instanceof GuiNewClickGui) {
+					if (mc.currentScreen instanceof GuiClickGui) {
 						target = mc.thePlayer;
 					} else {
 						healthBar = 0;
@@ -214,9 +232,13 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				}
 
 				if (ent == null) {
-					if (mc.currentScreen instanceof GuiClickGui || mc.currentScreen instanceof GuiNewClickGui) {
+					if (mc.currentScreen instanceof GuiClickGui) {
 						ent = mc.thePlayer;
 					} else {
+						boxOpacity.setOpacity(0);
+						barOpacity.setOpacity(0);
+						armorOpacity.setOpacity(0);
+						textOpacity.setOpacity(0);
 						return;
 					}
 				}
@@ -269,13 +291,19 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 				//更改TargetHUD在屏幕坐标的初始位置
 
-
-
 				GlStateManager.translate(x, y, 0);
-				RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, new Color(20, 20, 20, 200), new Color(70, 70, 70, 200));
 
-				FontUtil.arialMedium.drawString(clientTag + playerName, 30f, 4f, 0xffffffff);
-				FontUtil.arialMedium.drawString(healthStr, 37 + width - FontUtil.arialMedium.getStringWidth(healthStr) - 2, 4f, 0xffcccccc);
+				boxOpacity.interp(200, 8);
+				armorOpacity.interp(200, 8);
+				barOpacity.interp(200, 8);
+				textOpacity.interp(200, 8);
+
+				//GL11.glColor4f();
+
+				RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, getColor(20, 20, 20, (int) boxOpacity.getOpacity()), getColor(29, 29, 29, (int) boxOpacity.getOpacity()));
+
+				FontUtil.arialMedium.drawString(clientTag + playerName, 30f, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
+				FontUtil.arialMedium.drawString(healthStr, 37 + width - FontUtil.arialMedium.getStringWidth(healthStr) - 2, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
 
 				boolean isNaN = Float.isNaN(ent.getHealth());
 				float health = isNaN ? 20 : ent.getHealth();
@@ -308,9 +336,9 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				/*RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 5f, new Color(142, 2, 32).getRGB());
 				RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 5f, new Color(142, 2, 32).getRGB());*/
 
-				RenderUtils.drawRoundedRect( 27, 29, 82, 5f, 3f, new Color(19, 19, 19));
+				RenderUtils.drawAlphaRoundedRect( 27, 29, 82, 5f, 3f, getColor(19, 19, 19, (int) barOpacity.getOpacity()));
 				// RenderUtils.drawRoundedRect(27, 29, ent.getHealth() * 4.1, 5f, 3f, new Color(142, 2, 32));
-				RenderUtils.drawRoundedRect(27, 29, healthBar, 5f, 3f, new Color(142, 2, 32));
+				RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
 				this.renderArmor((EntityPlayer) ent, 67);
@@ -321,7 +349,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				GlStateManager.resetColor();
 				// 3D model of the target
 				GlStateManager.disableBlend();
-				GlStateManager.color(1, 1, 1, 1);
+				GlStateManager.color(1, 1, 1, armorOpacity.getOpacity());
 				GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
 				GL11.glPopMatrix();
 			}
@@ -363,6 +391,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 		GlStateManager.disableCull();
 
+		GlStateManager.color(1, 1, 1, armorOpacity.getOpacity());
 		this.mc.getRenderItem().renderItemAndEffectIntoGUI(stack, x, y);
 		this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, stack, x, y);
 
@@ -387,12 +416,29 @@ public class ModTargetHud extends Module implements OnEventInterface {
 		GlStateManager.popMatrix();
 	}
 
-	private void renderPlayer2d(final double n, final double n2, final float n3, final float n4, final int n5, final int n6, final int n7, final int n8, final float n9, final float n10, final AbstractClientPlayer abstractClientPlayer) {
-		mc.getTextureManager().bindTexture(abstractClientPlayer.getLocationSkin());
-		GL11.glEnable(3042);
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		drawScaledCustomSizeModalRect((int)n, (int)n2, n3, n4, n5, n6, n7, n8, n9, n10);
-		GL11.glDisable(3042);
+	public static int getColor(Color color) {
+		return getColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+	}
+
+	public static int getColor(int brightness) {
+		return getColor(brightness, brightness, brightness, 255);
+	}
+
+	public static int getColor(int brightness, int alpha) {
+		return getColor(brightness, brightness, brightness, alpha);
+	}
+
+	public static int getColor(int red, int green, int blue) {
+		return getColor(red, green, blue, 255);
+	}
+
+	public static int getColor(int red, int green, int blue, int alpha) {
+		int color = 0;
+		color |= alpha << 24;
+		color |= red << 16;
+		color |= green << 8;
+		color |= blue;
+		return color;
 	}
 
 }

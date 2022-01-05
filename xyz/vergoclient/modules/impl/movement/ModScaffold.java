@@ -3,6 +3,7 @@ package xyz.vergoclient.modules.impl.movement;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
@@ -251,6 +252,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 					jfr.drawString(left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, new Color(0xFFFFFF).getRGB());
 				}
 				GlStateManager.resetColor();
+				RenderHelper.enableGUIStandardItemLighting();
 				mc.getRenderItem().renderItemAndEffectIntoGUI(setStackToPlace(), GuiScreen.width / 2 - 7.5f, GuiScreen.height / 2 + 20);
 
 
@@ -263,6 +265,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 			} else {
 				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, new Color(10, 10, 10, 200));
+				RenderHelper.enableGUIStandardItemLighting();
 				jfr.drawString("000", GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, new Color(0xBF091D).getRGB());
 
 				/*mc.fontRendererObj.drawString(left,

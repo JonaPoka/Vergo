@@ -3,7 +3,6 @@ package xyz.vergoclient.modules.impl.miscellaneous;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.ui.guis.GuiClickGui;
-import xyz.vergoclient.ui.guis.GuiNewClickGui;
 
 public class ModClickgui extends Module {
 
@@ -34,9 +33,7 @@ public class ModClickgui extends Module {
 		if (mc.currentScreen instanceof GuiClickGui)
 			mc.displayGuiScreen(null);
 		else {
-			if (mode.is("Skeleton"))
-				mc.displayGuiScreen(GuiNewClickGui.getClickGui());
-			else if (mode.is("Old")) {
+			if (mode.is("Old")) {
 				mc.displayGuiScreen(GuiClickGui.getClickGui());
 			}
 		}
