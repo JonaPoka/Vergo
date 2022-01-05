@@ -26,10 +26,7 @@ import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.guis.GuiClickGui;
 import xyz.vergoclient.ui.guis.GuiNewClickGui;
-import xyz.vergoclient.util.AnimationUtils;
-import xyz.vergoclient.util.MiscellaneousUtils;
-import xyz.vergoclient.util.RenderUtils;
-import xyz.vergoclient.util.RenderUtils2;
+import xyz.vergoclient.util.*;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -224,6 +221,23 @@ public class ModTargetHud extends Module implements OnEventInterface {
 					}
 				}
 
+				// Lower is faster, higher is slower
+				double barSpeed = 6;
+				if (healthBar > healthBarTarget) {
+					healthBar = ((healthBar) - ((healthBar - healthBarTarget) / barSpeed));
+				} else if (healthBar < healthBarTarget) {
+					healthBar = ((healthBar) + ((healthBarTarget - healthBar) / barSpeed));
+				}
+
+				String healthStr = Math.round(ent.getHealth() * 10) / 10d + " hp";
+
+
+				/* healthStr = String.valueOf((healthBar * (ent.getHealth() / ent.getMaxHealth())));
+				if (healthBar > 10) {
+					healthBar = 10;
+				} */
+
+
 				int x = 484;
 				int y = 359;
 
@@ -242,14 +256,21 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				//	clientTag = "\247" + user.rank.charAt(0) + "[" + user.rank.substring(1) + "|" + user.username + "] \247f";
 				//}
 
-				String healthStr = Math.round(ent.getHealth() * 10) / 10d + " hp";
+
+
+
+
 				float width = (float) Math.max(75, FontUtil.arialMedium.getStringWidth(clientTag + playerName) + 25);
+
 
 			/*if (BlurBuffer.blurEnabled()) {
 				BlurBuffer.blurRoundArea(x + .5f, y + .5f, 28 + width - 1f, 30 - 1f, 2f, true);
 			}*/
 
 				//更改TargetHUD在屏幕坐标的初始位置
+
+
+
 				GlStateManager.translate(x, y, 0);
 				RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, new Color(20, 20, 20, 200), new Color(70, 70, 70, 200));
 
@@ -266,20 +287,30 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				float barWidth = (26 + width - 2) - 37;
 				float drawPercent = 47 + (barWidth / 100) * (healthPercent * 100);
 
-				if (this.animation <= 0) {
-					this.animation = drawPercent;
+
+				healthBarTarget = (((82) / (ent.getMaxHealth())) * (ent.getHealth()));
+
+				// Health bar
+				healthBarTarget = 82 * (ent.getHealth() / ent.getMaxHealth());
+				if (healthBar > 82) {
+					healthBar = 82;
 				}
 
-				if (ent.hurtTime <= 6) {
-					this.animation = AnimationUtils.getAnimationState(this.animation, drawPercent, (float) Math.max(10, (Math.abs(this.animation - drawPercent) * 30) * 0.4));
-				}
+				// if (this.animation <= 0) {
+					// this.animation = drawPercent;
+				// }
+
+				// if (ent.hurtTime <= 6) {
+					// this.animation = AnimationUtils.getAnimationState(this.animation, drawPercent, (float) Math.max(10, (Math.abs(this.animation - drawPercent) * 30) * 0.4));
+				// }
 
 
 				/*RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 5f, new Color(142, 2, 32).getRGB());
 				RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 5f, new Color(142, 2, 32).getRGB());*/
 
 				RenderUtils.drawRoundedRect( 27, 29, 82, 5f, 3f, new Color(19, 19, 19));
-				RenderUtils.drawRoundedRect(27, 29, ent.getHealth() * 4.1, 5f, 3f, new Color(142, 2, 32));
+				// RenderUtils.drawRoundedRect(27, 29, ent.getHealth() * 4.1, 5f, 3f, new Color(142, 2, 32));
+				RenderUtils.drawRoundedRect(27, 29, healthBar, 5f, 3f, new Color(142, 2, 32));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
 				this.renderArmor((EntityPlayer) ent, 67);
