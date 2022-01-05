@@ -46,6 +46,8 @@ public class ModAutoPlay extends Module implements OnEventInterface {
 
     }
 
+    public long delay = commandDelay.getValueAsLong() * 1000;
+
     @Override
     public void loadSettings() {
         addSettings(teamMode, commandDelay);
@@ -66,7 +68,8 @@ public class ModAutoPlay extends Module implements OnEventInterface {
                     if (packet.getChatComponent().getUnformattedText().contains("You died! Want to play again?") || packet.getChatComponent().getUnformattedText().contains("You won! Want to play again?") ||
                             packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to return to lobby!")) {
 
-                            triggerNewGame();
+                        this.timer.reset();
+                        triggerNewGame();
                     }
                 }
             }
@@ -75,11 +78,8 @@ public class ModAutoPlay extends Module implements OnEventInterface {
 
     private void triggerNewGame() {
         this.timer.reset();
-        ChatUtils.addChatMessage("Triggered.");
-        if(this.timer.delay(commandDelay.getValueAsLong() / 2)) {
-            NotificationManager.show(new Notification(NotificationType.INFO, "AutoPlay", "Sending you to a new game...", (int) (commandDelay.getValueAsLong() / 2)));
-        }
-        if(timer.delay(commandDelay.getValueAsLong() * 1000)) {
+        if(timer.delay(delay)) {
+            ChatUtils.addChatMessage("Triggered 3.");
             if (teamMode.is("Solo Normal")) {
                 mc.thePlayer.sendChatMessage("/play solo_normal");
             } else if (teamMode.is("Solo Insane")) {
