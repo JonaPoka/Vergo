@@ -11,21 +11,23 @@ import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.util.ChatUtils;
 import xyz.vergoclient.util.ServerUtils;
+import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.TimerUtil;
 
 import java.util.Arrays;
 
 public class ModAutoPlay extends Module implements OnEventInterface {
 
+    Timer timer;
+
     public ModAutoPlay() {
         super("AutoPlay", Category.MISCELLANEOUS);
+        this.timer = new Timer();
     }
 
     public ModeSetting teamMode = new ModeSetting("Team Mode", "Solo Normal", "Solo Normal", "Solo Insane", "Teams Normal", "Teams Insane");
 
     public NumberSetting commandDelay = new NumberSetting("Game Delay", 1, 1, 5, 0.1);
-
-    public TimerUtil gameDelay = new TimerUtil();
 
     @Override
     public void onEnable() {
@@ -58,13 +60,18 @@ public class ModAutoPlay extends Module implements OnEventInterface {
                 if(teamMode.is("Solo Normal") || teamMode.is("Solo Insane")) {
                     if (packet.getChatComponent().getUnformattedText().contains("You died! Want to play again?") || packet.getChatComponent().getUnformattedText().contains("You won! Want to play again?") ||
                             packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to return to lobby!")) {
-                        gameDelay.reset();
-                        ChatUtils.addChatMessage("Sending you to a new game...");
+                        timer.reset();
+                        if(timer.delay(commandDelay.getValueAsLong() * 1000L)) {
                             if (teamMode.is("Solo Normal")) {
                                 mc.thePlayer.sendChatMessage("/play solo_normal");
                             } else if (teamMode.is("Solo Insane")) {
                                 mc.thePlayer.sendChatMessage("/play solo_insane");
+                            } else if(teamMode.is("Teams Normal")) {
+                                mc.thePlayer.sendChatMessage("/play teams_normal");
+                            } else if(teamMode.is("Teams Insane")) {
+                                mc.thePlayer.sendChatMessage("/play teams_insane");
                             }
+                        }
                     }
                 }
 
