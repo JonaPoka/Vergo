@@ -20,7 +20,7 @@ public class ModHud extends Module {
 			vergoColor = new ModeSetting("Vergo Color Scheme", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green"),
 			barDirection = new ModeSetting("Align Color Bar", "Right", "Right", "Left", "None"),
 			waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "None"),
-			arrayListFont = new ModeSetting("ArrayList Font", "Helvetica Neue Bold", "Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura"),
+			arrayListFont = new ModeSetting("ArrayList Font", "Helvetica Neue Bold", "Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura", "Neurial"),
 			arrayListColors = new ModeSetting("ArrayList colors", "Rainbow", "Default", "Rainbow");
 	public BooleanSetting renderScoreboardNumbers = new BooleanSetting("Render Scoreboard Numbers", false),
 						  arrayListBackground = new BooleanSetting("ArrayList Background", true),
@@ -39,7 +39,7 @@ public class ModHud extends Module {
 		vergoColor.modes.addAll(Arrays.asList("Burgundy", "Sea Blue", "Nuclear Green"));
 
 		arrayListFont.modes.clear();
-		arrayListFont.modes.addAll(Arrays.asList("Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura"));
+		arrayListFont.modes.addAll(Arrays.asList("Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura", "Neurial"));
 
 		waterMark.modes.clear();
 		waterMark.modes.addAll(Arrays.asList("Rounded", "Planet", "None"));
