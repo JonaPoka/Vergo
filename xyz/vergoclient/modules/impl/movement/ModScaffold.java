@@ -469,16 +469,12 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 				mc.thePlayer.motionX = mc.thePlayer.motionX * 1.9;
 				mc.thePlayer.motionZ = mc.thePlayer.motionZ * 1.9;
 			}
-
 			if(this.boostTiming.delay(300L)) {
 				MovementUtils.setMotion(1.3f);
-
 				if(!wasOnBefore) {
 					fourDirectionalSpeed.setEnabled(false);
 				}
-
 			}
-
 			if(this.boostTiming.delay(1000L)) {
 				this.boostTiming.reset();
 			}*/
