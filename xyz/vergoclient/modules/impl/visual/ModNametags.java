@@ -19,6 +19,8 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
 
+import static xyz.vergoclient.modules.impl.visual.ModTargetHud.healthBar;
+
 public class ModNametags extends Module implements OnEventInterface {
 
 	public ModNametags() {
@@ -64,7 +66,7 @@ public class ModNametags extends Module implements OnEventInterface {
 				GlStateManager.disableLighting();
 				GlStateManager.disableDepth();
 				GlStateManager.enableBlend();
-				double scale = 20;
+				double scale = 35;
 				GlStateManager.scale(1/scale, 1/scale, 1/scale);
 				GlStateManager.rotate(180, 1, 0, 0);
 				GlStateManager.enableTexture2D();
@@ -72,7 +74,7 @@ public class ModNametags extends Module implements OnEventInterface {
 						(y - mc.getRenderManager().renderPosY) * -scale, (z - mc.getRenderManager().renderPosZ) * -scale);
 				GlStateManager.rotate((float) rots[0], 0, 1, 0);
 				GlStateManager.rotate((float) rots[1], 1, 0, 0);
-				JelloFontRenderer fr = FontUtil.jelloFontSmall;
+				JelloFontRenderer fr = FontUtil.juraNormal;
 				GlStateManager.rotate(180, 0, 1, 0);
 				GlStateManager.color(1, 1, 1, 1);
 				GlStateManager.color(1, 1, 1, (float) (opacity));
@@ -84,8 +86,9 @@ public class ModNametags extends Module implements OnEventInterface {
 				
 				// Heath bar
 				double health = (fr.getStringWidth(text) + 6) * (player.getHealth() / player.getMaxHealth());
+
 				Gui.drawRect(-3, fr.FONT_HEIGHT, fr.getStringWidth(text) + 3, fr.FONT_HEIGHT + 3, 0x90000000);
-				Gui.drawRect(-3, fr.FONT_HEIGHT, health - 3, fr.FONT_HEIGHT + 3, Colors.GREEN.getColor());
+				Gui.drawRect(-3, fr.FONT_HEIGHT, health - 3, fr.FONT_HEIGHT + 3, Colors.BLUE.getColor());
 				
 				// Render name
 				GlStateManager.translate(0, 1, 0);
