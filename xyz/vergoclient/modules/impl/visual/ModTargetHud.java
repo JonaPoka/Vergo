@@ -298,7 +298,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				//GL11.glColor4f();
 
 				// RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, getColor(20, 20, 20, (int) boxOpacity.getOpacity()), getColor(29, 29, 29, (int) boxOpacity.getOpacity()));
-				RenderUtils.drawRoundedRect(0, 0, 40 + width, 40, 5, new Color(10, 19, 35, 110));
+				RenderUtils.drawRoundedRect(0, 0, 40 + width, 40, 5, new Color(19, 24, 44));
 
 
 				FontUtil.bakakakmedium.drawString(clientTag + playerName, 30f, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
@@ -335,8 +335,8 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				/*RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 5f, new Color(142, 2, 32).getRGB());
 				RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 5f, new Color(142, 2, 32).getRGB());*/
 
-				RenderUtils.drawRoundedRect(27, 30, 82, 5f, 3f, new Color(10, 19, 35, 255));
-				RenderUtils.drawRoundedRect(27, 30, 82, 5f, 3f, new Color(36, 96, 252));
+				RenderUtils.drawRoundedRect(27, 30, 82, 5f, 3f, new Color(6, 9, 19, 255));
+				RenderUtils.drawRoundedRect(27, 30, healthBar, 5f, 3f, new Color(36, 96, 252));
 				// RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
@@ -426,7 +426,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				//GL11.glColor4f();
 
 				// RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, getColor(20, 20, 20, (int) boxOpacity.getOpacity()), getColor(29, 29, 29, (int) boxOpacity.getOpacity()));
-				RenderUtils.drawRoundedRect(0, 0, 40 + width, 40, 5, new Color(10, 19, 35, 110));
+				RenderUtils.drawRoundedRect(0, 0, 40 + width, 40, 5, new Color(19, 24, 44));
 
 
 				FontUtil.bakakakmedium.drawString(clientTag + playerName, 30f, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
@@ -463,8 +463,8 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				/*RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 5f, new Color(142, 2, 32).getRGB());
 				RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 5f, new Color(142, 2, 32).getRGB());*/
 
-				RenderUtils.drawRoundedRect(27, 30, 82, 5f, 3f, new Color(10, 19, 35, 255));
-				RenderUtils.drawRoundedRect(27, 30, 82, 5f, 3f, new Color(252, 14, 65));
+				RenderUtils.drawRoundedRect(27, 30, 82, 5f, 3f, new Color(6, 9, 19, 255));
+				RenderUtils.drawRoundedRect(27, 30, healthBar, 5f, 3f, new Color(252, 14, 65));
 				// RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
