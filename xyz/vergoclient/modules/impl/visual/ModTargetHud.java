@@ -114,6 +114,10 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				}
 
 				if (target == null) {
+					boxOpacity.setOpacity(0);
+					barOpacity.setOpacity(0);
+					armorOpacity.setOpacity(0);
+					textOpacity.setOpacity(0);
 					if (mc.currentScreen instanceof GuiClickGui) {
 						target = mc.thePlayer;
 					} else {
@@ -290,16 +294,15 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 				GlStateManager.translate(x, y, 0);
 
-				boxOpacity.interp(250, 5);
-				armorOpacity.interp(250, 5);
-				barOpacity.interp(250, 5);
-				textOpacity.interp(250, 5);
+				boxOpacity.interp(250, 15);
+				armorOpacity.interp(250, 15);
+				barOpacity.interp(250, 15);
+				textOpacity.interp(250, 15);
 
 				//GL11.glColor4f();
 
 				// RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, getColor(20, 20, 20, (int) boxOpacity.getOpacity()), getColor(29, 29, 29, (int) boxOpacity.getOpacity()));
-				RenderUtils.drawRoundedRect(0, 0, 40 + width, 40, 5, new Color(19, 24, 44));
-
+				RenderUtils.drawAlphaRoundedRect(0, 0, 40 + width, 40, 5, getColor(19, 24, 44, (int)boxOpacity.getOpacity()));
 
 				FontUtil.bakakakmedium.drawString(clientTag + playerName, 30f, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
 				FontUtil.bakakakmedium.drawString(healthStr, 37 + width - FontUtil.bakakakmedium.getStringWidth(healthStr) - 2, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
@@ -335,8 +338,8 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				/*RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 5f, new Color(142, 2, 32).getRGB());
 				RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 5f, new Color(142, 2, 32).getRGB());*/
 
-				RenderUtils.drawRoundedRect(27, 30, 82, 5f, 3f, new Color(6, 9, 19, 255));
-				RenderUtils.drawRoundedRect(27, 30, healthBar, 5f, 3f, new Color(36, 96, 252));
+				RenderUtils.drawAlphaRoundedRect(27, 30, 82, 5f, 3f, getColor(6, 9, 19, (int) barOpacity.getOpacity()));
+				RenderUtils.drawAlphaRoundedRect(27, 30, healthBar, 5f, 3f, getColor(36, 96, 252, (int) barOpacity.getOpacity()));
 				// RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);

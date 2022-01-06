@@ -14,6 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import xyz.vergoclient.ui.fonts.FontUtil;
+import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 
 public class GuiChat extends GuiScreen
 {

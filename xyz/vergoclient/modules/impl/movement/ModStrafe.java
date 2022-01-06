@@ -32,7 +32,8 @@ public class ModStrafe extends Module implements OnEventInterface {
 			if (MovementUtils.isOnGround(0.0001) && autoJumpSetting.isEnabled() && MovementUtils.isMoving() && !mc.gameSettings.keyBindJump.pressed) {
 				mc.thePlayer.jump();
 			}
-			MovementUtils.strafe();
+			//MovementUtils.strafe();
+
 		}
 		else if (e instanceof EventMove && e.isPre()) {
 			EventMove event = (EventMove)e;
