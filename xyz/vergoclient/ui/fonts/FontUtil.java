@@ -200,7 +200,7 @@ public class FontUtil {
 	public static JelloFontRenderer arialSmall = JelloFontRenderer.createFontRenderer(getArial(10));
 
 	public static JelloFontRenderer bakakakBigger = JelloFontRenderer.createFontRenderer(getBakbak(41));
-	public static JelloFontRenderer bakakakmedium = JelloFontRenderer.createFontRenderer(getBakbak(14));
+	public static JelloFontRenderer bakakakmedium = JelloFontRenderer.createFontRenderer(getBakbak(12));
 	public static JelloFontRenderer bakakakBig = JelloFontRenderer.createFontRenderer(getBakbak(25));
 	public static JelloFontRenderer bakakakBiggish = JelloFontRenderer.createFontRenderer(getBakbak(35));
 	public static JelloFontRenderer bakakRegular = JelloFontRenderer.createFontRenderer(getBakbak(17));
