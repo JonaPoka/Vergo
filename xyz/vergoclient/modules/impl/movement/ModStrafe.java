@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import net.minecraft.network.play.client.C03PacketPlayer;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventUpdate;
@@ -33,7 +34,7 @@ public class ModStrafe extends Module implements OnEventInterface {
 				mc.thePlayer.jump();
 			}
 			//MovementUtils.strafe();
-
+			//mc.thePlayer.rotationYaw = mc.thePlayer.movementInput.moveStrafe;
 		}
 		else if (e instanceof EventMove && e.isPre()) {
 			EventMove event = (EventMove)e;

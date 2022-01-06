@@ -65,8 +65,7 @@ public abstract class World implements IBlockAccess
      * boolean; if true updates scheduled by scheduleBlockUpdate happen immediately
      */
     protected boolean scheduledUpdatesAreImmediate;
-    
-    // Used to be a list of type Entity but it was having problems with the killaura target finder
+
     public final List loadedEntityList = Lists.<Entity>newArrayList();
     
     protected final List<Entity> unloadedEntityList = Lists.<Entity>newArrayList();

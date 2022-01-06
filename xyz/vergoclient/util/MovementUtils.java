@@ -111,8 +111,7 @@ public class MovementUtils {
 		mc.thePlayer.motionX = - Math.sin(getDirection()) * speed;
 		mc.thePlayer.motionZ = Math.cos(getDirection()) * speed;
 	}
-    
-    // Found on github
+
     public static void setMotion(double speed) {
         double forward = mc.thePlayer.movementInput.moveForward;
         double strafe = mc.thePlayer.movementInput.moveStrafe;
