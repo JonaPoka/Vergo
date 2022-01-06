@@ -106,7 +106,7 @@ public class Hud implements OnEventInterface {
 		if(Vergo.config.modHud.hudMode.is("Vergo")) {
 			arrayListColor++;
 
-			JelloFontRenderer fr = Vergo.config.modHud.hudMode.is("Vergo") ? FontUtil.neurialGrotesk : FontUtil.arialSlightlyLargerThanRegular;
+			JelloFontRenderer fr = Vergo.config.modHud.hudMode.is("Vergo") ? FontUtil.juraNormal : FontUtil.bakakakmedium;
 
 			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
