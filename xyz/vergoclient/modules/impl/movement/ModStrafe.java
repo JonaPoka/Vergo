@@ -25,21 +25,25 @@ public class ModStrafe extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 		if (e instanceof EventUpdate && e.isPre()) {
-
-			if(autoJumpSetting.isEnabled()) {
-				setInfo("Auto-Jump");
-			}
 			
 			if (MovementUtils.isOnGround(0.0001) && autoJumpSetting.isEnabled() && MovementUtils.isMoving() && !mc.gameSettings.keyBindJump.pressed) {
 				mc.thePlayer.jump();
 			}
 			//MovementUtils.strafe();
 			//mc.thePlayer.rotationYaw = mc.thePlayer.movementInput.moveStrafe;
+
+			if(e instanceof EventMove) {
+				doStrafe(((EventMove) e));
+			}
 		}
 		else if (e instanceof EventMove && e.isPre()) {
 			EventMove event = (EventMove)e;
 			event.setSpeed(MovementUtils.getSpeed());
 		}
+	}
+
+	public void doStrafe(EventMove eventMove) {
+		eventMove.setSpeed(1.0f);
 	}
 	
 }

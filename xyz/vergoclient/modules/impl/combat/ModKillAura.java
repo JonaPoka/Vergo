@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.minecraft.network.play.client.*;
 import org.apache.commons.lang3.RandomUtils;
 import org.lwjgl.opengl.GL11;
@@ -43,10 +44,12 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 	// Timers
 	Timer blockTimer;
+	Timer critTimer;
 
 	public ModKillAura() {
 		super("KillAura", Category.COMBAT);
 		this.blockTimer = new Timer();
+		this.critTimer = new Timer();
 	}
 
 	// Settings
@@ -70,7 +73,8 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			viewRotations = new BooleanSetting("View rotations", false),
 			movementMatchRotation = new BooleanSetting("Movement Match Rotation", false),
 			visualizeRange = new BooleanSetting("Visualize Range", false),
-			visualizeTargetCircle = new BooleanSetting("Visualize Target", true);
+			visualizeTargetCircle = new BooleanSetting("Visualize Target", true),
+			doCriticals = new BooleanSetting("Criticals", true);
 	public ModeSetting targetSelectionSetting = new ModeSetting("Target selection", "Switch", "Switch", "Single"),
 			targetSortingSetting = new ModeSetting("Target sorting", "Health", "Health", "Distance"),
 			rotationSetting = new ModeSetting("Rotation", "Lock", "Smooth", "Lock", "Spin", "None", "Almost legit", "Bezier Curve"),
@@ -85,9 +89,9 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		autoblockSetting.modes.clear();
 		autoblockSetting.modes.addAll(Arrays.asList("None",  "Hypixel"));
 
-		addSettings(rangeSetting, minApsSetting, maxApsSetting, combatPacketsPerHit, targetPlayersSetting, targetAnimalsSetting,
+		addSettings(rangeSetting, minApsSetting, maxApsSetting, /*combatPacketsPerHit,*/ targetPlayersSetting, targetAnimalsSetting,
 				targetMobsSetting, targetOtherSetting, rayTraceCheck, targetSelectionSetting, targetSortingSetting,
-				rotationSetting, autoblockSetting, visualizeTargetCircle, visualizeRange);
+				rotationSetting, autoblockSetting, visualizeTargetCircle /*visualizeRange, doCriticals*/);
 
 	}
 
@@ -407,6 +411,9 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 					mc.thePlayer.swingItem();
 					mc.leftClickCounter = 0;
 					mc.getNetHandler().getNetworkManager().sendPacket(new C02PacketUseEntity(target, Action.ATTACK));
+					if(doCriticals.isEnabled()) {
+						doCrits();
+					}
 				}
 
 				// autoblock
@@ -757,7 +764,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		// Stop blocking
 		else if (!shouldBlock && isBlocking) {
 			if (autoblockSetting.is("Hypixel")) {
-				if(this.blockTimer.delay(500L)) {
+				if(this.blockTimer.delay(250L)) {
 					mc.gameSettings.keyBindUseItem.pressed = false;
 					// ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
 					this.blockTimer.reset();
@@ -780,6 +787,15 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			val/=str.length();
 		}
 		return new BlockPos(val, -val%255, val);
+	}
+
+	private int groundTicks;
+	private final double[] offsets = new double[]{0.05101, 0.01601, 0.0301, 0.00101};
+	private boolean critical;
+
+	// Criticals
+	private void doCrits() {
+
 	}
 
 }

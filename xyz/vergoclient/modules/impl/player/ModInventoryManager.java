@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import com.sun.corba.se.impl.interceptors.PICurrent;
 import net.minecraft.item.*;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
@@ -39,12 +40,13 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 	public NumberSetting tickDelay = new NumberSetting("Tick delay", 1, 1, 10, 1);
 
 	public static BooleanSetting dropBowAndArrows = new BooleanSetting("Drop BowAndArrows?", false);
+	public static BooleanSetting forceSetTools = new BooleanSetting("Force Slot Tools", false);
 
 	@Override
 	public void loadSettings() {
 		mode.modes.clear();
 		mode.modes.addAll(Arrays.asList("Silent", "Open inv"));
-		addSettings(dropBowAndArrows, tickDelay, mode);
+		addSettings(dropBowAndArrows, forceSetTools, tickDelay, mode);
 	}
 
 	@Override
@@ -122,6 +124,12 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 
 	private static boolean moveOrDropItem(Slot slot, int windowId) {
 
+		if(forceSetTools.isEnabled()) {
+			swordSlot = 0;
+			pickaxeSlot = 1;
+			axeSlot = 2;
+		}
+
 		ItemStack stack = slot.getStack();
 
 		if (stack == null || stack.getItem() == null)
@@ -149,12 +157,20 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 				if (!hasMovedItem && Vergo.config.modInventoryManager.mode.is("Silent")) {
 					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, Action.OPEN_INVENTORY));
 				}
-				InventoryUtils.swap(slot.slotNumber, pickaxeSlot, windowId);
+				if(forceSetTools.isEnabled()) {
+					InventoryUtils.swap(slot.slotNumber, pickaxeSlot, windowId);
+				} else {
+					InventoryUtils.drop(slot.slotNumber,windowId);
+				}
 			} else {
 				if (!hasMovedItem && Vergo.config.modInventoryManager.mode.is("Silent")) {
 					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, Action.OPEN_INVENTORY));
 				}
-				InventoryUtils.drop(slot.slotNumber, windowId);
+				if(forceSetTools.isEnabled()) {
+					InventoryUtils.swap(slot.slotNumber, pickaxeSlot, windowId);
+				} else {
+					InventoryUtils.drop(slot.slotNumber, windowId);
+				}
 			}
 			return true;
 		} else if (stack.getItem() instanceof ItemAxe) {
@@ -164,12 +180,20 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 				if (!hasMovedItem && Vergo.config.modInventoryManager.mode.is("Silent")) {
 					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, Action.OPEN_INVENTORY));
 				}
-				InventoryUtils.swap(slot.slotNumber, axeSlot, windowId);
+				if(forceSetTools.isEnabled()) {
+					InventoryUtils.swap(slot.slotNumber, axeSlot, windowId);
+				} else {
+					InventoryUtils.drop(slot.slotNumber, windowId);
+				}
 			} else {
 				if (!hasMovedItem && Vergo.config.modInventoryManager.mode.is("Silent")) {
 					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, Action.OPEN_INVENTORY));
 				}
-				InventoryUtils.drop(slot.slotNumber, windowId);
+				if(forceSetTools.isEnabled()) {
+					InventoryUtils.swap(slot.slotNumber, axeSlot, windowId);
+				} else {
+					InventoryUtils.drop(slot.slotNumber);
+				}
 			}
 			return true;
 		} else if (stack.getItem() instanceof ItemSpade || stack.getItem() instanceof ItemHoe) {
@@ -222,6 +246,8 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 						(item.getItem().getUnlocalizedName().contains("fishing")) || (item.getItem().getUnlocalizedName().contains("wheat")) ||
 						(item.getItem().getUnlocalizedName().contains("flower")) || (item.getItem().getUnlocalizedName().contains("record")) ||
 						(item.getItem().getUnlocalizedName().contains("note")) || (item.getItem().getUnlocalizedName().contains("sugar")) ||
+						(item.getItem().getUnlocalizedName().contains("redstone")) || (item.getItem().getUnlocalizedName().contains("gunpowder")) ||
+						(item.getItem().getUnlocalizedName().contains("lever")) || (item.getItem().getUnlocalizedName().contains("sand")) ||
 						(item.getItem().getUnlocalizedName().contains("wire")) || (item.getItem().getUnlocalizedName().contains("trip")) ||
 						(item.getItem().getUnlocalizedName().contains("slime")) || (item.getItem().getUnlocalizedName().contains("web")) ||
 						((item.getItem() instanceof ItemGlassBottle)) || (item.getItem().getUnlocalizedName().contains("piston")) ||
@@ -245,6 +271,8 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 					(item.getItem().getUnlocalizedName().contains("fishing")) || (item.getItem().getUnlocalizedName().contains("wheat")) ||
 					(item.getItem().getUnlocalizedName().contains("flower")) || (item.getItem().getUnlocalizedName().contains("record")) ||
 					(item.getItem().getUnlocalizedName().contains("note")) || (item.getItem().getUnlocalizedName().contains("sugar")) ||
+					(item.getItem().getUnlocalizedName().contains("redstone")) || (item.getItem().getUnlocalizedName().contains("gunpowder")) ||
+					(item.getItem().getUnlocalizedName().contains("lever")) || (item.getItem().getUnlocalizedName().contains("sand")) ||
 					(item.getItem().getUnlocalizedName().contains("wire")) || (item.getItem().getUnlocalizedName().contains("trip")) ||
 					(item.getItem().getUnlocalizedName().contains("slime")) || (item.getItem().getUnlocalizedName().contains("web")) ||
 					((item.getItem() instanceof ItemGlassBottle)) || (item.getItem().getUnlocalizedName().contains("piston")) ||

@@ -83,7 +83,7 @@ public class ModFly extends Module implements OnEventInterface {
 	private void doTheFunnyFly(EventMove eventMove) {
 
 		if(this.timer.delay(1200L)) {
-			ChatUtils.addChatMessage("Move!");
+			ChatUtils.addChatMessage("Teleported!");
 			this.HClip(scale.getValueAsFloat());
 			this.timer.reset();
 		}else {
@@ -95,9 +95,9 @@ public class ModFly extends Module implements OnEventInterface {
 
 	private void HClip(final double horizontal) {
 		final double playerYaw = Math.toRadians(mc.thePlayer.rotationYaw);
-		mc.thePlayer.posX = horizontal * -Math.sin(mc.thePlayer.rotationYaw);
+		mc.thePlayer.posX = 7.5 * -Math.sin(mc.thePlayer.rotationYaw);
 		mc.thePlayer.posY = 2.0;
-		mc.thePlayer.posZ = horizontal * Math.cos(mc.thePlayer.rotationYaw);
+		mc.thePlayer.posZ = 7.5 * Math.cos(mc.thePlayer.rotationYaw);
 	}
 	
 }
