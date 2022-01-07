@@ -25,7 +25,6 @@ public class ModHud extends Module {
 	public BooleanSetting renderScoreboardNumbers = new BooleanSetting("Render Scoreboard Numbers", false),
 						  arrayListBackground = new BooleanSetting("ArrayList Background", true),
 						  theFunny = new BooleanSetting("TheFunnyName", false);
-
 	@Override
 	public void loadSettings() {
 

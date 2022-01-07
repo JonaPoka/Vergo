@@ -121,85 +121,84 @@ public class Hud implements OnEventInterface {
 
 			double offset = 0;
 			for (Module module : modules) {
+					arrayListRainbow += 125;
+					arrayListColor++;
 
-				arrayListRainbow += 125;
-				arrayListColor++;
+					String textToRender = module.getName() + " §7" + module.getInfo();
+					if (module.getInfo().isEmpty())
+						textToRender = module.getName();
 
-				String textToRender = module.getName() + " §7" + module.getInfo();
-				if (module.getInfo().isEmpty())
-					textToRender = module.getName();
+					if (updateToggleMovement) {
+						if (module.isEnabled()) {
+							module.arrayListAnimation += (1 - module.arrayListAnimation) / 8;
+							if (module.arrayListAnimation > 1)
+								module.arrayListAnimation = 1;
+						} else {
+							module.arrayListAnimation -= module.arrayListAnimation / 3;
+							if (module.arrayListAnimation < 0)
+								module.arrayListAnimation = 0;
+						}
+					}
 
-				if (updateToggleMovement) {
-					if (module.isEnabled()) {
-						module.arrayListAnimation += (1 - module.arrayListAnimation) / 8;
-						if (module.arrayListAnimation > 1)
-							module.arrayListAnimation = 1;
+					GlStateManager.pushMatrix();
+
+					double squeeze = module.arrayListAnimation * 2;
+					if (squeeze > 1)
+						squeeze = 1;
+
+					GlStateManager.translate((float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 0, 0);
+
+					GlStateManager.scale(1, squeeze, 1);
+
+					GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
+
+					if (Vergo.config.modHud.vergoColor.is("Burgundy")) {
+
+						waveColor = ColorUtils.fadeColor(new Color(196, 0, 69), (int) offset, 30);
+
+					} else if (Vergo.config.modHud.vergoColor.is("Sea Blue")) {
+
+						waveColor = ColorUtils.fadeColor(new Color(4, 120, 219), (int) offset, 30);
+
+					} else if (Vergo.config.modHud.vergoColor.is("Nuclear Green")) {
+
+						waveColor = ColorUtils.fadeColor(new Color(60, 213, 69), (int) offset, 30);
+
 					} else {
-						module.arrayListAnimation -= module.arrayListAnimation / 3;
-						if (module.arrayListAnimation < 0)
-							module.arrayListAnimation = 0;
+
+						waveColor = new Color(250, 250, 250);
+
 					}
-				}
 
-				GlStateManager.pushMatrix();
-
-				double squeeze = module.arrayListAnimation * 2;
-				if (squeeze > 1)
-					squeeze = 1;
-
-				GlStateManager.translate((float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 0, 0);
-
-				GlStateManager.scale(1, squeeze, 1);
-
-				GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
-
-				if(Vergo.config.modHud.vergoColor.is("Burgundy")) {
-
-					waveColor = ColorUtils.fadeColor(new Color(196, 0, 69), (int) offset, 30);
-
-				} else if(Vergo.config.modHud.vergoColor.is("Sea Blue")) {
-
-					waveColor = ColorUtils.fadeColor(new Color(4, 120, 219), (int)offset, 30);
-
-				} else if(Vergo.config.modHud.vergoColor.is("Nuclear Green")) {
-
-					waveColor = ColorUtils.fadeColor(new Color(60, 213, 69), (int) offset, 30);
-
-				} else {
-
-					waveColor = new Color(250, 250, 250);
-
-				}
-
-				if(Vergo.config.modHud.barDirection.is("Right")) {
-					if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
-						Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x70000000);
+					if (Vergo.config.modHud.barDirection.is("Right")) {
+						if (Vergo.config.modHud.arrayListBackground.isEnabled()) {
+							Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x70000000);
+						}
+						align = 4.5f;
+						Gui.drawRect(sr.getScaledWidth() - 2, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
+					} else if (Vergo.config.modHud.barDirection.is("Left")) {
+						if (Vergo.config.modHud.arrayListBackground.isEnabled()) {
+							Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x70000000);
+						}
+						align = 2.7f;
+						Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
+					} else {
+						if (Vergo.config.modHud.arrayListBackground.isEnabled()) {
+							Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x20000000);
+						}
 					}
-					align = 4.5f;
-					Gui.drawRect(sr.getScaledWidth() - 2, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
-				} else if(Vergo.config.modHud.barDirection.is("Left")){
-					if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
-						Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x70000000);
+
+
+					GlStateManager.colorState.alpha = 1;
+
+					fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - align), (float) (offset * (fr.FONT_HEIGHT + 4)) + 3f, waveColor.getRGB());
+
+					GlStateManager.popMatrix();
+					offset++;
+					if (squeeze != 1) {
+						offset--;
+						offset += squeeze;
 					}
-					align = 2.7f;
-					Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
-				} else {
-					if(Vergo.config.modHud.arrayListBackground.isEnabled()) {
-						Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x20000000);
-					}
-				}
-
-
-				GlStateManager.colorState.alpha = 1;
-
-				fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - align), (float) (offset * (fr.FONT_HEIGHT + 4)) + 3f, waveColor.getRGB());
-
-				GlStateManager.popMatrix();
-				offset++;
-				if (squeeze != 1) {
-					offset--;
-					offset += squeeze;
-				}
 
 			}
 		}else {
