@@ -29,7 +29,6 @@ public class ModAntiVoid extends Module implements OnEventInterface {
 	}
 	
 	public void onEnable() {
-		lastOnground = null;
 		antivoid = false;
 		packets.clear();
 	}
@@ -38,7 +37,7 @@ public class ModAntiVoid extends Module implements OnEventInterface {
 		packets.clear();
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Hypixel", "Blink");
+	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Hypixel");
 	public NumberSetting fallDistance = new NumberSetting("Fall distance", 10, 3, 30, 0.5);
 	public BooleanSetting autoEnableScaffold = new BooleanSetting("Auto enable scaffold", false);
 	
@@ -48,10 +47,8 @@ public class ModAntiVoid extends Module implements OnEventInterface {
 	}
 	
 	private static transient CopyOnWriteArrayList<Packet> packets = new CopyOnWriteArrayList<Packet>();
-	private static transient DataDouble6 lastOnground = null;
-	private static transient boolean antivoid = false, resumeCheckingAfterFall = false;
+	private static transient boolean antivoid = false;
 	private static transient TimerUtil noSpam = new TimerUtil();
-	private static transient CopyOnWriteArrayList<BlockPos> blockposToReset = new CopyOnWriteArrayList<>();
 	
 	public void onEvent(Event e) {
 		
@@ -61,27 +58,8 @@ public class ModAntiVoid extends Module implements OnEventInterface {
 		
 		if (mc.thePlayer.capabilities.isFlying || mc.thePlayer.capabilities.allowFlying)
 			return;
-		
-		if (mode.is("Blink")) {
-			blinkAntivoidEvent(e);
-			return;
-		}
-		
-//		if (e instanceof EventUpdate && e.isPre() && mc.thePlayer.fallDistance > fallDistance.getValueAsDouble() && mode.is("Hypixel") && Hummus.config.modFly.isDisabled()) {
-//			if (isOverVoid() && !antivoid) {
-//				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + fallDistance.getValueAsDouble() + 1, mc.thePlayer.posZ, true));
-//				antivoid = true;
-//				mc.thePlayer.onGround = false;
-//				noSpam.reset();
-//				ChatUtils.addChatMessage("Antivoid saved you");
-//				if (autoEnableScaffold.isEnabled() && Hummus.config.modScaffold.isDisabled())
-//					Hummus.config.modScaffold.toggle();
-//			}
-//		}
 		if (e instanceof EventUpdate && e.isPre() && mc.thePlayer.fallDistance > fallDistance.getValueAsDouble() && mode.is("Hypixel") && Vergo.config.modFly.isDisabled()) {
 			if (isOverVoid() && !antivoid) {
-//				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + fallDistance.getValueAsDouble() + 1, mc.thePlayer.posZ, true));
-//				((EventUpdate)e).y += fallDistance.getValueAsDouble() + 1;
 				((EventUpdate)e).x = mc.thePlayer.motionX;
 				((EventUpdate)e).y = -999.0D;
 				((EventUpdate)e).z = mc.thePlayer.motionZ;
@@ -100,84 +78,6 @@ public class ModAntiVoid extends Module implements OnEventInterface {
 			}
 		}
 		
-	}
-	
-	private void blinkAntivoidEvent(Event e) {
-		if (Vergo.config.modFly.isEnabled()) {
-			resumeCheckingAfterFall = Vergo.config.modFly.isEnabled();
-			lastOnground = null;
-			return;
-		}
-		
-		if (resumeCheckingAfterFall) {
-			lastOnground = null;
-			if (e instanceof EventUpdate && e.isPre()) {
-				if (MovementUtils.isOnGround(0.0001)) {
-					resumeCheckingAfterFall = false;
-				}
-			}
-			return;
-		}
-		
-//		if (ServerUtils.isOnHypixel()) {
-//			NotificationManager.getNotificationManager().createNotification("Antivoid", "Antivoid does not bypass", true, 5000, Type.WARNING, Color.RED);
-//			toggle();
-//		}
-		
-		if (e instanceof EventUpdate && e.isPre()) {
-			
-			setInfo("Blink");
-			
-			if (mc.thePlayer.ticksExisted < 5) {
-				blockposToReset.clear();
-			}
-			
-			if (!isOverVoid()) {
-//				lastOnground = new DataDouble6(mc.thePlayer.posX, mc.thePlayer.posY + 0.1, mc.thePlayer.posZ, mc.thePlayer.motionX, mc.thePlayer.motionY + 0.1, mc.thePlayer.motionZ);
-				lastOnground = new DataDouble6(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.motionX, mc.thePlayer.motionY, mc.thePlayer.motionZ);
-				for (Packet p : packets) {
-					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(p);
-				}
-				packets.clear();
-				antivoid = false;
-			}else {
-				
-				if (mc.thePlayer.fallDistance >= fallDistance.getValueAsDouble() && antivoid && noSpam.hasTimeElapsed(2000, true)) {
-					packets.clear();
-					
-					// Removes ghost blocks
-					for (BlockPos reset : blockposToReset)
-						mc.theWorld.setBlockToAir(reset);
-					
-					blockposToReset.clear();
-					
-					try {
-						MiscellaneousUtils.setPosAndMotionWithDataDouble6(lastOnground);
-					} catch (Exception e2) {
-						
-					}
-					antivoid = false;
-					resumeCheckingAfterFall = true;
-					if (autoEnableScaffold.isEnabled() && Vergo.config.modScaffold.isDisabled())
-						Vergo.config.modScaffold.toggle();
-				}
-				
-			}
-			
-		}
-		else if (e instanceof EventSendPacket && e.isPre()) {
-			
-			if (isOverVoid()) {
-				if (((EventSendPacket)e).packet instanceof C08PacketPlayerBlockPlacement) {
-					C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement)((EventSendPacket)e).packet;
-					blockposToReset.add(packet.position);
-				}
-				packets.add(((EventSendPacket)e).packet);
-				e.setCanceled(true);
-				antivoid = true;
-			}
-			
-		}
 	}
 	
 	private boolean isOverVoid() {

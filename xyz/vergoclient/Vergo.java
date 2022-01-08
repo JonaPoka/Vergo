@@ -14,7 +14,6 @@ import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.ui.Hud;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.ui.guis.GuiClickGui;
-import xyz.vergoclient.userFinder.UserFinder;
 import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.anticheat.Player;
@@ -125,12 +124,6 @@ public class Vergo {
 					@Override
 					public void task() {
 						FileSaver.init();
-					}
-				},
-				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
-					@Override
-					public void task() {
-						ModuleManager.eventListeners.add(new UserFinder());
 					}
 				},
 				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {

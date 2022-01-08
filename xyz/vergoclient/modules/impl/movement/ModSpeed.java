@@ -80,9 +80,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 	
 	private void onHypixelEvent(Event e) {
 
-		if(e instanceof EventRenderGUI && e.isPre()) {
-			//FontUtil.comfortaaNormal.drawString(Math.round(MovementUtils.getBlocksPerSecond()) + " BPS", (double) GuiScreen.width - GuiScreen.width + 2, GuiScreen.height - 25, new Color(0xFFFFFF).getRGB());
-		}
 		
 		if (e instanceof EventTick && e.isPre()) {
 
@@ -139,13 +136,17 @@ public class ModSpeed extends Module implements OnEventInterface {
 					mc.thePlayer.jump();
 				} else {
 					mc.thePlayer.jump();
-					mc.timer.timerSpeed = 1.09f;
-					mc.thePlayer.motionX *= 1.0788F;
-					mc.thePlayer.motionZ *= 1.0788F;
+					mc.timer.timerSpeed = 1f;
+					mc.thePlayer.motionX *= 1.0888F;
+					mc.thePlayer.motionZ *= 1.0888F;
 					mc.thePlayer.moveStrafing *= 2;
 				}
 			} else {
-				mc.thePlayer.jumpMovementFactor = 0.0256F;
+				mc.timer.ticksPerSecond = 20.5f;
+				mc.timer.timerSpeed = 1.09f;
+				mc.thePlayer.jumpMovementFactor = 0.0226F;
+				mc.thePlayer.motionX *= 1.01F;
+				mc.thePlayer.motionZ *= 1.01F;
 			}
 		}
 

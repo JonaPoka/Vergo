@@ -2,6 +2,8 @@ package xyz.vergoclient.modules.impl.player;
 
 import java.util.Arrays;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.event.impl.EventSendPacket;
@@ -50,12 +52,48 @@ public class ModNoFall extends Module implements OnEventInterface {
 		}
 
 		else if (e instanceof EventUpdate && e.isPre()) {
-			if (mc.thePlayer.fallDistance > 3) {
+			if (mc.thePlayer.fallDistance > 3 && !isOverVoid()) {
 				mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer(true));
 			}
-			if (mc.thePlayer.fallDistance > 4) {
+			if (mc.thePlayer.fallDistance > 4 && !isOverVoid()) {
 				mc.thePlayer.setPosition(mc.thePlayer.lastTickPosX, mc.thePlayer.posY, mc.thePlayer.lastTickPosZ);
 			}
 		}
+	}
+
+	private boolean isOverVoid() {
+
+		boolean isOverVoid = true;
+		BlockPos block = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1, mc.thePlayer.posZ);
+
+		for (double i = mc.thePlayer.posY + 1; i > 0; i -= 0.5) {
+
+			if (isOverVoid) {
+
+				try {
+					if (mc.theWorld.getBlockState(block).getBlock() != Blocks.air) {
+
+						isOverVoid = false;
+						break;
+
+					}
+				} catch (Exception e) {
+
+				}
+
+			}
+
+			block = block.add(0, -1, 0);
+
+		}
+
+		for (double i = 0; i < 10; i += 0.1) {
+			if (MovementUtils.isOnGround(i) && isOverVoid) {
+				isOverVoid = false;
+				break;
+			}
+		}
+
+		return isOverVoid;
 	}
 }

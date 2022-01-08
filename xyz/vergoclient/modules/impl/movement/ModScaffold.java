@@ -303,22 +303,13 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 		if (e instanceof EventReceivePacket && e.isPre()) {
 
-//			if (Hummus.config.modKillAura.isEnabled() && ModKillAura.target != null) {
-//				return;
-//			}
-
 			if (((EventReceivePacket)e).packet instanceof S2FPacketSetSlot) {
 				lastSlot = ((S2FPacketSetSlot)((EventReceivePacket)e).packet).slot;
-				//e.setCanceled(true);
 			}
 
 		}
 
 		if (e instanceof EventSendPacket & e.isPre()) {
-
-//			if (Hummus.config.modKillAura.isEnabled() && ModKillAura.target != null) {
-//				return;
-//			}
 			if (((EventSendPacket)e).packet instanceof C09PacketHeldItemChange) {
 				lastSlot = ((C09PacketHeldItemChange)((EventSendPacket)e).packet).getSlotId();
 			}
@@ -483,17 +474,12 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	}
 
 	public void attemptBlockPlace(EventUpdate e) {
-		// Event
 		EventUpdate event = (EventUpdate) e;
 
-		// Info
 		setInfo("Mode: " + rotationMode.getMode());
-
-		// prevents flags on Hypixel
 		if (!sprintSetting.isEnabled() && mc.thePlayer.isSprinting()) {
 			mc.thePlayer.setSprinting(false);
 		} else if (sprintSetting.isEnabled() && !mc.thePlayer.isSprinting()) {
-//						mc.thePlayer.setSprinting(true);
 		}
 
 		if (timerBoostSetting.getValueAsDouble() >= 1.000001)
@@ -501,11 +487,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 		if (rotationMode.is("Hypixel Slow")) {
 			if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-//		                  mc.thePlayer.motionX *= 0.818f;
-//		                  mc.thePlayer.motionZ *= 0.818f;
 				mc.thePlayer.motionX *= 0.6f;
 				mc.thePlayer.motionZ *= 0.6f;
-//		                	mc.timer.timerSpeed = 0.818f;
 			}
 		}
 
@@ -517,7 +500,6 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		// Keep rotations
 		if (lastBlockPos != null && lastFacing != null) {
 			if (mc.thePlayer.ticksExisted % 2 == 0) {
-//							lastBlockPos = lastBlockPos.offset(lastFacing.getOpposite());
 			}
 			float[] keepRots = getRotations(lastBlockPos, lastFacing, false);
 			if (keepRots != null) {
@@ -560,9 +542,6 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		if (forwardExtendSetting.getValueAsDouble() == 0 && sidewaysExtendSetting.getValueAsDouble() == 0) {
 
 			targetPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1, mc.thePlayer.posZ);
-//			targetPos = WorldUtils.getForwardBlockFromMovement(-0.125).add(0, -1, 0);
-//			targetPos = WorldUtils.getForwardBlockFromMovement(-0.125).add(0, -1, 0);
-
 			if (keepYSetting.isEnabled() && !(mc.thePlayer.posY - 1 < keepPosY)
 					&& !(overrideKeepYSetting.isEnabled() && mc.gameSettings.keyBindJump.isKeyDown())) {
 				targetPos.y = (int) keepPosY;
@@ -666,8 +645,6 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		if (isTowering()) {
 			if (towerMode.is("NCP")) {
 				MovementUtils.setMotion(0);
-//				MovementUtils.setMotion(0);
-//				mc.thePlayer.setPosition(mc.thePlayer.lastTickPosX, mc.thePlayer.posY, mc.thePlayer.lastTickPosZ);
 				if (MovementUtils.isOnGround(0.0001)) {
 					if (MovementUtils.isOnGround(0.76) && !MovementUtils.isOnGround(0.75) && mc.thePlayer.motionY > 0.23 && mc.thePlayer.motionY < 0.25) {
 						mc.thePlayer.motionY = Math.round(mc.thePlayer.posY) - mc.thePlayer.posY;

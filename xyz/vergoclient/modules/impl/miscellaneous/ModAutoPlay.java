@@ -1,6 +1,7 @@
 package xyz.vergoclient.modules.impl.miscellaneous;
 
 import net.minecraft.network.play.server.S02PacketChat;
+import net.minecraft.util.ChatComponentText;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.modules.Module;
@@ -54,7 +55,7 @@ public class ModAutoPlay extends Module implements OnEventInterface {
                         triggerNewGame();
                     } else {
                         if(packet.getChatComponent().getFormattedText().contains("A player has been removed from your game.")) {
-                            packet.getChatComponent().getFormattedText().replaceAll("A player", "A skidder");
+                            packet.chatComponent = new ChatComponentText(packet.getChatComponent().getFormattedText().replace("A player", "A skidder"));
                         }
                     }
                 }

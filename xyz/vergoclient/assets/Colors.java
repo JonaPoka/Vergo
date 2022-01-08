@@ -14,7 +14,7 @@ import net.minecraft.client.Minecraft;
 
 public enum Colors {
 	
-	HUMMUS(0xffcbb277),
+	COLOR(0xffcbb277),
 	BLACK(0xff000000),
 	CREAM(0xffFFFDD0),
 	WHITE(0xffffffff),

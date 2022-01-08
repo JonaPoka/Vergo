@@ -30,9 +30,7 @@ public class CommandManager implements OnEventInterface {
 		commands.add(new CommandHelp());
 		commands.add(new CommandConfig());
 		commands.add(new CommandBind());
-		commands.add(new CommandSetSpawn());
 		commands.add(new CommandKeybinds());
-		commands.add(new CommandSay());
 	}
 	
 	// Event hook so we can use the commands

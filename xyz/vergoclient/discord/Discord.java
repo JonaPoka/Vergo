@@ -32,34 +32,21 @@ public class Discord extends Thread {
 			else if (ServerUtils.isOnHypixel()) {
 
 				activity.setDetails("Playing Hypixel (Vergo Approved)");
-				// activity.setState(AccountUtils.account.username + " - " + new DecimalFormat("#####0000").format(AccountUtils.account.id));
 			}else {
 				activity.setDetails("Destroying on " + Minecraft.getMinecraft().getCurrentServerData().serverIP.toLowerCase());
-				// activity.setState(AccountUtils.account.username + " - " + new DecimalFormat("#####0000").format(AccountUtils.account.id));
 			}
 		} catch (Exception e) {}
-		
-		// Setting a start time causes an "elapsed" field to appear
-		activity.timestamps().setStart(timeStarted);
 
-		// We are in a party with 1 out of 4 people.
-//		activity.party().size().setCurrentSize(1);
-//		activity.party().size().setMaxSize(4);
+		activity.timestamps().setStart(timeStarted);
 
 		// Makes an image show up
 		activity.assets().setLargeImage("vergo");
-//		activity.assets().setLargeText("I like hummus");
-		
-		// Will anyone notice I changed this line?
-		// activity.assets().setLargeText("The person with this status is a furry " + FurryUtils.getFurryText());
 		
 		return activity;
 	}
-	
-	// If it can't download the discord lib then cancel the load
+
 	public static boolean cancelDiscordLoad = false;
-	
-	// Made in another thread because while loop
+
 	@Override
 	public void run() {
 		
@@ -77,25 +64,20 @@ public class Discord extends Thread {
 			System.err.println("Error downloading Discord SDK. (2)");
 			return;
 		}
-		
-		// Hopefully prevents a crash
+
 		try {
 			Thread.sleep(1000);
 		} catch (Exception e) {}
-		
-		// Initialize the Core
+
 		Core.init(discordLibrary);
 
-		// Set parameters for the Core
 		try (CreateParams params = new CreateParams()) {
 			params.setClientID(920752902925070336L);
 			params.setFlags(CreateParams.Flags.NO_REQUIRE_DISCORD);
-			// Create the Core
 			try (Core core = new Core(params)) {
 				
 				Discord.core = core;
-				
-				// Run callbacks forever
+
 				while (true) {
 					if (changeStatus) {
 						core.activityManager().updateActivity(createActivity());
@@ -119,12 +101,11 @@ public class Discord extends Thread {
 		}
 		
 	}
-	
-	// Good version of the code below, a lot less stress on your network and faster in general
+
 	public static File getDiscordLib() {
 		if (OSUtil.isWindows()) {
 			if (!FileManager.discordLibWindows.exists()) {
-				GuiStart.percentText = RandomStringUtil.getRandomLoadingMsg();
+				GuiStart.percentText = "Downloading Discord RPC, Please Wait...";
 				FileManager.downloadFile("https://github.com/Hummus-Appreciation-Club/discord-game-lib-dll-download/raw/main/discord_game_sdk.dll", FileManager.discordLibWindows);
 			}
 			GuiStart.percentText = RandomStringUtil.getRandomLoadingMsg();
@@ -136,7 +117,7 @@ public class Discord extends Thread {
 		}
 		else if (OSUtil.isLinux() || OSUtil.isMac()) {
 			if (!FileManager.discordLibUnix.exists()) {
-				GuiStart.percentText = "Downloading discord so...";
+				GuiStart.percentText = "Downloading Discord RPC, Please Wait...";
 				FileManager.downloadFile("https://github.com/Hummus-Appreciation-Club/discord-game-lib-dll-download/raw/main/discord_game_sdk.so", FileManager.discordLibUnix);
 			}
 			GuiStart.percentText = RandomStringUtil.getRandomLoadingMsg();
