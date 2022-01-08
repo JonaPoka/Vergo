@@ -3,11 +3,13 @@ package xyz.vergoclient.ui.guis;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.eclipse.swt.internal.C;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.keybinds.KeyboardManager;
 import xyz.vergoclient.modules.Module;
 
+import java.awt.*;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.BlurUtils;
 import xyz.vergoclient.util.GuiUtils;
+import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.TimerUtil;
 import xyz.vergoclient.util.datas.DataDouble5;
 import xyz.vergoclient.modules.ModuleManager;
@@ -282,6 +285,7 @@ public class GuiClickGui extends GuiScreen {
 			if (button.tab != null) {
 				GlStateManager.pushMatrix();
 				Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.CLICK_GUI_CAT.getColor());
+				// RenderUtils.drawRoundedRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, 3f, new Color(19, 24, 44));
 				FontUtil.jelloFontMedium.drawString(button.tab.category.displayName, button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 				GlStateManager.popMatrix();
 				
