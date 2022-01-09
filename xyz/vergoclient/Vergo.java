@@ -21,37 +21,28 @@ import net.minecraft.util.ResourceLocation;
 import xyz.vergoclient.modules.Module;
 
 public class Vergo {
-	
-	// The current config
+
 	public static ModuleManager config;
-	
-	// Discord
+
 	public static Discord discord = new Discord();
-	
-	// The version of the client
+
 	public static transient String version = " PRE-RELEASE-DEV";
-	
-	// Cached icons
+
 	public static transient CopyOnWriteArrayList<ResourceLocation> cachedIcons = new CopyOnWriteArrayList<>();
-	
-	// Startup tasks
+
 	public static transient CopyOnWriteArrayList<StartupTask> startupTasks = new CopyOnWriteArrayList<>();
 
-	// The command manager
 	public static transient CommandManager commandManager;
-	
-	// The player (used for bypasses)
+
 	private static transient Player player = new Player();
-	
-	// Creates and executes startup tasks
+
 	public static void startup() {
 		
-		// Creates startup tasks
+		// Startup tasks initiate here.
 		startupTasks.addAll(Arrays.asList(
 				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
-						// Starts the file manager
 						FileManager.init();
 						
 						if (FileManager.defaultKeybindsFile.exists()) {
@@ -139,11 +130,9 @@ public class Vergo {
 					}
 				}
 			));
-		
-		// This fixes a bug
+
 		startupTasks.add(new StartupTask(RandomStringUtil.getRandomLoadingMsg()));
-		
-		// Runs startup tasks
+
 		new Thread(() -> {
 			
 			for (StartupTask startupTask : startupTasks) {
@@ -151,8 +140,7 @@ public class Vergo {
 				startupTask.task();
 				GuiStart.percentDoneTarget = ((double)startupTasks.indexOf(startupTask)) / ((double)startupTasks.size() - 1);
 			}
-			
-			// Makes sure the startup screen lingers for at least 2.5 secs
+
 			GuiStart.percentText = RandomStringUtil.getRandomLoadingMsg();
 			try {
 				Thread.sleep(2500);

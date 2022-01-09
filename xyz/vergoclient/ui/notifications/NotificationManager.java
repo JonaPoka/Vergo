@@ -3,7 +3,7 @@ package xyz.vergoclient.ui.notifications;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class NotificationManager {
-    private static LinkedBlockingQueue<Notification> pendingNotifications = new LinkedBlockingQueue<>();
+    public static LinkedBlockingQueue<Notification> pendingNotifications = new LinkedBlockingQueue<>();
     private static Notification currentNotification = null;
 
     public static void show(Notification notification) {

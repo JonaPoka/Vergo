@@ -52,6 +52,8 @@ import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.ui.notifications.Notification;
 import xyz.vergoclient.ui.notifications.NotificationManager;
 
+import static xyz.vergoclient.modules.ModuleManager.notiFix;
+
 public class GuiIngame extends Gui
 {
     private static final ResourceLocation vignetteTexPath = new ResourceLocation("textures/misc/vignette.png");
@@ -354,7 +356,11 @@ public class GuiIngame extends Gui
             this.overlayPlayerList.renderPlayerlist(i, scoreboard, scoreobjective1);
         }
 
-        NotificationManager.render();
+        if(Vergo.config.modNotifications.isDisabled()) {
+
+        } else {
+            NotificationManager.render();
+        }
         
         EventRenderGUI event = new EventRenderGUI();
         event.setType(EventType.PRE);

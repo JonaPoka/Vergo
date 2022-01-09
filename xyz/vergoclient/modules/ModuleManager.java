@@ -9,6 +9,9 @@ import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.files.FileManager;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.guis.GuiStart;
+import xyz.vergoclient.ui.notifications.Notification;
+import xyz.vergoclient.ui.notifications.NotificationManager;
+import xyz.vergoclient.ui.notifications.NotificationType;
 import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.datas.DataDouble6;
 import net.minecraft.client.Minecraft;
@@ -295,6 +298,8 @@ public class ModuleManager {
 //		FileManager.writeToFile(new File(FileManager.configDir, config + ".json"), this);
 	}
 
+	public static int notiFix = 0;
+
 	// Loads a config from a file
 	public static ModuleManager getConfig(String configName) {
 
@@ -305,6 +310,7 @@ public class ModuleManager {
 		for (Module module : modules) {
 			if (module.isEnabled())
 				module.toggle();
+			NotificationManager.pendingNotifications.clear();
 		}
 		
 		if (!file.exists()) {
@@ -312,6 +318,10 @@ public class ModuleManager {
 			ModuleManager newConfig = new ModuleManager();
 			newConfig.modules.clear();
 			newConfig.init();
+			if (Minecraft.getMinecraft().entityRenderer.theShaderGroup != null) {
+				Minecraft.getMinecraft().entityRenderer.theShaderGroup.deleteShaderGroup();
+				Minecraft.getMinecraft().entityRenderer.theShaderGroup = null;
+			}
 			currentlyLoadingConfig = false;
 			return new ModuleManager();
 		}
@@ -379,6 +389,7 @@ public class ModuleManager {
 				}
 				if (moduleJson.getBoolean("isEnabled"))
 					module.toggle();
+					NotificationManager.pendingNotifications.clear();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -387,7 +398,9 @@ public class ModuleManager {
 		Vergo.config = newConfig;
 		
 		currentlyLoadingConfig = false;
-		
+
+		NotificationManager.show(new Notification(NotificationType.INFO, "Config Loaded!", configName + " config loaded!", 2));
+
 		return newConfig;
 	}
 

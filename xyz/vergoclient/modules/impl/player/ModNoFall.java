@@ -52,10 +52,10 @@ public class ModNoFall extends Module implements OnEventInterface {
 		}
 
 		else if (e instanceof EventUpdate && e.isPre()) {
-			if (mc.thePlayer.fallDistance > 3 && !isOverVoid()) {
+			if (mc.thePlayer.fallDistance > 3 && !isOverVoid() && !mc.thePlayer.isSpectator()) {
 				mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer(true));
 			}
-			if (mc.thePlayer.fallDistance > 4 && !isOverVoid()) {
+			if (mc.thePlayer.fallDistance > 4 && !isOverVoid() && !mc.thePlayer.isSpectator()) {
 				mc.thePlayer.setPosition(mc.thePlayer.lastTickPosX, mc.thePlayer.posY, mc.thePlayer.lastTickPosZ);
 			}
 		}

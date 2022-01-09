@@ -13,6 +13,8 @@ import xyz.vergoclient.util.anticheat.Player;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static xyz.vergoclient.modules.ModuleManager.notiFix;
+
 public abstract class Module {
 	
 	public Module(String name, String description, Category category) {
@@ -93,7 +95,7 @@ public abstract class Module {
 
 				} else {
 					String message = WordUtils.wrap(getName() + " has been enabled!", 120);
-					NotificationManager.show(new Notification(NotificationType.INFO, getName() + " Enabled!", message, 1));
+					NotificationManager.show(new Notification(NotificationType.INFO, getName() + " Enabled!", message, 2));
 				}
 				onEnable();
 			}else {
@@ -101,7 +103,7 @@ public abstract class Module {
 
 				} else {
 					String message = WordUtils.wrap(getName() + " has been disabled!", 120);
-					NotificationManager.show(new Notification(NotificationType.ERROR, getName() + " Disabled!", message, 1));
+					NotificationManager.show(new Notification(NotificationType.ERROR, getName() + " Disabled!", message, 2));
 				}
 				onDisable();
 			}
