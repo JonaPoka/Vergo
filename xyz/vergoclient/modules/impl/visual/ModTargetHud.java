@@ -7,6 +7,7 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
@@ -344,7 +345,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				// RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
-				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager) {
+				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {
 
 				} else {
 					this.renderArmor((EntityPlayer) ent, 67);
@@ -357,7 +358,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				// 3D model of the target
 				GlStateManager.disableBlend();
 				GlStateManager.color(1, 1, 1, armorOpacity.getOpacity());
-				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager) {
+				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {
 
 				} else {
 					GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
@@ -480,7 +481,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				// RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
-				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager) {
+				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {
 
 				} else {
 					this.renderArmor((EntityPlayer) ent, 67);
@@ -493,7 +494,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				// 3D model of the target
 				GlStateManager.disableBlend();
 				GlStateManager.color(1, 1, 1, armorOpacity.getOpacity());
-				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager) {
+				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {
 					GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
 				} else {
 
