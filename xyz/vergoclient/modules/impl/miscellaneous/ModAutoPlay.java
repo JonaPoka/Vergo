@@ -16,11 +16,9 @@ import xyz.vergoclient.util.ServerUtils;
 import xyz.vergoclient.util.Timer;
 
 public class ModAutoPlay extends Module implements OnEventInterface {
-    Timer timer;
 
     public ModAutoPlay() {
         super("AutoPlay", Category.MISCELLANEOUS);
-        this.timer = new Timer();
     }
 
     public ModeSetting teamMode = new ModeSetting("Team Mode", "Solo Normal", "Solo Normal", "Solo Insane", "Teams Normal", "Teams Insane");
@@ -29,7 +27,7 @@ public class ModAutoPlay extends Module implements OnEventInterface {
 
     @Override
     public void onEnable() {
-
+        timer.reset();
     }
 
     @Override
@@ -41,6 +39,8 @@ public class ModAutoPlay extends Module implements OnEventInterface {
     public void loadSettings() {
         addSettings(teamMode, commandDelay);
     }
+
+    Timer timer = new Timer();
 
     @Override
     public void onEvent(Event e) {
@@ -60,7 +60,6 @@ public class ModAutoPlay extends Module implements OnEventInterface {
                 if(teamMode.is("Solo Normal") || teamMode.is("Solo Insane") || teamMode.is("Teams Normal") || teamMode.is("Teams Insane")) {
                     if (packet.getChatComponent().getUnformattedText().contains("You died! Want to play again?") || packet.getChatComponent().getUnformattedText().contains("You won! Want to play again?") ||
                             packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to return to lobby!")) {
-                        timer.reset();
                         NotificationManager.show(new Notification(NotificationType.INFO, "Game Ended!", "Sending you to a new game...", 2));
                         triggerNewGame();
 
@@ -75,7 +74,8 @@ public class ModAutoPlay extends Module implements OnEventInterface {
     }
 
     private void triggerNewGame() {
-        if(timer.delay((commandDelay.getValueAsLong() * 1000))) {
+        timer.reset();
+        if(timer.delay(commandDelay.getValueAsLong())) {
             ChatUtils.addChatMessage("Timer Triggered");
             if (teamMode.is("Solo Normal")) {
                 mc.thePlayer.sendChatMessage("/play solo_normal");
