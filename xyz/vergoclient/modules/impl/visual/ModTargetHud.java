@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.item.ItemArmor;
@@ -302,7 +303,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				//GL11.glColor4f();
 
 				// RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, getColor(20, 20, 20, (int) boxOpacity.getOpacity()), getColor(29, 29, 29, (int) boxOpacity.getOpacity()));
-				RenderUtils.drawAlphaRoundedRect(0, 0, 40 + width, 40, 5, getColor(19, 24, 44, (int)boxOpacity.getOpacity()));
+				RenderUtils.drawAlphaRoundedRect(0, 0, 40 + width, 40, 5, getColor(19, 24, 44, (int) boxOpacity.getOpacity()));
 
 				FontUtil.bakakakmedium.drawString(clientTag + playerName, 30f, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
 				FontUtil.bakakakmedium.drawString(healthStr, 37 + width - FontUtil.bakakakmedium.getStringWidth(healthStr) - 2, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
@@ -343,7 +344,11 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				// RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
-				this.renderArmor((EntityPlayer) ent, 67);
+				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager) {
+
+				} else {
+					this.renderArmor((EntityPlayer) ent, 67);
+				}
 
 				GlStateManager.disableBlend();
 				GlStateManager.enableAlpha();
@@ -352,7 +357,11 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				// 3D model of the target
 				GlStateManager.disableBlend();
 				GlStateManager.color(1, 1, 1, armorOpacity.getOpacity());
-				GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
+				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager) {
+
+				} else {
+					GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
+				}
 				GL11.glPopMatrix();
 			} else if (mode.is("Vergo Red")) {
 
@@ -471,7 +480,11 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				// RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
-				this.renderArmor((EntityPlayer) ent, 67);
+				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager) {
+
+				} else {
+					this.renderArmor((EntityPlayer) ent, 67);
+				}
 
 				GlStateManager.disableBlend();
 				GlStateManager.enableAlpha();
@@ -480,7 +493,11 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				// 3D model of the target
 				GlStateManager.disableBlend();
 				GlStateManager.color(1, 1, 1, armorOpacity.getOpacity());
-				GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
+				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager) {
+					GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
+				} else {
+
+				}
 				GL11.glPopMatrix();
 			}
 		}
