@@ -95,7 +95,7 @@ public abstract class Module {
 
 				} else {
 					String message = WordUtils.wrap(getName() + " has been enabled!", 120);
-					NotificationManager.show(new Notification(NotificationType.INFO, getName() + " Enabled!", message, 2));
+					NotificationManager.show(new Notification(NotificationType.INFO, getName() + " Enabled!", message, 1));
 				}
 				onEnable();
 			}else {
@@ -103,7 +103,7 @@ public abstract class Module {
 
 				} else {
 					String message = WordUtils.wrap(getName() + " has been disabled!", 120);
-					NotificationManager.show(new Notification(NotificationType.ERROR, getName() + " Disabled!", message, 2));
+					NotificationManager.show(new Notification(NotificationType.ERROR, getName() + " Disabled!", message, 1));
 				}
 				onDisable();
 			}
