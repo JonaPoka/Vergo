@@ -17,17 +17,22 @@ import xyz.vergoclient.util.Timer;
 
 public class ModAutoPlay extends Module implements OnEventInterface {
 
+    Timer timer;
+
     public ModAutoPlay() {
         super("AutoPlay", Category.MISCELLANEOUS);
+        this.timer = new Timer();
     }
 
     public ModeSetting teamMode = new ModeSetting("Team Mode", "Solo Normal", "Solo Normal", "Solo Insane", "Teams Normal", "Teams Insane");
 
-    public NumberSetting commandDelay = new NumberSetting("Game Delay", 1, 1, 5, 0.1);
+    public static NumberSetting commandDelay1 = new NumberSetting("Game Delay", 1, 1, 5, 0.1);
 
     @Override
     public void onEnable() {
-        timer.reset();
+        if(teamMode != null) {
+            this.timer.reset();
+        }
     }
 
     @Override
@@ -37,14 +42,13 @@ public class ModAutoPlay extends Module implements OnEventInterface {
 
     @Override
     public void loadSettings() {
-        addSettings(teamMode, commandDelay);
-    }
 
-    Timer timer = new Timer();
+
+        addSettings(teamMode, commandDelay1);
+    }
 
     @Override
     public void onEvent(Event e) {
-
         if (e instanceof EventReceivePacket && e.isPre()) {
             if(!ServerUtils.isOnHypixel()) {
                 return;
@@ -61,8 +65,7 @@ public class ModAutoPlay extends Module implements OnEventInterface {
                     if (packet.getChatComponent().getUnformattedText().contains("You died! Want to play again?") || packet.getChatComponent().getUnformattedText().contains("You won! Want to play again?") ||
                             packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to return to lobby!")) {
                         NotificationManager.show(new Notification(NotificationType.INFO, "Game Ended!", "Sending you to a new game...", 2));
-                        triggerNewGame();
-
+                        doCommands();
                     } else {
                         if(packet.getChatComponent().getFormattedText().contains("A player has been removed from your game.")) {
                             packet.chatComponent = new ChatComponentText(packet.getChatComponent().getFormattedText().replace("A player", "A skidder"));
@@ -73,17 +76,20 @@ public class ModAutoPlay extends Module implements OnEventInterface {
         }
     }
 
-    private void triggerNewGame() {
-        timer.reset();
-        if(timer.delay(commandDelay.getValueAsLong())) {
-            ChatUtils.addChatMessage("Timer Triggered");
+    public int cooldown = 1000;
+
+    public void doCommands() {
+        this.timer.reset();
+        //ChatUtils.addChatMessage("Timer Timer Timer Timer " + timer.lastMs);
+        if(this.timer.delay(commandDelay1.getValueAsLong() * 1000)) {
+            ChatUtils.addChatMessage("Timer Event Triggered! + " + (commandDelay1.getValueAsLong()) * 1000 + " " + cooldown);
             if (teamMode.is("Solo Normal")) {
                 mc.thePlayer.sendChatMessage("/play solo_normal");
-            } else if (teamMode.is("Solo Insane")) {
+            } else if(teamMode.is("Solo Insane")) {
                 mc.thePlayer.sendChatMessage("/play solo_insane");
-            } else if (teamMode.is("Teams Normal")) {
+            } else if(teamMode.is("Teams Normal")) {
                 mc.thePlayer.sendChatMessage("/play teams_normal");
-            } else if (teamMode.is("Teams Insane")) {
+            } else if(teamMode.is("Teams Insane")) {
                 mc.thePlayer.sendChatMessage("/play teams_insane");
             }
         }

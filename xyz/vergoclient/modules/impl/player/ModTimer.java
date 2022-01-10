@@ -51,7 +51,7 @@ public class ModTimer extends Module implements OnEventInterface {
 			
 			if (hypixelBlinkToggle.isEnabled()) {
 		        if (blinkTimer.hasTimeElapsed(230, true)) {
-		        	Vergo.config.modBlink.toggle();
+		        	Vergo.config.modBlink.silentToggle();
 		        }
 			}
 		}

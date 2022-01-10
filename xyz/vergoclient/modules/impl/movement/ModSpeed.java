@@ -2,17 +2,18 @@ package xyz.vergoclient.modules.impl.movement;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.network.play.client.*;
 import net.minecraft.potion.Potion;
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
-import xyz.vergoclient.event.impl.EventRenderGUI;
-import xyz.vergoclient.event.impl.EventTick;
-import xyz.vergoclient.event.impl.EventUpdate;
+import xyz.vergoclient.event.impl.*;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.ui.fonts.FontUtil;
+import xyz.vergoclient.util.ChatUtils;
 import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.TimerUtil;
@@ -25,9 +26,12 @@ public class ModSpeed extends Module implements OnEventInterface {
 
 	Timer jumpTimer;
 
+	Timer packTimer;
+
 	public ModSpeed() {
 		super("Speed", Category.MOVEMENT);
 		this.jumpTimer = new Timer();
+		this.packTimer = new Timer();
 	}
 	
 	public ModeSetting mode = new ModeSetting("Mode", "SmoothHypixel", "JitterHypixel", "SmoothHypixel", "Hypixel LoFi");
@@ -48,7 +52,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 		mode.modes.addAll(Arrays.asList("JitterHypixel", "SmoothHypixel", "Hypixel LoFi"));
 		addSettings(mode, motionY);
 	}
-	
+
 	@Override
 	public void onEnable() {
 		hypixelYaw = mc.thePlayer.rotationYaw;
@@ -58,12 +62,18 @@ public class ModSpeed extends Module implements OnEventInterface {
 		}
 
 		ticks = mc.thePlayer.ticksExisted;
+
+		this.packTimer.reset();
 	}
 
 	@Override
 	public void onDisable() {
 		mc.timer.timerSpeed = 1;
 		mc.timer.ticksPerSecond = 20;
+
+		if(Vergo.config.modBlink.isEnabled()) {
+			Vergo.config.modBlink.toggle();
+		}
 	}
 	
 	@Override
@@ -79,7 +89,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 	
 	private void onHypixelEvent(Event e) {
-
 		
 		if (e instanceof EventTick && e.isPre()) {
 
@@ -102,7 +111,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 				smoothHypixelSpeed();
 			} else if(mode.is("Hypixel LoFi")) {
 				if(MovementUtils.isMoving()) {
-					hypixelLoFi();
+					this.packTimer.reset();
+					hypixelLoFi(e);
 				}
 			}
 			
@@ -110,7 +120,10 @@ public class ModSpeed extends Module implements OnEventInterface {
 		
 	}
 
-	private void hypixelLoFi() {
+	public static TimerUtil blinkTimer = new TimerUtil();
+
+
+	private void hypixelLoFi(Event event) {
 		if(mc.thePlayer.isInLava() || mc.thePlayer.isInWater() || mc.thePlayer.isSpectator()) {
 			return;
 		}
@@ -136,15 +149,22 @@ public class ModSpeed extends Module implements OnEventInterface {
 					mc.thePlayer.jump();
 				} else {
 					mc.thePlayer.jump();
-					mc.timer.timerSpeed = 1f;
 					mc.thePlayer.motionX *= 1.0888F;
 					mc.thePlayer.motionZ *= 1.0888F;
 					mc.thePlayer.moveStrafing *= 2;
+					mc.thePlayer.jumpMovementFactor = 0.0236f;
 				}
 			} else {
-				mc.thePlayer.jumpMovementFactor = 0.0226F;
+				mc.thePlayer.jumpMovementFactor = 0.021F;
 				mc.thePlayer.motionX *= 1.01F;
 				mc.thePlayer.motionZ *= 1.01F;
+
+					// Disabler?
+					if(mc.thePlayer.motionY <= 0.28f) {
+						mc.getNetHandler().getNetworkManager().sendPacket(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.RIDING_JUMP));
+						mc.timer.ticksPerSecond = 22f;
+						mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0CPacketInput());
+					}
 			}
 		}
 

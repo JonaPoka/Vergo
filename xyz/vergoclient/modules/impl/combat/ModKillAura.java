@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
 import org.apache.commons.lang3.RandomUtils;
 import org.lwjgl.opengl.GL11;
@@ -91,7 +92,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 		addSettings(rangeSetting, minApsSetting, maxApsSetting, /*combatPacketsPerHit,*/ targetPlayersSetting, targetAnimalsSetting,
 				targetMobsSetting, targetOtherSetting, rayTraceCheck, targetSelectionSetting, targetSortingSetting,
-				rotationSetting, autoblockSetting, visualizeTargetCircle /*visualizeRange, doCriticals*/);
+				rotationSetting, autoblockSetting, visualizeTargetCircle /*visualizeRange*/, doCriticals);
 
 	}
 
@@ -412,7 +413,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 					mc.leftClickCounter = 0;
 					mc.getNetHandler().getNetworkManager().sendPacket(new C02PacketUseEntity(target, Action.ATTACK));
 					if(doCriticals.isEnabled()) {
-						doCrits();
+						doCrits(e);
 					}
 				}
 
@@ -755,7 +756,8 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 			if(this.blockTimer.delay(1L)) {
 				mc.gameSettings.keyBindUseItem.pressed = true;
-				// ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
+				//mc.getNetHandler().getNetworkManager().sendPacket(new );
+				ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
 			}
 
 			isBlocking = true;
@@ -766,7 +768,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			if (autoblockSetting.is("Hypixel")) {
 				if(this.blockTimer.delay(500L)) {
 					mc.gameSettings.keyBindUseItem.pressed = false;
-					// ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
+					ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
 					this.blockTimer.reset();
 				}
 			}
@@ -794,8 +796,8 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 	private boolean critical;
 
 	// Criticals
-	private void doCrits() {
-
+	private void doCrits(Event e) {
+		
 	}
 
 }

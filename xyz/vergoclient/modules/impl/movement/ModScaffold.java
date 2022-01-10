@@ -39,6 +39,7 @@ import xyz.vergoclient.util.*;
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Random;
 
 public class ModScaffold extends Module implements OnEventInterface, OnSettingChangeInterface {
 
@@ -473,6 +474,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		}
 	}
 
+	public float rotYawYaw;
+
 	public void attemptBlockPlace(EventUpdate e) {
 		EventUpdate event = (EventUpdate) e;
 
@@ -505,10 +508,11 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			if (keepRots != null) {
 				if (rotationMode.is("Hypixel Slow") || rotationMode.is("Hypixel Sprint")) {
 					lastYaw = keepRots[0];
-//					lastPitch = keepRots[1];
+					//lastPitch = keepRots[1];
 				} else if (rotationMode.is("AAC")) {
 
 				} else {
+					//lastYaw = keepRots[0];
 					lastYaw = keepRots[0];
 					lastPitch = keepRots[1];
 				}
@@ -527,11 +531,14 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		if (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null) {
 			return;
 		} else {
+
 			event.setYaw(lastYaw);
 			event.setPitch(lastPitch);
 
-			RenderUtils.setCustomYaw(lastYaw);
-			RenderUtils.setCustomPitch(lastPitch);
+
+
+			RenderUtils.setCustomYaw(mc.thePlayer.rotationYaw);
+			RenderUtils.setCustomPitch(mc.thePlayer.rotationPitch);
 
 		}
 
@@ -696,8 +703,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		}
 		event.setYaw(rots[0]);
 		event.setPitch(rots[1]);
-		RenderUtils.setCustomYaw(event.yaw);
-		RenderUtils.setCustomPitch(event.pitch);
+		//RenderUtils.setCustomYaw(event.yaw);
+		//RenderUtils.setCustomPitch(event.pitch);
 		if (viewRotations.isEnabled()) {
 			mc.thePlayer.rotationYaw = event.getYaw();
 			mc.thePlayer.rotationPitch = event.getPitch();
