@@ -10,15 +10,13 @@ import java.util.stream.Collectors;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
+import net.minecraft.util.EnumFacing;
 import org.apache.commons.lang3.RandomUtils;
 import org.lwjgl.opengl.GL11;
 
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
-import xyz.vergoclient.event.impl.EventMove;
-import xyz.vergoclient.event.impl.EventRender3D;
-import xyz.vergoclient.event.impl.EventSendPacket;
-import xyz.vergoclient.event.impl.EventUpdate;
+import xyz.vergoclient.event.impl.*;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.modules.OnSettingChangeInterface;
@@ -92,7 +90,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 		addSettings(rangeSetting, minApsSetting, maxApsSetting, /*combatPacketsPerHit,*/ targetPlayersSetting, targetAnimalsSetting,
 				targetMobsSetting, targetOtherSetting, rayTraceCheck, targetSelectionSetting, targetSortingSetting,
-				rotationSetting, autoblockSetting, visualizeTargetCircle /*visualizeRange, doCriticals*/);
+				rotationSetting, autoblockSetting, visualizeTargetCircle /*visualizeRange*/, doCriticals);
 
 	}
 
@@ -220,6 +218,8 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 	@Override
 	public void onEnable() {
+		this.critTimer.reset();
+
 		lastYaw = mc.thePlayer.rotationYaw;
 		lastPitch = mc.thePlayer.rotationPitch;
 		legitStartingYaw = mc.thePlayer.rotationYaw;
@@ -412,9 +412,6 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 					mc.thePlayer.swingItem();
 					mc.leftClickCounter = 0;
 					mc.getNetHandler().getNetworkManager().sendPacket(new C02PacketUseEntity(target, Action.ATTACK));
-					if(doCriticals.isEnabled()) {
-						doCrits(e);
-					}
 				}
 
 				// autoblock
@@ -433,6 +430,13 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 						|| !(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)) {
 					isBlocking = false;
 				}
+			}
+		}
+
+		if(doCriticals.isEnabled()) {
+			if(e instanceof EventReceivePacket) {
+				//ChatUtils.addChatMessage("Received Packet.");
+				doCrits((EventReceivePacket)e);
 			}
 		}
 
@@ -755,9 +759,10 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		if (shouldBlock && !isBlocking) {
 
 			if(this.blockTimer.delay(1L)) {
-				mc.gameSettings.keyBindUseItem.pressed = true;
-				//mc.getNetHandler().getNetworkManager().sendPacket(new );
-				ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
+				//mc.gameSettings.keyBindUseItem.pressed = true;
+				//ChatUtils.addChatMessage("Blocking...");
+				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255,
+						null, 0, 0, 0));
 			}
 
 			isBlocking = true;
@@ -766,9 +771,13 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		// Stop blocking
 		else if (!shouldBlock && isBlocking) {
 			if (autoblockSetting.is("Hypixel")) {
-				if(this.blockTimer.delay(500L)) {
-					mc.gameSettings.keyBindUseItem.pressed = false;
-					ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
+				if(this.blockTimer.delay(300L)) {
+					//ChatUtils.addChatMessage("BLOCKING STOPPED!");
+					BlockPos debug = new BlockPos(0, 0, 0);
+					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C07PacketPlayerDigging(
+							net.minecraft.network.play.client.C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, debug,
+							EnumFacing.DOWN));
+					//ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
 					this.blockTimer.reset();
 				}
 			}
@@ -795,9 +804,30 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 	private final double[] offsets = new double[]{0.05101, 0.01601, 0.0301, 0.00101};
 	private boolean critical;
 
+	private boolean canDoCritical() {
+		return MovementUtils.isOnGround(0.00001) && !mc.thePlayer.isInWater() && !mc.thePlayer.isInLava() && !mc.thePlayer.isOnLadder();
+	}
+
 	// Criticals
-	private void doCrits(Event e) {
-		
+	private void doCrits(EventReceivePacket e) {
+
+		Packet packet = e.packet;
+
+		if (!this.canDoCritical()) {
+			return;
+		}
+
+		if (packet instanceof C02PacketUseEntity) {
+			C02PacketUseEntity c02PacketUseEntity = ((C02PacketUseEntity)packet);
+			if(c02PacketUseEntity.getAction() == Action.ATTACK) {
+				ChatUtils.addChatMessage("Founded.");
+				double[] offies = new double[]{0.05, 0.0, 0.012511, 0.0};
+				for (double d : offies) {
+					ChatUtils.addChatMessage("Crit Packet Shooted.");
+					mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + d, mc.thePlayer.posZ, true));
+				}
+			}
+		}
 	}
 
 }

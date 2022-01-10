@@ -149,22 +149,20 @@ public class ModSpeed extends Module implements OnEventInterface {
 					mc.thePlayer.jump();
 				} else {
 					mc.thePlayer.jump();
+					mc.timer.timerSpeed = 1f;
 					mc.thePlayer.motionX *= 1.0888F;
 					mc.thePlayer.motionZ *= 1.0888F;
 					mc.thePlayer.moveStrafing *= 2;
-					mc.thePlayer.jumpMovementFactor = 0.0236f;
 				}
 			} else {
-				mc.thePlayer.jumpMovementFactor = 0.021F;
+				mc.thePlayer.jumpMovementFactor = 0.0226F;
 				mc.thePlayer.motionX *= 1.01F;
 				mc.thePlayer.motionZ *= 1.01F;
 
-					// Disabler?
+					/* Future Timer
 					if(mc.thePlayer.motionY <= 0.28f) {
-						mc.getNetHandler().getNetworkManager().sendPacket(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.RIDING_JUMP));
 						mc.timer.ticksPerSecond = 22f;
-						mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0CPacketInput());
-					}
+					}*/
 			}
 		}
 

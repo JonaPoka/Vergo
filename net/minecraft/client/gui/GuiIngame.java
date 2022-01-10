@@ -51,6 +51,7 @@ import optifine.CustomColors;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.ui.notifications.Notification;
 import xyz.vergoclient.ui.notifications.NotificationManager;
+import xyz.vergoclient.util.BlurUtils;
 
 import static xyz.vergoclient.modules.ModuleManager.notiFix;
 

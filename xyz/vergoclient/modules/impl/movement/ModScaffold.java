@@ -199,6 +199,10 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 	public void onDisable() {
 
+		boxOpacity.setOpacity(0);
+		numOpacity.setOpacity(0);
+		blockOpacity.setOpacity(0);
+
 		if (Vergo.config.modBlink.isEnabled()) {
 			Vergo.config.modBlink.toggle();
 		}
@@ -210,10 +214,6 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		mc.timer.timerSpeed = 1f;
 		if (legitSetting.isEnabled() && mc.thePlayer.isSneaking())
 			mc.gameSettings.keyBindSneak.pressed = false;
-
-		boxOpacity.setOpacity(0);
-		numOpacity.setOpacity(0);
-		blockOpacity.setOpacity(0);
 	}
 
 	public static transient float lastYaw = 0, lastPitch = 0, lastRandX = 0, lastRandY = 0, lastRandZ = 0;

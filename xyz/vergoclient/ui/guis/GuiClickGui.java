@@ -473,7 +473,6 @@ public class GuiClickGui extends GuiScreen {
 			if (this.mc.entityRenderer.theShaderGroup != null) {
 				this.mc.entityRenderer.theShaderGroup.deleteShaderGroup();
 			}
-
 			mc.entityRenderer.loadShader(new ResourceLocation("shader/post/blur.json"));
 		}
 	}
