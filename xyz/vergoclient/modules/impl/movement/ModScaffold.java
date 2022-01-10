@@ -35,6 +35,7 @@ import xyz.vergoclient.settings.SettingChangeEvent;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.*;
+import xyz.vergoclient.util.animations.OpacityAnimation;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -125,6 +126,10 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 	public void onEnable() {
 
+		boxOpacity.setOpacity(0);
+		numOpacity.setOpacity(0);
+		blockOpacity.setOpacity(0);
+
 		this.boostTiming.reset();
 
 		if(!rotationMode.is("Hypixel Slow")) {
@@ -205,6 +210,10 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		mc.timer.timerSpeed = 1f;
 		if (legitSetting.isEnabled() && mc.thePlayer.isSneaking())
 			mc.gameSettings.keyBindSneak.pressed = false;
+
+		boxOpacity.setOpacity(0);
+		numOpacity.setOpacity(0);
+		blockOpacity.setOpacity(0);
 	}
 
 	public static transient float lastYaw = 0, lastPitch = 0, lastRandX = 0, lastRandY = 0, lastRandZ = 0;
@@ -215,6 +224,9 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public static transient int lastSlot = -1;
 	public static transient EnumFacing facing = null;
 	public static transient long lastPlacedBlockTime = System.currentTimeMillis();
+
+
+	private OpacityAnimation boxOpacity = new OpacityAnimation(0), blockOpacity = new OpacityAnimation(0), numOpacity = new OpacityAnimation(0);
 
 	public void onEvent(Event e) {
 
@@ -242,18 +254,23 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			JelloFontRenderer jfr = FontUtil.comfortaaSmall;
 			GlStateManager.pushMatrix();
 
+			boxOpacity.interp(200, 12);
+			numOpacity.interp(200, 12);
+			blockOpacity.interp(200, 12);
+
 			if (blocksLeft > 0) {
 
-				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, new Color(10, 10, 10, 200));
+				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) boxOpacity.getOpacity()));
 				if(blocksLeft <= 99 && blocksLeft > 9) {
-					jfr.drawString("0" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, new Color(0xFFFFFF).getRGB());
+					jfr.drawString("0" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) numOpacity.getOpacity()));
 				} else if(blocksLeft <= 9) {
-					jfr.drawString("00" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, new Color(0xFFFFFF).getRGB());
+					jfr.drawString("00" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) numOpacity.getOpacity()));
 				} else {
-					jfr.drawString(left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, new Color(0xFFFFFF).getRGB());
+					jfr.drawString(left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) numOpacity.getOpacity()));
 				}
 				GlStateManager.resetColor();
 				RenderHelper.enableGUIStandardItemLighting();
+				GlStateManager.color(1, 1, 1, blockOpacity.getOpacity());
 				mc.getRenderItem().renderItemAndEffectIntoGUI(setStackToPlace(), GuiScreen.width / 2 - 7.5f, GuiScreen.height / 2 + 20);
 
 
@@ -265,9 +282,9 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 						-1, true);*/
 
 			} else {
-				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, new Color(10, 10, 10, 200));
+				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) boxOpacity.getOpacity()));
 				RenderHelper.enableGUIStandardItemLighting();
-				jfr.drawString("000", GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, new Color(0xBF091D).getRGB());
+				jfr.drawString("000", GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(191, 9, 29, (int) numOpacity.getOpacity()));
 
 				/*mc.fontRendererObj.drawString(left,
 						((float) (new ScaledResolution(mc).getScaledWidth_double() / 2)
@@ -1143,6 +1160,31 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		BlockPos pos, targetPos;
 		EnumFacing facing;
 
+	}
+
+	public static int getColor(Color color) {
+		return getColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+	}
+
+	public static int getColor(int brightness) {
+		return getColor(brightness, brightness, brightness, 255);
+	}
+
+	public static int getColor(int brightness, int alpha) {
+		return getColor(brightness, brightness, brightness, alpha);
+	}
+
+	public static int getColor(int red, int green, int blue) {
+		return getColor(red, green, blue, 255);
+	}
+
+	public static int getColor(int red, int green, int blue, int alpha) {
+		int color = 0;
+		color |= alpha << 24;
+		color |= red << 16;
+		color |= green << 8;
+		color |= blue;
+		return color;
 	}
 
 }

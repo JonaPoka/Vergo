@@ -92,7 +92,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 		addSettings(rangeSetting, minApsSetting, maxApsSetting, /*combatPacketsPerHit,*/ targetPlayersSetting, targetAnimalsSetting,
 				targetMobsSetting, targetOtherSetting, rayTraceCheck, targetSelectionSetting, targetSortingSetting,
-				rotationSetting, autoblockSetting, visualizeTargetCircle /*visualizeRange*/, doCriticals);
+				rotationSetting, autoblockSetting, visualizeTargetCircle /*visualizeRange, doCriticals*/);
 
 	}
 
