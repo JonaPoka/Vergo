@@ -30,7 +30,7 @@ public class CommandHelp implements OnCommandInterface {
 
 	@Override
 	public String getUsage() {
-		return "Figure it out stupid";
+		return "A list of all valid commands";
 	}
 
 	@Override

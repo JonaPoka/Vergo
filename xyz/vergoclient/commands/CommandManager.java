@@ -57,9 +57,8 @@ public class CommandManager implements OnEventInterface {
 						return;
 					}
 				}
-				
-				// Tell use to type help command if the command does not exist
-				ChatUtils.addChatMessage("Unknown command, type " + prefix + "help to show all the commands");
+
+				ChatUtils.addChatMessage("That command couldn't be found. Use '" + prefix + "help' for a list of valid commands.");
 				
 			}
 		}
