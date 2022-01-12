@@ -334,7 +334,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 		}
 
-		if (e instanceof EventRender3D && e.isPre()) {
+		/*if (e instanceof EventRender3D && e.isPre()) {
 
 			BlockPos below = lastPlace;
 
@@ -349,7 +349,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			GL11.glEnable(32823);
 			GL11.glPolygonOffset(1.0f, -1100000.0f);
 
-			RenderUtils.drawColoredBox(below.getX() - 0.0001, below.getY() - 0.0001, below.getZ() - 0.0001, below.getX() + 1.0001, below.getY() + 1.0001, below.getZ() + 1.0001, 0x50C74D8E);
+			//RenderUtils.drawColoredBox(below.getX() - 0.0001, below.getY() - 0.0001, below.getZ() - 0.0001, below.getX() + 1.0001, below.getY() + 1.0001, below.getZ() + 1.0001, 0x50C74D8E);
 
 			RenderUtils.drawLine(below.getX(), below.getY(), below.getZ(), below.getX() + 1, below.getY(), below.getZ());
 			RenderUtils.drawLine(below.getX(), below.getY() + 1, below.getZ(), below.getX() + 1, below.getY() + 1, below.getZ());
@@ -375,7 +375,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			GlStateManager.popAttrib();
 			GlStateManager.popMatrix();
 
-		}
+		}*/
 
 		if(e instanceof EventMove && e.isPre()) {
 			if(MovementUtils.isOnGround(0.001)) {

@@ -58,7 +58,7 @@ public class ModAnimations extends Module implements OnEventInterface {
 		        float f2 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float)Math.PI);
 		        GlStateManager.rotate(f1 * -20.0F, 0.0F, 1.0F, 0.0F);
 		        GlStateManager.rotate(f2 * 10.0F, 0.0F, 0.0F, 1.0F);
-//		        GlStateManager.rotate(f2 * -80.0F, 1.0F, 0.0F, 0.0F);
+		        GlStateManager.rotate(f2 * -80.0F, 1.0F, 0.0F, 0.0F);
 		        GlStateManager.scale(0.4F, 0.4F, 0.4F);
 				ir.func_178103_d();
 			}

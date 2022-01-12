@@ -56,15 +56,15 @@ public class ModChestESP extends Module implements OnEventInterface {
 					GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
 					GL11.glEnable(32823);
 					GL11.glPolygonOffset(1.0f, -1099998.0f);
-					RenderUtils.drawColoredBox(chestLocation.getX() - 0.0001, chestLocation.getY() - 0.0001, chestLocation.getZ() - 0.0001, chestLocation.getX() + 1.0001, chestLocation.getY() + 1.0001, chestLocation.getZ() + 1.0001, new Color(throughWallsRed.getValueAsInt(), throughWallsGreen.getValueAsInt(), throughWallsBlue.getValueAsInt(), throughWallsAlpha.getValueAsInt()).getRGB());
+					//RenderUtils.drawColoredBox(chestLocation.getX() - 0.0001, chestLocation.getY() - 0.0001, chestLocation.getZ() - 0.0001, chestLocation.getX() + 1.0001, chestLocation.getY() + 1.0001, chestLocation.getZ() + 1.0001, new Color(throughWallsRed.getValueAsInt(), throughWallsGreen.getValueAsInt(), throughWallsBlue.getValueAsInt(), throughWallsAlpha.getValueAsInt()).getRGB());
 					GL11.glDisable(32823);
 					GL11.glPolygonOffset(1.0f, 1099998.0f);
 					
 					GL11.glStencilFunc(GL11.GL_NOTEQUAL, 1, -1);
 					GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
 					GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
-					RenderUtils.drawColoredBox(chestLocation.getX() - 0.0001, chestLocation.getY() - 0.0001, chestLocation.getZ() - 0.0001, chestLocation.getX() + 1.0001, chestLocation.getY() + 1.0001, chestLocation.getZ() + 1.0001, 0x00000000);
-					RenderUtils.drawColoredBox(chestLocation.getX() - 0.0001, chestLocation.getY() - 0.0001, chestLocation.getZ() - 0.0001, chestLocation.getX() + 1.0001, chestLocation.getY() + 1.0001, chestLocation.getZ() + 1.0001, new Color(normalRed.getValueAsInt(), normalGreen.getValueAsInt(), normalBlue.getValueAsInt(), normalAlpha.getValueAsInt()).getRGB());
+					//RenderUtils.drawColoredBox(chestLocation.getX() - 0.0001, chestLocation.getY() - 0.0001, chestLocation.getZ() - 0.0001, chestLocation.getX() + 1.0001, chestLocation.getY() + 1.0001, chestLocation.getZ() + 1.0001, 0x00000000);
+					//RenderUtils.drawColoredBox(chestLocation.getX() - 0.0001, chestLocation.getY() - 0.0001, chestLocation.getZ() - 0.0001, chestLocation.getX() + 1.0001, chestLocation.getY() + 1.0001, chestLocation.getZ() + 1.0001, new Color(normalRed.getValueAsInt(), normalGreen.getValueAsInt(), normalBlue.getValueAsInt(), normalAlpha.getValueAsInt()).getRGB());
 					
 					GlStateManager.depthMask(true);
 					

@@ -61,7 +61,7 @@ public class Notification extends GuiScreen {
             offset = width;
         }
 
-        Color color = new Color(29, 29, 29, 200);
+        Color color = new Color(29, 29, 29, 150);
         Color color1;
 
         if (type == NotificationType.INFO)
@@ -75,12 +75,7 @@ public class Notification extends GuiScreen {
         JelloFontRenderer fontRendererTitle = FontUtil.jelloFontMedium;
         JelloFontRenderer fontRendererMsg = FontUtil.jelloFontSmall;
 
-        //drawRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
-        //drawRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, GuiScreen.width - offset + 4, GuiScreen.height - 5, color1.getRGB());
-
-        //drawRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, GuiScreen.width - offset + 4, GuiScreen.height - 5, color1.getRGB());
-
-        RenderUtils.drawAlphaRoundedRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, width, height, 2f, color);
+        RenderUtils.drawAlphaRoundedRect(GuiScreen.width - offset + 1, GuiScreen.height - 5 - height, width, height, 2f, color);
 
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
         fontRendererTitle.drawString(title, (int) (GuiScreen.width - offset + 8), GuiScreen.height - height - 1, -1);
