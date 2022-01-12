@@ -747,7 +747,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		// Start blocking
 		if (shouldBlock && !isBlocking) {
 
-			if (this.blockTimer.delay(1L)) {
+			if (this.blockTimer.delay(0L)) {
 				//mc.gameSettings.keyBindUseItem.pressed = true;
 				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255,
 						null, 0, 0, 0));
@@ -758,8 +758,10 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 		// Stop blocking
 		else if (!shouldBlock && isBlocking) {
+			long random = RandomUtils.nextLong(2500, 3500);
 			if (autoblockSetting.is("Hypixel")) {
-				if (this.blockTimer.delay(930L)) {
+				if (this.blockTimer.delay(random)) {
+					ChatUtils.addChatMessage("Trigger! " + random);
 					BlockPos debug = new BlockPos(0, 0, 0);
 					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C07PacketPlayerDigging(
 							net.minecraft.network.play.client.C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, debug,

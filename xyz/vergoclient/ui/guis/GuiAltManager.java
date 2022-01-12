@@ -16,7 +16,6 @@ import org.lwjgl.input.Mouse;
 import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.files.FileManager;
 import xyz.vergoclient.files.impl.FileAlts;
-import xyz.vergoclient.files.impl.OldSpicyAltInfoDontUseIgnoreUsedForImporting;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.GuiUtils;
@@ -385,87 +384,9 @@ public class GuiAltManager extends GuiScreen {
 			}
 		};
 		
-		Button importAltsFromSpicyClientButton = new Button();
-		DataDouble5 importAltsFromSpicyClientPos = new DataDouble5();
-		importAltsFromSpicyClientPos.x1 = (width / 8) * 5;
-		importAltsFromSpicyClientPos.x2 = width - 5;
-		importAltsFromSpicyClientPos.y1 = ((height / 9) * 5) - 15;
-		importAltsFromSpicyClientPos.y2 = ((height / 9) * 6) - 15;
-		importAltsFromSpicyClientButton.posAndColor = importAltsFromSpicyClientPos;
-		importAltsFromSpicyClientButton.displayText = "Import alts from spicy";
-		importAltsFromSpicyClientButton.action = new Runnable() {
-			@Override
-			public void run() {
-				
-				new Thread("Import thread") {
-					@Override
-					public void run() {
-						
-						Display display = new Display();
-						Shell shell = new Shell(display);
-						// Don't show the shell.
-						// shell.open ();
-						FileDialog dialog = new FileDialog(shell, SWT.OPEN | SWT.SINGLE);
-						String[] filterNames = new String[] { "All Files (*)" };
-						String[] filterExtensions = new String[] { "*" };
-						String filterPath = "c:\\";
-						dialog.setFilterNames(filterNames);
-						dialog.setFilterExtensions(filterExtensions);
-						dialog.setFilterPath(filterPath);
-						dialog.open();
-						
-						ArrayList<File> files = new ArrayList();
-						String[] names = dialog.getFileNames();
-						for (int i = 0, n = names.length; i < n; i++) {
-							StringBuffer buf = new StringBuffer(dialog.getFilterPath());
-							if (buf.charAt(buf.length() - 1) != File.separatorChar)
-								buf.append(File.separatorChar);
-							buf.append(names[i]);
-							files.add(new File(buf.toString()));
-						}
-						
-						ArrayList<FileAlts.Alt> altsToImport = new ArrayList<FileAlts.Alt>();
-						for (File file : files) {
-							try {
-								OldSpicyAltInfoDontUseIgnoreUsedForImporting alts = FileManager.readFromFile(file, new OldSpicyAltInfoDontUseIgnoreUsedForImporting());
-								for (OldSpicyAltInfoDontUseIgnoreUsedForImporting.Alt alt : alts.alts) {
-									
-									FileAlts.Alt newAlt = new FileAlts.Alt();
-									newAlt.banTime = alt.unbannedAt;
-									newAlt.email = alt.email;
-									newAlt.password = alt.password;
-									newAlt.username = alt.username;
-									
-									if (newAlt.username.equals("Log in to view the username")) {
-										newAlt.username = "Click me to login to alt";
-									}
-									altsToImport.add(newAlt);
-								}
-							} catch (Exception e) {
-								
-							}
-						}
-						
-						Collections.reverse(altsToImport);
-						altsFile.alts.addAll(0, altsToImport);
-						
-						shell.close();
-						while (!shell.isDisposed()) {
-							if (!display.readAndDispatch())
-								display.sleep();
-						}
-						display.dispose();
-						
-					}
-				}.start();
-				
-			}
-		};
-		
 		buttons.add(addAltButton);
 		buttons.add(altAdvertisementButton);
 		buttons.add(bringUnbannedsToTopButton);
-		buttons.add(importAltsFromSpicyClientButton);
 		
 	}
 	

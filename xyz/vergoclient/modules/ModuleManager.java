@@ -86,7 +86,6 @@ public class ModuleManager {
 	public ModChinaHat modChinaHat = new ModChinaHat();
 	public ModNoSwingDelay modNoSwingDelay = new ModNoSwingDelay();
 	public ModTargetHud modTargetHud = new ModTargetHud();
-	public ModCape modCape = new ModCape();
 	public ModAutoClicker modAutoClicker = new ModAutoClicker();
 	public ModInstantAutoGapple modAutoInstantGapple = new ModInstantAutoGapple();
 	public ModNotifications modNotifications = new ModNotifications();
@@ -134,7 +133,6 @@ public class ModuleManager {
 		modAutoSaveConfig = new LoaderModule<ModAutoSaveConfig>(modAutoSaveConfig).generate();
 		modHud = new LoaderModule<ModHud>(modHud).generate();
 		modNametags = new LoaderModule<ModNametags>(modNametags).generate();
-		modCape	= new LoaderModule<ModCape>(modCape).generate();
 		modChestESP = new LoaderModule<ModChestESP>(modChestESP).generate();
 		modXray = new LoaderModule<ModXray>(modXray).generate();
 		modChinaHat = new LoaderModule<ModChinaHat>(modChinaHat).generate();

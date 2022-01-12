@@ -132,11 +132,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 		}
 
 
-		if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-			mc.thePlayer.jump();
-			return;
-		}
-
 		if(!mc.thePlayer.isSprinting()) {
 			mc.thePlayer.setSprinting(true);
 		}
@@ -144,6 +139,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 		//ChatUtils.addChatMessage("MotionY: " + mc.thePlayer.motionY);
 
 		if (MovementUtils.isMoving()) {
+
 
 				if (mc.gameSettings.keyBindJump.isKeyDown()) {
 					mc.gameSettings.keyBindJump.pressed = false;
@@ -155,6 +151,10 @@ public class ModSpeed extends Module implements OnEventInterface {
 				}
 
 				if(mc.thePlayer.onGround) {
+					if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+						mc.thePlayer.jump();
+						return;
+					}
 					mc.thePlayer.moveStrafing *= 2;
 					mc.thePlayer.jump();
 					mc.thePlayer.jumpMovementFactor = 0.0243F;
@@ -163,9 +163,17 @@ public class ModSpeed extends Module implements OnEventInterface {
 				}
 
 				if (mc.thePlayer.motionY >= 0.28) {
+					if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+						mc.thePlayer.jump();
+						return;
+					}
 					//ChatUtils.addChatMessage("Triggered ++ " + mc.timer.timerSpeed + " " + mc.timer.ticksPerSecond);
 					mc.timer.timerSpeed = 1.13f;
 				} else if(mc.thePlayer.motionY <= 0.279) {
+					if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+						mc.thePlayer.jump();
+						return;
+					}
 					//ChatUtils.addChatMessage("Reset!");
 					mc.timer.timerSpeed = 1.09f;
 					mc.thePlayer.motionX *= 1.00110F;
