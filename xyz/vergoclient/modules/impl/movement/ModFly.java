@@ -3,8 +3,14 @@ package xyz.vergoclient.modules.impl.movement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockHopper;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
@@ -17,16 +23,14 @@ import xyz.vergoclient.modules.impl.miscellaneous.ModBlink;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.settings.SettingChangeEvent;
-import xyz.vergoclient.util.ChatUtils;
-import xyz.vergoclient.util.MovementUtils;
+import xyz.vergoclient.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C13PacketPlayerAbilities;
 import net.minecraft.util.BlockPos;
-import xyz.vergoclient.util.Timer;
-import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.anticheat.Player;
 
 
 public class ModFly extends Module implements OnEventInterface {
@@ -50,6 +54,8 @@ public class ModFly extends Module implements OnEventInterface {
 		
 		addSettings(mode, scale);
 	}
+
+	public static BlockPos position = null;
 	
 	@Override
 	public void onEnable() {
@@ -84,7 +90,7 @@ public class ModFly extends Module implements OnEventInterface {
 
 		if(this.timer.delay(1200L)) {
 			ChatUtils.addChatMessage("Teleported!");
-			this.HClip(scale.getValueAsFloat());
+			this.HClip(scale.getValueAsFloat(), eventMove);
 			this.timer.reset();
 		}else {
 			eventMove.setX(0.0);
@@ -93,11 +99,17 @@ public class ModFly extends Module implements OnEventInterface {
 		}
 	}
 
-	private void HClip(final double horizontal) {
-		final double playerYaw = Math.toRadians(mc.thePlayer.rotationYaw);
-		mc.thePlayer.posX = 7.5 * -Math.sin(mc.thePlayer.rotationYaw);
-		mc.thePlayer.posY = 2.0;
-		mc.thePlayer.posZ = 7.5 * Math.cos(mc.thePlayer.rotationYaw);
+	private void HClip(final double horizontal , EventMove eventMove) {
+		double playerYaw = Math.toRadians(mc.thePlayer.rotationYaw);
+
+		position = mc.thePlayer.getPosition();
+
+		ChatUtils.addChatMessage("BLOCKPLACE + " + position);
+
+		position.x = (int) (position.getX() + horizontal * -Math.sin(playerYaw));
+		position.y = (int) (position.getY() - 2.0);
+		position.z = (int) (position.getZ() + horizontal * Math.cos(playerYaw));
+		mc.thePlayer.setPosition(position.getX(), position.getY(), position.getZ());
 	}
 	
 }

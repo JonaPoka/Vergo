@@ -165,7 +165,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 
 				if (mc.thePlayer.motionY >= 0.28) {
 					//ChatUtils.addChatMessage("Triggered ++ " + mc.timer.timerSpeed + " " + mc.timer.ticksPerSecond);
-					mc.timer.timerSpeed = 1.12f;
+					mc.timer.timerSpeed = 1.13f;
 				} else if(mc.thePlayer.motionY <= 0.279) {
 					//ChatUtils.addChatMessage("Reset!");
 					mc.timer.timerSpeed = 1.09f;
@@ -189,9 +189,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 			mc.timer.timerSpeed = 15.0f;
 			mc.timer.ticksPerSecond = 24.0f;
 			mc.thePlayer.jump();
-		} else {
-			mc.timer.timerSpeed = 1.0f;
-			mc.timer.ticksPerSecond = 20f;
 		}
 	}
 
