@@ -1,24 +1,20 @@
 package xyz.vergoclient.modules.impl.movement;
 
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.network.play.client.*;
 import net.minecraft.potion.Potion;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
-import xyz.vergoclient.event.impl.*;
+import xyz.vergoclient.event.impl.EventTick;
+import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.util.ChatUtils;
 import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.TimerUtil;
 
-import java.awt.*;
 import java.util.Arrays;
 
 public class ModSpeed extends Module implements OnEventInterface {
@@ -27,6 +23,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 	Timer jumpTimer;
 
 	Timer packTimer;
+
+	public TimerUtil packetFucker = new TimerUtil();
 
 	public ModSpeed() {
 		super("Speed", Category.MOVEMENT);
@@ -60,6 +58,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 			mc.timer.timerSpeed = 1;
 			mc.timer.ticksPerSecond = 20;
 		}
+
+		packetFucker.reset();
 
 		ticks = mc.thePlayer.ticksExisted;
 
@@ -132,37 +132,46 @@ public class ModSpeed extends Module implements OnEventInterface {
 
 		}
 
+
+		if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+			mc.thePlayer.jump();
+			return;
+		}
+
 		if(!mc.thePlayer.isSprinting()) {
 			mc.thePlayer.setSprinting(true);
 		}
 
+		//ChatUtils.addChatMessage("MotionY: " + mc.thePlayer.motionY);
+
 		if (MovementUtils.isMoving()) {
 
-			if (mc.gameSettings.keyBindJump.isKeyDown()) {
-
-			}
-			if (!mc.thePlayer.isSprinting()) {
-				mc.thePlayer.setSprinting(true);
-			}
-			if (mc.thePlayer.onGround) {
-				if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-					mc.thePlayer.jump();
-				} else {
-					mc.thePlayer.jump();
-					mc.thePlayer.motionX *= 1.0888F;
-					mc.thePlayer.motionZ *= 1.0888F;
-					mc.thePlayer.moveStrafing *= 2;
+				if (mc.gameSettings.keyBindJump.isKeyDown()) {
+					mc.gameSettings.keyBindJump.pressed = false;
 				}
-			} else {
-				//mc.thePlayer.jumpMovementFactor = 0.0226F;
-				//mc.thePlayer.motionX *= 1.01F;
-				//mc.thePlayer.motionZ *= 1.01F;
 
-					/* Future Timer
-					if(mc.thePlayer.motionY <= 0.28f) {
-						mc.timer.ticksPerSecond = 22f;
-					}*/
-			}
+
+				if (!mc.thePlayer.isSprinting()) {
+					mc.thePlayer.setSprinting(true);
+				}
+
+				if(mc.thePlayer.onGround) {
+					mc.thePlayer.moveStrafing *= 2;
+					mc.thePlayer.jump();
+					mc.thePlayer.jumpMovementFactor = 0.0243F;
+					mc.thePlayer.motionX *= 1.07601F;
+					mc.thePlayer.motionZ *= 1.07601F;
+				}
+
+				if (mc.thePlayer.motionY >= 0.28) {
+					//ChatUtils.addChatMessage("Triggered ++ " + mc.timer.timerSpeed + " " + mc.timer.ticksPerSecond);
+					mc.timer.timerSpeed = 1.12f;
+				} else if(mc.thePlayer.motionY <= 0.279) {
+					//ChatUtils.addChatMessage("Reset!");
+					mc.timer.timerSpeed = 1.09f;
+					mc.thePlayer.motionX *= 1.00110F;
+					mc.thePlayer.motionZ *= 1.00110F;
+				}
 		}
 
 	}
