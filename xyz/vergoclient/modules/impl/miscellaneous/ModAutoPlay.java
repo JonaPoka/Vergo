@@ -81,8 +81,8 @@ public class ModAutoPlay extends Module implements OnEventInterface {
     public void doCommands() {
         this.timer.reset();
         //ChatUtils.addChatMessage("Timer Timer Timer Timer " + timer.lastMs);
-        if(this.timer.delay(commandDelay1.getValueAsLong() * 1000)) {
-            ChatUtils.addChatMessage("Timer Event Triggered! + " + (commandDelay1.getValueAsLong()) * 1000 + " " + cooldown);
+        //if(this.timer.delay(commandDelay1.getValueAsLong() * 1000)) {
+            //ChatUtils.addChatMessage("Timer Event Triggered! + " + (commandDelay1.getValueAsLong()) * 1000 + " " + cooldown);
             if (teamMode.is("Solo Normal")) {
                 mc.thePlayer.sendChatMessage("/play solo_normal");
             } else if(teamMode.is("Solo Insane")) {
@@ -92,7 +92,7 @@ public class ModAutoPlay extends Module implements OnEventInterface {
             } else if(teamMode.is("Teams Insane")) {
                 mc.thePlayer.sendChatMessage("/play teams_insane");
             }
-        }
+        //}
     }
 
 }

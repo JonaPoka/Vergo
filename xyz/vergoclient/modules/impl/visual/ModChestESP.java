@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.BlockPos;
+import xyz.vergoclient.util.RenderUtils2;
 
 public class ModChestESP extends Module implements OnEventInterface {
 
@@ -56,6 +57,29 @@ public class ModChestESP extends Module implements OnEventInterface {
 					GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
 					GL11.glEnable(32823);
 					GL11.glPolygonOffset(1.0f, -1099998.0f);
+
+					// Horizontals
+					GlStateManager.color(1, 1, 1, 0.5f);
+					RenderUtils.drawLine(chestLocation.getX(), chestLocation.getY() + 1, chestLocation.getZ(), chestLocation.getX(), chestLocation.getY(), chestLocation.getZ());
+					RenderUtils.drawLine(chestLocation.getX() + 1, chestLocation.getY() + 1, chestLocation.getZ(), chestLocation.getX() + 1, chestLocation.getY(), chestLocation.getZ());
+
+					RenderUtils.drawLine(chestLocation.getX(), chestLocation.getY() + 1, chestLocation.getZ() + 1, chestLocation.getX(), chestLocation.getY(), chestLocation.getZ() + 1);
+					RenderUtils.drawLine(chestLocation.getX() + 1, chestLocation.getY() + 1, chestLocation.getZ() + 1, chestLocation.getX() + 1, chestLocation.getY(), chestLocation.getZ() + 1);
+
+
+					// Verticals
+					RenderUtils.drawLine(chestLocation.getX(), chestLocation.getY() + 1, chestLocation.getZ() + 1, chestLocation.getX() + 1, chestLocation.getY() + 1, chestLocation.getZ() + 1);
+					RenderUtils.drawLine(chestLocation.getX(), chestLocation.getY() + 1, chestLocation.getZ(), chestLocation.getX() + 1, chestLocation.getY() + 1, chestLocation.getZ());
+
+					RenderUtils.drawLine(chestLocation.getX(), chestLocation.getY(), chestLocation.getZ(), chestLocation.getX() + 1, chestLocation.getY(), chestLocation.getZ());
+					RenderUtils.drawLine(chestLocation.getX(), chestLocation.getY(), chestLocation.getZ() + 1, chestLocation.getX() + 1, chestLocation.getY(), chestLocation.getZ() + 1);
+
+					RenderUtils.drawLine(chestLocation.getX(), chestLocation.getY() + 1, chestLocation.getZ() + 1, chestLocation.getX(), chestLocation.getY() + 1, chestLocation.getZ());
+					RenderUtils.drawLine(chestLocation.getX(), chestLocation.getY(), chestLocation.getZ() + 1, chestLocation.getX(), chestLocation.getY(), chestLocation.getZ());
+					RenderUtils.drawLine(chestLocation.getX() + 1, chestLocation.getY(), chestLocation.getZ() + 1, chestLocation.getX() + 1, chestLocation.getY(), chestLocation.getZ());
+					RenderUtils.drawLine(chestLocation.getX() + 1, chestLocation.getY() + 1, chestLocation.getZ() + 1, chestLocation.getX() + 1, chestLocation.getY() + 1, chestLocation.getZ());
+
+
 					//RenderUtils.drawColoredBox(chestLocation.getX() - 0.0001, chestLocation.getY() - 0.0001, chestLocation.getZ() - 0.0001, chestLocation.getX() + 1.0001, chestLocation.getY() + 1.0001, chestLocation.getZ() + 1.0001, new Color(throughWallsRed.getValueAsInt(), throughWallsGreen.getValueAsInt(), throughWallsBlue.getValueAsInt(), throughWallsAlpha.getValueAsInt()).getRGB());
 					GL11.glDisable(32823);
 					GL11.glPolygonOffset(1.0f, 1099998.0f);

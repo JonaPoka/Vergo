@@ -43,19 +43,17 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 	// Timers
 	Timer blockTimer;
-	Timer critTimer;
 
 	public ModKillAura() {
 		super("KillAura", Category.COMBAT);
 		this.blockTimer = new Timer();
-		this.critTimer = new Timer();
 	}
 
 	// Settings
 	public NumberSetting rangeSetting = new NumberSetting("Range", 3.8, 0.5, 6, 0.1),
 			minApsSetting = new NumberSetting("Min aps", 10, 0.1, 20, 0.1),
 			maxApsSetting = new NumberSetting("Max aps", 14, 0.1, 20, 0.1),
-					combatPacketsPerHit = new NumberSetting("Combat packets per hit", 1, 1, 10, 1),
+			combatPacketsPerHit = new NumberSetting("Combat packets per hit", 1, 1, 10, 1),
 			tickSwitchTimeSetting = new NumberSetting("Tick switch time", 20, 1, 200, 1),
 			almostLegitMovementSensitivity = new NumberSetting("Movement sensitivity", 0.25, 0.05, 1, 0.05),
 			almostLegitHitboxExpand = new NumberSetting("Hitbox expand", 0.25, 0.01, 0.5, 0.01),
@@ -86,7 +84,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		rotationSetting.modes.addAll(Arrays.asList("Smooth", "Lock", "Spin", "None", "Almost legit", "Bezier Curve"));
 
 		autoblockSetting.modes.clear();
-		autoblockSetting.modes.addAll(Arrays.asList("None",  "Hypixel"));
+		autoblockSetting.modes.addAll(Arrays.asList("None", "Hypixel"));
 
 		addSettings(rangeSetting, minApsSetting, maxApsSetting, /*combatPacketsPerHit,*/ targetPlayersSetting, targetAnimalsSetting,
 				targetMobsSetting, targetOtherSetting, rayTraceCheck, targetSelectionSetting, targetSortingSetting,
@@ -99,6 +97,8 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 	public transient static EntityLivingBase target, lastTarget = null;
 	private transient static TimerUtil apsTimer = new TimerUtil();
 	private transient static boolean isBlocking = false;
+
+	public TimerUtil critTimer = new TimerUtil();
 
 	@Override
 	public void onSettingChange(SettingChangeEvent e) {
@@ -149,8 +149,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 				if (!this.settings.contains(maxRotationSpeed)) {
 					this.settings.add(maxRotationSpeed);
 				}
-			}
-			else {
+			} else {
 				if (this.settings.contains(almostLegitHitboxExpand)) {
 					this.settings.remove(almostLegitHitboxExpand);
 				}
@@ -178,16 +177,14 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 				if (!this.settings.contains(maxRotationBezierCurveSpeed)) {
 					this.settings.add(maxRotationBezierCurveSpeed);
 				}
-			}
-			else if (rotationSetting.is("Smooth")) {
+			} else if (rotationSetting.is("Smooth")) {
 				if (!this.settings.contains(minRotationBezierCurveSpeed)) {
 					this.settings.add(minRotationBezierCurveSpeed);
 				}
 				if (!this.settings.contains(maxRotationBezierCurveSpeed)) {
 					this.settings.add(maxRotationBezierCurveSpeed);
 				}
-			}
-			else {
+			} else {
 				if (this.settings.contains(minRotationBezierCurveSpeed)) {
 					this.settings.remove(minRotationBezierCurveSpeed);
 				}
@@ -247,7 +244,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		if (e instanceof EventRender3D && e.isPre()) {
 
 
-			if(visualizeRange.isEnabled()) {
+			if (visualizeRange.isEnabled()) {
 				final float timer = mc.timer.renderPartialTicks;
 				final double x = mc.thePlayer.lastTickPosX + (mc.thePlayer.posX - mc.thePlayer.lastTickPosX) * timer;
 				final double y = mc.thePlayer.lastTickPosY + (mc.thePlayer.posY - mc.thePlayer.lastTickPosY) * timer;
@@ -281,7 +278,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 				GlStateManager.popAttrib();
 			}
 
-			if(visualizeTargetCircle.isEnabled() && target != null) {
+			if (visualizeTargetCircle.isEnabled() && target != null) {
 
 				final float timer = mc.timer.renderPartialTicks;
 				final double x = target.lastTickPosX + (target.posX - target.lastTickPosX) * timer;
@@ -354,7 +351,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		} else if (e instanceof EventUpdate && e.isPre()) {
 			EventUpdate event = (EventUpdate) e;
 
-			if(rotationSetting.is("Lock")) {
+			if (rotationSetting.is("Lock")) {
 				setInfo("WatchDawg");
 			}
 
@@ -416,7 +413,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 				// autoblock
 				if (autoblockSetting.is("Hypixel"))
-					if(target != null) {
+					if (target != null) {
 						block(true);
 					}
 
@@ -430,13 +427,6 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 						|| !(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)) {
 					isBlocking = false;
 				}
-			}
-		}
-
-		if(doCriticals.isEnabled()) {
-			if(e instanceof EventReceivePacket) {
-				//ChatUtils.addChatMessage("Received Packet.");
-				doCrits((EventReceivePacket)e);
 			}
 		}
 
@@ -473,7 +463,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 			bezierCurveHelper.addProgress(RandomUtils.nextDouble(minRotationBezierCurveSpeed.getValueAsDouble(), maxRotationBezierCurveSpeed.getValueAsDouble()));
 			BezierCurveHelper.Point bezierCurvePoint = bezierCurveHelper.getPoint();
-			float[] bezierCurveRotations = new float[] {(float) bezierCurvePoint.x, (float) bezierCurvePoint.y};
+			float[] bezierCurveRotations = new float[]{(float) bezierCurvePoint.x, (float) bezierCurvePoint.y};
 			float oldYaw = lastYaw;
 			e.setYaw(bezierCurveRotations[0]);
 			e.setPitch(bezierCurveRotations[1]);
@@ -553,7 +543,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			float[] finalRots = RotationUtils.getRotationFromPosition(x + target.posX, z + target.posZ,
 					y + target.posY - 0.6);
 
-			float[] smoothRots = new float[] { lastYaw, lastPitch };
+			float[] smoothRots = new float[]{lastYaw, lastPitch};
 
 			float rotationFactor = 1;
 			try {
@@ -610,8 +600,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			z += target.posZ;
 
 			return shouldHit;
-		}
-		else if (rotationSetting.is("Bezier Curve")) {
+		} else if (rotationSetting.is("Bezier Curve")) {
 
 			DataDouble3 targetPos = MiscellaneousUtils.getClosestPointFromBoundingBox(target.getEntityBoundingBox().expand(-0.1), mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
 			float[] targetRotation = RotationUtils.getRotationFromPosition(targetPos.x, targetPos.z, targetPos.y - 0.6);
@@ -636,7 +625,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 			bezierCurveHelper.addProgress(RandomUtils.nextDouble(minRotationBezierCurveSpeed.getValueAsDouble(), maxRotationBezierCurveSpeed.getValueAsDouble()));
 			BezierCurveHelper.Point bezierCurvePoint = bezierCurveHelper.getPoint();
-			float[] bezierCurveRotations = new float[] {(float) bezierCurvePoint.x, (float) bezierCurvePoint.y};
+			float[] bezierCurveRotations = new float[]{(float) bezierCurvePoint.x, (float) bezierCurvePoint.y};
 			float oldYaw = lastYaw;
 			e.setYaw(bezierCurveRotations[0]);
 			e.setPitch(bezierCurveRotations[1]);
@@ -753,14 +742,13 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 				|| autoblockSetting.is("None"))
 			return;
 
-			mc.gameSettings.keyBindUseItem.pressed = true;
+		mc.gameSettings.keyBindUseItem.pressed = true;
 
 		// Start blocking
 		if (shouldBlock && !isBlocking) {
 
-			if(this.blockTimer.delay(1L)) {
+			if (this.blockTimer.delay(1L)) {
 				//mc.gameSettings.keyBindUseItem.pressed = true;
-				//ChatUtils.addChatMessage("Blocking...");
 				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255,
 						null, 0, 0, 0));
 			}
@@ -771,8 +759,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		// Stop blocking
 		else if (!shouldBlock && isBlocking) {
 			if (autoblockSetting.is("Hypixel")) {
-				if(this.blockTimer.delay(300L)) {
-					//ChatUtils.addChatMessage("BLOCKING STOPPED!");
+				if (this.blockTimer.delay(930L)) {
 					BlockPos debug = new BlockPos(0, 0, 0);
 					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C07PacketPlayerDigging(
 							net.minecraft.network.play.client.C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, debug,
@@ -787,17 +774,17 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 	}
 
 
-		public static BlockPos getHypixelBlockpos(String str){
+	public static BlockPos getHypixelBlockpos(String str) {
 		int val = 89;
-		if(str != null && str.length() > 1){
+		if (str != null && str.length() > 1) {
 			char[] chs = str.toCharArray();
 
 			int lenght = chs.length;
-			for(int i = 0; i < lenght; i++)
-				val += (int)chs[i] * str.length()* str.length() + (int)str.charAt(0) + (int)str.charAt(1);
-			val/=str.length();
+			for (int i = 0; i < lenght; i++)
+				val += (int) chs[i] * str.length() * str.length() + (int) str.charAt(0) + (int) str.charAt(1);
+			val /= str.length();
 		}
-		return new BlockPos(val, -val%255, val);
+		return new BlockPos(val, -val % 255, val);
 	}
 
 	private int groundTicks;
@@ -806,28 +793,6 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 	private boolean canDoCritical() {
 		return MovementUtils.isOnGround(0.00001) && !mc.thePlayer.isInWater() && !mc.thePlayer.isInLava() && !mc.thePlayer.isOnLadder();
-	}
-
-	// Criticals
-	private void doCrits(EventReceivePacket e) {
-
-		Packet packet = e.packet;
-
-		if (!this.canDoCritical()) {
-			return;
-		}
-
-		if (packet instanceof C02PacketUseEntity) {
-			C02PacketUseEntity c02PacketUseEntity = ((C02PacketUseEntity)packet);
-			if(c02PacketUseEntity.getAction() == Action.ATTACK) {
-				ChatUtils.addChatMessage("Founded.");
-				double[] offies = new double[]{0.05, 0.0, 0.012511, 0.0};
-				for (double d : offies) {
-					ChatUtils.addChatMessage("Crit Packet Shooted.");
-					mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + d, mc.thePlayer.posZ, true));
-				}
-			}
-		}
 	}
 
 }
