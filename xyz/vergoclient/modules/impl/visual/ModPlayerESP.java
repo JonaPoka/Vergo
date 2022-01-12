@@ -1,25 +1,16 @@
 package xyz.vergoclient.modules.impl.visual;
 
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
-import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventPlayerRender;
-import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.modules.impl.miscellaneous.ModAntiBot;
 import xyz.vergoclient.settings.ModeSetting;
-import xyz.vergoclient.util.ESPUtils;
 
 import java.util.Arrays;
-
-import static org.lwjgl.opengl.GL11.*;
 
 public class ModPlayerESP extends Module implements OnEventInterface {
 

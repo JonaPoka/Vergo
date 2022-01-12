@@ -1,6 +1,5 @@
 package xyz.vergoclient.modules.impl.movement;
 
-import net.minecraft.network.play.client.C03PacketPlayer;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventUpdate;

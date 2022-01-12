@@ -1,6 +1,5 @@
 package xyz.vergoclient.modules.impl.visual;
 
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -29,14 +28,11 @@ import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.guis.GuiClickGui;
 import xyz.vergoclient.util.MiscellaneousUtils;
 import xyz.vergoclient.util.RenderUtils;
-import xyz.vergoclient.util.RenderUtils2;
 import xyz.vergoclient.util.animations.OpacityAnimation;
 
 import java.awt.*;
-import java.util.Arrays;
 
 import static net.minecraft.client.gui.Gui.drawScaledCustomSizeModalRect;
-import static xyz.vergoclient.ui.fonts.FontUtil.fr;
 
 public class ModTargetHud extends Module implements OnEventInterface {
 

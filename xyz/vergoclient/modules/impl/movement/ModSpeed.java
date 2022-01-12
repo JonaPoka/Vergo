@@ -10,7 +10,6 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.util.ChatUtils;
 import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.TimerUtil;
