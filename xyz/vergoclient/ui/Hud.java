@@ -5,6 +5,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.Display;
@@ -23,6 +24,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 
 public class Hud implements OnEventInterface {
 
@@ -69,7 +71,37 @@ public class Hud implements OnEventInterface {
 			} else if(Vergo.config.modHud.waterMark.is("Rounded")) {
 				GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 				RenderUtils.drawImg(new ResourceLocation("Vergo/logo/512x512-transparent-round.png"), 0, 0, 32, 32);
-			} else if(Vergo.config.modHud.waterMark.is("None")) {
+			} else if(Vergo.config.modHud.waterMark.is("vergosense")) {
+				//NetworkPlayerInfo you = mc.getNetHandler().getPlayerInfo(mc.thePlayer.getUniqueID());
+				//String ping = "Ping: \247f" + (you == null ? "0" : you.responseTime);
+
+
+				String s1 = "vergo          -";
+				String s12 = "vergo          ";
+				String s2 = " sense";
+				String s3 = "hypixel.net";
+				//String s4 = mc.thePlayer.getName();
+
+				if(ServerUtils.isOnHypixel()) {
+					RenderUtils2.drawBorderedRect(2, 2, 40 + (s1.length() + s2.length() + s3.length() - 8), 9, 1, new Color(20, 20, 20), new Color(73, 73, 73));
+				} else {
+					RenderUtils2.drawBorderedRect(2, 2, 33.5f, 9, 1, new Color(20, 20, 20), new Color(73, 73, 73));
+				}
+				GlStateManager.scale(0.7, 0.7, 0.7);
+				if(ServerUtils.isOnHypixel()) {
+					FontUtil.comfortaaSmall.drawString(s1, 5.5f, 7, new Color(0xffffff).getRGB());
+				} else {
+					FontUtil.comfortaaSmall.drawString(s12, 5.5f, 7, new Color(0xffffff).getRGB());
+				}
+				FontUtil.comfortaaSmall.drawString(s2, 24.55f, 7, new Color(0x5AFF00).getRGB());
+				if(ServerUtils.isOnHypixel()) {
+					GlStateManager.scale(0.9f, 0.9f, 0.9f);
+					FontUtil.comfortaaSmall.drawString(s3, 62.82, 8.5f, new Color(0xffffff).getRGB());
+				} else {
+
+				}
+				GlStateManager.scale(1, 1, 1);
+				//FontUtil.comfortaaSmall.drawString(s4, 24.5f, 6, new Color(0xffffff).getRGB());
 
 			}
 			GlStateManager.disableBlend();

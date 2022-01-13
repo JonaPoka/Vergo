@@ -182,6 +182,7 @@ public class FontUtil {
 	public static JelloFontRenderer jelloFontBoldSmall = JelloFontRenderer.createFontRenderer(getJelloFont(19, true));
 	public static JelloFontRenderer jelloFontMarker = JelloFontRenderer.createFontRenderer(getJelloFont(19, false));
 	public static JelloFontRenderer jelloFontSmall = JelloFontRenderer.createFontRenderer(getJelloFont(14, false));
+	public static JelloFontRenderer jelloFontSmallerest = JelloFontRenderer.createFontRenderer(getJelloFont(6, false));
 	public static JelloFontRenderer jelloFontSmallPassword = JelloFontRenderer.createFontRenderer(getJelloFont(16, false));
 	public static JelloFontRenderer jelloFontBig = JelloFontRenderer.createFontRenderer(getJelloFont(41, true));
 	public static JelloFontRenderer jelloFontMedium = JelloFontRenderer.createFontRenderer(getJelloFont(25, false));
@@ -209,6 +210,7 @@ public class FontUtil {
 
 	public static JelloFontRenderer comfortaaNormal = JelloFontRenderer.createFontRenderer(getComfortaa(18));
 	public static JelloFontRenderer comfortaaSmall = JelloFontRenderer.createFontRenderer(getComfortaa(14));
+	public static JelloFontRenderer comfortaaSmaller = JelloFontRenderer.createFontRenderer(getComfortaa(6));
 
 	public static JelloFontRenderer neurialGrotesk = JelloFontRenderer.createFontRenderer(getNeurialGrotesk(18));
 

@@ -361,15 +361,17 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 			// If there is no target return
 			if (target == null) {
-				block(false);
-				mc.thePlayer.clearItemInUse();
-				mc.gameSettings.keyBindUseItem.pressed = false;
-				legitStartingYaw = mc.thePlayer.rotationYaw;
-				legitStartingPitch = mc.thePlayer.rotationPitch;
-				bezierCurveHelper.clearPoints();
-				if (!mc.gameSettings.keyBindUseItem.isKeyDown())
+				if(mc.gameSettings.keyBindUseItem.isKeyDown()) {
+
+				} else {
+					block(false);
 					mc.thePlayer.clearItemInUse();
-				return;
+					mc.gameSettings.keyBindUseItem.pressed = false;
+					legitStartingYaw = mc.thePlayer.rotationYaw;
+					legitStartingPitch = mc.thePlayer.rotationPitch;
+					bezierCurveHelper.clearPoints();
+					return;
+				}
 			}
 
 			// Autoblock
@@ -419,10 +421,6 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 				if (autoblockSetting.is("Hypixel"))
 					if (target != null) {
 						block(true);
-					} else {
-						block(false);
-						mc.thePlayer.clearItemInUse();
-						mc.gameSettings.keyBindUseItem.pressed = false;
 					}
 
 			}
