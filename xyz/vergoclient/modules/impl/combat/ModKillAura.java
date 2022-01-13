@@ -241,10 +241,6 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 	@Override
 	public void onEvent(Event e) {
 
-		if (critTimer.hasTimeElapsed(200, true)) {
-			ChatUtils.addChatMessage(target);
-		}
-
 		if (e instanceof EventRender3D && e.isPre()) {
 
 
