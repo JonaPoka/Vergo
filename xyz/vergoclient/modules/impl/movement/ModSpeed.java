@@ -174,10 +174,13 @@ public class ModSpeed extends Module implements OnEventInterface {
 						mc.thePlayer.jump();
 						return;
 					}
-					//ChatUtils.addChatMessage("Reset!");
 					mc.timer.timerSpeed = 1.09f;
-					mc.thePlayer.motionX *= 1.00110F;
-					mc.thePlayer.motionZ *= 1.00110F;
+					mc.thePlayer.motionX *= 1.00011F;
+					mc.thePlayer.motionZ *= 1.00011F;
+					//ChatUtils.addChatMessage("Reset!");
+					//mc.timer.timerSpeed = 1.09f;
+					//mc.thePlayer.motionX *= 1.00110F;
+					//mc.thePlayer.motionZ *= 1.00110F;
 				}
 		}
 

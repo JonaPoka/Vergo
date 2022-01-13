@@ -241,6 +241,10 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 	@Override
 	public void onEvent(Event e) {
 
+		if (critTimer.hasTimeElapsed(200, true)) {
+			ChatUtils.addChatMessage(target);
+		}
+
 		if (e instanceof EventRender3D && e.isPre()) {
 
 
@@ -361,6 +365,9 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 			// If there is no target return
 			if (target == null) {
+				block(false);
+				mc.thePlayer.clearItemInUse();
+				mc.gameSettings.keyBindUseItem.pressed = false;
 				legitStartingYaw = mc.thePlayer.rotationYaw;
 				legitStartingPitch = mc.thePlayer.rotationPitch;
 				bezierCurveHelper.clearPoints();
@@ -409,12 +416,17 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 					mc.thePlayer.swingItem();
 					mc.leftClickCounter = 0;
 					mc.getNetHandler().getNetworkManager().sendPacket(new C02PacketUseEntity(target, Action.ATTACK));
+
 				}
 
 				// autoblock
 				if (autoblockSetting.is("Hypixel"))
 					if (target != null) {
 						block(true);
+					} else {
+						block(false);
+						mc.thePlayer.clearItemInUse();
+						mc.gameSettings.keyBindUseItem.pressed = false;
 					}
 
 			}
@@ -651,7 +663,8 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 	private void setTarget() {
 
-		if (target != null && (target.isDead || target.getHealth() <= 0) && !ServerUtils.isOnMineplex()) {
+		if (target != null && (target.isDead || target.getHealth() <= 0)) {
+			block(false);
 			target = null;
 		}
 
@@ -723,6 +736,8 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			return;
 		}
 
+
+
 		// Get target
 		target = targets.get(0);
 
@@ -751,9 +766,11 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 				//mc.gameSettings.keyBindUseItem.pressed = true;
 				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255,
 						null, 0, 0, 0));
+
 			}
 
 			isBlocking = true;
+
 		}
 
 		// Stop blocking
@@ -763,7 +780,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 				if (this.blockTimer.delay(random)) {
 					ChatUtils.addChatMessage("Trigger! " + random);
 					BlockPos debug = new BlockPos(0, 0, 0);
-					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C07PacketPlayerDigging(
+					mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(
 							net.minecraft.network.play.client.C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, debug,
 							EnumFacing.DOWN));
 					//ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );
