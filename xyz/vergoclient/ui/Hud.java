@@ -8,7 +8,9 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import org.apache.logging.log4j.core.jmx.Server;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.event.Event;
@@ -62,45 +64,62 @@ public class Hud implements OnEventInterface {
 			// Draws the watermark in the corner
 			GlStateManager.pushMatrix();
 
-			GlStateManager.scale(1.5f, 1.5f, 1);
-
 			GlStateManager.enableBlend();
 			if(Vergo.config.modHud.waterMark.is("Planet")) {
+				GlStateManager.scale(1.5f, 1.5f, 1);
 				GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 				RenderUtils.drawImg(new ResourceLocation("Vergo/logo/512x512clear.png"), 0, 0, 30, 30);
 			} else if(Vergo.config.modHud.waterMark.is("Rounded")) {
+				GlStateManager.scale(1.5f, 1.5f, 1);
 				GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 				RenderUtils.drawImg(new ResourceLocation("Vergo/logo/512x512-transparent-round.png"), 0, 0, 32, 32);
 			} else if(Vergo.config.modHud.waterMark.is("vergosense")) {
 				//NetworkPlayerInfo you = mc.getNetHandler().getPlayerInfo(mc.thePlayer.getUniqueID());
 				//String ping = "Ping: \247f" + (you == null ? "0" : you.responseTime);
 
-
-				String s1 = "vergo          -";
-				String s12 = "vergo          ";
+				String s1 = "vergo           -";
+				String s12 = "vergo";
 				String s2 = " sense";
 				String s3 = "hypixel.net";
 				//String s4 = mc.thePlayer.getName();
 
+				float width1 = 54;
+				float width12 = 107;
+
+				float width2 = 52;
+				float width22 = 105;
+
+				float width3 = 48;
+				float width32 = 101;
+
+				float width4 = 46;
+				float width42 = 99;
+
 				if(ServerUtils.isOnHypixel()) {
-					RenderUtils2.drawBorderedRect(2, 2, 40 + (s1.length() + s2.length() + s3.length() - 8), 9, 1, new Color(20, 20, 20), new Color(73, 73, 73));
+					RenderUtils2.drawRect(2, 2, width12, 18, new Color(0x434343).getRGB());
+					RenderUtils2.drawRect(3f, 3f, width22, 16, new Color(0x434343).darker().getRGB());
+					RenderUtils2.drawRect(5, 5, width32, 12, new Color(0x434343).getRGB());
+					RenderUtils2.drawRect(6f, 6f, width42, 10, new Color(0x303030).darker().getRGB());
 				} else {
-					RenderUtils2.drawBorderedRect(2, 2, 33.5f, 9, 1, new Color(20, 20, 20), new Color(73, 73, 73));
+					RenderUtils2.drawRect(2, 2, width1, 18, new Color(0x434343).getRGB());
+					RenderUtils2.drawRect(3f, 3f, width2, 16, new Color(0x434343).darker().getRGB());
+					RenderUtils2.drawRect(5, 5, width3, 12, new Color(0x434343).getRGB());
+					RenderUtils2.drawRect(6f, 6f, width4, 10, new Color(0x303030).darker().getRGB());
 				}
-				GlStateManager.scale(0.7, 0.7, 0.7);
+
+				RenderUtils2.drawRect(6, 15f, 99, 1, ColorUtils.fadeColorHorizontal(new Color(10, 193, 0),(int) 8, 10).getRGB());
+
 				if(ServerUtils.isOnHypixel()) {
-					FontUtil.comfortaaSmall.drawString(s1, 5.5f, 7, new Color(0xffffff).getRGB());
+					FontUtil.comfortaaSmall.drawString(s1, 8f, 9.5f, new Color(0xffffff).getRGB());
 				} else {
-					FontUtil.comfortaaSmall.drawString(s12, 5.5f, 7, new Color(0xffffff).getRGB());
+					FontUtil.comfortaaSmall.drawString(s12, 8f, 9.5f, new Color(0xffffff).getRGB());
 				}
-				FontUtil.comfortaaSmall.drawString(s2, 24.55f, 7, new Color(0x5AFF00).getRGB());
+				FontUtil.comfortaaSmall.drawString(s2, 27f, 9.5f, new Color(0x5AFF00).getRGB());
 				if(ServerUtils.isOnHypixel()) {
-					GlStateManager.scale(0.9f, 0.9f, 0.9f);
-					FontUtil.comfortaaSmall.drawString(s3, 62.82, 8.5f, new Color(0xffffff).getRGB());
+					FontUtil.comfortaaSmall.drawString(s3, 62, 10f, new Color(0xffffff).getRGB());
 				} else {
 
 				}
-				GlStateManager.scale(1, 1, 1);
 				//FontUtil.comfortaaSmall.drawString(s4, 24.5f, 6, new Color(0xffffff).getRGB());
 
 			}
@@ -152,6 +171,7 @@ public class Hud implements OnEventInterface {
 			boolean updateToggleMovement = arrayListToggleMovement.hasTimeElapsed(1000 / 40, true);
 
 			double offset = 0;
+
 			for (Module module : modules) {
 					arrayListRainbow += 125;
 					arrayListColor++;
@@ -204,16 +224,16 @@ public class Hud implements OnEventInterface {
 
 					if (Vergo.config.modHud.barDirection.is("Right")) {
 						if (Vergo.config.modHud.arrayListBackground.isEnabled()) {
-							Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x70000000);
+							Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x70000000);
 						}
 						align = 4.5f;
 						Gui.drawRect(sr.getScaledWidth() - 2, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
 					} else if (Vergo.config.modHud.barDirection.is("Left")) {
 						if (Vergo.config.modHud.arrayListBackground.isEnabled()) {
-							Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x70000000);
+							Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x70000000);
 						}
 						align = 2.7f;
-						Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 8, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
+						Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
 					} else {
 						if (Vergo.config.modHud.arrayListBackground.isEnabled()) {
 							Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x20000000);

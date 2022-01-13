@@ -309,7 +309,6 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 						/*GL11.glColor4f(0.7f, 0.52f, 1.0f, 0.25f);
 						RenderUtils.drawLine(lastLine.xCoord, y + 0.5, lastLine.zCoord, x2, y + 0.2, z2);
-
 						GL11.glColor4f(0.7f, 0.52f, 1.0f, 0.2f);
 						RenderUtils.drawLine(lastLine.xCoord, y + 0.2, lastLine.zCoord, x2, y + 0.1, z2);*/
 					}
@@ -361,17 +360,12 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 			// If there is no target return
 			if (target == null) {
-				if(mc.gameSettings.keyBindUseItem.isKeyDown()) {
-
-				} else {
-					block(false);
-					mc.thePlayer.clearItemInUse();
-					mc.gameSettings.keyBindUseItem.pressed = false;
+				if (!mc.gameSettings.keyBindUseItem.isKeyDown())
 					legitStartingYaw = mc.thePlayer.rotationYaw;
 					legitStartingPitch = mc.thePlayer.rotationPitch;
 					bezierCurveHelper.clearPoints();
-					return;
-				}
+					mc.thePlayer.clearItemInUse();
+				return;
 			}
 
 			// Autoblock
@@ -414,7 +408,6 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 					mc.thePlayer.swingItem();
 					mc.leftClickCounter = 0;
 					mc.getNetHandler().getNetworkManager().sendPacket(new C02PacketUseEntity(target, Action.ATTACK));
-
 				}
 
 				// autoblock
@@ -657,8 +650,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 	private void setTarget() {
 
-		if (target != null && (target.isDead || target.getHealth() <= 0)) {
-			block(false);
+		if (target != null && (target.isDead || target.getHealth() <= 0) && !ServerUtils.isOnMineplex()) {
 			target = null;
 		}
 
@@ -730,8 +722,6 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			return;
 		}
 
-
-
 		// Get target
 		target = targets.get(0);
 
@@ -760,11 +750,9 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 				//mc.gameSettings.keyBindUseItem.pressed = true;
 				mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255,
 						null, 0, 0, 0));
-
 			}
 
 			isBlocking = true;
-
 		}
 
 		// Stop blocking
@@ -774,7 +762,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 				if (this.blockTimer.delay(random)) {
 					ChatUtils.addChatMessage("Trigger! " + random);
 					BlockPos debug = new BlockPos(0, 0, 0);
-					mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(
+					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C07PacketPlayerDigging(
 							net.minecraft.network.play.client.C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, debug,
 							EnumFacing.DOWN));
 					//ChatUtils.addChatMessage("DEBUG: Blocking? " + mc.gameSettings.keyBindUseItem.pressed );

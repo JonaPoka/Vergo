@@ -165,6 +165,22 @@ public class FontUtil {
 		}
 		return font;
 	}
+
+	private static Font getTahoma(int size) {
+		Font font = null;
+		try {
+			InputStream is = Minecraft.getMinecraft().getResourceManager()
+					.getResource(new ResourceLocation("Vergo/font/Tahoma-Regular-font.ttf")).getInputStream();
+			font = Font.createFont(0, is);
+			font = font.deriveFont(0, size);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("Error loading font");
+			font = new Font("default", 0, +10);
+		}
+		return font;
+	}
+
 	
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static FontRenderer fr = mc.fontRendererObj;
@@ -213,5 +229,7 @@ public class FontUtil {
 	public static JelloFontRenderer comfortaaSmaller = JelloFontRenderer.createFontRenderer(getComfortaa(6));
 
 	public static JelloFontRenderer neurialGrotesk = JelloFontRenderer.createFontRenderer(getNeurialGrotesk(18));
+
+	public static JelloFontRenderer tahomaFont = JelloFontRenderer.createFontRenderer(getTahoma(24));
 
 }

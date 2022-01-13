@@ -1,6 +1,8 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.BlockPos;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventTick;
@@ -10,6 +12,7 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
+import xyz.vergoclient.util.ChatUtils;
 import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.TimerUtil;
@@ -88,6 +91,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 	
 	private void onHypixelEvent(Event e) {
+
+		//ChatUtils.addChatMessage("Timer: " + mc.timer.timerSpeed);
 		
 		if (e instanceof EventTick && e.isPre()) {
 
@@ -123,66 +128,34 @@ public class ModSpeed extends Module implements OnEventInterface {
 
 
 	private void hypixelLoFi(Event event) {
-		if(mc.thePlayer.isInLava() || mc.thePlayer.isInWater() || mc.thePlayer.isSpectator()) {
-			return;
-		}
 
-		if(mc.gameSettings.keyBindJump.isKeyDown()) {
+			if(mc.thePlayer.isInLava() || mc.thePlayer.isInWater() || mc.thePlayer.isSpectator()) {
+				return;
+			}
 
-		}
+			if(mc.gameSettings.keyBindJump.isKeyDown()) {
 
-
-		if(!mc.thePlayer.isSprinting()) {
-			mc.thePlayer.setSprinting(true);
-		}
-
-		//ChatUtils.addChatMessage("MotionY: " + mc.thePlayer.motionY);
-
-		if (MovementUtils.isMoving()) {
+			}
 
 
-				if (mc.gameSettings.keyBindJump.isKeyDown()) {
-					mc.gameSettings.keyBindJump.pressed = false;
-				}
+			if(!mc.thePlayer.isSprinting()) {
+				mc.thePlayer.setSprinting(true);
+			}
 
+			if(mc.thePlayer.isCollidedVertically) {
+				return;
+			}
 
-				if (!mc.thePlayer.isSprinting()) {
-					mc.thePlayer.setSprinting(true);
-				}
+			//ChatUtils.addChatMessage("MotionY: " + mc.thePlayer.motionY);
 
-				if(mc.thePlayer.onGround) {
-					if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-						mc.thePlayer.jump();
-						return;
-					}
-					mc.thePlayer.moveStrafing *= 2;
-					mc.thePlayer.jump();
-					mc.thePlayer.jumpMovementFactor = 0.0243F;
-					mc.thePlayer.motionX *= 1.07601F;
-					mc.thePlayer.motionZ *= 1.07601F;
-				}
-
-				if (mc.thePlayer.motionY >= 0.28) {
-					if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-						mc.thePlayer.jump();
-						return;
-					}
-					//ChatUtils.addChatMessage("Triggered ++ " + mc.timer.timerSpeed + " " + mc.timer.ticksPerSecond);
-					mc.timer.timerSpeed = 1.13f;
-				} else if(mc.thePlayer.motionY <= 0.279) {
-					if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-						mc.thePlayer.jump();
-						return;
-					}
-					mc.timer.timerSpeed = 1.09f;
-					mc.thePlayer.motionX *= 1.00011F;
-					mc.thePlayer.motionZ *= 1.00011F;
-					//ChatUtils.addChatMessage("Reset!");
-					//mc.timer.timerSpeed = 1.09f;
-					//mc.thePlayer.motionX *= 1.00110F;
-					//mc.thePlayer.motionZ *= 1.00110F;
-				}
-		}
+			if(MovementUtils.isOnGround(0.0001)) {
+				mc.thePlayer.jump();
+				//ChatUtils.addChatMessage("Timer Joke");
+				mc.timer.timerSpeed = 1.09f;
+				mc.thePlayer.motionY -= 0.020f;
+			} else {
+				mc.thePlayer.motionY *= 1.0001f;
+			}
 
 	}
 
