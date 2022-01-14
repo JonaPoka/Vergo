@@ -46,9 +46,11 @@ public class ModVelocity extends Module implements OnEventInterface {
 					if (normalHorizontalKnockback.getValueAsDouble() <= 0 && normalVerticalKnockback.getValueAsDouble() <= 0) {
 						e.setCanceled(true);
 					}else {
-						packet.setMotionX((int) ((((double)packet.getMotionX()) / 100) * normalHorizontalKnockback.getValueAsDouble()));
-						packet.setMotionY((int) ((((double)packet.getMotionY()) / 100) * normalVerticalKnockback.getValueAsDouble()));
-						packet.setMotionZ((int) ((((double)packet.getMotionZ()) / 100) * normalHorizontalKnockback.getValueAsDouble()));
+						if(normalHorizontalKnockback.getValueAsDouble() >= 101) {
+							packet.setMotionX((int) ((((double) packet.getMotionX()) / 100) * normalHorizontalKnockback.getValueAsDouble()));
+							packet.setMotionY((int) ((((double) packet.getMotionY()) / 100) * normalVerticalKnockback.getValueAsDouble()));
+							packet.setMotionZ((int) ((((double) packet.getMotionZ()) / 100) * normalHorizontalKnockback.getValueAsDouble()));
+						}
 					}
 				}
 			}

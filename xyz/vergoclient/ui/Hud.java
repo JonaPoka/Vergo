@@ -100,14 +100,14 @@ public class Hud implements OnEventInterface {
 					RenderUtils2.drawRect(3f, 3f, width22, 16, new Color(0x434343).darker().getRGB());
 					RenderUtils2.drawRect(5, 5, width32, 12, new Color(0x434343).getRGB());
 					RenderUtils2.drawRect(6f, 6f, width42, 10, new Color(0x303030).darker().getRGB());
+					RenderUtils2.drawRect(6, 15f, 99, 1, ColorUtils.fadeColorHorizontal(new Color(10, 193, 0),(int) 8, 10).getRGB());
 				} else {
 					RenderUtils2.drawRect(2, 2, width1, 18, new Color(0x434343).getRGB());
 					RenderUtils2.drawRect(3f, 3f, width2, 16, new Color(0x434343).darker().getRGB());
 					RenderUtils2.drawRect(5, 5, width3, 12, new Color(0x434343).getRGB());
 					RenderUtils2.drawRect(6f, 6f, width4, 10, new Color(0x303030).darker().getRGB());
+					RenderUtils2.drawRect(6, 15f, 46, 1, ColorUtils.fadeColorHorizontal(new Color(10, 193, 0),(int) 8, 10).getRGB());
 				}
-
-				RenderUtils2.drawRect(6, 15f, 99, 1, ColorUtils.fadeColorHorizontal(new Color(10, 193, 0),(int) 8, 10).getRGB());
 
 				if(ServerUtils.isOnHypixel()) {
 					FontUtil.comfortaaSmall.drawString(s1, 8f, 9.5f, new Color(0xffffff).getRGB());
