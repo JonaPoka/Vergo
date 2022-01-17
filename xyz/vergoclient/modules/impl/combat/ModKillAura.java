@@ -427,6 +427,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 					isBlocking = false;
 				}
 			}
+			doCriticals(e);
 		}
 
 	}
@@ -788,12 +789,18 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 		return new BlockPos(val, -val % 255, val);
 	}
 
-	private int groundTicks;
-	private final double[] offsets = new double[]{0.05101, 0.01601, 0.0301, 0.00101};
-	private boolean critical;
-
-	private boolean canDoCritical() {
-		return MovementUtils.isOnGround(0.00001) && !mc.thePlayer.isInWater() && !mc.thePlayer.isInLava() && !mc.thePlayer.isOnLadder();
+	private void doCriticals(Event e) {
+		if(MovementUtils.isOnGround(0.001)) {
+			double[] offset = {0.05101, 0.01601, 0.0301, 0.00101};
+			if (((EventSendPacket)e).packet instanceof C02PacketUseEntity && ((C02PacketUseEntity)((EventSendPacket)e).packet).getAction() == Action.ATTACK) {
+				ChatUtils.addChatMessage("Crit");
+				if(critTimer.hasTimeElapsed(470, true)) {
+					for (double offsets : offset) {
+						mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + offsets, mc.thePlayer.posZ, false));
+					}
+				}
+			}
+		}
 	}
 
 }

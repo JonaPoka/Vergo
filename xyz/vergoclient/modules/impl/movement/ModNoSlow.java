@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import net.minecraft.item.ItemBow;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
 import xyz.vergoclient.event.Event;
@@ -26,11 +27,22 @@ public class ModNoSlow extends Module implements OnEventInterface {
 		}
 
 		if (e instanceof EventSendPacket && e.isPre()) {
-			EventSendPacket event = (EventSendPacket)e;
-			if (event.packet instanceof C08PacketPlayerBlockPlacement) {
-				C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement)event.packet;
-				if (packet.position == BlockPos.ORIGIN)
-					packet.position = new BlockPos(-1, -1, -1);
+			if(mc.thePlayer.isBlocking()) {
+				EventSendPacket event = (EventSendPacket) e;
+				if (event.packet instanceof C08PacketPlayerBlockPlacement) {
+					C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement) event.packet;
+					if (packet.position == BlockPos.ORIGIN)
+						packet.position = new BlockPos(-1, -1, -1);
+				}
+			}
+
+			if(mc.thePlayer.isEating()) {
+				EventSendPacket event = (EventSendPacket) e;
+				if (event.packet instanceof C08PacketPlayerBlockPlacement) {
+					C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement) event.packet;
+					if (packet.position == BlockPos.ORIGIN)
+						packet.position = new BlockPos(-1, -1, -1);
+				}
 			}
 		}
 

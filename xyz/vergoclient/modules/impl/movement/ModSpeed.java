@@ -133,7 +133,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 
 			//ChatUtils.addChatMessage("MotionY: " + mc.thePlayer.motionY);
 
-			if(MovementUtils.isOnGround(0.0001)) {
+			if(MovementUtils.isOnGround(0.0001) && !mc.thePlayer.isCollidedHorizontally) {
 				mc.thePlayer.jump();
 				//ChatUtils.addChatMessage("Timer Joke");
 				mc.timer.timerSpeed = 1.2f;
@@ -148,8 +148,10 @@ public class ModSpeed extends Module implements OnEventInterface {
 					mc.thePlayer.motionY = 0.4;
 				}
 			} else {
-				mc.timer.timerSpeed = 1.09f;
-				mc.thePlayer.motionY *= 1.0001f;
+				if(!mc.thePlayer.isCollidedHorizontally) {
+					mc.timer.timerSpeed = 1.09f;
+					mc.thePlayer.motionY *= 1.0001f;
+				}
 			}
 
 	}

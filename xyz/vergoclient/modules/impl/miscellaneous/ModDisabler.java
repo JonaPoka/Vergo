@@ -61,6 +61,16 @@ public class ModDisabler extends Module implements OnEventInterface {
 	public void onEvent(Event e) {
 		if (mode.is("Test")) {
 
+			if(e instanceof EventSendPacket) {
+
+				if(e.isPre()) {
+					/*mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook());
+					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0FPacketConfirmTransaction());
+					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C00Handshake());*/
+				}
+
+			}
+
 		}
 	}
 	
