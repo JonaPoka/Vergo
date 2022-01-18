@@ -95,7 +95,7 @@ public class GuiClickGui extends GuiScreen {
 	public static CopyOnWriteArrayList<Button> clickguiButtons = new CopyOnWriteArrayList<>();
 	
 	// The colors used in the clickgui
-	public static int moduleBackgroundDisabled = 0x3396FF,
+	public static int moduleBackgroundDisabled = 0x2E3741,
 					  moduleTextColor = -1;
 
 	@Override
@@ -122,7 +122,7 @@ public class GuiClickGui extends GuiScreen {
 		}
 		
 		// The font renderer
-		JelloFontRenderer fr = FontUtil.spicyClickGuiFont;
+		JelloFontRenderer fr = FontUtil.juraNormal;
 		
 		// Will replace the old arraylist after it is created
 		CopyOnWriteArrayList<Button> clickguiButtons = new CopyOnWriteArrayList<>();
@@ -301,7 +301,7 @@ public class GuiClickGui extends GuiScreen {
 			else if (button.module != null) {
 				GlStateManager.pushMatrix();
 				Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.CLICK_GUI_OFF.getColor());
-				Gui.drawRectNoAlphaChange(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.BLUE.getColor(), (float) button.posAndColor.data);
+				Gui.drawRectNoAlphaChange(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.PINK.getColor(), (float) button.posAndColor.data);
 				GlStateManager.color(1, 1, 1, 1);
 				FontUtil.jelloFontBoldSmall.drawString(button.module.getName(), button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 				if (!button.module.settings.isEmpty()) {
