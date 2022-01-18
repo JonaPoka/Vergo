@@ -8,6 +8,7 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.util.ChatUtils;
+import xyz.vergoclient.util.MovementUtils;
 import xyz.vergoclient.util.Timer;
 
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class ModFly extends Module implements OnEventInterface {
 		this.timer = new Timer();
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Hypixel", "Vanilla");
+	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Hypixel", "Vanilla", "Test");
 
 	public NumberSetting scale = new NumberSetting("TheFunny", 5, 0, 100, 0.1);
 
@@ -30,7 +31,7 @@ public class ModFly extends Module implements OnEventInterface {
 	public void loadSettings() {
 		
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Hypixel", "Vanilla"));
+		mode.modes.addAll(Arrays.asList("Hypixel", "Vanilla", "Test"));
 		
 		addSettings(mode, scale);
 	}
@@ -62,6 +63,10 @@ public class ModFly extends Module implements OnEventInterface {
 				}
 			}
 
+			else if(mode.is("Test")) {
+				doTheFunnyTest();
+			}
+
 		}
 
 	}
@@ -90,6 +95,20 @@ public class ModFly extends Module implements OnEventInterface {
 		position.y = (int) (position.getY() - 2.0);
 		position.z = (int) (position.getZ() + horizontal * Math.cos(playerYaw));
 		mc.thePlayer.setPosition(position.getX(), position.getY(), position.getZ());
+	}
+
+	public void doTheFunnyTest() {
+		mc.thePlayer.cameraYaw = 0.09090909086F * 2;
+
+		MovementUtils.setSpeed(0.2);
+
+		mc.thePlayer.motionY = 0;
+
+		mc.timer.timerSpeed = 1f;
+
+		if(mc.thePlayer.isInvisible()) {
+			mc.timer.timerSpeed = 1f;
+		}
 	}
 	
 }

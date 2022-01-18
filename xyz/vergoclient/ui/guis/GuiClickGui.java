@@ -285,7 +285,7 @@ public class GuiClickGui extends GuiScreen {
 			if (button.tab != null) {
 				GlStateManager.pushMatrix();
 				Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.CLICK_GUI_CAT.getColor());
-				// RenderUtils.drawRoundedRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, 3f, new Color(19, 24, 44));
+				//RenderUtils.drawRoundedRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, 3f, new Color(19, 24, 44));
 				FontUtil.jelloFontMedium.drawString(button.tab.category.displayName, button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 				GlStateManager.popMatrix();
 				

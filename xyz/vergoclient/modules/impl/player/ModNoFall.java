@@ -58,6 +58,7 @@ public class ModNoFall extends Module implements OnEventInterface {
 			if (mc.thePlayer.fallDistance > 4 && !isOverVoid() && !mc.thePlayer.isSpectator()) {
 				mc.thePlayer.setPosition(mc.thePlayer.lastTickPosX, mc.thePlayer.posY, mc.thePlayer.lastTickPosZ);
 			}
+
 		}
 	}
 

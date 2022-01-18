@@ -70,8 +70,8 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			viewRotations = new BooleanSetting("View rotations", false),
 			movementMatchRotation = new BooleanSetting("Movement Match Rotation", false),
 			visualizeRange = new BooleanSetting("Visualize Range", false),
-			visualizeTargetCircle = new BooleanSetting("Visualize Target", true),
-			doCriticals = new BooleanSetting("Criticals", true);
+			visualizeTargetCircle = new BooleanSetting("Visualize Target", true);
+			//criticals = new BooleanSetting("Criticals", true);
 	public ModeSetting targetSelectionSetting = new ModeSetting("Target selection", "Switch", "Switch", "Single"),
 			targetSortingSetting = new ModeSetting("Target sorting", "Health", "Health", "Distance"),
 			rotationSetting = new ModeSetting("Rotation", "Lock", "Smooth", "Lock", "Spin", "None", "Almost legit", "Bezier Curve"),
@@ -88,7 +88,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 		addSettings(rangeSetting, minApsSetting, maxApsSetting, /*combatPacketsPerHit,*/ targetPlayersSetting, targetAnimalsSetting,
 				targetMobsSetting, targetOtherSetting, rayTraceCheck, targetSelectionSetting, targetSortingSetting,
-				rotationSetting, autoblockSetting, visualizeTargetCircle /*visualizeRange*/, doCriticals);
+				rotationSetting, autoblockSetting, visualizeTargetCircle /*visualizeRange, doCriticals*/);
 
 	}
 
@@ -427,7 +427,6 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 					isBlocking = false;
 				}
 			}
-			doCriticals(e);
 		}
 
 	}
