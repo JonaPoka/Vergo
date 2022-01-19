@@ -42,7 +42,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 	public float animation = 0;
 
-	public ModeSetting mode = new ModeSetting("Mode", "Vergo Blue","Vergo Blue", "Vergo Red");
+	public ModeSetting mode = new ModeSetting("Mode", "Vergo Blue","Vergo Blue", "Vergo Red", "New Vergo");
 	public NumberSetting xOffset = new NumberSetting("X position", 400, 0, 1000, 1);
 	public NumberSetting yOffset = new NumberSetting("Y position", 400, 0, 1000, 1);
 	public NumberSetting heartSliderX = new NumberSetting("Heart SliderX", 45, 0, 200, 1);
@@ -338,6 +338,141 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 				RenderUtils.drawAlphaRoundedRect(27, 30, 82, 5f, 3f, getColor(6, 9, 19, (int) barOpacity.getOpacity()));
 				RenderUtils.drawAlphaRoundedRect(27, 30, healthBar, 5f, 3f, getColor(36, 96, 252, (int) barOpacity.getOpacity()));
+				// RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
+
+				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
+				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {
+
+				} else {
+					this.renderArmor((EntityPlayer) ent, 67);
+				}
+
+				GlStateManager.disableBlend();
+				GlStateManager.enableAlpha();
+
+				GlStateManager.resetColor();
+				// 3D model of the target
+				GlStateManager.disableBlend();
+				GlStateManager.color(1, 1, 1, armorOpacity.getOpacity());
+				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {
+
+				} else {
+					GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
+				}
+				GL11.glPopMatrix();
+			} else if (mode.is("New Vergo")) {
+
+				EntityLivingBase ent = null;
+
+				if (Vergo.config.modKillAura.isEnabled() && ModKillAura.target != null) {
+					ent = ModKillAura.target;
+				}
+
+				if (ent == null) {
+					if (mc.currentScreen instanceof GuiClickGui) {
+						ent = mc.thePlayer;
+					} else {
+						boxOpacity.setOpacity(0);
+						barOpacity.setOpacity(0);
+						armorOpacity.setOpacity(0);
+						textOpacity.setOpacity(0);
+						return;
+					}
+				}
+
+				// Lower is faster, higher is slower
+				double barSpeed = 6;
+				if (healthBar > healthBarTarget) {
+					healthBar = ((healthBar) - ((healthBar - healthBarTarget) / barSpeed));
+				} else if (healthBar < healthBarTarget) {
+					healthBar = ((healthBar) + ((healthBarTarget - healthBar) / barSpeed));
+				}
+
+				String healthStr = Math.round(ent.getHealth() * 10) / 10d + " hp";
+
+
+				/* healthStr = String.valueOf((healthBar * (ent.getHealth() / ent.getMaxHealth())));
+				if (healthBar > 10) {
+					healthBar = 10;
+				} */
+
+
+				int x = 484;
+				int y = 359;
+
+				// EXTREMELY SECRET. DO NOT FUCKING RE-USE. SERIOUSLY, I WILL GET FUCKING SUED.
+
+				Color color;
+
+				GlStateManager.pushMatrix();
+				String playerName = ent.getName();
+
+				String clientTag = "";
+
+				//IRCUser user = IRCUser.getIRCUserByIGN(playerName);
+
+				//if (user != null) {
+				//	clientTag = "\247" + user.rank.charAt(0) + "[" + user.rank.substring(1) + "|" + user.username + "] \247f";
+				//}
+
+
+				float width = (float) Math.max(75, FontUtil.arialMedium.getStringWidth(clientTag + playerName) + 25);
+
+
+			/*if (BlurBuffer.blurEnabled()) {
+				BlurBuffer.blurRoundArea(x + .5f, y + .5f, 28 + width - 1f, 30 - 1f, 2f, true);
+			}*/
+
+				//更改TargetHUD在屏幕坐标的初始位置
+
+				GlStateManager.translate(x, y, 0);
+
+				boxOpacity.interp(250, 15);
+				armorOpacity.interp(250, 15);
+				barOpacity.interp(250, 15);
+				textOpacity.interp(250, 15);
+
+				//GL11.glColor4f();
+
+				// RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, getColor(20, 20, 20, (int) boxOpacity.getOpacity()), getColor(29, 29, 29, (int) boxOpacity.getOpacity()));
+				RenderUtils.drawAlphaRoundedRect(0, 0, 40 + width, 40, 5, getColor(11, 13, 20, (int) boxOpacity.getOpacity()));
+
+				FontUtil.bakakakmedium.drawString(clientTag + playerName, 30f, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
+				FontUtil.bakakakmedium.drawString(healthStr, 37 + width - FontUtil.bakakakmedium.getStringWidth(healthStr) - 2, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
+
+				boolean isNaN = Float.isNaN(ent.getHealth());
+				float health = isNaN ? 20 : ent.getHealth();
+				float maxHealth = isNaN ? 20 : ent.getMaxHealth();
+				float healthPercent = MiscellaneousUtils.clampValue(health / maxHealth, 0, 1);
+
+				//RenderUtils2.drawRoundedRect(30, 31.5f, 26 + width - 2, 34.5f, RenderUtils2.reAlpha(0, 0.35f));
+
+				float barWidth = (26 + width - 2) - 37;
+				float drawPercent = 47 + (barWidth / 100) * (healthPercent * 100);
+
+
+				healthBarTarget = (((82) / (ent.getMaxHealth())) * (ent.getHealth()));
+
+				// Health bar
+				healthBarTarget = 82 * (ent.getHealth() / ent.getMaxHealth());
+				if (healthBar > 82) {
+					healthBar = 82;
+				}
+
+				// if (this.animation <= 0) {
+				// this.animation = drawPercent;
+				// }
+
+				// if (ent.hurtTime <= 6) {
+				// this.animation = AnimationUtils.getAnimationState(this.animation, drawPercent, (float) Math.max(10, (Math.abs(this.animation - drawPercent) * 30) * 0.4));
+				// }
+
+
+				/*RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 5f, new Color(142, 2, 32).getRGB());
+				RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 5f, new Color(142, 2, 32).getRGB());*/
+
+				RenderUtils.drawAlphaRoundedRect(27, 30, 82, 5f, 3f, getColor(5, 7, 15, (int) barOpacity.getOpacity()));
+				RenderUtils.drawAlphaRoundedRect(27, 30, healthBar, 5f, 3f, getColor(207, 84, 74, (int) barOpacity.getOpacity()));
 				// RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);

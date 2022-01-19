@@ -28,5 +28,4 @@ public class ColorUtils {
         hsb[2] = brightness % 2.0F;
         return new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
     }
-
 }

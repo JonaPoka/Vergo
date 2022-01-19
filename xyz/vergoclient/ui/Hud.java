@@ -148,6 +148,7 @@ public class Hud implements OnEventInterface {
 	public static float align = 4.5f;
 
 	public Color waveColor = null;
+	public int Rainbow = 125;
 
 	public void drawArrayList() {
 		
@@ -211,6 +212,10 @@ public class Hud implements OnEventInterface {
 					} else if (Vergo.config.modHud.vergoColor.is("Sea Blue")) {
 
 						waveColor = ColorUtils.fadeColor(new Color(4, 120, 219), (int) offset, 30);
+
+					} else if (Vergo.config.modHud.vergoColor.is("New Vergo")) {
+
+						waveColor = ColorUtils.fadeColor(new Color(159, 0, 82), (int) offset, 25);
 
 					} else if (Vergo.config.modHud.vergoColor.is("Nuclear Green")) {
 

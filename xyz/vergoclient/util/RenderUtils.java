@@ -412,6 +412,7 @@ public class RenderUtils {
 		return color;
 	}
 
+
 	public static int getRainbow(double offset, float saturation, float brightness) {
 		return getRainbow(offset, saturation, brightness, 1000, 4);
 	}

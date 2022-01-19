@@ -17,7 +17,7 @@ public class ModHud extends Module {
 	
 	public ModeSetting hudMode = new ModeSetting("Mode", "Young", "Vergo", "Young"),
 			bpsMode = new ModeSetting("BPS Mode", "Always On", "Always On", "Speed Only", "Off"),
-			vergoColor = new ModeSetting("Vergo Color Scheme", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green"),
+			vergoColor = new ModeSetting("Vergo Color Scheme", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green", "New Vergo"),
 			barDirection = new ModeSetting("Align Color Bar", "Right", "Right", "Left", "None"),
 			waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "vergosense"),
 			arrayListFont = new ModeSetting("ArrayList Font", "Neurial", "Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura", "Neurial"),
@@ -35,7 +35,7 @@ public class ModHud extends Module {
 		bpsMode.modes.addAll(Arrays.asList("Always On", "Speed Only", "Off"));
 
 		vergoColor.modes.clear();
-		vergoColor.modes.addAll(Arrays.asList("Burgundy", "Sea Blue", "Nuclear Green"));
+		vergoColor.modes.addAll(Arrays.asList("Burgundy", "Sea Blue", "Nuclear Green", "New Vergo"));
 
 		arrayListFont.modes.clear();
 		arrayListFont.modes.addAll(Arrays.asList("Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura", "Neurial"));
