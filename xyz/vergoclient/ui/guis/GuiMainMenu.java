@@ -23,6 +23,8 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
+import xyz.vergoclient.ui.fonts.FontUtil;
+import xyz.vergoclient.util.RenderUtils;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -313,13 +315,21 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 		this.mc.getTextureManager().bindTexture(new ResourceLocation("Vergo/mainBg.png"));
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 		GuiMainMenu.drawScaledCustomSizeModalRect(0, 0, 0.0f, 0.0f, this.width, this.height, this.width, this.height, this.width, this.height);
+
+
+		GlStateManager.enableBlend();
+		GlStateManager.color((float) 1.0, (float) 1.0, (float) 1.0, 1.0f);
+		RenderUtils.drawImg(new ResourceLocation("Vergo/logo/pinkvergo-tansparent.png"), width / 2.496f, height / 6, 256, 256);
+		GlStateManager.disableBlend();
+
+
 		int textureWidth = 225;
 		int textureHeight = 100;
 		int x = this.width / 2 - textureWidth / 2;
 		int y = this.height / 4 - textureHeight / 2;
 		if (mc.getLanguageManager().isCurrentLocaleUnicode()) {
 			String text = "\u00a7lYou are currently using Unicode font! Highly recommended to use Alphabet Font! (ex: English)";
-			this.fontRendererObj.drawStringWithShadow(text, this.width / 2 - this.fontRendererObj.getStringWidth(text) / 2, this.height - this.fontRendererObj.FONT_HEIGHT - 3, new Color(255, 95, 13).getRGB());
+			this.fontRendererObj.drawStringWithShadow(text, this.width / 3 - this.fontRendererObj.getStringWidth(text) / 2, this.height - this.fontRendererObj.FONT_HEIGHT - 3, new Color(255, 95, 13).getRGB());
 		}
 		if (this.field_92025_p != null && this.field_92025_p.length() > 0) {
 			GuiMainMenu.drawRect(this.field_92022_t - 2, this.field_92021_u - 2, this.field_92020_v + 2, this.field_92019_w - 1, 1428160512);
