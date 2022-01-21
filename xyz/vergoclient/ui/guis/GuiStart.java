@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.IOException;
 
 import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,39 +15,42 @@ import xyz.vergoclient.util.*;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiStart extends GuiScreen {
-	
+
 	public static boolean hasLoaded = false, hasStartedLoading = false;
 	public static TimerUtil waitTimer = new TimerUtil();
-	
+
 	public static double percentDoneTarget = 0, percentDone = 0;
 	public static String percentText = RandomStringUtil.getRandomLoadingMsg();
-	
+
 	public GuiStart() {
-		
+
 		waitTimer.reset();
-		
-		if (hasLoaded && mc != null)
+
+		if (hasLoaded && mc != null) {
 			mc.displayGuiScreen(new GuiMultiplayer(new GuiAltManager()));
 			//mc.displayGuiScreen(new GuiSelectWorld(new GuiAltManager()));
+			//mc.displayGuiScreen(new xyz.vergoclient.ui.guis.GuiMainMenu());
 			//mc.displayGuiScreen(new GuiMainMenu());
-//		else
-//			Vergo.startup();
+		} //else {
+		//	Vergo.startup();
+		//}
 	}
 
 	int count = 0;
-	
+
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		
+
 		if (!hasStartedLoading && waitTimer.hasTimeElapsed(3000, true)) {
 			hasStartedLoading = true;
 			Vergo.startup();
 		}
-		
+
 		// If it is done loading then show the main menu
 		if (hasLoaded)
-			mc.displayGuiScreen(new GuiMultiplayer(new GuiAltManager()));
+			//mc.displayGuiScreen(new GuiMultiplayer(new GuiAltManager()));
 			//mc.displayGuiScreen(new GuiSelectWorld(new GuiAltManager()));
+			mc.displayGuiScreen(new xyz.vergoclient.ui.guis.GuiMainMenu());
 			//mc.displayGuiScreen(new GuiMainMenu());
 
 		// Background
@@ -66,11 +70,11 @@ public class GuiStart extends GuiScreen {
 			Gui.drawModalRectWithCustomSizedTexture(sr.getScaledWidth() + 10, sr.getScaledHeight() + 10, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
 		}
 	}
-	
+
 	// We override this so you can't trigger the startup tasks more than once
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
-		
+
 	}
-	
+
 }

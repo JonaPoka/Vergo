@@ -5,6 +5,11 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import xyz.vergoclient.ui.fonts.FontUtil;
+import xyz.vergoclient.ui.fonts.JelloFontRenderer;
+import xyz.vergoclient.util.RenderUtils;
+
+import java.awt.*;
 
 public class GuiButton extends Gui
 {
@@ -79,29 +84,30 @@ public class GuiButton extends Gui
     {
         if (this.visible)
         {
-            FontRenderer fontrenderer = mc.fontRendererObj;
+            JelloFontRenderer fontrenderer = FontUtil.comfortaaNormal;
             mc.getTextureManager().bindTexture(buttonTextures);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
             int i = this.getHoverState(this.hovered);
-            GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.blendFunc(770, 771);
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
-            this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
+            Gui.drawRect(this.xPosition, this.yPosition, this.xPosition + this.width, this.yPosition + this.height, 0x99000000);
+            //GlStateManager.enableBlend();
+            //GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+            //GlStateManager.blendFunc(770, 771);
             this.mouseDragged(mc, mouseX, mouseY);
-            int j = 14737632;
+            int j = new Color(255, 255, 255, 255).getRGB();
 
             if (!this.enabled)
             {
-                j = 10526880;
+                j = new Color(255, 255, 255, 255).getRGB();
             }
             else if (this.hovered)
             {
-                j = 16777120;
+                j = new Color(255, 255, 156, 255).getRGB();
             }
 
-            this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            fontrenderer.drawCenteredString(this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2 + 2.5f, j);
         }
     }
 

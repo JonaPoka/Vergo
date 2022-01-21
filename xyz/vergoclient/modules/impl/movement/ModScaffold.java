@@ -166,7 +166,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			getRotations(lastBlockPos, lastFacing, false);
 		}
 
-		float[] rots = new float[] {mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};
+		float[] rots = new float[] {mc.thePlayer.rotationYaw + 980, mc.thePlayer.rotationPitch + 960};
 
 		lastYaw = rots[0];
 		lastPitch = rots[1];

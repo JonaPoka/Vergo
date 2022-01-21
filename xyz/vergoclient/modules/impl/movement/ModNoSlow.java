@@ -27,23 +27,14 @@ public class ModNoSlow extends Module implements OnEventInterface {
 		}
 
 		if (e instanceof EventSendPacket && e.isPre()) {
+
 			if(mc.thePlayer.isBlocking()) {
 				EventSendPacket event = (EventSendPacket) e;
-				if (event.packet instanceof C08PacketPlayerBlockPlacement) {
-					C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement) event.packet;
-					if (packet.position == BlockPos.ORIGIN)
-						packet.position = new BlockPos(-1, -1, -1);
+				if(event.packet instanceof C08PacketPlayerBlockPlacement) {
+					mc.getNetHandler().getNetworkManager().sendPacket(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
 				}
 			}
 
-			if(mc.thePlayer.isEating()) {
-				EventSendPacket event = (EventSendPacket) e;
-				if (event.packet instanceof C08PacketPlayerBlockPlacement) {
-					C08PacketPlayerBlockPlacement packet = (C08PacketPlayerBlockPlacement) event.packet;
-					if (packet.position == BlockPos.ORIGIN)
-						packet.position = new BlockPos(-1, -1, -1);
-				}
-			}
 		}
 
 	}

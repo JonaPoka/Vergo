@@ -1,30 +1,23 @@
 package xyz.vergoclient.ui.guis;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Shell;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-
 import xyz.vergoclient.assets.Colors;
-import xyz.vergoclient.files.FileManager;
 import xyz.vergoclient.files.impl.FileAlts;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.GuiUtils;
-import xyz.vergoclient.util.MiscellaneousUtils;
-import xyz.vergoclient.util.SessionChanger;
+import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.datas.DataDouble5;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.ChatAllowedCharacters;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GuiAltManager extends GuiScreen {
 	
@@ -57,12 +50,33 @@ public class GuiAltManager extends GuiScreen {
 	public static class Textbox extends Button{
 		
 	}
-	
+
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		
+
+		// Draws the entire background.
+
+		JelloFontRenderer fr = FontUtil.bakakakBig;
+
+		this.mc.getTextureManager().bindTexture(new ResourceLocation("Vergo/mainBg.png"));
+		GuiMainMenu.drawScaledCustomSizeModalRect(0, 0, 0.0f, 0.0f, this.width, this.height, this.width, this.height, this.width, this.height);
+		// Backgrounds (Main and Alt)
+		Gui.drawRect(0, 0, width, height, new Color(19, 19, 19, 146).getRGB());
+		Gui.drawRect(width / 4, height / 20, width / 1.25f, height, new Color(19, 19, 19, 146).getRGB());
+
+		// Rect's that surround alt background.
+		Gui.drawRect(width / 4, height / 20, width / 4.01f, height, new Color(57, 57, 57, 235).getRGB());
+		Gui.drawRect(width / 1.25f, height / 20, width / 1.251f, height, new Color(57, 57, 57, 235).getRGB());
+
+		Gui.drawRect(0, height / 20, width, height / 20 - 2, new Color(57, 57, 57, 235).getRGB());
+
+		fr.drawCenteredString("Alt Manager", width / 2, height / 90, new Color(255, 255, 255).getRGB());
+
+
+
+
 		scrollTarget += Mouse.getDWheel();
-		scroll += (scrollTarget - scroll) / 4;
+		scroll += (scrollTarget - scroll) / 2;
 		
 		if (scroll >= 0) {
 			scrollTarget = 0;
@@ -75,34 +89,27 @@ public class GuiAltManager extends GuiScreen {
 			}
 		}
 		
-		// All the font renderers
-		JelloFontRenderer fr1 = FontUtil.jelloFontAddAlt2;
-		JelloFontRenderer fr2 = FontUtil.jelloFontMedium;
+		//All the font renderers
+		JelloFontRenderer fr1 = FontUtil.arialMedium;
+		JelloFontRenderer fr2 = FontUtil.arialMedium;
 		
 		// Draw everything
-		Gui.drawRect(0, 0, width, height, Colors.ALT_MANAGER_BACKGROUND.getColor());
+		//Gui.drawRect(0, 0, width, height, Colors.ALT_MANAGER_BACKGROUND.getColor());
 		
 		for (Button button : buttons) {
-			Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.ALT_MANAGER_BUTTONS.getColor());
-			Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1 + ((button.posAndColor.y2 - button.posAndColor.y1) / 2), button.posAndColor.x2, (button.posAndColor.y1 + ((button.posAndColor.y2 - button.posAndColor.y1) / 2)) + (((button.posAndColor.y2 - button.posAndColor.y1) / 2) * button.hoverAnimation), Colors.ALT_MANAGER_PURPLE.getColor());
-			Gui.drawRect(button.posAndColor.x1, (button.posAndColor.y1 + ((button.posAndColor.y2 - button.posAndColor.y1) / 2)) - (((button.posAndColor.y2 - button.posAndColor.y1) / 2) * button.hoverAnimation), button.posAndColor.x2, button.posAndColor.y1 + ((button.posAndColor.y2 - button.posAndColor.y1) / 2), Colors.ALT_MANAGER_PURPLE.getColor());
+			RenderUtils2.drawBorderedRect((int) button.posAndColor.x1, (int) button.posAndColor.y1, (float) button.posAndColor.x1 - 300, 40, 1f, new Color(19, 19, 19, 160), new Color(40, 39, 39, 190));
+			//Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1 + ((button.posAndColor.y2 - button.posAndColor.y1) / 2), button.posAndColor.x2, (button.posAndColor.y1 + ((button.posAndColor.y2 - button.posAndColor.y1) / 2)) + (((button.posAndColor.y2 - button.posAndColor.y1) / 2) * button.hoverAnimation), Colors.ALT_MANAGER_PURPLE.getColor());
+			//Gui.drawRect(button.posAndColor.x1, (button.posAndColor.y1 + ((button.posAndColor.y2 - button.posAndColor.y1) / 2)) - (((button.posAndColor.y2 - button.posAndColor.y1) / 2) * button.hoverAnimation), button.posAndColor.x2, button.posAndColor.y1 + ((button.posAndColor.y2 - button.posAndColor.y1) / 2), Colors.ALT_MANAGER_PURPLE.getColor());
 //			Gui.drawRect(button.posAndColor.x1, button.posAndColor.y2 - ((button.posAndColor.y2 - button.posAndColor.y1) * button.hoverAnimation), button.posAndColor.x2, button.posAndColor.y2, Colors.ALTMANAGERPURPLE.getColor());
 			if (GuiUtils.isMouseOverDataDouble5(mouseX, mouseY, button.posAndColor) && Mouse.isInsideWindow() && button.isEnabled && !isAddingAlt && !isAltSelected) {
-				button.hoverAnimation += (1 - button.hoverAnimation) / 2;
+				//button.hoverAnimation += (1 - button.hoverAnimation) / 2;
 			}else {
-				button.hoverAnimation += (-button.hoverAnimation) / 2;
+				//button.hoverAnimation += (-button.hoverAnimation) / 2;
 			}
 			fr1.drawCenteredString(button.displayText, (float) (button.posAndColor.x1 + ((button.posAndColor.x2 - button.posAndColor.x1) / 2)), (float) (button.posAndColor.y1 + ((button.posAndColor.y2 - button.posAndColor.y1) / 2) - fr1.FONT_HEIGHT + 1), -1);
 		}
-		
-		// Draws a bunch of labels
-		Gui.drawRect((width / 8) * 5, ((height / 9) * 4) - 20, width - 5, ((height / 9) * 5) - 20, Colors.ALT_MANAGER_BUTTONS.getColor());
-		Gui.drawRect(((width / 8) * 5) + 5, ((height / 9) * 4) - 15, width - 10, ((height / 9) * 5) - 25, Colors.ALT_MANAGER_BACKGROUND.getColor());
-		fr1.drawCenteredString(isLoggingIntoAlt ? "Logging in..." : deadAltMessage > System.currentTimeMillis() ? "That account is dead or your ip is blocked" : "Signed in as " + mc.session.getUsername(), (float) ((width / 8) * 5 + ((width - 5 - (width / 8) * 5) / 2)), (float) (((height / 9) * 4) - 20 + ((((height / 9) * 5) - 5 - ((height / 9) * 4) - 5) / 2) - fr1.FONT_HEIGHT + 5), deadAltMessage > System.currentTimeMillis() ? 0xffff0000 : -1);
-		
-		Gui.drawRect((width / 8) * 5, ((height / 9) * 3) - 25, width - 5, ((height / 9) * 4) - 25, Colors.ALT_MANAGER_BUTTONS.getColor());
-		Gui.drawRect(((width / 8) * 5) + 5, ((height / 9) * 3) - 20, width - 10, ((height / 9) * 4) - 30, Colors.ALT_MANAGER_BACKGROUND.getColor());
-		fr1.drawCenteredString("You have " + altsFile.alts.size() + " alt" + (altsFile.alts.size() > 1 ? "s" : ""), (float) ((width / 8) * 5 + ((width - 5 - (width / 8) * 5) / 2)), (float) (((height / 9) * 3) - 25 + ((((height / 9) * 4) - 5 - ((height / 9) * 3) - 5) / 2) - fr1.FONT_HEIGHT + 5), -1);
+
+		fr1.drawCenteredString("You have " + altsFile.alts.size() + " alt" + (altsFile.alts.size() > 1 ? "s" : ""), width / 2, height / 27, -1);
 		
 		// Creates the alt buttons
 		CopyOnWriteArrayList<Button> altButtons = new CopyOnWriteArrayList<>();
@@ -112,17 +119,17 @@ public class GuiAltManager extends GuiScreen {
 		for (FileAlts.Alt alt : altsFile.alts) {
 			
 			if (alt.email.toLowerCase().contains("@alt.com")) {
-				System.out.println("Removed " + alt.email + " because it's an altening token and not a real alt");
+				//System.out.println("Removed " + alt.email + " because it's an altening token and not a real alt");
 				alteningAlts.add(alt);
 				continue;
 			}
 			
 			Button altButton = new Button();
 			DataDouble5 altPos = new DataDouble5();
-			altPos.x1 = 5;
+			altPos.x1 = width / 2 - 100;
 			altPos.x2 = ((width / 8) * 5) - 10;
-			altPos.y1 = (altButtonOffset * ((height / 12) + 5)) + 5 + scroll;
-			altPos.y2 = (altButtonOffset * ((height / 12) + 5)) + 5 + (height / 12) + scroll;
+			altPos.y1 = 45 + (altButtonOffset * ((height / 12) + 5)) + 5 + scroll;
+			altPos.y2 = 50 + (altButtonOffset * ((height / 12) + 5)) + 5 + (height / 12) + scroll;
 			altButton.posAndColor = altPos;
 			altButton.alt = alt;
 			altButton.action = new Runnable() {
@@ -167,21 +174,24 @@ public class GuiAltManager extends GuiScreen {
 		
 		// Draws all the alts
 		for (Button button : GuiAltManager.altButtons) {
-			Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.ALT_MANAGER_BUTTONS.getColor());
+			//Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.ALT_MANAGER_BUTTONS.getColor());
 			if (button.alt.username.equals(mc.session.getUsername())) {
-				Gui.drawRect(button.posAndColor.x2 - 10, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.ALT_MANAGER_PURPLE.getColor());
+				//Gui.drawRect(button.posAndColor.x2 - 10, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.ALT_MANAGER_PURPLE.getColor());
+
+				RenderUtils2.drawBorderedRect((int) button.posAndColor.x1, (int) button.posAndColor.y1, (float) button.posAndColor.x1 - 300, 40, 1f, new Color(19, 19, 19, 160), new Color(40, 39, 39, 190));
 			}
-			if (button.alt.password.isEmpty()) {
-				fr1.drawString(button.alt.username + " (cracked)", button.posAndColor.x1 + 5, (float) button.posAndColor.y1 + 5, -1);
-			}else {
-				fr1.drawString(button.alt.username + " (" + button.alt.email + ")", button.posAndColor.x1 + 5, (float) button.posAndColor.y1 + 5, -1);
-			}
+			//if (button.alt.password.isEmpty()) {
+			//	fr1.drawString(button.alt.username + " (cracked)", button.posAndColor.x1 + 5, (float) button.posAndColor.y1 + 5, -1);
+			//}else {
+				fr1.drawString(button.alt.username, button.posAndColor.x1 + 5, (float) button.posAndColor.y1 + 5, -1);
+				fr1.drawString(button.alt.email, button.posAndColor.x1 + 5, (float) button.posAndColor.y1 + 24, -1);
+			//}
 			String unbannedAt = MiscellaneousUtils.getFormattedDateAndTime(button.alt.banTime);
 			if (button.alt.banTime == Long.MAX_VALUE) {
 				unbannedAt = "Permanently";
 			}
-			if (!button.alt.password.isEmpty())
-				fr2.drawString(System.currentTimeMillis() > button.alt.banTime && !button.alt.password.isEmpty() ? (button.alt.banTime == Long.MIN_VALUE ? "Unchecked" : "Unbanned") : "Banned (" + unbannedAt + ")", button.posAndColor.x1 + 5, (float) button.posAndColor.y1 + 7 + fr1.FONT_HEIGHT + fr2.FONT_HEIGHT, -1);
+			//if (!button.alt.password.isEmpty())
+				//fr2.drawString(System.currentTimeMillis() > button.alt.banTime && !button.alt.password.isEmpty() ? (button.alt.banTime == Long.MIN_VALUE ? "Unchecked" : "Unbanned") : "Banned (" + unbannedAt + ")", button.posAndColor.x1 + 5, (float) button.posAndColor.y1 + 7 + fr1.FONT_HEIGHT + fr2.FONT_HEIGHT, -1);
 		}
 		
 		// Add the login text box
@@ -204,7 +214,7 @@ public class GuiAltManager extends GuiScreen {
 				if (button.drawTextAsPassword) {
 					String displayText = "";
 					for (int i = 0; i < button.displayText.length(); i++) {
-						displayText += ".";
+						displayText += "*";
 					}
 					fr1.drawPassword(button.displayText, (float) (button.posAndColor.x1 + ((button.posAndColor.x2 - button.posAndColor.x1) / 2)) - (fr1.getStringWidth(displayText) / 2), (float) (button.posAndColor.y1 + ((button.posAndColor.y2 - button.posAndColor.y1) / 2) - fr1.FONT_HEIGHT + 1), -1);
 				}else {
@@ -231,7 +241,7 @@ public class GuiAltManager extends GuiScreen {
 				if (button.drawTextAsPassword) {
 					String displayText = "";
 					for (int i = 0; i < button.displayText.length(); i++) {
-						displayText += ".";
+						displayText += "*";
 					}
 					fr1.drawPassword(button.displayText, (float) (button.posAndColor.x1 + ((button.posAndColor.x2 - button.posAndColor.x1) / 2)) - (fr1.getStringWidth(displayText) / 2), (float) (button.posAndColor.y1 + ((button.posAndColor.y2 - button.posAndColor.y1) / 2) - fr1.FONT_HEIGHT + 1), -1);
 				}else {

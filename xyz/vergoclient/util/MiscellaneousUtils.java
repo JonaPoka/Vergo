@@ -289,7 +289,6 @@ public class MiscellaneousUtils {
                     	}
                 		return;
                 	}
-                	System.out.println("Updated an alts ban status");
                 	String[] times = time.split(" ");
                 	for (String date : times) {
                 		try {

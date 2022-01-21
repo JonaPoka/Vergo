@@ -1,5 +1,7 @@
 package xyz.vergoclient.ui.notifications;
 
+import xyz.vergoclient.util.ChatUtils;
+
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class NotificationManager {
@@ -15,9 +17,12 @@ public class NotificationManager {
             currentNotification = null;
         }
 
-        if (currentNotification == null && !pendingNotifications.isEmpty()) {
+        if (currentNotification == null && !pendingNotifications.isEmpty() && pendingNotifications.size() < 5) {
             currentNotification = pendingNotifications.poll();
             currentNotification.show();
+        } else if(pendingNotifications.size() > 5) {
+            ChatUtils.addChatMessage("Notifications have been cleared to reduce spam.");
+            pendingNotifications.clear();
         }
 
     }

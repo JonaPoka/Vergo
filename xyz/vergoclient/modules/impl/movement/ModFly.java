@@ -64,7 +64,7 @@ public class ModFly extends Module implements OnEventInterface {
 			}
 
 			else if(mode.is("Test")) {
-				doTheFunnyTest();
+				//doTheFunnyTest();
 			}
 
 		}
