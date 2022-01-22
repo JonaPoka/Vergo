@@ -81,7 +81,7 @@ public class GuiAltManager extends GuiScreen {
 		if (scroll >= 0) {
 			scrollTarget = 0;
 		}
-		if (scroll < (((altsFile.alts.size() - (height / ((height / 12) + 5))) * ((height / 12) + 5)) + 5 + (height / 12)) * -1) {
+		if (scroll < (((altsFile.alts.size() - (height / ((height / 12) + 5	))) * ((height / 12) + 5)) + 5 + (height / 12)) * -1) {
 			if (altsFile.alts.size() >= (height / ((height / 12) + 5))) {
 				scrollTarget = (((altsFile.alts.size() - (height / ((height / 12) + 5))) * ((height / 12) + 5)) + 5 + (height / 12)) * -1;
 			}else {
@@ -197,7 +197,7 @@ public class GuiAltManager extends GuiScreen {
 		if (isAddingAlt) {
 			Gui.drawRect(0, 0, width, height, 0x90000000);
 			for (Button button : addAltButtons) {
-				RenderUtils2.drawBorderedRect((int) button.posAndColor.x1, (int) button.posAndColor.y1, 640, 76.5f, 1f, new Color(0, 0, 0, 255), new Color(255, 255, 255, 255));
+				RenderUtils2.drawBorderedRect((int) button.posAndColor.x1, (int) button.posAndColor.y1, 640, 76.5f, 1f, new Color(17, 17, 17, 255), new Color(255, 255, 255, 255));
 				if (!button.isEnabled) {
 					//Gui.drawRect(button.posAndColor.x1 + 5, button.posAndColor.y1 + 5, button.posAndColor.x2 - 5, button.posAndColor.y2 - 5, Colors.ALT_MANAGER_BACKGROUND.getColor());
 				}else {
