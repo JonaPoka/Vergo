@@ -290,7 +290,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 				//更改TargetHUD在屏幕坐标的初始位置
 
-				GlStateManager.translate(x, y, 0);
+				GlStateManager.translate(xOffset.getValueAsFloat(), yOffset.getValueAsFloat(), 0);
 
 				boxOpacity.interp(250, 15);
 				armorOpacity.interp(250, 15);

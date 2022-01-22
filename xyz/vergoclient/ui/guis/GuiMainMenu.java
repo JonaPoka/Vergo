@@ -224,7 +224,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 	private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
 		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, height / 2 - 4, I18n.format("menu.singleplayer", new Object[0])));
 		this.buttonList.add(new GuiButton(2, this.width / 2 - 100, height / 2 + 25, I18n.format("menu.multiplayer", new Object[0])));
-		this.buttonList.add(new GuiButton(1337, this.width / 2 - 100, height / 2 + 55, "Alt Manager"));
+		this.buttonList.add(new GuiButton(1337, this.width / 2 - 100, height / 2 + 55, "Alt Login"));
 	}
 
 	/**
@@ -258,7 +258,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 		}
 
 		if(button.id == 1337) {
-			mc.displayGuiScreen(GuiAltManager.getGuiAltManager());
+			this.mc.displayGuiScreen(new GuiAltManager());
 		}
 
 		if (button.id == 4) {
@@ -308,19 +308,36 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 		}
 	}
 
+	public float xPos;
+	public float yPos;
+
+
 	/**
 	 * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
 	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks){
+
+
+		if(mc.displayWidth <= 1920 && mc.displayHeight <= 1080) {
+			xPos = width / 2.7f;
+			yPos = height / 10;
+		} else if(mc.displayWidth <= 2560 && mc.displayHeight <= 1440) {
+			xPos = width / 2.5f;
+			yPos = height / 6;
+		}
+
 		this.mc.getTextureManager().bindTexture(new ResourceLocation("Vergo/mainBg.png"));
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 		GuiMainMenu.drawScaledCustomSizeModalRect(0, 0, 0.0f, 0.0f, this.width, this.height, this.width, this.height, this.width, this.height);
 
-
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(xPos, yPos, 0);
 		GlStateManager.enableBlend();
 		GlStateManager.color((float) 1.0, (float) 1.0, (float) 1.0, 1.0f);
-		RenderUtils.drawImg(new ResourceLocation("Vergo/logo/pinkvergo-tansparent.png"), width / 2.496f, height / 6, 256, 256);
+		RenderUtils.drawImg(new ResourceLocation("Vergo/logo/pinkvergo-tansparent.png"), 0, 0, 256, 256);
 		GlStateManager.disableBlend();
+
+		GlStateManager.popMatrix();
 
 
 		int textureWidth = 225;
