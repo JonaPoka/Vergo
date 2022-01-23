@@ -137,7 +137,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 				mc.thePlayer.jump();
 				//ChatUtils.addChatMessage("Timer Joke");
 				mc.timer.timerSpeed = 1.2f;
-				mc.thePlayer.motionY -= 0.023f;
+				mc.thePlayer.motionY -= 0.029f;
 				if(mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown()) {
 					MovementUtils.setSpeed(0.455);
 				} else {
@@ -151,6 +151,9 @@ public class ModSpeed extends Module implements OnEventInterface {
 				if(!mc.thePlayer.isCollidedHorizontally) {
 					mc.timer.timerSpeed = 1.09f;
 					mc.thePlayer.motionY *= 1.0001f;
+					if(mc.thePlayer.onGround) {
+						mc.thePlayer.jump();
+					}
 				}
 			}
 

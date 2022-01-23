@@ -760,7 +760,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			long random = RandomUtils.nextLong(2500, 3500);
 			if (autoblockSetting.is("Hypixel")) {
 				if (this.blockTimer.delay(random)) {
-					ChatUtils.addChatMessage("Trigger! " + random);
+					//ChatUtils.addChatMessage("Trigger! " + random);
 					BlockPos debug = new BlockPos(0, 0, 0);
 					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C07PacketPlayerDigging(
 							net.minecraft.network.play.client.C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, debug,

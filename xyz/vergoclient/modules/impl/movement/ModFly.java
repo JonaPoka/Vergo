@@ -74,7 +74,7 @@ public class ModFly extends Module implements OnEventInterface {
 	private void doTheFunnyFly(EventMove eventMove) {
 
 		if(this.timer.delay(1200L)) {
-			ChatUtils.addChatMessage("Teleported!");
+			//ChatUtils.addChatMessage("Teleported!");
 			this.HClip(scale.getValueAsFloat(), eventMove);
 			this.timer.reset();
 		}else {
@@ -89,7 +89,7 @@ public class ModFly extends Module implements OnEventInterface {
 
 		position = mc.thePlayer.getPosition();
 
-		ChatUtils.addChatMessage("BLOCKPLACE + " + position);
+		//ChatUtils.addChatMessage("BLOCKPLACE + " + position);
 
 		position.x = (int) (position.getX() + horizontal * -Math.sin(playerYaw));
 		position.y = (int) (position.getY() - 2.0);
