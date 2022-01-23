@@ -81,7 +81,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 	public void loadSettings() {
 
 		rotationSetting.modes.clear();
-		rotationSetting.modes.addAll(Arrays.asList("Smooth", "Lock", "Spin", "None", "Almost legit", "Bezier Curve"));
+		rotationSetting.modes.addAll(Arrays.asList(/*"Smooth",*/ "Lock"/*, "Spin", "None", "Almost legit", "Bezier Curve"*/));
 
 		autoblockSetting.modes.clear();
 		autoblockSetting.modes.addAll(Arrays.asList("None", "Hypixel"));
