@@ -5,6 +5,8 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public class RenderUtils2 {
 
     public static void drawBorderedRect(float x, float y, float width, float height, float borderWidth, Color rectColor, Color borderColor) {
@@ -50,6 +52,33 @@ public class RenderUtils2 {
         GL11.glColor4f(red, green, blue, alpha);
     }
 
+    public static void drawFullCircle(float cx, float cy, float r) {
+        r *= 2.0f;
+        cx *= 2.0f;
+        cy *= 2.0f;
+        final float theta = 0.19634953f;
+        final float p = (float) Math.cos(theta);
+        final float s = (float) Math.sin(theta);
+        float x = r;
+        float y = 0.0f;
+        enableRender2D();
+        glEnable(2848);
+        glHint(3154, 4354);
+        glEnable(3024);
+        glScalef(0.5f, 0.5f, 0.5f);
+        glBegin(9);
+        for (int ii = 0; ii < 32; ++ii) {
+            glVertex2f(x + cx, y + cy);
+            float t = x;
+            x = p * x - s * y;
+            y = s * t + p * y;
+        }
+        glEnd();
+        glScalef(2.0f, 2.0f, 2.0f);
+        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+        disableRender2D();
+    }
+
     public static void drawRect(float x, float y, float width, float height, int color) {
         enableRender2D();
         setColor(color);
@@ -63,18 +92,18 @@ public class RenderUtils2 {
     }
 
     public static void enableRender2D() {
-        GL11.glEnable(3042);
+        glEnable(3042);
         GL11.glDisable(2884);
         GL11.glDisable(3553);
-        GL11.glEnable(2848);
+        glEnable(2848);
         GL11.glBlendFunc(770, 771);
         GL11.glLineWidth(1.0F);
     }
 
     public static void disableRender2D() {
         GL11.glDisable(3042);
-        GL11.glEnable(2884);
-        GL11.glEnable(3553);
+        glEnable(2884);
+        glEnable(3553);
         GL11.glDisable(2848);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.shadeModel(7424);

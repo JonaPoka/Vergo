@@ -23,6 +23,8 @@ import xyz.vergoclient.modules.impl.miscellaneous.ModClickgui;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.GuiUtils;
+import xyz.vergoclient.util.RenderUtils;
+import xyz.vergoclient.util.RenderUtils2;
 import xyz.vergoclient.util.TimerUtil;
 import xyz.vergoclient.util.datas.DataDouble5;
 import xyz.vergoclient.modules.ModuleManager;
@@ -95,6 +97,8 @@ public class GuiClickGui extends GuiScreen {
 	// The colors used in the clickgui
 	public static int moduleBackgroundDisabled = 0x2E3741,
 					  moduleTextColor = -1;
+
+	public Color var21;
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -281,27 +285,58 @@ public class GuiClickGui extends GuiScreen {
 		// Draw all the buttons
 		for (Button button : clickguiButtons) {
 			if (button.tab != null) {
+
+				var21 = new Color(19, 19, 19, 226);
+
 				GlStateManager.pushMatrix();
-				Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.CLICK_GUI_CAT.getColor());
+				if(button.tab.category == Module.Category.VISUAL) {
+					Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1 + 5, button.posAndColor.x2, button.posAndColor.y2, var21.getRGB());
+					FontUtil.neurialGrotesk.drawCenteredString(button.tab.category.displayName, (float) button.posAndColor.x1 + 43, (float) (button.posAndColor.y1) + 7.5f,	 moduleTextColor);
+				}
+
+				if(button.tab.category == Module.Category.COMBAT) {
+					Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1 + 5, button.posAndColor.x2, button.posAndColor.y2, var21.getRGB());
+					FontUtil.neurialGrotesk.drawCenteredString(button.tab.category.displayName, (float) button.posAndColor.x1 + 37, (float) (button.posAndColor.y1) + 7.5f,	 moduleTextColor);
+				}
+
+				if(button.tab.category == Module.Category.MOVEMENT) {
+					Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1 + 5, button.posAndColor.x2, button.posAndColor.y2, var21.getRGB());
+					FontUtil.neurialGrotesk.drawCenteredString(button.tab.category.displayName, (float) button.posAndColor.x1 + 41, (float) (button.posAndColor.y1) + 7.5f,	 moduleTextColor);
+				}
+
+				if(button.tab.category == Module.Category.MISCELLANEOUS) {
+					Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1 + 5, button.posAndColor.x2, button.posAndColor.y2, var21.getRGB());
+					FontUtil.neurialGrotesk.drawCenteredString(button.tab.category.displayName, (float) button.posAndColor.x1 + 49, (float) (button.posAndColor.y1) + 7.5f,	 moduleTextColor);
+				}
+
+				if(button.tab.category == Module.Category.PLAYER) {
+					Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1 + 5, button.posAndColor.x2, button.posAndColor.y2, var21.getRGB());
+					FontUtil.neurialGrotesk.drawCenteredString(button.tab.category.displayName, (float) button.posAndColor.x1 + 55, (float) (button.posAndColor.y1) + 7.5f,	 moduleTextColor);
+				}
+
 				//RenderUtils.drawRoundedRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, 3f, new Color(19, 24, 44));
-				FontUtil.jelloFontMedium.drawString(button.tab.category.displayName, button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+				GlStateManager.color(1, 1, 1, 1);
+				//FontUtil.neurialGrotesk.drawString(button.tab.category.displayName, (float) button.posAndColor.x1 + 3, (float) (button.posAndColor.y1) + 7, moduleTextColor);
 				GlStateManager.popMatrix();
 				
 				// Draws the image for the category
-				ScaledResolution sr = new ScaledResolution(mc);
+				/*ScaledResolution sr = new ScaledResolution(mc);
 				mc.getTextureManager().bindTexture(button.tab.category.icon.iconLocation);
 				int imageWidth = 24, imageHeight = 24;
 				imageWidth /= 2;
 				imageHeight /= 2;
-				Gui.drawModalRectWithCustomSizedTexture((int) (button.posAndColor.x2 - 13), (int) button.tab.y, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
+				Gui.drawModalRectWithCustomSizedTexture((int) (button.posAndColor.x2 - 13), (int) button.tab.y, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);*/
 				
 			}
 			else if (button.module != null) {
 				GlStateManager.pushMatrix();
-				Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.CLICK_GUI_OFF.getColor());
-				Gui.drawRectNoAlphaChange(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.PINK.getColor(), (float) button.posAndColor.data);
+
+				var21 = new Color(19, 19, 19, 200);
+
+				Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, var21.getRGB());
+				Gui.drawRectNoAlphaChange(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, new Color(222, 105, 105).getRGB(), (float) button.posAndColor.data);
 				GlStateManager.color(1, 1, 1, 1);
-				FontUtil.jelloFontBoldSmall.drawString(button.module.getName(), button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+				FontUtil.neurialGrotesk.drawString(button.module.getName(), button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 				if (!button.module.settings.isEmpty()) {
 					GlStateManager.translate((button.posAndColor.x2 - (FontUtil.jelloFontBoldSmall.getStringWidth("v")) * 2.3f) + (FontUtil.jelloFontBoldSmall.getStringWidth("v") / 2), (float) (button.posAndColor.y1 + 2.7 + (FontUtil.jelloFontBoldSmall.FONT_HEIGHT / 2)), 1);
 //					GlStateManager.rotate(180 * button.module.clickguiFlip, 0, 0, 0);
@@ -312,7 +347,7 @@ public class GuiClickGui extends GuiScreen {
 					}
 //					GlStateManager.translate(FontUtil.jelloFontBoldSmall.getStringWidth("v") * button.module.clickguiFlip, 0, 0);
 					GlStateManager.translate(-(button.posAndColor.x2 - (FontUtil.jelloFontBoldSmall.getStringWidth("v")) * 2.3f), -((float) (button.posAndColor.y1 + 2.7)), 1);
-					FontUtil.jelloFontBoldSmall.drawString("v", button.posAndColor.x2 - (FontUtil.jelloFontBoldSmall.getStringWidth("v")) * 2.3f, (float) (button.posAndColor.y1 + 2.7 + ((FontUtil.jelloFontBoldSmall.FONT_HEIGHT / 2)) * (button.module.clickguiFlip <= 0.5 ? 1 : -1)), moduleTextColor);
+					FontUtil.neurialGrotesk.drawString("v", button.posAndColor.x2 - (FontUtil.jelloFontBoldSmall.getStringWidth("v")) * 2.3f, (float) (button.posAndColor.y1 + 2.7 + ((FontUtil.jelloFontBoldSmall.FONT_HEIGHT / 2)) * (button.module.clickguiFlip <= 0.5 ? 1 : -1)), moduleTextColor);
 				}
 				GlStateManager.popMatrix();
 				
@@ -352,27 +387,40 @@ public class GuiClickGui extends GuiScreen {
 				
 			}
 			else if (button.setting != null) {
-				Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, Colors.CLICK_GUI_OFF.getColor());
+
+				var21 = new Color(19, 19, 19, 226);
+
+				Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, var21.getRGB());
 				Setting setting = button.setting;
 				if (setting instanceof BooleanSetting) {
-					FontUtil.jelloFontBoldSmall.drawString(button.setting.name, button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
-					Gui.drawRect(button.posAndColor.x2 - 12, button.posAndColor.y1 + 2, button.posAndColor.x2 - 2, button.posAndColor.y1 + 12, ((BooleanSetting)setting).isEnabled() ? Colors.BLUE.getColor() : Colors.CLICK_GUI_SETTING.getColor());
+					FontUtil.neurialGrotesk.drawString(button.setting.name, button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+					//Gui.drawRect(button.posAndColor.x2 - 12, button.posAndColor.y1 + 2, button.posAndColor.x2 - 2, button.posAndColor.y1 + 12, ((BooleanSetting)setting).isEnabled() ? Colors.BLUE.getColor() : Colors.CLICK_GUI_SETTING.getColor());
+					if(((BooleanSetting)setting).isEnabled()) {
+						GlStateManager.color(0.03f, 0.03f, 0.03f, 1f);
+						RenderUtils2.drawFullCircle((float) button.posAndColor.x2 - 8, (float) button.posAndColor.y1 + 6, 5);
+						GlStateManager.color(1, 1, 1, 1);
+						RenderUtils2.drawFullCircle((float) button.posAndColor.x2 - 8, (float) button.posAndColor.y1 + 6, 4);
+					} else {
+						GlStateManager.color(0.03f, 0.03f, 0.03f, 1f);
+						RenderUtils2.drawFullCircle((float) button.posAndColor.x2 - 8, (float) button.posAndColor.y1 + 6, 5);
+					}
 				}
 				else if (setting instanceof ModeSetting) {
-					FontUtil.jelloFontBoldSmall.drawString(button.setting.name + ":", button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
-					FontUtil.jelloFontBoldSmall.drawString(((ModeSetting)button.setting).getMode(), button.posAndColor.x2 - FontUtil.jelloFontBoldSmall.getStringWidth(((ModeSetting)button.setting).getMode()) - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+					FontUtil.neurialGrotesk.drawString(button.setting.name + ":", button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+					FontUtil.neurialGrotesk.drawString(((ModeSetting)button.setting).getMode(), button.posAndColor.x2 - FontUtil.jelloFontBoldSmall.getStringWidth(((ModeSetting)button.setting).getMode()) - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 				}
 				else if (setting instanceof KeybindSetting) {
-					FontUtil.jelloFontBoldSmall.drawString(button.setting.name + ":", button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+					FontUtil.neurialGrotesk.drawString(button.setting.name + ":", button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 					if (selectedButton != null && selectedButton.setting != null && setting == selectedButton.setting) {
-						FontUtil.jelloFontBoldSmall.drawString("BINDING", button.posAndColor.x2 - FontUtil.jelloFontBoldSmall.getStringWidth("BINDING") - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+						FontUtil.neurialGrotesk.drawString("BINDING", button.posAndColor.x2 - FontUtil.jelloFontBoldSmall.getStringWidth("BINDING") - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 					}else {
-						FontUtil.jelloFontBoldSmall.drawString(Keyboard.getKeyName(((KeybindSetting)button.setting).getKeycode()), button.posAndColor.x2 - FontUtil.jelloFontBoldSmall.getStringWidth(Keyboard.getKeyName(((KeybindSetting)button.setting).getKeycode())) - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+						FontUtil.neurialGrotesk.drawString(Keyboard.getKeyName(((KeybindSetting)button.setting).getKeycode()), button.posAndColor.x2 - FontUtil.jelloFontBoldSmall.getStringWidth(Keyboard.getKeyName(((KeybindSetting)button.setting).getKeycode())) - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 					}
 				}
 				else if (setting instanceof NumberSetting) {
 					NumberSetting numberSetting = (NumberSetting)setting;
-					Gui.drawRect(button.posAndColor.x1 + 3, button.posAndColor.y1 + 1, button.posAndColor.x2 - 3, button.posAndColor.y2 - 1, Colors.CLICK_GUI_SETTING.getColor());
+					var21 = new Color(12, 12, 12, 236);
+					Gui.drawRect(button.posAndColor.x1 + 3, button.posAndColor.y1 + 3, button.posAndColor.x2 - 3, button.posAndColor.y2 - 3, var21.getRGB());
 					double barEndAdd = 0;
 					barEndAdd += numberSetting.minimum < 0 ? -numberSetting.minimum : 0;
 					barEndAdd += numberSetting.maximum < 0 ? -numberSetting.maximum : 0;
@@ -380,11 +428,11 @@ public class GuiClickGui extends GuiScreen {
 					double realMin = numberSetting.minimum + barEndAdd,
 							realMax = numberSetting.maximum + barEndAdd;
 					double barEndX = 0 + ((button.posAndColor.x2 - button.posAndColor.x1 - 6) * ((numberSetting.getValueAsDouble() + barEndAdd) / (realMax)));
-					Gui.drawRect(button.posAndColor.x1 + 3, button.posAndColor.y1 + 1, button.posAndColor.x1 + barEndX + 3, button.posAndColor.y2 - 1, Colors.BLUE.getColor());
-					FontUtil.jelloFontBoldSmall.drawString(button.setting.name + ": " + new DecimalFormat("#.###").format(numberSetting.getValueAsDouble()), button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+					Gui.drawRect(button.posAndColor.x1 + barEndX + 3, button.posAndColor.y1 + 2, button.posAndColor.x1 + barEndX + 1, button.posAndColor.y2 - 2, new Color(222, 105, 105).getRGB());
+					FontUtil.neurialGrotesk.drawString(button.setting.name + ": " + new DecimalFormat("#.###").format(numberSetting.getValueAsDouble()), button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 				}
 				else {
-					FontUtil.jelloFontBoldSmall.drawString("Setting not supported", button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+					FontUtil.neurialGrotesk.drawString("Setting not supported", button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 				}
 			}
 		}

@@ -1,6 +1,5 @@
 package xyz.vergoclient.modules;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Loader;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventReceivePacket;
@@ -81,7 +80,7 @@ public class ModuleManager {
 	public ModAutoSaveConfig modAutoSaveConfig = new ModAutoSaveConfig();
 	public ModHud modHud = new ModHud();
 	public ModNametags modNametags = new ModNametags();
-	public ModChestESP modChestESP = new ModChestESP();
+	public ModStorageESP modChestESP = new ModStorageESP();
 	public ModXray modXray = new ModXray();
 	public ModChinaHat modChinaHat = new ModChinaHat();
 	public ModNoSwingDelay modNoSwingDelay = new ModNoSwingDelay();
@@ -133,7 +132,7 @@ public class ModuleManager {
 		modAutoSaveConfig = new LoaderModule<ModAutoSaveConfig>(modAutoSaveConfig).generate();
 		modHud = new LoaderModule<ModHud>(modHud).generate();
 		modNametags = new LoaderModule<ModNametags>(modNametags).generate();
-		modChestESP = new LoaderModule<ModChestESP>(modChestESP).generate();
+		modChestESP = new LoaderModule<ModStorageESP>(modChestESP).generate();
 		modXray = new LoaderModule<ModXray>(modXray).generate();
 		modChinaHat = new LoaderModule<ModChinaHat>(modChinaHat).generate();
 		modNoSwingDelay = new LoaderModule<ModNoSwingDelay>(modNoSwingDelay).generate();

@@ -136,7 +136,7 @@ public abstract class Module {
 		PLAYER("Player", Icons.CLICKGUIPLAYER),
 		MOVEMENT("Movement", Icons.CLICKGUIMOVEMENT),
 		MEMES("Memes", Icons.CLICKGUIMEMES),
-		MISCELLANEOUS("Misc", Icons.CLICKGUIMISC);
+		MISCELLANEOUS("Miscellaneous", Icons.CLICKGUIMISC);
 		
 		public final String displayName;
 		public final Icons icon;

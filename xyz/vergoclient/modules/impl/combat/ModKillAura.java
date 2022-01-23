@@ -51,10 +51,10 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 	// Settings
 	public NumberSetting rangeSetting = new NumberSetting("Range", 3.8, 0.5, 6, 0.1),
-			minApsSetting = new NumberSetting("Min aps", 10, 0.1, 20, 0.1),
-			maxApsSetting = new NumberSetting("Max aps", 14, 0.1, 20, 0.1),
+			minApsSetting = new NumberSetting("Min APS", 10, 0.1, 20, 0.1),
+			maxApsSetting = new NumberSetting("Max APS", 14, 0.1, 20, 0.1),
 			combatPacketsPerHit = new NumberSetting("Combat packets per hit", 1, 1, 10, 1),
-			tickSwitchTimeSetting = new NumberSetting("Tick switch time", 20, 1, 200, 1),
+			tickSwitchTimeSetting = new NumberSetting("Switch Time", 20, 1, 200, 1),
 			almostLegitMovementSensitivity = new NumberSetting("Movement sensitivity", 0.25, 0.05, 1, 0.05),
 			almostLegitHitboxExpand = new NumberSetting("Hitbox expand", 0.25, 0.01, 0.5, 0.01),
 			almostLegitSnapBack = new NumberSetting("Snap back", 0.5, 0.1, 1, 0.05),
@@ -62,20 +62,20 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			maxRotationSpeed = new NumberSetting("Max rotation speed", 30, 1, 100, 1),
 			minRotationBezierCurveSpeed = new NumberSetting("Min rotation speed", 0.05, 0, 1, 0.01),
 			maxRotationBezierCurveSpeed = new NumberSetting("Max rotation speed", 0.07, 0.01, 1, 0.01);
-	public BooleanSetting targetPlayersSetting = new BooleanSetting("Target players", true),
-			targetAnimalsSetting = new BooleanSetting("Target animals", false),
-			targetMobsSetting = new BooleanSetting("Target mobs", false),
-			targetOtherSetting = new BooleanSetting("Target others", false),
-			rayTraceCheck = new BooleanSetting("Raytrace", false),
+	public BooleanSetting targetPlayersSetting = new BooleanSetting("Players", true),
+			targetAnimalsSetting = new BooleanSetting("Animals", false),
+			targetMobsSetting = new BooleanSetting("Mobs", false),
+			targetOtherSetting = new BooleanSetting("Others", false),
+			rayTraceCheck = new BooleanSetting("Visible Only", false),
 			viewRotations = new BooleanSetting("View rotations", false),
 			movementMatchRotation = new BooleanSetting("Movement Match Rotation", false),
 			visualizeRange = new BooleanSetting("Visualize Range", false),
 			visualizeTargetCircle = new BooleanSetting("Visualize Target", true);
 			//criticals = new BooleanSetting("Criticals", true);
-	public ModeSetting targetSelectionSetting = new ModeSetting("Target selection", "Switch", "Switch", "Single"),
-			targetSortingSetting = new ModeSetting("Target sorting", "Health", "Health", "Distance"),
-			rotationSetting = new ModeSetting("Rotation", "Lock", "Smooth", "Lock", "Spin", "None", "Almost legit", "Bezier Curve"),
-			autoblockSetting = new ModeSetting("AutoBlock", "Hypixel");
+	public ModeSetting targetSelectionSetting = new ModeSetting("Attack Mode", "Switch", "Switch", "Single"),
+			targetSortingSetting = new ModeSetting("Priority", "Health", "Health", "Distance"),
+			rotationSetting = new ModeSetting("Rotations", "Lock", /*"Smooth",*/ "Lock"/*, "Spin", "None", "Almost legit", "Bezier Curve"*/),
+			autoblockSetting = new ModeSetting("Block Mode", "Hypixel");
 
 	@Override
 	public void loadSettings() {

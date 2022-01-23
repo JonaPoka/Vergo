@@ -27,7 +27,7 @@ public class ModAntiBot extends Module implements OnEventInterface {
 		if (ServerUtils.isOnHypixel())
 			hypixelBotChecker(e);
 		else
-			toggle();
+			return;
 	}
 	
 	public void hypixelBotChecker(Event e) {

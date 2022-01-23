@@ -39,8 +39,8 @@ public class ModLongJump extends Module implements OnEventInterface {
 
     public NumberSetting speedSlider = new NumberSetting("SpeedSlider", 0.6, 0, 3.0, 0.01);//, heightSlider = new NumberSetting("Height Slider", 1.99, 1.0, 3.0, 0.01);
 
-    public BooleanSetting automated = new BooleanSetting("Automated", false), autoMove = new BooleanSetting("Auto Move", false),
-                          autoJump = new BooleanSetting("Auto Jump", false);
+    public BooleanSetting automated = new BooleanSetting("Automated", true), autoMove = new BooleanSetting("Auto Move", true),
+            autoJump = new BooleanSetting("Auto Jump", true);
     public static transient TimerUtil hypixelTimer = new TimerUtil();
 
     @Override
@@ -48,7 +48,7 @@ public class ModLongJump extends Module implements OnEventInterface {
         mode.modes.clear();
         mode.modes.addAll(Arrays.asList("Hypixel Test"));
 
-        addSettings(mode, speedSlider/*, heightSlider*/, automated, autoMove, autoJump);
+        addSettings(mode/*, speedSlider, heightSlider, automated, autoMove, autoJump*/);
     }
 
     public int i;
@@ -176,7 +176,7 @@ public class ModLongJump extends Module implements OnEventInterface {
 
             } else if(mode.is("Hypixel Test"))  {
 
-                setInfo("Hypixel LowJump");
+                setInfo("Hypixel1");
 
                 if (!hasHurt) {
 
