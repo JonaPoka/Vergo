@@ -132,12 +132,11 @@ public class ModSpeed extends Module implements OnEventInterface {
 			}
 
 			//ChatUtils.addChatMessage("MotionY: " + mc.thePlayer.motionY);
+		//ChatUtils.addChatMessage("Timer Joke: " + mc.timer.timerSpeed);
 
 			if(MovementUtils.isOnGround(0.0001) && !mc.thePlayer.isCollidedHorizontally) {
 				mc.thePlayer.jump();
-				//ChatUtils.addChatMessage("Timer Joke");
-				mc.timer.timerSpeed = 1.2f;
-				mc.thePlayer.motionY -= 0.029f;
+				mc.thePlayer.motionY -= 0.023f;
 				if(mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown()) {
 					MovementUtils.setSpeed(0.455);
 				} else {
@@ -147,15 +146,13 @@ public class ModSpeed extends Module implements OnEventInterface {
 				if (mc.thePlayer.isCollidedVertically) {
 					mc.thePlayer.motionY = 0.4;
 				}
-			} else {
-				if(!mc.thePlayer.isCollidedHorizontally) {
-					mc.timer.timerSpeed = 1.09f;
-					mc.thePlayer.motionY *= 1.0001f;
-					if(mc.thePlayer.onGround) {
-						mc.thePlayer.jump();
-					}
-				}
 			}
+
+		if(mc.thePlayer.motionY > 0.2) {
+			mc.timer.timerSpeed = 1.2f;
+		} else if(mc.thePlayer.motionY < 0.19) {
+			mc.timer.timerSpeed = 1.06f;
+		}
 
 	}
 

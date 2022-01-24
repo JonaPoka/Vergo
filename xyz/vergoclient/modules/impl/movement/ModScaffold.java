@@ -117,6 +117,10 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 				hitVecFixer, noRotate, fakeMissPackets, towerMode, placeBlockAsync,*/ timerSlow);
 	}
 
+	private double scafStartY = 0;
+	private boolean flagFold = false;
+	private boolean enabledBefore = true;
+
 	private static transient BlockPos lastPlace = null;
 	private static transient double keepPosY = 0;
 	private static transient TimerUtil legitTimer = new TimerUtil();
@@ -125,6 +129,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	private static transient int itemSwitchDelayTicks = 0;
 
 	public void onEnable() {
+
+		scafStartY = mc.thePlayer.posY;
 
 		boxOpacity.setOpacity(0);
 		numOpacity.setOpacity(0);
@@ -202,6 +208,12 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		boxOpacity.setOpacity(0);
 		numOpacity.setOpacity(0);
 		blockOpacity.setOpacity(0);
+
+		if(!enabledBefore && flagFold) {
+			if(timerSlow.isEnabled()) {
+				timerSlow.toggle();
+			}
+		}
 
 		if (Vergo.config.modBlink.isEnabled()) {
 			Vergo.config.modBlink.toggle();
@@ -515,6 +527,16 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		// KeepY
 		if (MovementUtils.isOnGround(0.00001)) {
 			keepPosY = ((int) mc.thePlayer.posY) - 1;
+		}
+
+		if(mc.thePlayer.posY < scafStartY && timerSlow.isDisabled() && !flagFold) {
+			ChatUtils.addChatMessage("Flagfold Detected! Protection Enabled!");
+			if(timerSlow.isDisabled()) {
+				timerSlow.toggle();
+				enabledBefore = false;
+			}
+
+			flagFold = true;
 		}
 
 		// Keep rotations
