@@ -1,8 +1,10 @@
 package xyz.vergoclient.modules.impl.movement;
 
 import net.minecraft.item.ItemBow;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventSendPacket;
 import xyz.vergoclient.event.impl.EventSlowdown;
@@ -24,6 +26,10 @@ public class ModNoSlow extends Module implements OnEventInterface {
 
 		if(mc.gameSettings.keyBindSprint.isPressed()) {
 			mc.thePlayer.setSprinting(true);
+		}
+
+		if(Vergo.config.modScaffold.isEnabled()) {
+			return;
 		}
 
 		if (e instanceof EventSendPacket && e.isPre()) {

@@ -172,7 +172,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			getRotations(lastBlockPos, lastFacing, false);
 		}
 
-		float[] rots = new float[] {mc.thePlayer.rotationYaw + 980, mc.thePlayer.rotationPitch + 960};
+		float[] rots = new float[] {mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};
 
 		lastYaw = rots[0];
 		lastPitch = rots[1];
@@ -514,8 +514,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		} else if (sprintSetting.isEnabled() && !mc.thePlayer.isSprinting()) {
 		}
 
-		if (timerBoostSetting.getValueAsDouble() >= 1.000001)
-			mc.timer.timerSpeed = MovementUtils.isMoving() ? ((float) timerBoostSetting.getValueAsDouble()) : 1f;
+		/*if (timerBoostSetting.getValueAsDouble() >= 1.000001)
+			mc.timer.timerSpeed = MovementUtils.isMoving() ? ((float) timerBoostSetting.getValueAsDouble()) : 1f;*/
 
 		if (rotationMode.is("Hypixel Slow")) {
 			if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
@@ -529,7 +529,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			keepPosY = ((int) mc.thePlayer.posY) - 1;
 		}
 
-		if(mc.thePlayer.posY < scafStartY && timerSlow.isDisabled() && !flagFold) {
+		if(mc.thePlayer.posY < scafStartY && timerSlow.isDisabled()) {
 			ChatUtils.addChatMessage("Flagfold Detected! Protection Enabled!");
 			if(timerSlow.isDisabled()) {
 				timerSlow.toggle();
@@ -576,8 +576,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 
 
-			RenderUtils.setCustomYaw(mc.thePlayer.rotationYaw);
-			RenderUtils.setCustomPitch(mc.thePlayer.rotationPitch);
+			RenderUtils.setCustomYaw(event.getYaw());
+			RenderUtils.setCustomPitch(event.getPitch());
 
 		}
 
@@ -765,7 +765,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			mc.gameSettings.keyBindSneak.pressed = MovementUtils.isOnGround(0.0001);
 
 		if (Vergo.config.modSprint.isEnabled() && sprintSetting.isEnabled())
-			mc.thePlayer.setSprinting(true);
+			mc.thePlayer.setSprinting(false);
 	}
 
 	private void placeBlock(EventUpdate event, BlockInfo info, ItemStack block) {
@@ -807,19 +807,19 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			lastRandY = 0.4f;
 
 			if (!newBlock) {
-				lastRandX += RandomUtils.nextFloat(0.01f, 0.05f);
-				lastRandZ = lastRandX;
+				//lastRandX += RandomUtils.nextFloat(0.01f, 0.05f);
+				//lastRandZ = lastRandX;
 			}
 		}
 		else if (rotationMode.is("Hypixel Sprint")) {
-			lastRandY = 0.4f;
+			//lastRandY = 0.4f;
 
-			lastRandX = 0.6f;
-			lastRandZ = lastRandX;
+			//lastRandX = 0.6f;
+			//lastRandZ = lastRandX;
 
 			if (!newBlock) {
-				lastRandX = 0.2f;
-				lastRandZ = lastRandX;
+				//lastRandX = 0.2f;
+				//lastRandZ = lastRandX;
 			}
 		}
 		else if (rotationMode.is("AAC")) {
@@ -880,22 +880,22 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		double randZ = lastRandZ;
 
 		if (rotationMode.is("Hypixel Slow")) {
-			if (randX >= 1.8)
-				randX = 1.8;
-			if (randX <= 0.2)
-				randX = 0.2;
-			if (randX >= 0.8 && randX <= 1.0)
-				randX = 0.8;
-			if (randX >= 1.0 && randX <= 1.2)
-				randX = 1.2;
-
-			if (randZ >= 1.8)
-				randZ = 1.8;
-			if (randZ <= 0.2)
-				randZ = 0.2;
-			if (randZ >= 0.8 && randX <= 1.0)
-				randZ = 0.8;
-			if (randZ >= 1.0 && randX <= 1.2)
+			//if (randX >= 1.8)
+			//	randX = 1.8;
+			//if (randX <= 0.2)
+			//	randX = 0.2;
+			//if (randX >= 0.8 && randX <= 1.0)
+			//	randX = 0.8;
+			//if (randX >= 1.0 && randX <= 1.2)
+			//	randX = 1.2;
+//
+			//if (randZ >= 1.8)
+			//	randZ = 1.8;
+			//if (randZ <= 0.2)
+			//	randZ = 0.2;
+			//if (randZ >= 0.8 && randX <= 1.0)
+			//	randZ = 0.8;
+			//if (randZ >= 1.0 && randX <= 1.2)
 				randZ = 1.2;
 		}
 
@@ -919,14 +919,14 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		double d3 = mc.thePlayer.posY + (double) mc.thePlayer.getEyeHeight() - ((double) paramBlockPos.getY() + randY);
 		double d4 = (double) MathHelper.sqrt_double(d1 * d1 + d2 * d2);
 
-		float f1 = (float) (Math.atan2(d2, d1) * 180.0D / 3.141592653589793D) - 90.0F;
-		float f2 = (float) (Math.atan2(d3, d4) * 180.0D / 3.141592653589793D);
+		float f1 = (float) (Math.atan2(d2, d1) * 180.0D / 3.24159/*2653589793D*/) - 87.0F;
+		float f2 = (float) (Math.atan2(d3, d4) * 180.0D / 3.24159/*2653589793D*/);
 
 		if (f2 > 90)
-			f2 = 90;
+			f2 = 89;
 
 		if (f2 < -90)
-			f2 = -90;
+			f2 = -89;
 
 //        mc.thePlayer.rotationYaw = f1;
 //        mc.thePlayer.rotationPitch = f2;

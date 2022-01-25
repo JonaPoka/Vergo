@@ -70,17 +70,20 @@ public class ModDisabler extends Module implements OnEventInterface {
 
 	}
 
-	private void doTheFunnyFly(EventMove eventMove) {
+	public static BlockPos position = null;
 
-		//if(this.timer.delay(1200L)) {
-			//ChatUtils.addChatMessage("Teleported!");
-			//this.HClip(2.7, eventMove);
-		//	this.timer.reset();
-		//}else {
-			//eventMove.setX(0.0);
-			eventMove.setY(0.0);
-			//eventMove.setZ(0.0);
-		//}
+	private void doTheFunnyFly(EventMove eventMove) {
+		double playerYaw = Math.toRadians(mc.thePlayer.rotationYaw);
+		position = mc.thePlayer.getPosition();
+
+		eventMove.setSpeed(0.001);
+		position.x = (int) (position.getX() + 2.7 * -Math.sin(playerYaw));
+		position.y = (int) (position.getY() - 2.0);
+		position.z = (int) (position.getZ() + 2.7 * Math.cos(playerYaw));
+
+		eventMove.setX(position.x);
+		eventMove.setY(position.y);
+		eventMove.setZ(position.z);
 	}
 
 	private void HClip(final double horizontal , EventMove eventMove) {
