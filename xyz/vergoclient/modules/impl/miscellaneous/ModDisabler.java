@@ -20,16 +20,16 @@ import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.util.ChatUtils;
-import xyz.vergoclient.util.MiscellaneousUtils;
-import xyz.vergoclient.util.MovementUtils;
-import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.*;
 import net.minecraft.network.Packet;
 
 public class ModDisabler extends Module implements OnEventInterface {
 
+	Timer timer;
+
 	public ModDisabler() {
 		super("Disabler", Category.MISCELLANEOUS);
+		this.timer = new Timer();
 	}
 	
 	public ModeSetting mode = new ModeSetting("Mode", "Test", "Test", "Test2");
@@ -59,19 +59,41 @@ public class ModDisabler extends Module implements OnEventInterface {
 
 	@Override
 	public void onEvent(Event e) {
-		if (mode.is("Test")) {
 
-			if(e instanceof EventSendPacket) {
+		if(e instanceof EventMove) {
 
-				if(e.isPre()) {
-					/*mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook());
-					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C0FPacketConfirmTransaction());
-					mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C00Handshake());*/
-				}
-
+			if(mode.is("Test")) {
+				doTheFunnyFly(((EventMove) e));
 			}
 
 		}
+
+	}
+
+	private void doTheFunnyFly(EventMove eventMove) {
+
+		//if(this.timer.delay(1200L)) {
+			//ChatUtils.addChatMessage("Teleported!");
+			//this.HClip(2.7, eventMove);
+		//	this.timer.reset();
+		//}else {
+			//eventMove.setX(0.0);
+			eventMove.setY(0.0);
+			//eventMove.setZ(0.0);
+		//}
+	}
+
+	private void HClip(final double horizontal , EventMove eventMove) {
+		/*double playerYaw = Math.toRadians(mc.thePlayer.rotationYaw);
+
+		position = mc.thePlayer.getPosition();
+
+		//ChatUtils.addChatMessage("BLOCKPLACE + " + position);
+
+		position.x = (int) (position.getX() + horizontal * -Math.sin(playerYaw));
+		position.y = (int) (position.getY() - 2.0);
+		position.z = (int) (position.getZ() + horizontal * Math.cos(playerYaw));
+		mc.thePlayer.setPosition(position.getX(), position.getY(), position.getZ());*/
 	}
 	
 }
