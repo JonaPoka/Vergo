@@ -16,7 +16,8 @@ public class RandomStringUtil {
 				"You must be really fucking popular, cheating on Minecraft..", "Join the Discord for free cake!", "THE CAKE IS A LIE!", "jiggey is actually kinda... SUSSY", "I dunno Walt, you're seeming pretty sus lately...",
 				"How many times have we been here", "Why are we still here? Just to SUFFER?", "I have a bondage kink", "FUCK OFF! Im tryna watch Anime", "Private Client go brrrrrrrrr", "Being Rick Rolled...", "I'm a rocketman",
 				"coinful is my little pogchamp", "*muah*", "*hugs*", "~smiles~", "First rule about Vergo... don't talk about Vergo.", "Can't touch this, neh nehnehnehneh", "this client is just one big meme", "I'm done loading, just making you wait...",
-				"Camera Hacked! Taking picture... *printing*... Analysis complete: You're ugly.", " 						OCD wildin' right now", "zzz...", "#TeamSeas (is that still a thing?)");
+				"Camera Hacked! Taking picture... *printing*... Analysis complete: You're ugly.", " 						OCD wildin' right now", "zzz...", "#TeamSeas (is that still a thing?)", "kissing e-girls", "Preparing gaming chair",
+				"Give me your kisses mommy", "Dripping wet", "Selling vergo src for $1 DM Rismose");
 		return theFunny.getRandomObject();
 	}
 	
