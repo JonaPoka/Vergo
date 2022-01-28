@@ -132,6 +132,12 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 		scafStartY = mc.thePlayer.posY;
 
+		mc.thePlayer.setSprinting(false);
+
+		if (mc.thePlayer.isSprinting()) {
+			mc.thePlayer.setSprinting(false);
+		}
+
 		boxOpacity.setOpacity(0);
 		numOpacity.setOpacity(0);
 		blockOpacity.setOpacity(0);
@@ -154,7 +160,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 				}
 				mc.timer.timerSpeed = 0.8f;
 			} else {
-				mc.timer.timerSpeed = 1.0f;
+				mc.timer.timerSpeed = 1.09f;
 			}
 		}
 
