@@ -2,6 +2,7 @@ package xyz.vergoclient.modules.impl.player;
 
 import java.util.Arrays;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import xyz.vergoclient.event.Event;
@@ -34,6 +35,7 @@ public class ModNoFall extends Module implements OnEventInterface {
 		addSettings(mode);
 	}
 
+
 	@Override
 	public void onEnable() {
 		//ChatUtils.addChatMessage("Module Detected. Proceed with caution.");
@@ -41,9 +43,11 @@ public class ModNoFall extends Module implements OnEventInterface {
 
 	@Override
 	public void onEvent(Event e) {
-		if (mode.is("Hypixel"))
+		if (mode.is("Hypixel")) {
 			onNoFallHypixelEvent(e);
+		}
 	}
+
 
 	private void onNoFallHypixelEvent(Event e) {
 
@@ -52,6 +56,18 @@ public class ModNoFall extends Module implements OnEventInterface {
 		}
 
 		else if (e instanceof EventUpdate && e.isPre()) {
+
+			/* double x = mc.thePlayer.posX;
+			double y = mc.thePlayer.posY;
+			double z = mc.thePlayer.posZ;
+
+			Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 6D, z, false));
+
+			for (int i =0; i < 15; ++i) {
+				Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.5D, z, false));
+				Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.2D, z, false));
+			} */
+
 			if (mc.thePlayer.fallDistance > 3 && !isOverVoid() && !mc.thePlayer.isSpectator()) {
 				mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer(true));
 			}
