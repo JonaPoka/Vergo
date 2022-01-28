@@ -58,9 +58,9 @@ public class GuiStart extends GuiScreen {
 
 		GlStateManager.enableBlend();
 		GlStateManager.color((float) 1.0, (float) 1.0, (float) 1.0, 1.0f);
-		RenderUtils.drawImg(new ResourceLocation("Vergo/logo/512x512clear.png"), width / 2 - 60, height / 2 - 60, 100, 100);
+		RenderUtils.drawImg(new ResourceLocation("Vergo/logo/smd.png"), width / 2 - 60, height / 2 - 60, 100, 100);
 		GlStateManager.disableBlend();
-		FontUtil.bakakakmedium.drawCenteredString(percentText, width / 2 - 10, height / 2 + 70 - FontUtil.arialMedium.FONT_HEIGHT, new Color(144, 106, 235).getRGB());
+		FontUtil.bakakRegular.drawCenteredString(percentText, width / 2 - 10, height / 2 + 70 - FontUtil.arialMedium.FONT_HEIGHT, new Color(180, 0, 79).getRGB());
 
 		// Renders all the cached images
 		ScaledResolution sr = new ScaledResolution(mc);
