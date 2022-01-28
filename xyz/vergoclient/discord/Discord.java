@@ -40,7 +40,7 @@ public class Discord extends Thread {
 		activity.timestamps().setStart(timeStarted);
 
 		// Makes an image show up
-		activity.assets().setLargeImage("vergo");
+		activity.assets().setLargeImage("pinkvergo");
 		
 		return activity;
 	}
