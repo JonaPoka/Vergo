@@ -20,7 +20,10 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import org.json.JSONObject;
 import xyz.vergoclient.modules.ModuleManager;
+import xyz.vergoclient.security.ApiResponse;
+import xyz.vergoclient.security.account.Account;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.util.datas.DataDouble3;
 import xyz.vergoclient.util.datas.DataDouble6;
@@ -111,6 +114,25 @@ public class MiscellaneousUtils {
     	}
     	
     }
+
+	public static ApiResponse parseApiResponse(String json) {
+		JSONObject obj = new JSONObject(json);
+		ApiResponse apiResponse = new ApiResponse();
+		for (ApiResponse.ResponseStatus responseStatus : ApiResponse.ResponseStatus.values()) {
+			if (obj.getString("authenticated").equals(responseStatus.toString())) {
+				apiResponse.status = responseStatus;
+				break;
+			}
+		}
+		//apiResponse.statusText = obj.getString("statusText");
+		//apiResponse.responseObject = obj.get("responseObject");
+		return apiResponse;
+	}
+
+	public static Account parseAccount(String json) {
+		JSONObject obj = new JSONObject(json);
+		return new Account(obj.getInt("uid"), obj.getString("hwid"), obj.getInt("banned"));
+	}
     
 	public static String getTeamName(int num, Scoreboard board) {
 		ScoreObjective objective = board.getObjectiveInDisplaySlot(1);

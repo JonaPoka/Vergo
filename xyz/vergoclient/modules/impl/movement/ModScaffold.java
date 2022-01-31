@@ -36,6 +36,7 @@ import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.animations.OpacityAnimation;
+import xyz.vergoclient.util.animations.ScaleAnimation;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -142,6 +143,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		numOpacity.setOpacity(0);
 		blockOpacity.setOpacity(0);
 
+
 		this.boostTiming.reset();
 
 		if(!rotationMode.is("Hypixel Slow")) {
@@ -211,6 +213,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 	public void onDisable() {
 
+		scaleAnim.setValues(20, 30);
 		boxOpacity.setOpacity(0);
 		numOpacity.setOpacity(0);
 		blockOpacity.setOpacity(0);
@@ -246,6 +249,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 	private OpacityAnimation boxOpacity = new OpacityAnimation(0), blockOpacity = new OpacityAnimation(0), numOpacity = new OpacityAnimation(0);
 
+	private ScaleAnimation scaleAnim = new ScaleAnimation(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 15, 20);
+
 	public void onEvent(Event e) {
 
 		if (e instanceof EventRenderGUI && e.isPre()) {
@@ -272,6 +277,9 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			JelloFontRenderer jfr = FontUtil.comfortaaSmall;
 			GlStateManager.pushMatrix();
 
+
+
+			scaleAnim.interpolate(25, 30, 12);
 			boxOpacity.interp(200, 12);
 			numOpacity.interp(200, 12);
 			blockOpacity.interp(200, 12);
@@ -291,25 +299,10 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 				GlStateManager.color(1, 1, 1, blockOpacity.getOpacity());
 				mc.getRenderItem().renderItemAndEffectIntoGUI(setStackToPlace(), GuiScreen.width / 2 - 7.5f, GuiScreen.height / 2 + 20);
 
-
-				/*mc.fontRendererObj.drawString(left,
-						((float) (new ScaledResolution(mc).getScaledWidth_double() / 2)
-								- (mc.fontRendererObj.getStringWidth(left) / 2)),
-						((float) (new ScaledResolution(mc).getScaledHeight_double() / 3)
-								- (mc.fontRendererObj.FONT_HEIGHT - 18)),
-						-1, true);*/
-
 			} else {
 				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) boxOpacity.getOpacity()));
 				RenderHelper.enableGUIStandardItemLighting();
 				jfr.drawString("000", GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(191, 9, 29, (int) numOpacity.getOpacity()));
-
-				/*mc.fontRendererObj.drawString(left,
-						((float) (new ScaledResolution(mc).getScaledWidth_double() / 2)
-								- (mc.fontRendererObj.getStringWidth(left) / 2)),
-						((float) (new ScaledResolution(mc).getScaledHeight_double() / 3)
-								- (mc.fontRendererObj.FONT_HEIGHT - 18)),
-						0xff2121, true);*/
 			}
 
 			GlStateManager.popMatrix();
@@ -902,7 +895,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			//if (randZ >= 0.8 && randX <= 1.0)
 			//	randZ = 0.8;
 			//if (randZ >= 1.0 && randX <= 1.2)
-				randZ = 1.2;
+			//	randZ = 1.2;
 		}
 
 		if (offsetX != 0) {

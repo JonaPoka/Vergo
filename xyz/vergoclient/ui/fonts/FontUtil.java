@@ -229,6 +229,7 @@ public class FontUtil {
 	public static JelloFontRenderer comfortaaSmaller = JelloFontRenderer.createFontRenderer(getComfortaa(6));
 
 	public static JelloFontRenderer neurialGrotesk = JelloFontRenderer.createFontRenderer(getNeurialGrotesk(18));
+	public static JelloFontRenderer neurialGroteskBig = JelloFontRenderer.createFontRenderer(getNeurialGrotesk(25));
 
 	public static JelloFontRenderer tahomaFont = JelloFontRenderer.createFontRenderer(getTahoma(24));
 

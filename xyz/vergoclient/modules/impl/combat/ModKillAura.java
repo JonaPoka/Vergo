@@ -70,8 +70,8 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 			viewRotations = new BooleanSetting("View rotations", false),
 			movementMatchRotation = new BooleanSetting("Movement Match Rotation", false),
 			visualizeRange = new BooleanSetting("Visualize Range", false),
-			visualizeTargetCircle = new BooleanSetting("Visualize Target", true);
-			//criticals = new BooleanSetting("Criticals", true);
+			visualizeTargetCircle = new BooleanSetting("Visualize Target", true),
+			criticals = new BooleanSetting("Criticals", true);
 	public ModeSetting targetSelectionSetting = new ModeSetting("Attack Mode", "Switch", "Switch", "Single"),
 			targetSortingSetting = new ModeSetting("Priority", "Health", "Health", "Distance"),
 			rotationSetting = new ModeSetting("Rotations", "Lock", /*"Smooth",*/ "Lock"/*, "Spin", "None", "Almost legit", "Bezier Curve"*/),
@@ -88,7 +88,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 
 		addSettings(rangeSetting, minApsSetting, maxApsSetting, /*combatPacketsPerHit,*/ targetPlayersSetting, targetAnimalsSetting,
 				targetMobsSetting, targetOtherSetting, rayTraceCheck, targetSelectionSetting, targetSortingSetting,
-				rotationSetting, autoblockSetting, visualizeTargetCircle /*visualizeRange, doCriticals*/);
+				rotationSetting, autoblockSetting, visualizeTargetCircle /*visualizeRange*/, criticals);
 
 	}
 
@@ -426,6 +426,10 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 						|| !(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)) {
 					isBlocking = false;
 				}
+			}
+
+			if(criticals.isEnabled()) {
+				doCriticals(e);
 			}
 		}
 
@@ -789,17 +793,7 @@ public class ModKillAura extends Module implements OnSettingChangeInterface, OnE
 	}
 
 	private void doCriticals(Event e) {
-		if(MovementUtils.isOnGround(0.001)) {
-			double[] offset = {0.05101, 0.01601, 0.0301, 0.00101};
-			if (((EventSendPacket)e).packet instanceof C02PacketUseEntity && ((C02PacketUseEntity)((EventSendPacket)e).packet).getAction() == Action.ATTACK) {
-				ChatUtils.addChatMessage("Crit");
-				if(critTimer.hasTimeElapsed(600, true)) {
-					for (double offsets : offset) {
-						mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + offsets, mc.thePlayer.posZ, false));
-					}
-				}
-			}
-		}
+
 	}
 
 }

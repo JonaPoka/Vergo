@@ -82,7 +82,7 @@ public class RotationUtils {
     public static float[] getRotations(Entity ent) {
         double x = ent.posX;
         double z = ent.posZ;
-        double y = ent.posY + (ent.getEyeHeight() / 4.5F);
+        double y = ent.posY + (ent.getEyeHeight() / 2.0F);
         return getRotationFromPosition(x, z, y);
     }
     

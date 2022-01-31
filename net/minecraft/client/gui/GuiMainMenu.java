@@ -35,6 +35,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
+import xyz.vergoclient.ui.guis.LogInGui;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 {

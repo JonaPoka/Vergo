@@ -26,7 +26,7 @@ public class Vergo {
 
 	public static Discord discord = new Discord();
 
-	public static transient String version = " PRE-RELEASE-DEV";
+	public static transient String version = " Dev-Build";
 
 	public static transient CopyOnWriteArrayList<ResourceLocation> cachedIcons = new CopyOnWriteArrayList<>();
 
