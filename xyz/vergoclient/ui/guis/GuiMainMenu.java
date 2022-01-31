@@ -79,7 +79,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 	public GuiMainMenu()
 	{
 		this.field_146972_A = field_96138_a;
-		this.splashText = "missingno";
+		this.splashText = "oop";
 		BufferedReader var1 = null;
 
 		try
@@ -129,12 +129,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 		this.updateCounter = field_175374_h.nextFloat();
 		this.field_92025_p = "";
 
-		if (!GLContext.getCapabilities().OpenGL20 && !OpenGlHelper.areShadersSupported())
+		/*if (!GLContext.getCapabilities().OpenGL20 && !OpenGlHelper.areShadersSupported())
 		{
 			this.field_92025_p = I18n.format("title.oldgl1", new Object[0]);
 			this.field_146972_A = I18n.format("title.oldgl2", new Object[0]);
 			this.field_104024_v = "https://help.mojang.com/customer/portal/articles/325948?ref=game";
-		}
+		}*/
 	}
 
 	/**

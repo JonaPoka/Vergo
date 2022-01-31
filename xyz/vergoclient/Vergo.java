@@ -3,6 +3,7 @@ package xyz.vergoclient;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import net.minecraft.client.Minecraft;
 import xyz.vergoclient.assets.Icons;
 import xyz.vergoclient.commands.CommandManager;
 import xyz.vergoclient.discord.Discord;
@@ -11,10 +12,12 @@ import xyz.vergoclient.files.FileSaver;
 import xyz.vergoclient.files.impl.FileKeybinds;
 import xyz.vergoclient.keybinds.KeyboardManager;
 import xyz.vergoclient.modules.ModuleManager;
+import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.Hud;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.ui.guis.GuiClickGui;
 import xyz.vergoclient.ui.guis.GuiStart;
+import xyz.vergoclient.ui.guis.LogInGui;
 import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.anticheat.Player;
 import net.minecraft.util.ResourceLocation;
@@ -134,19 +137,23 @@ public class Vergo {
 		startupTasks.add(new StartupTask(RandomStringUtil.getRandomLoadingMsg()));
 
 		new Thread(() -> {
-			
+
 			for (StartupTask startupTask : startupTasks) {
 				GuiStart.percentText = startupTask.taskText;
 				startupTask.task();
 				GuiStart.percentDoneTarget = ((double)startupTasks.indexOf(startupTask)) / ((double)startupTasks.size() - 1);
 			}
 
-			GuiStart.percentText = RandomStringUtil.getRandomLoadingMsg();
+			// Makes sure the startup screen lingers for at least 2.5 secs
 			try {
 				Thread.sleep(2500);
 			} catch (Exception e) {}
-				GuiStart.hasLoaded = true;
 
+			if (AccountUtils.isLoggedIn()) {
+				GuiStart.hasLoaded = true;
+			}else {
+				Minecraft.getMinecraft().displayGuiScreen(new LogInGui());
+			}
 		}).start();
 		
 	}

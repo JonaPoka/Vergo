@@ -26,15 +26,8 @@ public class GuiStart extends GuiScreen {
 
 		waitTimer.reset();
 
-		if (hasLoaded && mc != null) {
-			//mc.displayGuiScreen(new GuiMultiplayer(new GuiAltManager()));
-			//mc.displayGuiScreen(new GuiSelectWorld(new GuiAltManager()));
-			//mc.displayGuiScreen(new xyz.vergoclient.ui.guis.GuiMainMenu());
-			mc.displayGuiScreen(new GuiMainMenu());
-			//this.mc.displayGuiScreen(new LogInGui());
-		} //else {
-		//	Vergo.startup();
-		//}
+		if (hasLoaded && mc != null)
+			mc.displayGuiScreen(new xyz.vergoclient.ui.guis.GuiMainMenu());
 	}
 
 	int count = 0;
@@ -49,11 +42,7 @@ public class GuiStart extends GuiScreen {
 
 		// If it is done loading then show the main menu
 		if (hasLoaded)
-			//this.mc.displayGuiScreen(new LogInGui());
-			//mc.displayGuiScreen(new GuiMultiplayer(new GuiAltManager()));
-			//mc.displayGuiScreen(new GuiSelectWorld(new GuiAltManager()));
-			//mc.displayGuiScreen(new xyz.vergoclient.ui.guis.GuiMainMenu());
-			mc.displayGuiScreen(new GuiMainMenu());
+			mc.displayGuiScreen(new xyz.vergoclient.ui.guis.GuiMainMenu());
 
 		// Background
 		Gui.drawRect(0, 0, width, height, new Color(18, 18, 18).getRGB());

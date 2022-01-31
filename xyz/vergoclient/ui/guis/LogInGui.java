@@ -169,9 +169,9 @@ public class LogInGui extends GuiScreen {
                                     }
                                 }
                             }).start();
-                            mc.displayGuiScreen(new GuiStart());
-                            hasLoaded = true;
+                            GuiStart.hasLoaded = true;
                             Keyboard.enableRepeatEvents(false);
+                            mc.displayGuiScreen(new GuiStart());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
