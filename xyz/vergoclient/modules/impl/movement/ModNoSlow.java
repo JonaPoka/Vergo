@@ -37,7 +37,7 @@ public class ModNoSlow extends Module implements OnEventInterface {
 			if(mc.thePlayer.isBlocking()) {
 				EventSendPacket event = (EventSendPacket) e;
 				if(event.packet instanceof C08PacketPlayerBlockPlacement) {
-					mc.getNetHandler().getNetworkManager().sendPacket(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
+					mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
 				}
 			}
 

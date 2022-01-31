@@ -24,7 +24,7 @@ public class ModVelocity extends Module implements OnEventInterface {
 	
 	@Override
 	public void loadSettings() {
-		addSettings(normalHorizontalKnockback, normalVerticalKnockback, explosionHorizontalKnockback, explosionVerticalKnockback);
+		addSettings(normalHorizontalKnockback, normalVerticalKnockback);
 	}
 	
 	@Override

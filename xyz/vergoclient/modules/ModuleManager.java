@@ -88,58 +88,53 @@ public class ModuleManager {
 	public ModAutoClicker modAutoClicker = new ModAutoClicker();
 	public ModInstantAutoGapple modAutoInstantGapple = new ModInstantAutoGapple();
 	public ModNotifications modNotifications = new ModNotifications();
+
 	
 	private void loadModules() {
-		modAutoPlay = new LoaderModule<ModAutoPlay>(modAutoPlay).generate();
-		modClickgui = new LoaderModule<ModClickgui>(modClickgui).generate();
-		modTimer = new LoaderModule<ModTimer>(modTimer).generate();
-		modFly = new LoaderModule<ModFly>(modFly).generate();
-		modDisabler = new LoaderModule<ModDisabler>(modDisabler).generate();
-		modAntibot = new LoaderModule<ModAntiBot>(modAntibot).generate();
-		modKillAura = new LoaderModule<ModKillAura>(modKillAura).generate();
-		modWTap = new LoaderModule<ModWTap>(modWTap).generate();
-		modAutoPot = new LoaderModule<ModAutoPot>(modAutoPot).generate();
-		modAutoHead = new LoaderModule<ModAutoHead>(modAutoHead).generate();
-		modStep = new LoaderModule<ModStep>(modStep).generate();
-		modInvMove = new LoaderModule<ModInvMove>(modInvMove).generate();
-		modLongJump = new LoaderModule<ModLongJump>(modLongJump).generate();
-		modVelocity = new LoaderModule<ModVelocity>(modVelocity).generate();
-		modNightMode = new LoaderModule<ModNightMode>(modNightMode).generate();
-		modSmallItems = new LoaderModule<ModSmallItems>(modSmallItems).generate();
+
+		// Visuals
 		modAnimations = new LoaderModule<ModAnimations>(modAnimations).generate();
-		modNoSlow = new LoaderModule<ModNoSlow>(modNoSlow).generate();
-		modTargetStrafe = new LoaderModule<ModTargetStrafe>(modTargetStrafe).generate();
-		modSprint = new LoaderModule<ModSprint>(modSprint).generate();
-		modStrafe = new LoaderModule<ModStrafe>(modStrafe).generate();
-		modAutoArmor = new LoaderModule<ModAutoArmor>(modAutoArmor).generate();
-		modAutotool = new LoaderModule<ModAutotool>(modAutotool).generate();
-		modInventoryManager = new LoaderModule<ModInventoryManager>(modInventoryManager).generate();
-		modAntivoid = new LoaderModule<ModAntiVoid>(modAntivoid).generate();
-		modScaffold = new LoaderModule<ModScaffold>(modScaffold).generate();
-		modBlink = new LoaderModule<ModBlink>(modBlink).generate();
-		modBedBreaker = new LoaderModule<ModBedBreaker>(modBedBreaker).generate();
-		modChestStealer = new LoaderModule<ModChestStealer>(modChestStealer).generate();
-		modPlayerESP = new LoaderModule<ModPlayerESP>(modPlayerESP).generate();
 		modChams = new LoaderModule<ModChams>(modChams).generate();
-		modNoFall = new LoaderModule<ModNoFall>(modNoFall).generate();
-		modDownClip = new LoaderModule<ModDownClip>(modDownClip).generate();
-		modSpeed = new LoaderModule<ModSpeed>(modSpeed).generate();
-		modTeams = new LoaderModule<ModTeams>(modTeams).generate();
-		modBanChecker = new LoaderModule<ModBanChecker>(modBanChecker).generate();
-		modCakeEater = new LoaderModule<ModCakeEater>(modCakeEater).generate();
-		modRainbow = new LoaderModule<ModRainbow>(modRainbow).generate();
-		modReach = new LoaderModule<ModReach>(modReach).generate();
-		modAutoSaveConfig = new LoaderModule<ModAutoSaveConfig>(modAutoSaveConfig).generate();
+		modChinaHat = new LoaderModule<ModChinaHat>(modChinaHat).generate();
 		modHud = new LoaderModule<ModHud>(modHud).generate();
 		modNametags = new LoaderModule<ModNametags>(modNametags).generate();
-		modChestESP = new LoaderModule<ModStorageESP>(modChestESP).generate();
-		modXray = new LoaderModule<ModXray>(modXray).generate();
-		modChinaHat = new LoaderModule<ModChinaHat>(modChinaHat).generate();
-		modNoSwingDelay = new LoaderModule<ModNoSwingDelay>(modNoSwingDelay).generate();
-		modTargetHud = new LoaderModule<ModTargetHud>(modTargetHud).generate();
-		modAutoClicker = new LoaderModule<ModAutoClicker>(modAutoClicker).generate();
-		modAutoInstantGapple = new LoaderModule<ModInstantAutoGapple>(modAutoInstantGapple).generate();
 		modNotifications = new LoaderModule<ModNotifications>(modNotifications).generate();
+		modPlayerESP = new LoaderModule<ModPlayerESP>(modPlayerESP).generate();
+		modChestESP = new LoaderModule<ModStorageESP>(modChestESP).generate();
+		modTargetHud = new LoaderModule<ModTargetHud>(modTargetHud).generate();
+		modXray = new LoaderModule<ModXray>(modXray).generate();
+
+		// Misc
+		modAntibot = new LoaderModule<ModAntiBot>(modAntibot).generate();
+		modAutoPlay = new LoaderModule<ModAutoPlay>(modAutoPlay).generate();
+		modBlink = new LoaderModule<ModBlink>(modBlink).generate();
+		modClickgui = new LoaderModule<ModClickgui>(modClickgui).generate();
+		modTeams = new LoaderModule<ModTeams>(modTeams).generate();
+
+		// Player
+		modAutoArmor = new LoaderModule<ModAutoArmor>(modAutoArmor).generate();
+		modAutoPot = new LoaderModule<ModAutoPot>(modAutoPot).generate();
+		modAutotool = new LoaderModule<ModAutotool>(modAutotool).generate();
+		modChestStealer = new LoaderModule<ModChestStealer>(modChestStealer).generate();
+		modInventoryManager = new LoaderModule<ModInventoryManager>(modInventoryManager).generate();
+		modNoFall = new LoaderModule<ModNoFall>(modNoFall).generate();
+		modTimer = new LoaderModule<ModTimer>(modTimer).generate();
+
+		// Movement
+		modAntivoid = new LoaderModule<ModAntiVoid>(modAntivoid).generate();
+		modDownClip = new LoaderModule<ModDownClip>(modDownClip).generate();
+		modFly = new LoaderModule<ModFly>(modFly).generate();
+		modLongJump = new LoaderModule<ModLongJump>(modLongJump).generate();
+		modNoSlow = new LoaderModule<ModNoSlow>(modNoSlow).generate();
+		modScaffold = new LoaderModule<ModScaffold>(modScaffold).generate();
+		modSpeed = new LoaderModule<ModSpeed>(modSpeed).generate();
+		modSprint = new LoaderModule<ModSprint>(modSprint).generate();
+		modVelocity = new LoaderModule<ModVelocity>(modVelocity).generate();
+
+		// Combat
+		modAutoClicker = new LoaderModule<ModAutoClicker>(modAutoClicker).generate();
+		modKillAura = new LoaderModule<ModKillAura>(modKillAura).generate();
+		modReach = new LoaderModule<ModReach>(modReach).generate();
 	}
 
 	public static CopyOnWriteArrayList<OnEventInterface> eventListeners = new CopyOnWriteArrayList<>();

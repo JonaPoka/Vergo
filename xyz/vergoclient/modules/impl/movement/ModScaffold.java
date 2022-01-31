@@ -131,7 +131,9 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 	public void onEnable() {
 
-		scafStartY = mc.thePlayer.posY;
+		if(scafStartY == 0) {
+			scafStartY = mc.thePlayer.posY;
+		}
 
 		mc.thePlayer.setSprinting(false);
 
@@ -218,10 +220,10 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		numOpacity.setOpacity(0);
 		blockOpacity.setOpacity(0);
 
-		if(!enabledBefore && flagFold) {
-			if(timerSlow.isEnabled()) {
-				timerSlow.toggle();
-			}
+		if(flagFold) {
+			scafStartY = 0;
+			mc.timer.timerSpeed = 1f;
+			flagFold = false;
 		}
 
 		if (Vergo.config.modBlink.isEnabled()) {
@@ -528,12 +530,9 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			keepPosY = ((int) mc.thePlayer.posY) - 1;
 		}
 
-		if(mc.thePlayer.posY < scafStartY && timerSlow.isDisabled()) {
+		if(mc.thePlayer.posY < scafStartY) {
 			ChatUtils.addChatMessage("Flagfold Detected! Protection Enabled!");
-			if(timerSlow.isDisabled()) {
-				timerSlow.toggle();
-				enabledBefore = false;
-			}
+			mc.timer.timerSpeed = 0.8f;
 
 			flagFold = true;
 		}

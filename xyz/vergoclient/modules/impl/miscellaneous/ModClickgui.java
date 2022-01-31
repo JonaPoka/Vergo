@@ -11,13 +11,6 @@ public class ModClickgui extends Module {
 		
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Old", "Old", "Old");
-	
-	@Override
-	public void loadSettings() {
-		addSettings(mode);
-	}
-	
 	@Override
 	public boolean isEnabled() {
 		return mc.currentScreen instanceof GuiClickGui;
@@ -33,9 +26,7 @@ public class ModClickgui extends Module {
 		if (mc.currentScreen instanceof GuiClickGui)
 			mc.displayGuiScreen(null);
 		else {
-			if (mode.is("Old")) {
-				mc.displayGuiScreen(GuiClickGui.getClickGui());
-			}
+			mc.displayGuiScreen(GuiClickGui.getClickGui());
 		}
 		silentToggle();
 	}

@@ -29,7 +29,7 @@ public class ModAutoClicker extends Module implements OnSettingChangeInterface {
 	
 	@Override
 	public void loadSettings() {
-		addSettings(minCps, maxCps, overrideHitDelay, dragClick);
+		addSettings(minCps, maxCps);
 	}
 	
 	@Override
