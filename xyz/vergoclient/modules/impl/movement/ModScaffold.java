@@ -162,7 +162,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 				}
 				mc.timer.timerSpeed = 0.8f;
 			} else {
-				mc.timer.timerSpeed = 1.09f;
+				mc.timer.timerSpeed = 1f;
 			}
 		}
 
