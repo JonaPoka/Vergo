@@ -12,10 +12,7 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.util.ChatUtils;
-import xyz.vergoclient.util.MovementUtils;
-import xyz.vergoclient.util.Timer;
-import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.*;
 
 import java.util.Arrays;
 
@@ -69,7 +66,7 @@ public class ModSpeed extends Module implements OnEventInterface {
 	
 	@Override
 	public void onEvent(Event e) {
-		
+
 		if (mode.is("Hypixel1")) {
 			onHypixelEvent(e);
 		} else if(mode.is("Hypixel2")) {
@@ -130,9 +127,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 			if(!mc.thePlayer.isSprinting()) {
 				mc.thePlayer.setSprinting(true);
 			}
-
-			//ChatUtils.addChatMessage("MotionY: " + mc.thePlayer.motionY);
-		//ChatUtils.addChatMessage("Timer Joke: " + mc.timer.timerSpeed);
 
 			if(MovementUtils.isOnGround(0.0001) && !mc.thePlayer.isCollidedHorizontally) {
 				mc.thePlayer.jump();

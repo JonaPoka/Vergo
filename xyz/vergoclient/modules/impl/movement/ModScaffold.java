@@ -103,13 +103,13 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			fakeMissPackets = new BooleanSetting("Fake miss packets", false),
 			placeBlockAsync = new BooleanSetting("Async block placements", true),
 			swaggyPaggyBoost = new BooleanSetting("Boost of Insanity", true);
-	public ModeSetting rotationMode = new ModeSetting("Rotation setting", "Hypixel Sprint", "90 snap", "yaw - 180", "Hypixel Slow", "Hypixel Sprint", "None"),
+	public ModeSetting rotationMode = new ModeSetting("Rotation setting", "Hypixel Slow", "Hypixel Slow"),
 			towerMode = new ModeSetting("Tower mode", "None", "None", "Hypixel"/*, "NCP", "Test"*/);
 
 	@Override
 	public void loadSettings() {
 		rotationMode.modes.clear();
-		rotationMode.modes.addAll(Arrays.asList("90 snap", "90 snap", "yaw - 180", "Hypixel Slow", "Hypixel Sprint", "None"));
+		rotationMode.modes.addAll(Arrays.asList("Hypixel Slow"));
 		forwardExtendSetting.minimum = 0;
 		forwardExtendSetting.name = "Forward extend";
 		addSettings(/*forwardExtendSetting,*/ swaggyPaggyBoost, /*sidewaysExtendSetting, maxBlocksPlacedPerTickSetting, blinkBlaster, timerBoostSetting,
@@ -131,9 +131,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 	public void onEnable() {
 
-		if(scafStartY == 0) {
-			scafStartY = mc.thePlayer.posY;
-		}
+		scafStartY = mc.thePlayer.posY;
 
 		mc.thePlayer.setSprinting(false);
 
@@ -509,7 +507,6 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public void attemptBlockPlace(EventUpdate e) {
 		EventUpdate event = (EventUpdate) e;
 
-		setInfo("Mode: " + rotationMode.getMode());
 		if (!sprintSetting.isEnabled() && mc.thePlayer.isSprinting()) {
 			mc.thePlayer.setSprinting(false);
 		} else if (sprintSetting.isEnabled() && !mc.thePlayer.isSprinting()) {
@@ -530,13 +527,6 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			keepPosY = ((int) mc.thePlayer.posY) - 1;
 		}
 
-		if(mc.thePlayer.posY < scafStartY) {
-			ChatUtils.addChatMessage("Flagfold Detected! Protection Enabled!");
-			mc.timer.timerSpeed = 0.8f;
-
-			flagFold = true;
-		}
-
 		// Keep rotations
 		if (lastBlockPos != null && lastFacing != null) {
 			if (mc.thePlayer.ticksExisted % 2 == 0) {
@@ -545,7 +535,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			if (keepRots != null) {
 				if (rotationMode.is("Hypixel Slow") || rotationMode.is("Hypixel Sprint")) {
 					//lastYaw = keepRots[0];
-					//lastPitch = keepRots[1];
+					lastPitch = keepRots[1] + RandomUtils.nextInt(5, 10);
 				} else if (rotationMode.is("AAC")) {
 
 				} else {
@@ -554,6 +544,15 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 					lastPitch = keepRots[1];
 				}
 			}
+		}
+
+		if(mc.thePlayer.posY < scafStartY) {
+			ChatUtils.addChatMessage("Flagfold Detected! Slowing you down, proceed with caution.");
+			flagFold = true;
+		}
+
+		if(flagFold) {
+			mc.timer.timerSpeed = 0.8f;
 		}
 
 		// Blink toggle
