@@ -158,7 +158,7 @@ public class LogInGui extends GuiScreen {
                             new Thread(() -> {
                                 while (true) {
                                     try {
-                                        ApiResponse apiResponse1 = MiscellaneousUtils.parseApiResponse(NetworkManager.getNetworkManager().sendPost(new HttpPost("https://vergoclient.xyz/api/authentication.php"), new BasicNameValuePair("uid",AccountUtils.account.uid + ""), new BasicNameValuePair("hwid", AccountUtils.account.hwid), new BasicNameValuePair("banned", AccountUtils.account.banned + "")));
+                                        ApiResponse apiResponse1 = MiscellaneousUtils.parseApiResponse(NetworkManager.getNetworkManager().sendPost(new HttpPost("https://vergoclient.xyz/api/authentication.php"), new BasicNameValuePair("uid",AccountUtils.account.uid + ""), new BasicNameValuePair("username", AccountUtils.account.username), new BasicNameValuePair("hwid", AccountUtils.account.hwid), new BasicNameValuePair("banned", AccountUtils.account.banned + "")));
                                         System.out.println(apiResponse1);
                                         if (apiResponse1.status == ApiResponse.ResponseStatus.OK) {
                                             break;

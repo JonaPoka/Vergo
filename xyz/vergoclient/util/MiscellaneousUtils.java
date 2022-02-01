@@ -131,7 +131,7 @@ public class MiscellaneousUtils {
 
 	public static Account parseAccount(String json) {
 		JSONObject obj = new JSONObject(json);
-		return new Account(obj.getInt("uid"), obj.getString("hwid"), obj.getInt("banned"));
+		return new Account(obj.getInt("uid"), obj.getString("username"), obj.getString("hwid"), obj.getInt("banned"));
 	}
     
 	public static String getTeamName(int num, Scoreboard board) {

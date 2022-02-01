@@ -23,7 +23,9 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
+import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
+import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.RenderUtils;
 
 import java.awt.*;
@@ -334,11 +336,16 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 		GlStateManager.translate(xPos, yPos, 0);
 		GlStateManager.enableBlend();
 		GlStateManager.color((float) 1.0, (float) 1.0, (float) 1.0, 1.0f);
-		RenderUtils.drawImg(new ResourceLocation("Vergo/logo/pinkvergo-tansparent.png"), 0, 0, 256, 256);
+		//RenderUtils.drawImg(new ResourceLocation("Vergo/logo/pinkvergo-tansparent.png"), 0, 0, 256, 256);
 		GlStateManager.disableBlend();
 
 		GlStateManager.popMatrix();
 
+		JelloFontRenderer jFR = FontUtil.jelloFont;
+
+		String welcomeMsg = "Logged in as:  " + AccountUtils.account.username + " | " + AccountUtils.account.uid;
+
+		jFR.drawString(welcomeMsg, this.width % 2 + 3, height / 1 - 15, -1);
 
 		int textureWidth = 225;
 		int textureHeight = 100;
