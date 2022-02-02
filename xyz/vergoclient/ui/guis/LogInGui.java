@@ -1,5 +1,6 @@
 package xyz.vergoclient.ui.guis;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -10,7 +11,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import xyz.vergoclient.Vergo;
 import xyz.vergoclient.security.ApiResponse;
 import xyz.vergoclient.security.HWID;
 import xyz.vergoclient.security.account.AccountUtils;
@@ -24,8 +24,6 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
-import static xyz.vergoclient.ui.guis.GuiStart.*;
-
 public class LogInGui extends GuiScreen {
 
     public String uidText = "UID";
@@ -33,6 +31,8 @@ public class LogInGui extends GuiScreen {
     public DataDouble5 uidTextBox = new DataDouble5(), loginBox = new DataDouble5(), getHWID = new DataDouble5(), selectedDataDouble5 = null;;
 
     public boolean isLoggingIn = false;
+
+    public String loggingInStatus;
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -42,7 +42,11 @@ public class LogInGui extends GuiScreen {
         if (selectedDataDouble5 != uidTextBox && uidText.isEmpty())
             uidText = "UID";
 
-        DisplayUtils.setCustomTitle("Authenticating...");
+        if(loggingInStatus == null) {
+            loggingInStatus = "Awaiting Authentication...";
+        }
+
+        DisplayUtils.setCustomTitle("Waiting For Authentication");
 
         Gui.drawRect(0, 0, width, height, new Color(29, 29, 29).getRGB());
 
@@ -55,7 +59,7 @@ public class LogInGui extends GuiScreen {
         String logInString = "Login";
         String getHWIDString = "Get HWID";
 
-        fr.drawString(authenticateText, width/2 - fr.getStringWidth(authenticateText)/2, 20, -1);
+        fr.drawString(authenticateText, width / 2 - fr.getStringWidth(authenticateText)/2, 20, -1);
 
         int loginBoxWidth = 300;
         int loginBoxHeight = 170;
@@ -95,6 +99,8 @@ public class LogInGui extends GuiScreen {
 
         RenderUtils.drawRoundedRect(getHWID.x1, getHWID.y1, loginButtonWidth, loginButtonHeight, 3f, new Color(15, 208, 108));
         fr.drawString(getHWIDString, width/2 - fr.getStringWidth(getHWIDString)/2, loginBoxHeight / 1f + 10, -1);
+
+        fr.drawString(loggingInStatus, width / 2 - fr.getStringWidth(loggingInStatus) / 2, (float) getHWID.y1 / 2.8f, -1);
 
         GlStateManager.popMatrix();
 
@@ -139,17 +145,19 @@ public class LogInGui extends GuiScreen {
         if (Mouse.isInsideWindow() && mouseButton == 0) {
 
             if (GuiUtils.isMouseOverDataDouble5(mouseX, mouseY, loginBox) && !isLoggingIn) {
-                if(uidText == "UID" || uidText == null) {
-                    System.out.println("Please enter a UID.");
-                    return;
+                if(uidText == "UID" || uidText.isEmpty()) {
+                    loggingInStatus = "Please enter a UID.";
                 }
                 new Thread(() -> {
                     try {
                         isLoggingIn = true;
+                        loggingInStatus = "Logging in...";
+                        System.out.println("Logging in...");
                         String response = NetworkManager.getNetworkManager().sendPost(new HttpPost("https://vergoclient.xyz/api/authentication.php?usersIdentificationNumber=" + uidText + "&hardwareIDCheckValue=" + Base64.getEncoder().encodeToString(HWID.getHWIDForWindows().getBytes())));
                         ApiResponse apiResponse = MiscellaneousUtils.parseApiResponse(response);
                         if(apiResponse.status == ApiResponse.ResponseStatus.FORBIDDEN) {
-                            System.out.println("You have been banned from using Vergo! Please contact the developers in our Discord.");
+                            loggingInStatus = "Account access disallowed.";
+                            Thread.sleep(1000);
                             mc.shutdown();
                             return;
                         } else
@@ -159,7 +167,6 @@ public class LogInGui extends GuiScreen {
                                 while (true) {
                                     try {
                                         ApiResponse apiResponse1 = MiscellaneousUtils.parseApiResponse(NetworkManager.getNetworkManager().sendPost(new HttpPost("https://vergoclient.xyz/api/authentication.php"), new BasicNameValuePair("uid",AccountUtils.account.uid + ""), new BasicNameValuePair("username", AccountUtils.account.username), new BasicNameValuePair("hwid", AccountUtils.account.hwid), new BasicNameValuePair("banned", AccountUtils.account.banned + "")));
-                                        System.out.println(apiResponse1);
                                         if (apiResponse1.status == ApiResponse.ResponseStatus.OK) {
                                             break;
                                         }
@@ -169,12 +176,23 @@ public class LogInGui extends GuiScreen {
                                     }
                                 }
                             }).start();
+                            loggingInStatus = "Logged in!";
+                            Thread.sleep(1000);
                             GuiStart.hasLoaded = true;
                             Keyboard.enableRepeatEvents(false);
                             mc.displayGuiScreen(new GuiStart());
+                        } else {
+                            System.out.println("Vergo cannot authenticate you right now. Seek support in the Discord.");
+                            loggingInStatus = "Auth Failed! Read logs.";
+                            Thread.sleep(1000);
+                            GuiStart.hasLoaded = false;
+                            return;
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        //System.out.println("");
+                        //e.printStackTrace();
+                        //return;
+                        loggingInStatus = "Login Failed!";
                     }
                     isLoggingIn = false;
                 }).start();

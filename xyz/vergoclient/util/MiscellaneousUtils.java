@@ -20,6 +20,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import org.json.JSONException;
 import org.json.JSONObject;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.security.ApiResponse;

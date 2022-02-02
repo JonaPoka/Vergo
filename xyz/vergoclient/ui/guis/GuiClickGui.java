@@ -20,6 +20,7 @@ import org.lwjgl.input.Keyboard;
 import com.google.gson.annotations.SerializedName;
 
 import xyz.vergoclient.modules.impl.miscellaneous.ModClickgui;
+import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.GuiUtils;
@@ -122,7 +123,25 @@ public class GuiClickGui extends GuiScreen {
 			double percent = (mouseX - subtractNum) / ((selectedButton.posAndColor.x2 - 3) - subtractNum);
 			numberSetting.setValue(((realMax) * percent) - barEndAdd);
 		}
-		
+
+		int accountBoxX = (int) FontUtil.tahomaFont.getStringWidth(AccountUtils.account.username + " - " + AccountUtils.account.uid) + 10;
+		int accountBoxY = 40;
+
+		Gui.drawRect(GuiScreen.width - accountBoxX, GuiScreen.height - accountBoxY, GuiScreen.width - 3, GuiScreen.height - 3, new Color(19, 19, 19, 195).getRGB());
+		Gui.drawRect(GuiScreen.width - accountBoxX, GuiScreen.height - accountBoxY, GuiScreen.width - 107, GuiScreen.height - 3, new Color(19, 19, 19, 195).getRGB());
+
+		String uidReformat = "";
+
+		if(AccountUtils.account.uid < 9) {
+			uidReformat = "00" + AccountUtils.account.uid;
+		} else if(AccountUtils.account.uid > 9 && AccountUtils.account.uid < 99) {
+			uidReformat = "0" + AccountUtils.account.uid;
+		} else {
+			uidReformat = "" + AccountUtils.account.uid;
+		}
+
+		FontUtil.tahomaFont.drawString("abcdefegehdiajth" + " - " + uidReformat, GuiScreen.width - 98, GuiScreen.height - 20, -1);
+
 		// The font renderer
 		JelloFontRenderer fr = FontUtil.juraNormal;
 		

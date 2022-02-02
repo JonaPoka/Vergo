@@ -123,6 +123,9 @@ public class Hud implements OnEventInterface {
 				//FontUtil.comfortaaSmall.drawString(s4, 24.5f, 6, new Color(0xffffff).getRGB());
 
 			}
+
+			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+
 			GlStateManager.disableBlend();
 
 			GlStateManager.popMatrix();
@@ -131,7 +134,6 @@ public class Hud implements OnEventInterface {
 			drawArrayList();
 			
 			// Renders all the cached images
-			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 			for (ResourceLocation cachedIcon : Vergo.cachedIcons) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(cachedIcon);
 				int imageWidth = 1, imageHeight = 1;
