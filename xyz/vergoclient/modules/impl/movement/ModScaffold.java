@@ -546,13 +546,9 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			}
 		}
 
-		if(mc.thePlayer.posY < scafStartY) {
-			ChatUtils.addChatMessage("Flagfold Detected! Slowing you down, proceed with caution.");
-			flagFold = true;
-		}
-
-		if(flagFold) {
-			mc.timer.timerSpeed = 0.8f;
+		if(mc.thePlayer.posY > scafStartY) {
+			scafStartY = mc.thePlayer.posY;
+			flagFold = false;
 		}
 
 		// Blink toggle

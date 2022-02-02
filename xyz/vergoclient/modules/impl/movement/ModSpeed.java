@@ -31,14 +31,14 @@ public class ModSpeed extends Module implements OnEventInterface {
 		this.packTimer = new Timer();
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1", "Hypixel2", "Hypixel3");
+	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1");
 
 	int ticks;
 
 	@Override
 	public void loadSettings() {
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Hypixel1", "Hypixel2", "Hypixel3"));
+		mode.modes.addAll(Arrays.asList("Hypixel1"));
 		addSettings(mode);
 	}
 
@@ -69,11 +69,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 
 		if (mode.is("Hypixel1")) {
 			onHypixelEvent(e);
-		} else if(mode.is("Hypixel2")) {
-			onHypixelEvent(e);
-		} else if(mode.is("Hypixel3")) {
-			onHypixelEvent(e);
 		}
+
 	}
 	
 	private void onHypixelEvent(Event e) {
@@ -84,25 +81,13 @@ public class ModSpeed extends Module implements OnEventInterface {
 
 			if(mode.is("Hypixel1")) {
 				setInfo("Hypixel1");
-			} else if(mode.is("Hypixel2")) {
-				setInfo("Hypixel2");
-			} else if (mode.is("Hypixel3")) {
-				setInfo("Hypixel3");
 			}
 
 		} else if (e instanceof EventUpdate && e.isPre()) {
+
 			if(mode.is("Hypixel1")) {
-				if (MovementUtils.isMoving()) {
-
-					jitterHypixelBypass();
-
-				}
-			} else if(mode.is("Hypixel2")) {
-				smoothHypixelSpeed();
-			} else if(mode.is("Hypixel3")) {
 				if(MovementUtils.isMoving()) {
-					this.packTimer.reset();
-					hypixelLoFi(e);
+					hypixelOne(e);
 				}
 			}
 			
@@ -113,34 +98,34 @@ public class ModSpeed extends Module implements OnEventInterface {
 	public static TimerUtil blinkTimer = new TimerUtil();
 
 
-	private void hypixelLoFi(Event event) {
+	private void hypixelOne(Event event) {
 
-			if(mc.thePlayer.isInLava() || mc.thePlayer.isInWater() || mc.thePlayer.isSpectator()) {
-				return;
+		if(mc.thePlayer.isInLava() || mc.thePlayer.isInWater() || mc.thePlayer.isSpectator()) {
+			return;
+		}
+
+		if(mc.gameSettings.keyBindJump.isKeyDown()) {
+
+		}
+
+
+		if(!mc.thePlayer.isSprinting()) {
+			mc.thePlayer.setSprinting(true);
+		}
+
+		if(MovementUtils.isOnGround(0.0001) && !mc.thePlayer.isCollidedHorizontally) {
+			mc.thePlayer.jump();
+			mc.thePlayer.motionY -= 0.023f;
+			if(mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown()) {
+				MovementUtils.setSpeed(0.455);
+			} else {
+				mc.timer.timerSpeed = 1.0f;
+				MovementUtils.setSpeed(0.25);
 			}
-
-			if(mc.gameSettings.keyBindJump.isKeyDown()) {
-
+			if (mc.thePlayer.isCollidedVertically) {
+				mc.thePlayer.motionY = 0.4;
 			}
-
-
-			if(!mc.thePlayer.isSprinting()) {
-				mc.thePlayer.setSprinting(true);
-			}
-
-			if(MovementUtils.isOnGround(0.0001) && !mc.thePlayer.isCollidedHorizontally) {
-				mc.thePlayer.jump();
-				mc.thePlayer.motionY -= 0.023f;
-				if(mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown()) {
-					MovementUtils.setSpeed(0.455);
-				} else {
-					mc.timer.timerSpeed = 1.0f;
-					MovementUtils.setSpeed(0.25);
-				}
-				if (mc.thePlayer.isCollidedVertically) {
-					mc.thePlayer.motionY = 0.4;
-				}
-			}
+		}
 
 		if(mc.thePlayer.motionY > 0.2) {
 			mc.timer.timerSpeed = 1.2f;
@@ -148,108 +133,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 			mc.timer.timerSpeed = 1.06f;
 		}
 
-	}
-
-	private void jitterHypixelBypass() {
-		if(mc.thePlayer.isInLava() || mc.thePlayer.isInWater() || mc.thePlayer.isSpectator()) {
-			return;
-		}
-
-		if(mc.gameSettings.keyBindJump.isKeyDown()) {
-
-		}
-
-
-		if(!mc.thePlayer.isSprinting()) {
-			mc.thePlayer.setSprinting(true);
-		}
-
-		//ChatUtils.addChatMessage("MotionY: " + mc.thePlayer.motionY);
-
-		if (MovementUtils.isMoving()) {
-
-
-			if (mc.gameSettings.keyBindJump.isKeyDown()) {
-				mc.gameSettings.keyBindJump.pressed = false;
-			}
-
-
-			if (!mc.thePlayer.isSprinting()) {
-				mc.thePlayer.setSprinting(true);
-			}
-
-			if(mc.thePlayer.onGround) {
-				if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-					mc.thePlayer.jump();
-					return;
-				}
-				mc.thePlayer.moveStrafing *= 2;
-				mc.thePlayer.jump();
-				mc.thePlayer.jumpMovementFactor = 0.0243F;
-				mc.thePlayer.motionX *= 1.07601F;
-				mc.thePlayer.motionZ *= 1.07601F;
-			}
-
-			if (mc.thePlayer.motionY >= 0.28) {
-				if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-					mc.thePlayer.jump();
-					return;
-				}
-				//ChatUtils.addChatMessage("Triggered ++ " + mc.timer.timerSpeed + " " + mc.timer.ticksPerSecond);
-				mc.timer.timerSpeed = 1.13f;
-			} else if(mc.thePlayer.motionY <= 0.279) {
-				if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-					mc.thePlayer.jump();
-					return;
-				}
-				mc.timer.timerSpeed = 1.09f;
-				mc.thePlayer.motionX *= 1.00011F;
-				mc.thePlayer.motionZ *= 1.00011F;
-				//ChatUtils.addChatMessage("Reset!");
-				//mc.timer.timerSpeed = 1.09f;
-				//mc.thePlayer.motionX *= 1.00110F;
-				//mc.thePlayer.motionZ *= 1.00110F;
-			}
-		}
-
-	}
-
-	private void smoothHypixelSpeed() {
-
-		if(mc.thePlayer.isInLava() || mc.thePlayer.isInWater() || mc.thePlayer.isSpectator()) {
-			return;
-		}
-
-		if(mc.gameSettings.keyBindJump.isKeyDown()) {
-
-		}
-
-		if(!mc.thePlayer.isSprinting()) {
-			mc.thePlayer.setSprinting(true);
-		}
-
-		if (MovementUtils.isMoving()) {
-
-			if (mc.gameSettings.keyBindJump.isKeyDown()) {
-
-			}
-			if (!mc.thePlayer.isSprinting()) {
-				mc.thePlayer.setSprinting(true);
-			}
-			if (mc.thePlayer.onGround) {
-				if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
-					mc.thePlayer.jump();
-				} else {
-					mc.thePlayer.jump();
-					mc.timer.timerSpeed = 1.09f;
-					mc.thePlayer.motionX *= 1.0788F;
-					mc.thePlayer.motionZ *= 1.0788F;
-					mc.thePlayer.moveStrafing *= 2;
-				}
-			} else {
-				mc.thePlayer.jumpMovementFactor = 0.0256F;
-			}
-		}
 	}
 	
 }

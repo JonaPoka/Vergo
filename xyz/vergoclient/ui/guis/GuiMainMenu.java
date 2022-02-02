@@ -23,9 +23,11 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
+import xyz.vergoclient.util.DisplayUtils;
 import xyz.vergoclient.util.RenderUtils;
 
 import java.awt.*;
@@ -80,6 +82,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
 	public GuiMainMenu()
 	{
+		DisplayUtils.setCustomTitle("Vero " + Vergo.version + " | Main Menu");
+
 		this.field_146972_A = field_96138_a;
 		this.splashText = "oop";
 		BufferedReader var1 = null;
