@@ -569,8 +569,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 
 
-			RenderUtils.setCustomYaw(event.getYaw());
-			RenderUtils.setCustomPitch(event.getPitch());
+			//RenderUtils.setCustomYaw(mc.thePlayer.rotationYaw);
+			//RenderUtils.setCustomPitch(mc.thePlayer.rotationPitch);
 
 		}
 

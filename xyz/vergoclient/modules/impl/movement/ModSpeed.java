@@ -31,14 +31,14 @@ public class ModSpeed extends Module implements OnEventInterface {
 		this.packTimer = new Timer();
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1");
+	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1", "Hypixel2");
 
 	int ticks;
 
 	@Override
 	public void loadSettings() {
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Hypixel1"));
+		mode.modes.addAll(Arrays.asList("Hypixel1", "Hypixel2"));
 		addSettings(mode);
 	}
 
@@ -74,13 +74,13 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 	
 	private void onHypixelEvent(Event e) {
-
-		//ChatUtils.addChatMessage("Timer: " + mc.timer.timerSpeed);
 		
 		if (e instanceof EventTick && e.isPre()) {
 
 			if(mode.is("Hypixel1")) {
 				setInfo("Hypixel1");
+			} else if(mode.is("Hypixel2")) {
+				setInfo("Hypixel2");
 			}
 
 		} else if (e instanceof EventUpdate && e.isPre()) {
@@ -89,6 +89,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 				if(MovementUtils.isMoving()) {
 					hypixelOne(e);
 				}
+			} else if(mode.is("Hypixel2")) {
+				hypixelTwo(e);
 			}
 			
 		}
@@ -96,7 +98,6 @@ public class ModSpeed extends Module implements OnEventInterface {
 	}
 
 	public static TimerUtil blinkTimer = new TimerUtil();
-
 
 	private void hypixelOne(Event event) {
 
@@ -129,6 +130,45 @@ public class ModSpeed extends Module implements OnEventInterface {
 
 		if(mc.thePlayer.motionY > 0.2) {
 			mc.timer.timerSpeed = 1.2f;
+		} else if(mc.thePlayer.motionY < 0.19) {
+			mc.timer.timerSpeed = 1.06f;
+		}
+
+	}
+
+	private void hypixelTwo(Event event) {
+
+		if(mc.thePlayer.isInLava() || mc.thePlayer.isInWater() || mc.thePlayer.isSpectator()) {
+			return;
+		}
+
+		if(mc.gameSettings.keyBindJump.isKeyDown()) {
+
+		}
+
+
+		if(!mc.thePlayer.isSprinting()) {
+			mc.thePlayer.setSprinting(true);
+		}
+
+		if(MovementUtils.isOnGround(0.0001) && !mc.thePlayer.isCollidedHorizontally) {
+			mc.thePlayer.jump();
+			mc.thePlayer.motionY -= 0.023f;
+			if(mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown()) {
+				MovementUtils.setSpeed(0.489);
+				mc.thePlayer.motionX *= 1.0015;
+				mc.thePlayer.motionY *= 1.0015;
+			} else {
+				mc.timer.timerSpeed = 1.0f;
+				MovementUtils.setSpeed(0.25);
+			}
+			if (mc.thePlayer.isCollidedVertically) {
+				mc.thePlayer.motionY = 0.4;
+			}
+		}
+
+		if(mc.thePlayer.motionY > 0.2) {
+			mc.timer.timerSpeed = 1.15f;
 		} else if(mc.thePlayer.motionY < 0.19) {
 			mc.timer.timerSpeed = 1.06f;
 		}
