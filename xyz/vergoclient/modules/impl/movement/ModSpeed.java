@@ -69,6 +69,8 @@ public class ModSpeed extends Module implements OnEventInterface {
 
 		if (mode.is("Hypixel1")) {
 			onHypixelEvent(e);
+		} else if(mode.is("Hypixel2")) {
+			onHypixelEvent(e);
 		}
 
 	}

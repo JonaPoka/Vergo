@@ -140,7 +140,8 @@ public class GuiClickGui extends GuiScreen {
 			uidReformat = "" + AccountUtils.account.uid;
 		}
 
-		FontUtil.tahomaFont.drawString("abcdefegehdiajth" + " - " + uidReformat, GuiScreen.width - 98, GuiScreen.height - 20, -1);
+		FontUtil.comfortaaNormal.drawString(AccountUtils.account.username, GuiScreen.width - 98, GuiScreen.height - 28, -1);
+		FontUtil.comfortaaNormal.drawString(uidReformat + "", GuiScreen.width - 99, GuiScreen.height - 14, -1);
 
 		// The font renderer
 		JelloFontRenderer fr = FontUtil.juraNormal;
