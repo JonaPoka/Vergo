@@ -26,6 +26,7 @@ import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.guis.GuiClickGui;
+import xyz.vergoclient.util.BlurUtils;
 import xyz.vergoclient.util.MiscellaneousUtils;
 import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.animations.OpacityAnimation;
@@ -404,7 +405,12 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				//GL11.glColor4f();
 
 				// RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, getColor(20, 20, 20, (int) boxOpacity.getOpacity()), getColor(29, 29, 29, (int) boxOpacity.getOpacity()));
-				RenderUtils.drawAlphaRoundedRect(0, 0, 40 + width, 40, 5, getColor(11, 13, 20, (int) boxOpacity.getOpacity()));
+				//RenderUtils.drawAlphaRoundedRect(0, 0, 40 + width, 40, 5, getColor(11, 13, 20, (int) boxOpacity.getOpacity()));
+
+				BlurUtils.blur(0, 0, 40 + width, 40, 5);
+				//BlurUtils.blur(10, 10, 1, 1, 1);
+
+
 
 				FontUtil.bakakakmedium.drawString(clientTag + playerName, 30f, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
 				FontUtil.bakakakmedium.drawString(healthStr, 37 + width - FontUtil.bakakakmedium.getStringWidth(healthStr) - 2, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));

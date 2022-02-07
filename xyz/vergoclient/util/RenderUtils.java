@@ -35,6 +35,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+import xyz.vergoclient.util.BlurUtils;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -163,6 +164,8 @@ public class RenderUtils {
 		//GlStateManager.enableAlpha();
 		//GlStateManager.alphaFunc(GL11.GL_NOTEQUAL, 0);
 	}
+
+
 
 	public static void drawAlphaRoundedRect(double x, double y, double width, double height, float cornerRadius, Color color) {
 		drawAlphaRoundedRect(x, y, width, height, cornerRadius, color.getRGB());
