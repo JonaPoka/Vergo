@@ -127,6 +127,12 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 	public void onEnable() {
 
+		if(fourDirectionalSpeed.isEnabled()) {
+			fourDirectionalSpeed.toggle();
+		}
+
+
+
 		scafStartY = mc.thePlayer.posY;
 
 		mc.thePlayer.setSprinting(false);
