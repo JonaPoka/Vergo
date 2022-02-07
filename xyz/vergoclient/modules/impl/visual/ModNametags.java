@@ -33,12 +33,12 @@ public class ModNametags extends Module implements OnEventInterface {
 		super("Nametags", Category.VISUAL);
 	}
 
-	public ModeSetting mode = new ModeSetting("Design", "Flux", "Flux");
+	public ModeSetting mode = new ModeSetting("Design", "SkidFlux", "SkidFlux");
 
 	@Override
 	public void loadSettings() {
 
-		mode.modes.addAll(Arrays.asList("Flux"));
+		mode.modes.addAll(Arrays.asList("SkidFlux"));
 
 		addSettings(mode);
 	}

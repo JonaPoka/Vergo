@@ -11,6 +11,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.security.ApiResponse;
 import xyz.vergoclient.security.HWID;
 import xyz.vergoclient.security.account.AccountUtils;
@@ -32,7 +33,7 @@ public class LogInGui extends GuiScreen {
 
     public boolean isLoggingIn = false;
 
-    public String loggingInStatus;
+    public static String loggingInStatus;
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -151,6 +152,15 @@ public class LogInGui extends GuiScreen {
                 new Thread(() -> {
                     try {
                         isLoggingIn = true;
+
+                        String response1 = NetworkManager.getNetworkManager().sendPost(new HttpPost("https://vergoclient.xyz/api/verCheck.php"));
+                        if(!response1.equals(Vergo.version)) {
+                            loggingInStatus = "Outdated Version! !";
+                            Thread.sleep(5000);
+                            mc.shutdown();
+                            return;
+                        }
+
                         loggingInStatus = "Logging in...";
                         System.out.println("Logging in...");
                         String response = NetworkManager.getNetworkManager().sendPost(new HttpPost("https://vergoclient.xyz/api/authentication.php?usersIdentificationNumber=" + uidText + "&hardwareIDCheckValue=" + Base64.getEncoder().encodeToString(HWID.getHWIDForWindows().getBytes())));
@@ -166,7 +176,7 @@ public class LogInGui extends GuiScreen {
                             new Thread(() -> {
                                 while (true) {
                                     try {
-                                        ApiResponse apiResponse1 = MiscellaneousUtils.parseApiResponse(NetworkManager.getNetworkManager().sendPost(new HttpPost("https://vergoclient.xyz/api/authentication.php"), new BasicNameValuePair("uid",AccountUtils.account.uid + ""), new BasicNameValuePair("username", AccountUtils.account.username), new BasicNameValuePair("hwid", AccountUtils.account.hwid), new BasicNameValuePair("banned", AccountUtils.account.banned + "")));
+                                        ApiResponse apiResponse1 = MiscellaneousUtils.parseApiResponse(NetworkManager.getNetworkManager().sendPost(new HttpPost("https://vergoclient.xyz/api/authentication.php"), new BasicNameValuePair("uid", AccountUtils.account.uid + ""), new BasicNameValuePair("username", AccountUtils.account.username), new BasicNameValuePair("hwid", AccountUtils.account.hwid), new BasicNameValuePair("banned", AccountUtils.account.banned + "")));
                                         if (apiResponse1.status == ApiResponse.ResponseStatus.OK) {
                                             break;
                                         }
@@ -189,9 +199,6 @@ public class LogInGui extends GuiScreen {
                             return;
                         }
                     } catch (Exception e) {
-                        //System.out.println("");
-                        //e.printStackTrace();
-                        //return;
                         loggingInStatus = "Login Failed!";
                     }
                     isLoggingIn = false;

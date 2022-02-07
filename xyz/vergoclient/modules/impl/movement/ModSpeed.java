@@ -92,7 +92,9 @@ public class ModSpeed extends Module implements OnEventInterface {
 					hypixelOne(e);
 				}
 			} else if(mode.is("Hypixel2")) {
-				hypixelTwo(e);
+				if(MovementUtils.isMoving()) {
+					hypixelTwo(e);
+				}
 			}
 			
 		}

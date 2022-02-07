@@ -38,8 +38,8 @@ public class ModAntiVoid extends Module implements OnEventInterface {
 	}
 	
 	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Hypixel");
-	public NumberSetting fallDistance = new NumberSetting("Fall distance", 10, 3, 30, 0.5);
-	public BooleanSetting autoEnableScaffold = new BooleanSetting("Auto enable scaffold", false);
+	public NumberSetting fallDistance = new NumberSetting("Fall", 6.5, 3, 30, 0.5);
+	public BooleanSetting autoEnableScaffold = new BooleanSetting("Scaffold-Save", false);
 	
 	@Override
 	public void loadSettings() {

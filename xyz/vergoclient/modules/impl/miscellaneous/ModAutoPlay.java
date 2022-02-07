@@ -24,7 +24,7 @@ public class ModAutoPlay extends Module implements OnEventInterface {
         this.timer = new Timer();
     }
 
-    public ModeSetting teamMode = new ModeSetting("Team Mode", "Solo Normal", "Solo Normal", "Solo Insane", "Teams Normal", "Teams Insane");
+    public ModeSetting teamMode = new ModeSetting("Team Mode", "Sky Solo Normal", "Sky Solo Normal", "Sky Solo Insane"/*, "Teams Normal", "Teams Insane"*/);
 
     public static NumberSetting commandDelay1 = new NumberSetting("Game Delay", 1, 1, 5, 0.1);
 
@@ -44,7 +44,7 @@ public class ModAutoPlay extends Module implements OnEventInterface {
     public void loadSettings() {
 
 
-        addSettings(teamMode, commandDelay1);
+        addSettings(teamMode);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ModAutoPlay extends Module implements OnEventInterface {
             if (packetEvent.packet instanceof S02PacketChat) {
                 S02PacketChat packet = (S02PacketChat) packetEvent.packet;
 
-                if(teamMode.is("Solo Normal") || teamMode.is("Solo Insane") || teamMode.is("Teams Normal") || teamMode.is("Teams Insane")) {
+                if(teamMode.is("Sky Solo Normal") || teamMode.is("Sky Solo Insane") /*|| teamMode.is("Teams Normal") || teamMode.is("Teams Insane")*/) {
                     if (packet.getChatComponent().getUnformattedText().contains("You died! Want to play again?") || packet.getChatComponent().getUnformattedText().contains("You won! Want to play again?") ||
                             packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to return to lobby!") || packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to cancel!")) {
                         NotificationManager.show(new Notification(NotificationType.INFO, "Game Ended!", "Sending you to a new game...", 2));
@@ -79,20 +79,15 @@ public class ModAutoPlay extends Module implements OnEventInterface {
     public int cooldown = 1000;
 
     public void doCommands() {
-        this.timer.reset();
-        //ChatUtils.addChatMessage("Timer Timer Timer Timer " + timer.lastMs);
-        //if(this.timer.delay(commandDelay1.getValueAsLong() * 1000)) {
-            //ChatUtils.addChatMessage("Timer Event Triggered! + " + (commandDelay1.getValueAsLong()) * 1000 + " " + cooldown);
-            if (teamMode.is("Solo Normal")) {
-                mc.thePlayer.sendChatMessage("/play solo_normal");
-            } else if(teamMode.is("Solo Insane")) {
-                mc.thePlayer.sendChatMessage("/play solo_insane");
-            } else if(teamMode.is("Teams Normal")) {
-                mc.thePlayer.sendChatMessage("/play teams_normal");
-            } else if(teamMode.is("Teams Insane")) {
-                mc.thePlayer.sendChatMessage("/play teams_insane");
-            }
-        //}
+        if (teamMode.is("Sky Solo Normal")) {
+            mc.thePlayer.sendChatMessage("/play solo_normal");
+        } else if(teamMode.is("Sky Solo Insane")) {
+            mc.thePlayer.sendChatMessage("/play solo_insane");
+        } else if(teamMode.is("Teams Normal")) {
+            mc.thePlayer.sendChatMessage("/play teams_normal");
+        } else if(teamMode.is("Teams Insane")) {
+            mc.thePlayer.sendChatMessage("/play teams_insane");
+        }
     }
 
 }

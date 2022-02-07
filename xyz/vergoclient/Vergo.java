@@ -29,7 +29,7 @@ public class Vergo {
 
 	public static Discord discord = new Discord();
 
-	public static transient String version = " Dev-Build";
+	public static transient String version = "b1.0";
 
 	public static transient CopyOnWriteArrayList<ResourceLocation> cachedIcons = new CopyOnWriteArrayList<>();
 
@@ -144,7 +144,6 @@ public class Vergo {
 				GuiStart.percentDoneTarget = ((double)startupTasks.indexOf(startupTask)) / ((double)startupTasks.size() - 1);
 			}
 
-			// Makes sure the startup screen lingers for at least 2.5 secs
 			try {
 				Thread.sleep(2500);
 			} catch (Exception e) {}

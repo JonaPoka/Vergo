@@ -23,7 +23,7 @@ public class ModTimer extends Module implements OnEventInterface {
 	
 	@Override
 	public void loadSettings() {
-		addSettings(ticksPerSecond, timerSpeed, hypixelBlinkToggle);
+		addSettings(timerSpeed);
 	}
 	
 	@Override

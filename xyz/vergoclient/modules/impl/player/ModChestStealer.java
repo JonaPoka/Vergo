@@ -26,8 +26,8 @@ public class ModChestStealer extends Module implements OnEventInterface {
 	
 	public static TimerUtil timer = new TimerUtil();
 	
-	public NumberSetting tickDelay = new NumberSetting("Tick delay", 1, 1, 10, 1);
-	public BooleanSetting checkChestNames = new BooleanSetting("Chest name check", true);
+	public NumberSetting tickDelay = new NumberSetting("Delay", 1, 1, 10, 1);
+	public BooleanSetting checkChestNames = new BooleanSetting("Verify Name", true);
 	
 	@Override
 	public void loadSettings() {

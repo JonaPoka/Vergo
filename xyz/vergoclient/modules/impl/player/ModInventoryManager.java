@@ -37,8 +37,8 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 
 	public static transient boolean hasMovedItem = false;
 
-	public ModeSetting mode = new ModeSetting("Mode", "Open inv", "Silent", "Open inv");
-	public NumberSetting tickDelay = new NumberSetting("Tick delay", 1, 1, 10, 1);
+	public ModeSetting mode = new ModeSetting("Mode", "Inv Only", "Silent", "Inv Only");
+	public NumberSetting tickDelay = new NumberSetting("Delay", 1, 1, 10, 1);
 
 	public static BooleanSetting dropBowAndArrows = new BooleanSetting("Drop BowAndArrows?", false);
 	public static BooleanSetting setTools = new BooleanSetting("Auto-Set Tools", false), dropTools = new BooleanSetting("Drop Tools", false);
@@ -46,7 +46,7 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 	@Override
 	public void loadSettings() {
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Silent", "Open inv"));
+		mode.modes.addAll(Arrays.asList("Silent", "Inv Only"));
 		addSettings(dropBowAndArrows, setTools, dropTools, tickDelay, mode);
 	}
 

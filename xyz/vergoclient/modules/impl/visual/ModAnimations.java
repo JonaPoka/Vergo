@@ -18,13 +18,13 @@ public class ModAnimations extends Module implements OnEventInterface {
 		super("Animations", Category.VISUAL);
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "1.7", "1.7", "Jiggle", "Wand", "Tap", "Smooth", "Poke");
+	public ModeSetting mode = new ModeSetting("Value", "1.7", "1.7"/*, "Jiggle", "Wand", "Tap", "Smooth", "Poke"*/);
 	
 	@Override
 	public void loadSettings() {
 		
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("1.7", "Jiggle", "Wand", "Tap", "Smooth", "Poke"));
+		mode.modes.addAll(Arrays.asList("1.7"/*, "Jiggle", "Wand", "Tap", "Smooth", "Poke"*/));
 		
 		addSettings(mode);
 		

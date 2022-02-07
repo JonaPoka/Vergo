@@ -22,10 +22,12 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import org.json.JSONException;
 import org.json.JSONObject;
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.security.ApiResponse;
 import xyz.vergoclient.security.account.Account;
 import xyz.vergoclient.ui.guis.GuiAltManager;
+import xyz.vergoclient.ui.guis.LogInGui;
 import xyz.vergoclient.util.datas.DataDouble3;
 import xyz.vergoclient.util.datas.DataDouble6;
 import net.minecraft.block.Block;
@@ -125,8 +127,6 @@ public class MiscellaneousUtils {
 				break;
 			}
 		}
-		//apiResponse.statusText = obj.getString("statusText");
-		//apiResponse.responseObject = obj.get("responseObject");
 		return apiResponse;
 	}
 

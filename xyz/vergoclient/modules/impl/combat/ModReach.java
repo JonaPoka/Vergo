@@ -9,12 +9,12 @@ public class ModReach extends Module {
 		super("Reach", Category.COMBAT);
 	}
 	
-	public NumberSetting combatReach = new NumberSetting("Combat reach", 3, 3, 7, 0.1),
+	public NumberSetting combatReach = new NumberSetting("Value", 3, 3, 7, 0.1),
 			blockReach = new NumberSetting("Block reach", 4.5, 4.5, 6, 0.1);
 	
 	@Override
 	public void loadSettings() {
-		addSettings(combatReach, blockReach);
+		addSettings(combatReach);
 	}
 	
 }

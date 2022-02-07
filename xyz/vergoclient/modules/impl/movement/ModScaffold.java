@@ -1,14 +1,12 @@
 package xyz.vergoclient.modules.impl.movement;
 
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
@@ -20,7 +18,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import org.apache.commons.lang3.RandomUtils;
-import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.*;
@@ -41,7 +38,6 @@ import xyz.vergoclient.util.animations.ScaleAnimation;
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.Random;
 
 public class ModScaffold extends Module implements OnEventInterface, OnSettingChangeInterface {
 
@@ -80,41 +76,41 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 	}
 
-	public NumberSetting forwardExtendSetting = new NumberSetting("Forward extend", 0.0, 0.0, 5, 0.1),
-			sidewaysExtendSetting = new NumberSetting("Sideways extend", 0.0, 0.0, 5, 0.1),
-			maxBlocksPlacedPerTickSetting = new NumberSetting("Max blocks placed per tick", 1, 1, 25, 1),
-			timerBoostSetting = new NumberSetting("Timer Boost", 1, 1, 2, 0.01),
-			itemSwitchTicks = new NumberSetting("Item switch tick delay", 1, 1, 20, 1),
-			blinkBlaster = new NumberSetting("Blink Blaster", 230, 100, 1000, 10);
-	public BooleanSetting keepYSetting = new BooleanSetting("Keep Y", false),
-			sprintSetting = new BooleanSetting("Sprint", false),
+	public NumberSetting forwardExtendSetting = new NumberSetting("", 0.0, 0.0, 5, 0.1),
+			sidewaysExtendSetting = new NumberSetting("", 0.0, 0.0, 5, 0.1),
+			maxBlocksPlacedPerTickSetting = new NumberSetting("", 1, 1, 25, 1),
+			timerBoostSetting = new NumberSetting("", 1, 1, 2, 0.01),
+			itemSwitchTicks = new NumberSetting("", 1, 1, 20, 1),
+			blinkBlaster = new NumberSetting("", 230, 100, 1000, 10);
+	public BooleanSetting keepYSetting = new BooleanSetting("", false),
+			sprintSetting = new BooleanSetting("", false),
 	//			towerSetting = new BooleanSetting("Tower", false),
-	legitSetting = new BooleanSetting("Legit", false),
+	legitSetting = new BooleanSetting("", false),
 			timerSlow = new BooleanSetting("Timer Slow", true),
-			overrideKeepYSetting = new BooleanSetting("Override keep y when jump is pressed", true),
-			viewRotations = new BooleanSetting("View rotations", false),
-			fourDirectionalSpeed = new BooleanSetting("Four directional speed", true),
-			oneDirectionalSpeed = new BooleanSetting("One directional speed", false),
-			toggleBlink = new BooleanSetting("Toggle blink", false),
-			itemSwitchDelay = new BooleanSetting("Switch item delay", false),
-			clientSideBlockPicker = new BooleanSetting("Client side block picker", false),
-			hitVecFixer = new BooleanSetting("Hit vec fixer", true),
-			noRotate = new BooleanSetting("NoRotate", false),
-			fakeMissPackets = new BooleanSetting("Fake miss packets", false),
-			placeBlockAsync = new BooleanSetting("Async block placements", true),
-			swaggyPaggyBoost = new BooleanSetting("Boost of Insanity", true);
-	public ModeSetting rotationMode = new ModeSetting("Rotation setting", "Hypixel Slow", "Hypixel Slow"),
-			towerMode = new ModeSetting("Tower mode", "None", "None", "Hypixel"/*, "NCP", "Test"*/);
+			overrideKeepYSetting = new BooleanSetting("", false),
+			viewRotations = new BooleanSetting("", false),
+			fourDirectionalSpeed = new BooleanSetting("", false),
+			oneDirectionalSpeed = new BooleanSetting("", false),
+			toggleBlink = new BooleanSetting("", false),
+			itemSwitchDelay = new BooleanSetting("", false),
+			clientSideBlockPicker = new BooleanSetting("", false),
+			hitVecFixer = new BooleanSetting("", false),
+			noRotate = new BooleanSetting("", false),
+			fakeMissPackets = new BooleanSetting("", false),
+			placeBlockAsync = new BooleanSetting("", false),
+			swaggyPaggyBoost = new BooleanSetting("", false);
+	public ModeSetting rotationMode = new ModeSetting("", "Hypixel Slow", "Hypixel Slow"),
+			towerMode = new ModeSetting("", "None", "None", "Hypixel"/*, "NCP", "Test"*/);
 
 	@Override
 	public void loadSettings() {
 		rotationMode.modes.clear();
 		rotationMode.modes.addAll(Arrays.asList("Hypixel Slow"));
 		forwardExtendSetting.minimum = 0;
-		forwardExtendSetting.name = "Forward extend";
-		addSettings(/*forwardExtendSetting,*/ swaggyPaggyBoost, /*sidewaysExtendSetting, maxBlocksPlacedPerTickSetting, blinkBlaster, timerBoostSetting,
-				keepYSetting,*/ sprintSetting, /*legitSetting, overrideKeepYSetting, viewRotations, rotationMode,*/
-				fourDirectionalSpeed,/*, oneDirectionalSpeed, toggleBlink, itemSwitchDelay, clientSideBlockPicker,
+		forwardExtendSetting.name = "";
+		addSettings(/*forwardExtendSetting, swaggyPaggyBoost, sidewaysExtendSetting, maxBlocksPlacedPerTickSetting, blinkBlaster, timerBoostSetting,
+				keepYSetting, sprintSetting, legitSetting, overrideKeepYSetting, viewRotations, rotationMode,
+				fourDirectionalSpeed, oneDirectionalSpeed, toggleBlink, itemSwitchDelay, clientSideBlockPicker,
 				hitVecFixer, noRotate, fakeMissPackets, towerMode, placeBlockAsync,*/ timerSlow);
 	}
 
@@ -346,22 +342,16 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		}
 
 		/*if (e instanceof EventRender3D && e.isPre()) {
-
 			BlockPos below = lastPlace;
-
 			if (below == null) {
 				return;
 			}
 			GlStateManager.pushMatrix();
 			GlStateManager.pushAttrib();
-
 			GlStateManager.depthMask(false);
-
 			GL11.glEnable(32823);
 			GL11.glPolygonOffset(1.0f, -1100000.0f);
-
 			//RenderUtils.drawColoredBox(below.getX() - 0.0001, below.getY() - 0.0001, below.getZ() - 0.0001, below.getX() + 1.0001, below.getY() + 1.0001, below.getZ() + 1.0001, 0x50C74D8E);
-
 			RenderUtils.drawLine(below.getX(), below.getY(), below.getZ(), below.getX() + 1, below.getY(), below.getZ());
 			RenderUtils.drawLine(below.getX(), below.getY() + 1, below.getZ(), below.getX() + 1, below.getY() + 1, below.getZ());
 			RenderUtils.drawLine(below.getX(), below.getY(), below.getZ(), below.getX(), below.getY(), below.getZ() + 1);
@@ -377,15 +367,11 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			RenderUtils.drawLine(below.getX() + 1, below.getY(), below.getZ() + 1, below.getX() + 1, below.getY() + 1, below.getZ() + 1);
 			RenderUtils.drawLine(below.getX() + 1, below.getY() + 1, below.getZ(), below.getX() + 1, below.getY() + 1, below.getZ() + 1);
 			RenderUtils.drawLine(below.getX() + 1, below.getY(), below.getZ(), below.getX() + 1, below.getY(), below.getZ() + 1);
-
 			GL11.glDisable(32823);
 			GL11.glPolygonOffset(1.0f, 1100000.0f);
-
 			GlStateManager.depthMask(true);
-
 			GlStateManager.popAttrib();
 			GlStateManager.popMatrix();
-
 		}*/
 
 		if(e instanceof EventMove && e.isPre()) {

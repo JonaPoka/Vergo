@@ -15,30 +15,30 @@ public class ModHud extends Module {
 		super("Hud", Category.VISUAL);
 	}
 	
-	public ModeSetting hudMode = new ModeSetting("Mode", "Young", "Vergo", "Young"),
+	public ModeSetting hudMode = new ModeSetting("Mode", "Vergo", "Vergo"),
 			bpsMode = new ModeSetting("BPS Mode", "Always On", "Always On", "Speed Only", "Off"),
-			vergoColor = new ModeSetting("Vergo Color Scheme", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green", "New Vergo"),
+			vergoColor = new ModeSetting("Vergo Color Scheme", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green"),
 			barDirection = new ModeSetting("Align Color Bar", "Right", "Right", "Left", "None"),
 			waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "vergosense"),
-			arrayListFont = new ModeSetting("ArrayList Font", "Neurial", "Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura", "Neurial"),
+			arrayListFont = new ModeSetting("ArrayList Font", "Neurial", "Jura", "Neurial"),
 			arrayListColors = new ModeSetting("ArrayList colors", "Rainbow", "Default", "Rainbow");
-	public BooleanSetting renderScoreboardNumbers = new BooleanSetting("Render Scoreboard Numbers", false),
+	public BooleanSetting renderScoreboardNumbers = new BooleanSetting("Scoreboard Numbers", true),
 						  arrayListBackground = new BooleanSetting("ArrayList Background", true),
 						  theFunny = new BooleanSetting("TheFunnyName", false);
 	@Override
 	public void loadSettings() {
 
 		hudMode.modes.clear();
-		hudMode.modes.addAll(Arrays.asList("Young", "Vergo"));
+		hudMode.modes.addAll(Arrays.asList("Vergo"));
 
 		bpsMode.modes.clear();
 		bpsMode.modes.addAll(Arrays.asList("Always On", "Speed Only", "Off"));
 
 		vergoColor.modes.clear();
-		vergoColor.modes.addAll(Arrays.asList("Burgundy", "Sea Blue", "Nuclear Green", "New Vergo"));
+		vergoColor.modes.addAll(Arrays.asList("Burgundy", "Sea Blue", "Nuclear Green"));
 
 		arrayListFont.modes.clear();
-		arrayListFont.modes.addAll(Arrays.asList("Arial", "Helvetica Neue", "Helvetica Neue Bold", "Jura", "Neurial"));
+		arrayListFont.modes.addAll(Arrays.asList("Jura", "Neurial"));
 
 		waterMark.modes.clear();
 		waterMark.modes.addAll(Arrays.asList("Rounded", "Planet", "vergosense"));
@@ -49,7 +49,7 @@ public class ModHud extends Module {
 		//arrayListColors.modes.clear();
 		//arrayListColors.modes.addAll(Arrays.asList("Default", "Rainbow"));
 		
-		addSettings(hudMode, bpsMode, vergoColor, barDirection, waterMark, arrayListFont, /*arrayListColors*/ arrayListBackground, renderScoreboardNumbers, theFunny);
+		addSettings(/*hudMode,*/ vergoColor, bpsMode, /*barDirection,*/ waterMark, arrayListFont, /*arrayListColors*/ arrayListBackground, renderScoreboardNumbers, theFunny);
 
 	}
 	

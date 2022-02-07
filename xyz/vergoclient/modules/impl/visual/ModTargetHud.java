@@ -43,44 +43,13 @@ public class ModTargetHud extends Module implements OnEventInterface {
 	public float animation = 0;
 
 	public ModeSetting mode = new ModeSetting("Mode", "Vergo Blue","Vergo Blue", "Vergo Red", "New Vergo");
-	public NumberSetting xOffset = new NumberSetting("X position", 400, 0, 1000, 1);
-	public NumberSetting yOffset = new NumberSetting("Y position", 400, 0, 1000, 1);
-	public NumberSetting heartSliderX = new NumberSetting("Heart SliderX", 45, 0, 200, 1);
-	public NumberSetting heartSliderY = new NumberSetting("Heart SliderY", 45, 0, 200, 1);
-	public NumberSetting healthSliderX = new NumberSetting("Health SliderX", 45, 0, 800, 1);
-	public NumberSetting healthSliderY = new NumberSetting("Health SliderY", 45, 0, 800, 1);
-	public NumberSetting healthWidth = new NumberSetting("Health Width", 140, 0, 250, 1);
-	public NumberSetting hurtSliderX = new NumberSetting("Hurt SliderX", 45, 0, 800, 1);
-	public NumberSetting hurtSliderY = new NumberSetting("Hurt SliderY", 45, 0, 800, 1);
-	public NumberSetting hurtWidth = new NumberSetting("Hurt Width", 140, 0, 250, 1);
-	public NumberSetting nameSliderX = new NumberSetting("NameSliderX", 0, 0, 200, 1);
-	public NumberSetting nameSliderY = new NumberSetting("NameSliderY", 0, 0, 200, 1 );
-	public NumberSetting characterX = new NumberSetting("CharX", 0, 0, 200, 1);
-	public NumberSetting characterY = new NumberSetting("CharY", 0, 0, 200, 1);
-	public NumberSetting characterScale = new NumberSetting("CharScale", 0, 0, 1000, 1);
 
 	@Override
 	public void loadSettings() {
 
-		if (xOffset.getValueAsDouble() < 0) {
-			xOffset.setValue(0);
-		}
-
-		if (xOffset.getValueAsDouble() > xOffset.getMaximum()) {
-			xOffset.setValue(xOffset.getMaximum());
-		}
-
-		if (yOffset.getValueAsDouble() < 0) {
-			yOffset.setValue(0);
-		}
-
-		if (yOffset.getValueAsDouble() > xOffset.getMaximum()) {
-			yOffset.setValue(yOffset.getMaximum());
-		}
-
 		// mode.modes.addAll(Arrays.asList("Rismose", "Vergo Blue", "Vergo Red"));
 
-		addSettings(mode, xOffset, yOffset/*heartSliderX, heartSliderY, healthSliderX, healthSliderY, healthWidth, hurtSliderX, hurtSliderY, hurtWidth, nameSliderX, nameSliderY, characterX, characterY, characterScale*/);
+		addSettings(mode);
 	}
 
 	private OpacityAnimation boxOpacity = new OpacityAnimation(0), textOpacity = new OpacityAnimation(0), barOpacity = new OpacityAnimation(0), armorOpacity = new OpacityAnimation(0);
@@ -126,7 +95,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 				GlStateManager.pushMatrix();
 				GlStateManager.pushAttrib();
-				GlStateManager.translate(xOffset.getValueAsDouble(), yOffset.getValueAsDouble(), 0);
+				GlStateManager.translate(400, 400, 0);
 
 				// Lower is faster, higher is slower
 				double barSpeed = 5;
@@ -290,7 +259,7 @@ public class ModTargetHud extends Module implements OnEventInterface {
 
 				//更改TargetHUD在屏幕坐标的初始位置
 
-				GlStateManager.translate(xOffset.getValueAsFloat(), yOffset.getValueAsFloat(), 0);
+				GlStateManager.translate(400, 400, 0);
 
 				boxOpacity.interp(250, 15);
 				armorOpacity.interp(250, 15);

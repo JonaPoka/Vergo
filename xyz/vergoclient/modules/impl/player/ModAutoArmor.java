@@ -22,8 +22,8 @@ public class ModAutoArmor extends Module implements OnEventInterface {
 		super("AutoArmor", Category.PLAYER);
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Open inv", "While not moving", "Open inv", "Silent");
-	public NumberSetting tickDelay = new NumberSetting("Tick delay", 1, 1, 10, 1);
+	public ModeSetting mode = new ModeSetting("Mode", "Inv Only", "When Stopped", "Inv Only", "Silent");
+	public NumberSetting tickDelay = new NumberSetting("Delay", 1, 1, 10, 1);
 	
 	@Override
 	public void loadSettings() {
@@ -34,13 +34,13 @@ public class ModAutoArmor extends Module implements OnEventInterface {
 	public void onEvent(Event e) {
 
 		if (e instanceof EventTick && e.isPre()) {
-			setInfo("Hypickle");
+			setInfo("");
 		}
 		else if (e instanceof EventUpdate && e.isPre() && mc.thePlayer.ticksExisted % tickDelay.getValueAsInt() == 0) {
-			if (mode.is("While not moving") && (MovementUtils.isMoving() || mc.currentScreen instanceof GuiContainer)) {
+			if (mode.is("When Stopped") && (MovementUtils.isMoving() || mc.currentScreen instanceof GuiContainer)) {
 				return;
 			}
-			else if (mode.is("Open inv") && !(mc.currentScreen instanceof GuiInventory)) {
+			else if (mode.is("Inv Only") && !(mc.currentScreen instanceof GuiInventory)) {
 				return;
 			}
 			getBestArmor();

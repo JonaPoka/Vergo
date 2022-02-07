@@ -15,7 +15,7 @@ public class ModSprint extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 		if ((e instanceof EventUpdate) && !mc.thePlayer.isSprinting() && mc.thePlayer.moveForward > 0 && !mc.thePlayer.isCollidedHorizontally
-				&& (Vergo.config.modScaffold.isDisabled() || Vergo.config.modScaffold.sprintSetting.isEnabled()))
+				&& (Vergo.config.modScaffold.isDisabled()))
 			if (Vergo.config.modNoSlow.isEnabled() || !mc.thePlayer.isUsingItem())
 				mc.thePlayer.setSprinting(true);
 	}

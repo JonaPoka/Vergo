@@ -22,13 +22,14 @@ public class ModAutoClicker extends Module implements OnSettingChangeInterface {
 		super("AutoClicker", "Clicks for you", Category.COMBAT);
 	}
 	
-	public NumberSetting minCps = new NumberSetting("Min CPS", 10, 1, 100, 0.5),
-			maxCps = new NumberSetting("Max CPS", 14, 1, 100, 0.5);
+	public NumberSetting minCps = new NumberSetting("Min", 10, 1, 100, 0.5),
+			maxCps = new NumberSetting("Max", 14, 1, 100, 0.5);
 	public BooleanSetting dragClick = new BooleanSetting("Drag Clicker", false),
 			overrideHitDelay = new BooleanSetting("Override hit delay", true);
 	
 	@Override
 	public void loadSettings() {
+		setInfo("");
 		addSettings(minCps, maxCps);
 	}
 	
@@ -64,7 +65,7 @@ public class ModAutoClicker extends Module implements OnSettingChangeInterface {
 				
 			}
 		}
-	}, "AutoClicker Thread");
+	}, "SCT");
 	
 	static {
 		autoClickerThread.start();
@@ -80,14 +81,6 @@ public class ModAutoClicker extends Module implements OnSettingChangeInterface {
 		} catch (Exception e) {
 			cps.set(RandomUtils.nextDouble(10, 14));
 		}
-	}
-	
-	@Override
-	public String getInfo() {
-		if (Vergo.config.modAutoClicker.dragClick.isEnabled() && (dragClickTimer.hasTimeElapsed(600, false))) {
-			return "00.00 CPS";
-		}
-		return new DecimalFormat("#00.00").format(cps.get()) + " CPS";
 	}
 	
 	public static synchronized void update() {

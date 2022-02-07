@@ -8,20 +8,45 @@ import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
 import net.minecraft.potion.Potion;
+import xyz.vergoclient.settings.ModeSetting;
+
+import java.util.Arrays;
 
 public class ModNightMode extends Module implements OnEventInterface {
 
 	public ModNightMode() {
-		super("NightMode", Category.VISUAL);
+		super("Ambience", Category.VISUAL);
+	}
+
+	public ModeSetting dayTime = new ModeSetting("Time", "Sunrise", "Night", "Sunrise", "Sunset");
+
+	@Override
+	public void loadSettings() {
+
+		dayTime.modes.clear();
+		dayTime.modes.addAll(Arrays.asList("Sunrise", "Sunset", "Night"));
+
+		addSettings(dayTime);
+
 	}
 
 	@Override
 	public void onEvent(Event e) {
 		
 		if (e instanceof EventTick && e.isPre()) {
-			mc.theWorld.setWorldTime(18000);
-			mc.theWorld.setRainStrength(0);
-			mc.thePlayer.removePotionEffect(Potion.nightVision.getId());
+			if(dayTime.is("Night")) {
+				mc.theWorld.setWorldTime(18000);
+				mc.theWorld.setRainStrength(0);
+				mc.thePlayer.removePotionEffect(Potion.nightVision.getId());
+			} else if(dayTime.is("Sunrise")) {
+				mc.theWorld.setWorldTime(22200);
+				mc.theWorld.setRainStrength(0);
+				mc.thePlayer.removePotionEffect(Potion.nightVision.getId());
+			}else if(dayTime.is("Sunset")) {
+				mc.theWorld.setWorldTime(13700);
+				mc.theWorld.setRainStrength(0);
+				mc.thePlayer.removePotionEffect(Potion.nightVision.getId());
+			}
 		}
 		else if (e instanceof EventReceivePacket && e.isPre()) {
 			if (((EventReceivePacket)e).packet instanceof S03PacketTimeUpdate) {
@@ -29,9 +54,7 @@ public class ModNightMode extends Module implements OnEventInterface {
 			}
 		}
 		else if (e instanceof EventGetSkyAndFogColor && e.isPre()) {
-//			EventGetSkyAndFogColor event = (EventGetSkyAndFogColor)e;
-//			double color = 40;
-//			event.color = new Vec3(color / 255, color / 255, color / 255);
+
 		}
 		
 	}
