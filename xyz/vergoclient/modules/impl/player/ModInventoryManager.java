@@ -246,7 +246,7 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 
 		if (dropBowAndArrows.isDisabled()) {
 			if (item.getItem().getUnlocalizedName().contains("bow") || (item.getItem().getUnlocalizedName().contains("arrow"))) {
-				return ((item.getItem().getUnlocalizedName().contains("tnt")) || item.getDisplayName().contains("Frog") ||
+				return ((item.getItem().getUnlocalizedName().equals("tnt")) || item.getDisplayName().contains("Frog") ||
 						(item.getItem().getUnlocalizedName().contains("stick")) || (item.getItem().getUnlocalizedName().contains("ore")) ||
 						(item.getItem().getUnlocalizedName().contains("string")) || (item.getItem().getUnlocalizedName().contains("flint")) ||
 						(item.getItem().getUnlocalizedName().contains("feather")) || (item.getItem().getUnlocalizedName().contains("bucket")) ||
@@ -258,7 +258,7 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 						(item.getItem().getUnlocalizedName().contains("leather")) || (item.getItem().getUnlocalizedName().contains("boat")) ||
 						(item.getItem().getUnlocalizedName().contains("fishing")) || (item.getItem().getUnlocalizedName().contains("wheat")) ||
 						(item.getItem().getUnlocalizedName().contains("flower")) || (item.getItem().getUnlocalizedName().contains("record")) ||
-						(item.getItem().getUnlocalizedName().contains("note block")) || (item.getItem().getUnlocalizedName().contains("sugar")) ||
+						(item.getItem().getUnlocalizedName().contains("note")) || (item.getItem().getUnlocalizedName().contains("sugar")) ||
 						(item.getItem().getUnlocalizedName().contains("redstone")) || (item.getItem().getUnlocalizedName().contains("gunpowder")) ||
 						(item.getItem().getUnlocalizedName().contains("lever")) || (item.getItem().getUnlocalizedName().contains("sand")) ||
 						(item.getItem().getUnlocalizedName().contains("wire")) || (item.getItem().getUnlocalizedName().contains("trip")) ||

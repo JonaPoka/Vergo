@@ -3,6 +3,7 @@ package net.minecraft.block;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.client.Minecraft;
 import xyz.vergoclient.Vergo;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -181,6 +182,19 @@ public class Block
     public static Block getBlockFromItem(Item itemIn)
     {
         return itemIn instanceof ItemBlock ? ((ItemBlock)itemIn).getBlock() : null;
+    }
+
+    public static EnumFacing getFacingDirection(BlockPos pos) {
+        MovingObjectPosition rayResult;
+        EnumFacing direction = null;
+        if (!Minecraft.getMinecraft().theWorld.getBlockState(pos.add(0, 1, 0)).getBlock().isSolidFullCube()) {
+            direction = EnumFacing.UP;
+        }
+        return (rayResult = Minecraft.getMinecraft().theWorld.rayTraceBlocks(new Vec3(Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY + (double)Minecraft.getMinecraft().thePlayer.getEyeHeight(), Minecraft.getMinecraft().thePlayer.posZ), new Vec3((double)pos.getX() + 0.5, (double)pos.getY(), (double)pos.getZ() + 0.5))) != null ? rayResult.sideHit : direction;
+    }
+
+    public boolean isSolidFullCube() {
+        return this.blockMaterial.blocksMovement() && this.isFullCube();
     }
 
     public static Block getBlockFromName(String name)

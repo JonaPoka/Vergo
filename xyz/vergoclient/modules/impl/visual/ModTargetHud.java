@@ -1,6 +1,7 @@
 package xyz.vergoclient.modules.impl.visual;
 
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -408,9 +409,6 @@ public class ModTargetHud extends Module implements OnEventInterface {
 				//RenderUtils.drawAlphaRoundedRect(0, 0, 40 + width, 40, 5, getColor(11, 13, 20, (int) boxOpacity.getOpacity()));
 
 				BlurUtils.blur(0, 0, 40 + width, 40, 5);
-				//BlurUtils.blur(10, 10, 1, 1, 1);
-
-
 
 				FontUtil.bakakakmedium.drawString(clientTag + playerName, 30f, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
 				FontUtil.bakakakmedium.drawString(healthStr, 37 + width - FontUtil.bakakakmedium.getStringWidth(healthStr) - 2, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));

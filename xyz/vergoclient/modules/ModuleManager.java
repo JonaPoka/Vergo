@@ -88,7 +88,7 @@ public class ModuleManager {
 	public ModAutoClicker modAutoClicker = new ModAutoClicker();
 	public ModInstantAutoGapple modAutoInstantGapple = new ModInstantAutoGapple();
 	public ModNotifications modNotifications = new ModNotifications();
-
+	public ModDmgEffect modDmgEffect = new ModDmgEffect();
 	
 	private void loadModules() {
 
@@ -96,6 +96,7 @@ public class ModuleManager {
 		modAnimations = new LoaderModule<ModAnimations>(modAnimations).generate();
 		modChams = new LoaderModule<ModChams>(modChams).generate();
 		modChinaHat = new LoaderModule<ModChinaHat>(modChinaHat).generate();
+		modDmgEffect = new LoaderModule<ModDmgEffect>(modDmgEffect).generate();
 		modHud = new LoaderModule<ModHud>(modHud).generate();
 		modNametags = new LoaderModule<ModNametags>(modNametags).generate();
 		modNotifications = new LoaderModule<ModNotifications>(modNotifications).generate();

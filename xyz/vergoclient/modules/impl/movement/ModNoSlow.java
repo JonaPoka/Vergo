@@ -10,6 +10,7 @@ import xyz.vergoclient.event.impl.EventSendPacket;
 import xyz.vergoclient.event.impl.EventSlowdown;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
+import xyz.vergoclient.util.MovementUtils;
 
 public class ModNoSlow extends Module implements OnEventInterface {
 
@@ -24,8 +25,10 @@ public class ModNoSlow extends Module implements OnEventInterface {
 			e.setCanceled(true);
 		}
 
-		if(mc.gameSettings.keyBindSprint.isPressed()) {
-			mc.thePlayer.setSprinting(true);
+		if(MovementUtils.isMoving()) {
+			if (mc.gameSettings.keyBindSprint.isPressed()) {
+				mc.thePlayer.setSprinting(true);
+			}
 		}
 
 		if(Vergo.config.modScaffold.isEnabled()) {

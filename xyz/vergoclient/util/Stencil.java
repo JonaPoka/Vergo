@@ -12,27 +12,31 @@ public class Stencil {
     static Minecraft mc = Minecraft.getMinecraft();
 
     public static void dispose() {
-        glDisable(GL_STENCIL_TEST);
+        //glDisable(GL_STENCIL_TEST);
+        glDisable(2960);
         GlStateManager.disableAlpha();
         GlStateManager.disableBlend();
     }
 
     public static void erase(boolean invert) {
-        glStencilFunc(invert ? GL_EQUAL : GL_NOTEQUAL, 1, 65535);
         glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+        glStencilFunc(invert ? GL_EQUAL : GL_NOTEQUAL, 1, 65535);
         GlStateManager.colorMask(true, true, true, true);
         GlStateManager.enableAlpha();
         GlStateManager.enableBlend();
         glAlphaFunc(GL_GREATER, 0.0f);
+
     }
 
     public static void write(boolean renderClipLayer) {
         Stencil.checkSetupFBO();
+        glEnable(2960);
         glClearStencil(0);
         glClear(GL_STENCIL_BUFFER_BIT);
-        glEnable(GL_STENCIL_TEST);
-        glStencilFunc(GL_ALWAYS, 1, 65535);
+        //glEnable(GL_STENCIL_TEST);
         glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+        glStencilFunc(GL_ALWAYS, 1, 65535);
+
         if (!renderClipLayer) {
             GlStateManager.colorMask(false, false, false, false);
         }

@@ -527,7 +527,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			if (keepRots != null) {
 				if (rotationMode.is("Hypixel Slow") || rotationMode.is("Hypixel Sprint")) {
 					//lastYaw = keepRots[0];
-					lastPitch = keepRots[1] + RandomUtils.nextInt(5, 10);
+					lastPitch = keepRots[1] + RandomUtils.nextInt(2,3);
 				} else if (rotationMode.is("AAC")) {
 
 				} else {
