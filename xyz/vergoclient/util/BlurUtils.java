@@ -2,7 +2,6 @@ package xyz.vergoclient.util;
 
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.shader.Framebuffer;
@@ -24,7 +23,7 @@ public class BlurUtils {
 
     public static void init() {
         try {
-            shaderGroup = new ShaderGroup(mc.getTextureManager(), mc.getResourceManager(), mc.getFramebuffer(), new ResourceLocation("vergo/blurLess.json"));
+            shaderGroup = new ShaderGroup(mc.getTextureManager(), mc.getResourceManager(), mc.getFramebuffer(), new ResourceLocation("vergo/blur.json"));
             shaderGroup.createBindFramebuffers(mc.displayWidth, mc.displayHeight);
             framebuffer = shaderGroup.mainFramebuffer;
 
@@ -41,6 +40,7 @@ public class BlurUtils {
     }
 
     public static void blur(double x, double y, double width, double height, int blurStrength) {
+
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         Stencil.write(false);
@@ -49,6 +49,7 @@ public class BlurUtils {
         GlStateManager.enableBlend();
         blur(blurStrength);
         Stencil.dispose();
+
     }
 
     private static boolean sizeHasChanged(int scaleFactor, int width, int height) {
