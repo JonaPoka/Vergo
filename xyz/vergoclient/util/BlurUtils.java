@@ -45,9 +45,9 @@ public class BlurUtils {
         GlStateManager.enableBlend();
         Stencil.write(false);
         Draw.drawRoundedRect(x, y, width, height, 5);
-        Stencil.erase(true);
         GlStateManager.enableBlend();
         blur(blurStrength);
+        Stencil.erase(true);
         Stencil.dispose();
 
     }
