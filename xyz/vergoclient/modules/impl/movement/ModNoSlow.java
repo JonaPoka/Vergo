@@ -21,31 +21,27 @@ public class ModNoSlow extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 
-		if (e instanceof EventSlowdown && e.isPre()) {
-			e.setCanceled(true);
-		}
-
 		if(MovementUtils.isMoving()) {
 			if (mc.gameSettings.keyBindSprint.isPressed()) {
 				mc.thePlayer.setSprinting(true);
+			}
+
+			if(e instanceof EventSlowdown) {
+				e.setCanceled(true);
 			}
 		}
 
 		if(Vergo.config.modScaffold.isEnabled()) {
 			return;
 		}
-
-		if (e instanceof EventSendPacket && e.isPre()) {
-
-			if(mc.thePlayer.isBlocking()) {
+		if(e instanceof EventSendPacket) {
+			if (mc.thePlayer.isBlocking()) {
 				EventSendPacket event = (EventSendPacket) e;
-				if(event.packet instanceof C08PacketPlayerBlockPlacement) {
+				if (event.packet instanceof C08PacketPlayerBlockPlacement) {
 					mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
 				}
 			}
-
 		}
-
 	}
 
 }
