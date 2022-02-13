@@ -10,7 +10,6 @@ public class HWID {
 	public static String getHWIDForWindows() throws NoSuchAlgorithmException {
 		String main = System.getenv("PROCESSOR_ARCHITECTURE") + System.getenv("NUMBER_OF_PROCESSORS") + System.getenv("PROCESSOR_REVISION") +  System.getProperty("user.name").trim() + System.getenv("COMPUTERNAME") +
 				System.getenv("PROCESSOR_LEVEL");
-		System.out.println(main);
 		return new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-256").digest(main.getBytes(StandardCharsets.UTF_8))));
 	}
 	
