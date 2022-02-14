@@ -80,27 +80,28 @@ public class Hud implements OnEventInterface {
 				String s1 = "vergo           -";
 				String s12 = "vergo";
 				String s2 = " sense";
-				String s3 = "hypixel.net";
+				String s3 = "hypixel.net - ";
+				String s4 = "" + ServerUtils.getHypixelNetworkPing();
 				//String s4 = mc.thePlayer.getName();
 
 				float width1 = 54;
-				float width12 = 107;
+				float width12 = 140;
 
 				float width2 = 52;
-				float width22 = 105;
+				float width22 = 138;
 
 				float width3 = 48;
-				float width32 = 101;
+				float width32 = 134;
 
 				float width4 = 46;
-				float width42 = 99;
+				float width42 = 132;
 
 				if(ServerUtils.isOnHypixel()) {
 					RenderUtils2.drawRect(2, 2, width12, 18, new Color(0x434343).getRGB());
 					RenderUtils2.drawRect(3f, 3f, width22, 16, new Color(0x434343).darker().getRGB());
 					RenderUtils2.drawRect(5, 5, width32, 12, new Color(0x434343).getRGB());
 					RenderUtils2.drawRect(6f, 6f, width42, 10, new Color(0x303030).darker().getRGB());
-					RenderUtils2.drawRect(6, 15f, 99, 1, ColorUtils.fadeColorHorizontal(new Color(10, 193, 0),(int) 8, 10).getRGB());
+					RenderUtils2.drawRect(6, 15f, width42, 1, ColorUtils.fadeColorHorizontal(new Color(10, 193, 0),(int) 8, 10).getRGB());
 				} else {
 					RenderUtils2.drawRect(2, 2, width1, 18, new Color(0x434343).getRGB());
 					RenderUtils2.drawRect(3f, 3f, width2, 16, new Color(0x434343).darker().getRGB());
@@ -111,12 +112,13 @@ public class Hud implements OnEventInterface {
 
 				if(ServerUtils.isOnHypixel()) {
 					FontUtil.comfortaaSmall.drawString(s1, 8f, 9.5f, new Color(0xffffff).getRGB());
+					FontUtil.comfortaaSmall.drawString(s4 + "ms", 110f, 9.5f, new Color(0xffffff).getRGB());
 				} else {
 					FontUtil.comfortaaSmall.drawString(s12, 8f, 9.5f, new Color(0xffffff).getRGB());
 				}
 				FontUtil.comfortaaSmall.drawString(s2, 27f, 9.5f, new Color(0x5AFF00).getRGB());
 				if(ServerUtils.isOnHypixel()) {
-					FontUtil.comfortaaSmall.drawString(s3, 62, 10f, new Color(0xffffff).getRGB());
+					FontUtil.comfortaaSmall.drawString(s3, 62, 9.5f, new Color(0xffffff).getRGB());
 				} else {
 
 				}

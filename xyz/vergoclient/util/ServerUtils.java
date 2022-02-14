@@ -1,8 +1,11 @@
 package xyz.vergoclient.util;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 
 public class ServerUtils {
+
+	public static Timer timer;
 	
 	public static boolean isOnHypixel() {
 		
@@ -83,5 +86,12 @@ public class ServerUtils {
 		return false;
 		
 	}
-	
+
+	public static NetworkPlayerInfo networkPlayerInfo;
+
+	public static int getHypixelNetworkPing() {
+		NetworkPlayerInfo networkPlayerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID());
+		return networkPlayerInfo == null ? 0 : networkPlayerInfo.getResponseTime();
+	}
+
 }

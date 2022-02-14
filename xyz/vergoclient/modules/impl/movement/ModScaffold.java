@@ -46,6 +46,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public ModScaffold() {
 		super("Scaffold", Category.MOVEMENT);
 		this.boostTiming = new Timer();
+
 	}
 
 	@Override
@@ -526,8 +527,9 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			float[] keepRots = getRotations(lastBlockPos, lastFacing, false);
 			if (keepRots != null) {
 				if (rotationMode.is("Hypixel Slow") || rotationMode.is("Hypixel Sprint")) {
-					lastYaw = keepRots[0];
+					//lastYaw = keepRots[0];
 					lastPitch = keepRots[1];
+
 				} else if (rotationMode.is("AAC")) {
 
 				} else {
@@ -559,10 +561,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			event.setYaw(lastYaw);
 			event.setPitch(lastPitch);
 
-
-
-			//RenderUtils.setCustomYaw(mc.thePlayer.rotationYaw);
-			//RenderUtils.setCustomPitch(mc.thePlayer.rotationPitch);
+			RenderUtils.setCustomYaw(event.getYaw());
+			RenderUtils.setCustomPitch(event.getPitch());
 
 		}
 
@@ -945,11 +945,37 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			return new float[] {oneDirectionalSpeedYaw - 180, f2};
 		}
 		else if (rotationMode.is("Hypixel Slow")) {
+			/*
+
+				TESTING PURPOSES ONLY. DOES NOT WORK! DO NOT PUT INTO PRACTICE!
+
+			float yaw = 0;
+			float pitch = 0;
+			switch (paramEnumFacing) {
+				case NORTH:
+					yaw = RandomUtils.nextFloat(313, 314);
+					pitch = RandomUtils.nextFloat(87.5f, 87.9f);
+					break;
+				case EAST:
+					yaw = RandomUtils.nextFloat(404.6f, 404.9f);
+					pitch = RandomUtils.nextFloat(86.19f, 86.23f);
+					break;
+				case SOUTH:
+					yaw = RandomUtils.nextFloat(138, 139);
+					pitch = RandomUtils.nextFloat(88.1f, 88.8f);
+					break;
+				case WEST:
+					yaw = 404;
+					pitch = RandomUtils.nextFloat(85.9f, 86.1f);
+					break;
+			}
+			return new float[] {yaw, pitch};*/
 
 			if (!newBlock) {
-				lastYaw = RotationUtils.updateRotation(lastYaw, f1, RandomUtils.nextFloat(20, 30));
+				lastYaw = RotationUtils.updateRotation(lastYaw, f1, RandomUtils.nextFloat(1, 2));
 				if (((f1 - lastYaw) * (f1 - lastYaw < 0 ? -1 : 1)) % 360 > 5) {
 					lastPitch = f2;
+
 					return null;
 				}
 			}

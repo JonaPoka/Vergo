@@ -1,8 +1,12 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
+import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.ModeSetting;
@@ -23,31 +27,39 @@ public class ModFly extends Module implements OnEventInterface {
 		this.timer = new Timer();
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Hypixel", "Vanilla", "Test");
-
-	public NumberSetting scale = new NumberSetting("TheFunny", 5, 0, 100, 0.1);
+	public ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla");
 
 	@Override
 	public void loadSettings() {
 		
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Hypixel", "Vanilla", "Test"));
+		mode.modes.addAll(Arrays.asList( "Vanilla"));
 		
-		addSettings(mode, scale);
+		addSettings(mode);
 	}
 
 	public static BlockPos position = null;
-	
+
+	public double y = 0;
+
 	@Override
 	public void onEnable() {
+		if(mode.is("Hypixel")) {
+			y = mc.thePlayer.posY;
 
+			if(mc.thePlayer.onGround) {
+				mc.thePlayer.posY = 0.05D;
+			}
+		}
 	}
 	
 	@Override
 	public void onDisable() {
 		mc.thePlayer.capabilities.isFlying = false;
 	}
-	
+
+	public int state;
+
 	@Override
 	public void onEvent(Event e) {
 
@@ -63,8 +75,33 @@ public class ModFly extends Module implements OnEventInterface {
 				}
 			}
 
-			else if(mode.is("Test")) {
-				//doTheFunnyTest();
+		}
+
+
+		if(mode.is("Hypixel")) {
+			if(e instanceof EventReceivePacket) {
+
+				state = 0;
+
+				if (((EventReceivePacket) e).packet instanceof S08PacketPlayerPosLook && this.state == 0) {
+					this.state = 1;
+				}
+
+				if (((EventReceivePacket) e).packet instanceof C03PacketPlayer.C04PacketPlayerPosition && this.state == 1) {
+					((C03PacketPlayer.C04PacketPlayerPosition) ((EventReceivePacket) e).packet).onGround = false;
+				}
+
+				if (((EventReceivePacket) e).packet instanceof C03PacketPlayer && this.state == 1) {
+					((C03PacketPlayer) ((EventReceivePacket) e).packet).onGround = false;
+				}
+
+				if (((EventReceivePacket) e).packet  instanceof C03PacketPlayer.C05PacketPlayerLook && this.state == 1) {
+					((C03PacketPlayer.C05PacketPlayerLook) ((EventReceivePacket) e).packet).onGround = false;
+				}
+
+				if (((EventReceivePacket) e).packet instanceof C03PacketPlayer.C06PacketPlayerPosLook && this.state == 1) {
+					((C03PacketPlayer.C06PacketPlayerPosLook) ((EventReceivePacket) e).packet).onGround = false;
+				}
 			}
 
 		}
@@ -74,12 +111,12 @@ public class ModFly extends Module implements OnEventInterface {
 	private void doTheFunnyFly(EventMove eventMove) {
 
 		if(this.timer.delay(1200L)) {
-			//ChatUtils.addChatMessage("Teleported!");
-			this.HClip(2.7, eventMove);
+
+			//this.HClip(2.7, eventMove);
+
 			this.timer.reset();
 		}else {
 			eventMove.setX(0.0);
-			eventMove.setY(0.0);
 			eventMove.setZ(0.0);
 		}
 	}
@@ -97,20 +134,6 @@ public class ModFly extends Module implements OnEventInterface {
 		eventMove.setX(position.getX());
 		eventMove.setY(position.getY());
 		eventMove.setZ(position.getZ());
-	}
-
-	public void doTheFunnyTest() {
-		mc.thePlayer.cameraYaw = 0.09090909086F * 2;
-
-		MovementUtils.setSpeed(0.2);
-
-		mc.thePlayer.motionY = 0;
-
-		mc.timer.timerSpeed = 1f;
-
-		if(mc.thePlayer.isInvisible()) {
-			mc.timer.timerSpeed = 1f;
-		}
 	}
 	
 }
