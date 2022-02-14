@@ -252,6 +252,7 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 						(item.getItem().getUnlocalizedName().contains("feather")) || (item.getItem().getUnlocalizedName().contains("bucket")) ||
 						(item.getItem().getUnlocalizedName().contains("snow")) || (item.getItem().getUnlocalizedName().contains("enchant")) ||
 						(item.getItem().getUnlocalizedName().contains("exp")) || (item.getItem().getUnlocalizedName().contains("shears")) || (item.getItem().getUnlocalizedName().contains("anvil")) ||
+						(item.getItem().getUnlocalizedName().contains("chest")) ||
 						(item.getItem().getUnlocalizedName().contains("note")) || (item.getItem().getUnlocalizedName().contains("slab")) ||
 						(item.getItem().getUnlocalizedName().contains("jukebox")) || (item.getItem().getUnlocalizedName().contains("coal")) ||
 						(item.getItem().getUnlocalizedName().contains("torch")) || (item.getItem().getUnlocalizedName().contains("seeds")) ||
@@ -279,6 +280,7 @@ public class 	ModInventoryManager extends Module implements OnEventInterface {
 					(item.getItem().getUnlocalizedName().contains("feather")) || (item.getItem().getUnlocalizedName().contains("bucket")) ||
 					(item.getItem().getUnlocalizedName().contains("snow")) || (item.getItem().getUnlocalizedName().contains("enchant")) ||
 					(item.getItem().getUnlocalizedName().contains("exp")) || (item.getItem().getUnlocalizedName().contains("shears")) || (item.getItem().getUnlocalizedName().contains("anvil")) ||
+					(item.getItem().getUnlocalizedName().contains("chest")) ||
 					(item.getItem().getUnlocalizedName().contains("note")) || (item.getItem().getUnlocalizedName().contains("slab")) ||
 					(item.getItem().getUnlocalizedName().contains("jukebox")) || (item.getItem().getUnlocalizedName().contains("coal")) ||
 					(item.getItem().getUnlocalizedName().contains("torch")) || (item.getItem().getUnlocalizedName().contains("seeds")) ||

@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
@@ -32,6 +33,9 @@ public class ModNoSlow extends Module implements OnEventInterface {
 			return;
 		}
 		if(e instanceof EventSendPacket) {
+
+
+
 			if (mc.thePlayer.isBlocking()) {
 				EventSendPacket event = (EventSendPacket) e;
 				if (event.packet instanceof C08PacketPlayerBlockPlacement) {

@@ -46,7 +46,6 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public ModScaffold() {
 		super("Scaffold", Category.MOVEMENT);
 		this.boostTiming = new Timer();
-
 	}
 
 	@Override
@@ -86,32 +85,32 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public BooleanSetting keepYSetting = new BooleanSetting("", false),
 			sprintSetting = new BooleanSetting("", false),
 	//			towerSetting = new BooleanSetting("Tower", false),
-	legitSetting = new BooleanSetting("", false),
-			timerSlow = new BooleanSetting("Timer Slow", true),
-			overrideKeepYSetting = new BooleanSetting("", false),
-			viewRotations = new BooleanSetting("", false),
-			fourDirectionalSpeed = new BooleanSetting("", false),
-			oneDirectionalSpeed = new BooleanSetting("", false),
-			toggleBlink = new BooleanSetting("", false),
-			itemSwitchDelay = new BooleanSetting("", false),
-			clientSideBlockPicker = new BooleanSetting("", false),
-			hitVecFixer = new BooleanSetting("", false),
-			noRotate = new BooleanSetting("", false),
-			fakeMissPackets = new BooleanSetting("", false),
-			placeBlockAsync = new BooleanSetting("", false),
-			swaggyPaggyBoost = new BooleanSetting("", false);
-	public ModeSetting rotationMode = new ModeSetting("", "Hypixel Slow", "Hypixel Slow"),
-			towerMode = new ModeSetting("", "None", "None", "Hypixel"/*, "NCP", "Test"*/);
+	legitSetting = new BooleanSetting("Legit", false),
+			timerSlow = new BooleanSetting("Timer Slow", false),
+			overrideKeepYSetting = new BooleanSetting("Override keep y when jump is pressed", true),
+			viewRotations = new BooleanSetting("View rotations", false),
+			fourDirectionalSpeed = new BooleanSetting("Four directional speed", true),
+			oneDirectionalSpeed = new BooleanSetting("One directional speed", false),
+			toggleBlink = new BooleanSetting("Toggle blink", false),
+			itemSwitchDelay = new BooleanSetting("Switch item delay", false),
+			clientSideBlockPicker = new BooleanSetting("Client side block picker", false),
+			hitVecFixer = new BooleanSetting("Hit vec fixer", true),
+			noRotate = new BooleanSetting("NoRotate", false),
+			fakeMissPackets = new BooleanSetting("Fake miss packets", false),
+			placeBlockAsync = new BooleanSetting("Async block placements", true),
+			swaggyPaggyBoost = new BooleanSetting("Boost of Insanity", true);
+	public ModeSetting rotationMode = new ModeSetting("Rotation setting", "Hypixel Slow", "Hypixel Slow"),
+			towerMode = new ModeSetting("Tower mode", "None", "None", "Hypixel"/*, "NCP", "Test"*/);
 
 	@Override
 	public void loadSettings() {
 		rotationMode.modes.clear();
 		rotationMode.modes.addAll(Arrays.asList("Hypixel Slow"));
 		forwardExtendSetting.minimum = 0;
-		forwardExtendSetting.name = "";
-		addSettings(/*forwardExtendSetting, swaggyPaggyBoost, sidewaysExtendSetting, maxBlocksPlacedPerTickSetting, blinkBlaster, timerBoostSetting,
-				keepYSetting, sprintSetting, legitSetting, overrideKeepYSetting, viewRotations, rotationMode,
-				fourDirectionalSpeed, oneDirectionalSpeed, toggleBlink, itemSwitchDelay, clientSideBlockPicker,
+		forwardExtendSetting.name = "Forward extend";
+		addSettings(/*forwardExtendSetting,*/ swaggyPaggyBoost, /*sidewaysExtendSetting, maxBlocksPlacedPerTickSetting, blinkBlaster, timerBoostSetting,
+				keepYSetting,*/ sprintSetting, /*legitSetting, overrideKeepYSetting, viewRotations, rotationMode,*/
+				fourDirectionalSpeed,/*, oneDirectionalSpeed, toggleBlink, itemSwitchDelay, clientSideBlockPicker,
 				hitVecFixer, noRotate, fakeMissPackets, towerMode, placeBlockAsync,*/ timerSlow);
 	}
 
@@ -127,12 +126,6 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	private static transient int itemSwitchDelayTicks = 0;
 
 	public void onEnable() {
-
-		if(fourDirectionalSpeed.isEnabled()) {
-			fourDirectionalSpeed.toggle();
-		}
-
-
 
 		scafStartY = mc.thePlayer.posY;
 
@@ -185,8 +178,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 		float[] rots = new float[] {mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};
 
-		lastYaw = mc.thePlayer.rotationYaw;
-		lastPitch = mc.thePlayer.rotationPitch;
+		lastYaw = rots[0];
+		lastPitch = rots[1];
 
 //		lastYaw = mc.thePlayer.rotationYaw;
 //		lastPitch = mc.thePlayer.rotationPitch;
@@ -349,16 +342,22 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		}
 
 		/*if (e instanceof EventRender3D && e.isPre()) {
+
 			BlockPos below = lastPlace;
+
 			if (below == null) {
 				return;
 			}
 			GlStateManager.pushMatrix();
 			GlStateManager.pushAttrib();
+
 			GlStateManager.depthMask(false);
+
 			GL11.glEnable(32823);
 			GL11.glPolygonOffset(1.0f, -1100000.0f);
+
 			//RenderUtils.drawColoredBox(below.getX() - 0.0001, below.getY() - 0.0001, below.getZ() - 0.0001, below.getX() + 1.0001, below.getY() + 1.0001, below.getZ() + 1.0001, 0x50C74D8E);
+
 			RenderUtils.drawLine(below.getX(), below.getY(), below.getZ(), below.getX() + 1, below.getY(), below.getZ());
 			RenderUtils.drawLine(below.getX(), below.getY() + 1, below.getZ(), below.getX() + 1, below.getY() + 1, below.getZ());
 			RenderUtils.drawLine(below.getX(), below.getY(), below.getZ(), below.getX(), below.getY(), below.getZ() + 1);
@@ -374,11 +373,15 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			RenderUtils.drawLine(below.getX() + 1, below.getY(), below.getZ() + 1, below.getX() + 1, below.getY() + 1, below.getZ() + 1);
 			RenderUtils.drawLine(below.getX() + 1, below.getY() + 1, below.getZ(), below.getX() + 1, below.getY() + 1, below.getZ() + 1);
 			RenderUtils.drawLine(below.getX() + 1, below.getY(), below.getZ(), below.getX() + 1, below.getY(), below.getZ() + 1);
+
 			GL11.glDisable(32823);
 			GL11.glPolygonOffset(1.0f, 1100000.0f);
+
 			GlStateManager.depthMask(true);
+
 			GlStateManager.popAttrib();
 			GlStateManager.popMatrix();
+
 		}*/
 
 		if(e instanceof EventMove && e.isPre()) {
@@ -524,12 +527,11 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		if (lastBlockPos != null && lastFacing != null) {
 			if (mc.thePlayer.ticksExisted % 2 == 0) {
 			}
-			float[] keepRots = getRotations(lastBlockPos, lastFacing, false);
+			float[] keepRots = getBlockRotations(lastBlockPos, lastFacing);
 			if (keepRots != null) {
 				if (rotationMode.is("Hypixel Slow") || rotationMode.is("Hypixel Sprint")) {
 					//lastYaw = keepRots[0];
 					lastPitch = keepRots[1];
-
 				} else if (rotationMode.is("AAC")) {
 
 				} else {
@@ -560,6 +562,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 			event.setYaw(lastYaw);
 			event.setPitch(lastPitch);
+
+
 
 			RenderUtils.setCustomYaw(event.getYaw());
 			RenderUtils.setCustomPitch(event.getPitch());
@@ -720,13 +724,14 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 		if (mc.thePlayer.isSprinting())
 			mc.thePlayer.setSprinting(false);
 
+		float[] rotations = getBlockRotations(info.pos, info.facing);
 		float[] rots = getRotations(info.pos, info.facing,
 				(!legitSetting.isEnabled() || legitTimer.hasTimeElapsed(RandomUtils.nextInt(50, 75) * 2, false)));
-		if (rots == null) {
+		if (rotations == null) {
 			return;
 		}
-		event.setYaw(rots[0]);
-		event.setPitch(rots[1]);
+		event.setYaw(rotations[0]);
+		event.setPitch(rotations[1]);
 		//RenderUtils.setCustomYaw(event.yaw);
 		//RenderUtils.setCustomPitch(event.pitch);
 		if (viewRotations.isEnabled()) {
@@ -751,6 +756,19 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 		if (Vergo.config.modSprint.isEnabled() && sprintSetting.isEnabled())
 			mc.thePlayer.setSprinting(false);
+	}
+
+
+	private float[] getBlockRotations(BlockPos blockPos, EnumFacing enumFacing) {
+		if (blockPos == null && enumFacing == null) {
+			return null;
+		}
+		Vec3 positionEyes = mc.thePlayer.getPositionEyes(2.0f);
+		Vec3 add = new Vec3((double)blockPos.getX() + 0.5, (double)blockPos.getY() + 0.5, (double)blockPos.getZ() + 0.5);
+		double n = add.xCoord - positionEyes.xCoord;
+		double n2 = add.yCoord - positionEyes.yCoord;
+		double n3 = add.zCoord - positionEyes.zCoord;
+		return new float[]{(float)(Math.atan2(n3, n) * 180.0 / Math.PI - 90.0), -((float)(Math.atan2(n2, (float)Math.hypot(n, n3)) * 180.0 / Math.PI))};
 	}
 
 	private void placeBlock(EventUpdate event, BlockInfo info, ItemStack block) {
@@ -945,45 +963,18 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			return new float[] {oneDirectionalSpeedYaw - 180, f2};
 		}
 		else if (rotationMode.is("Hypixel Slow")) {
-			/*
 
-				TESTING PURPOSES ONLY. DOES NOT WORK! DO NOT PUT INTO PRACTICE!
-			*/
-
-			float yaw = 0;
-			float pitch = 0;
-			switch (paramEnumFacing) {
-				case NORTH:
-					yaw = RandomUtils.nextFloat(313, 314);
-					pitch = RandomUtils.nextFloat(87.5f, 87.9f);
-					break;
-				case EAST:
-					yaw = RandomUtils.nextFloat(404.6f, 404.9f);
-					pitch = RandomUtils.nextFloat(86.19f, 86.23f);
-					break;
-				case SOUTH:
-					yaw = 125;
-					pitch = RandomUtils.nextFloat(84.7f, 85f);
-					break;
-				case WEST:
-					yaw = 300;
-					pitch = RandomUtils.nextFloat(85.9f, 86.1f);
-					break;
-			}
-			return new float[] {yaw, pitch};
-
-			/*if (!newBlock) {
-				lastYaw = RotationUtils.updateRotation(lastYaw, f1, RandomUtils.nextFloat(1, 2));
+			if (!newBlock) {
+				lastYaw = RotationUtils.updateRotation(lastYaw, f1, RandomUtils.nextFloat(20, 30));
 				if (((f1 - lastYaw) * (f1 - lastYaw < 0 ? -1 : 1)) % 360 > 5) {
 					lastPitch = f2;
-
 					return null;
 				}
 			}
 			if (newBlock) {
 //				return new float[] {lastYaw, f2};
 			}
-			return new float[] {f1, f2};*/
+			return new float[] {f1, f2};
 
 		}
 		else if (rotationMode.is("Hypixel Sprint")) {

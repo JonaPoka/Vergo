@@ -6,6 +6,7 @@ import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
+import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.ui.notifications.Notification;
@@ -20,13 +21,13 @@ public class ModAutoPlay extends Module implements OnEventInterface {
     Timer timer;
 
     public ModAutoPlay() {
-        super("AutoPlay", Category.MISCELLANEOUS);
+        super("AutoPlay&GG", Category.MISCELLANEOUS);
         this.timer = new Timer();
     }
 
     public ModeSetting teamMode = new ModeSetting("Team Mode", "Sky Solo Normal", "Sky Solo Normal", "Sky Solo Insane"/*, "Teams Normal", "Teams Insane"*/);
 
-    public static NumberSetting commandDelay1 = new NumberSetting("Game Delay", 1, 1, 5, 0.1);
+    public static BooleanSetting autoGG = new BooleanSetting("Auto-GG", true);
 
     @Override
     public void onEnable() {
@@ -64,6 +65,9 @@ public class ModAutoPlay extends Module implements OnEventInterface {
                 if(teamMode.is("Sky Solo Normal") || teamMode.is("Sky Solo Insane") /*|| teamMode.is("Teams Normal") || teamMode.is("Teams Insane")*/) {
                     if (packet.getChatComponent().getUnformattedText().contains("You died! Want to play again?") || packet.getChatComponent().getUnformattedText().contains("You won! Want to play again?") ||
                             packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to return to lobby!") || packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to cancel!")) {
+                        if(autoGG.isEnabled()) {
+                            mc.thePlayer.sendChatMessage("GG");
+                        }
                         NotificationManager.show(new Notification(NotificationType.INFO, "Game Ended!", "Sending you to a new game...", 2));
                         doCommands();
                     } else {

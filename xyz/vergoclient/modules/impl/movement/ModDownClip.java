@@ -31,7 +31,7 @@ public class ModDownClip extends Module {
 		}
 		
 		if (!foundSpot)
-			ChatUtils.addChatMessage("Could not find a spot below you");
+			ChatUtils.addChatMessage("No free space below you!");
 		
 		toggle();
 		
