@@ -1334,7 +1334,7 @@ public abstract class EntityLivingBase extends Entity
      * Swings the item the player is holding.
      */
     public void swingItem() {
-    	swingItem(Vergo.config.modNoSwingDelay.isEnabled() && Minecraft.getMinecraft().playerController.curBlockDamageMP == 0);
+    	swingItem(Minecraft.getMinecraft().playerController.curBlockDamageMP == 0);
     }
     public void swingItem(boolean overrideDelay)
     {

@@ -59,16 +59,6 @@ public enum Colors {
 			}
 		}
 		
-		try {
-			if (Vergo.config.modRainbow.isEnabled() && (Minecraft.getMinecraft().currentScreen == null || (!(Minecraft.getMinecraft().currentScreen instanceof GuiAltManager) && !(Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu)))) {
-				if (getColorNoRainbowOverride() == ARRAY_LIST_MODULE_NAMES.getColorNoRainbowOverride()) {
-					return RenderUtils.getRainbow(Hud.arrayListRainbow, 0.5f, 1f);
-				}
-			}
-		} catch (Exception e) {
-			
-		}
-		
 		return color;
 	}
 	

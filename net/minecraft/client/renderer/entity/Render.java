@@ -23,7 +23,7 @@ import optifine.Config;
 import org.lwjgl.opengl.GL11;
 
 import xyz.vergoclient.Vergo;
-import xyz.vergoclient.modules.impl.miscellaneous.ModAntiBot;
+import xyz.vergoclient.modules.impl.miscellaneous.AntiBot;
 import shadersmod.client.Shaders;
 
 public abstract class Render<T extends Entity>
@@ -344,7 +344,7 @@ public abstract class Render<T extends Entity>
      */
     protected void renderLivingLabel(T entityIn, String str, double x, double y, double z, int maxDistance)
     {
-    	if (entityIn instanceof EntityPlayer && Vergo.config.modNametags.isEnabled() && (Vergo.config.modAntibot.isDisabled() || !ModAntiBot.isBot(((EntityPlayer)entityIn)))) {
+    	if (entityIn instanceof EntityPlayer && Vergo.config.modNametags.isEnabled() && (Vergo.config.modAntibot.isDisabled() || !AntiBot.isBot(((EntityPlayer)entityIn)))) {
     		return;
     	}
         double d0 = entityIn.getDistanceSqToEntity(this.renderManager.livingPlayer);

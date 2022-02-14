@@ -2,15 +2,8 @@ package net.minecraft.client.renderer.entity;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityFlying;
-import net.minecraft.entity.monster.EntityGolem;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.passive.EntityAmbientCreature;
-import net.minecraft.entity.passive.EntityAnimal;
 import xyz.vergoclient.Vergo;
-import xyz.vergoclient.modules.impl.miscellaneous.ModAntiBot;
+import xyz.vergoclient.modules.impl.miscellaneous.AntiBot;
 import xyz.vergoclient.util.ESPUtils;
 import xyz.vergoclient.util.RenderUtils;
 
@@ -212,7 +205,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
                             this.renderLayers(entity, f6, f5, partialTicks, f8, f2, f7, f4);
                         }
 
-                        if (entity instanceof EntityPlayer && (Vergo.config.modAntibot.isDisabled() || !ModAntiBot.isBot(((EntityPlayer) entity)))) {
+                        if (entity instanceof EntityPlayer && (Vergo.config.modAntibot.isDisabled() || !AntiBot.isBot(((EntityPlayer) entity)))) {
                             if (entity != Minecraft.getMinecraft().thePlayer) {
                                 this.renderModel(entity, f6, f5, f7, f2, f8, 0.0625F);
                                 ESPUtils.renderOne();

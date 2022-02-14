@@ -3,9 +3,6 @@ package xyz.vergoclient.ui.guis;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import org.eclipse.swt.internal.C;
-import xyz.vergoclient.Vergo;
-import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.keybinds.KeyboardManager;
 import xyz.vergoclient.modules.Module;
 
@@ -19,12 +16,11 @@ import org.lwjgl.input.Keyboard;
 
 import com.google.gson.annotations.SerializedName;
 
-import xyz.vergoclient.modules.impl.miscellaneous.ModClickgui;
+import xyz.vergoclient.modules.impl.miscellaneous.ClickGui;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.GuiUtils;
-import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.RenderUtils2;
 import xyz.vergoclient.util.TimerUtil;
 import xyz.vergoclient.util.datas.DataDouble5;
@@ -36,7 +32,6 @@ import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.settings.Setting;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiClickGui extends GuiScreen {
@@ -232,7 +227,7 @@ public class GuiClickGui extends GuiScreen {
 				coords.x2 = tab.x + maxWidth + 2;
 				coords.y1 = tab.y - 1 + 2 + (offset * (fr.FONT_HEIGHT + 4));
 				coords.y2 = tab.y + fr.FONT_HEIGHT + 3 + 2 + (offset * (fr.FONT_HEIGHT + 4));
-				coords.data = module.isEnabled() && !(module instanceof ModClickgui) ? 1 : 0;
+				coords.data = module.isEnabled() && !(module instanceof ClickGui) ? 1 : 0;
 				if (!this.clickguiButtons.isEmpty()) {
 					for (Button colorCheck : this.clickguiButtons) {
 						if (colorCheck.module == module) {
