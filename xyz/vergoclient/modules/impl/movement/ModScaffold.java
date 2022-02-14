@@ -85,32 +85,32 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 	public BooleanSetting keepYSetting = new BooleanSetting("", false),
 			sprintSetting = new BooleanSetting("", false),
 	//			towerSetting = new BooleanSetting("Tower", false),
-	legitSetting = new BooleanSetting("Legit", false),
-			timerSlow = new BooleanSetting("Timer Slow", false),
-			overrideKeepYSetting = new BooleanSetting("Override keep y when jump is pressed", true),
-			viewRotations = new BooleanSetting("View rotations", false),
-			fourDirectionalSpeed = new BooleanSetting("Four directional speed", true),
-			oneDirectionalSpeed = new BooleanSetting("One directional speed", false),
-			toggleBlink = new BooleanSetting("Toggle blink", false),
-			itemSwitchDelay = new BooleanSetting("Switch item delay", false),
-			clientSideBlockPicker = new BooleanSetting("Client side block picker", false),
-			hitVecFixer = new BooleanSetting("Hit vec fixer", true),
-			noRotate = new BooleanSetting("NoRotate", false),
-			fakeMissPackets = new BooleanSetting("Fake miss packets", false),
-			placeBlockAsync = new BooleanSetting("Async block placements", true),
-			swaggyPaggyBoost = new BooleanSetting("Boost of Insanity", true);
+	legitSetting = new BooleanSetting("", false),
+			timerSlow = new BooleanSetting("", false),
+			overrideKeepYSetting = new BooleanSetting("", true),
+			viewRotations = new BooleanSetting("", false),
+			fourDirectionalSpeed = new BooleanSetting("", true),
+			oneDirectionalSpeed = new BooleanSetting("", false),
+			toggleBlink = new BooleanSetting("", false),
+			itemSwitchDelay = new BooleanSetting("", false),
+			clientSideBlockPicker = new BooleanSetting("", false),
+			hitVecFixer = new BooleanSetting("", true),
+			noRotate = new BooleanSetting("", false),
+			fakeMissPackets = new BooleanSetting("", false),
+			placeBlockAsync = new BooleanSetting("", true),
+			swaggyPaggyBoost = new BooleanSetting("", true);
 	public ModeSetting rotationMode = new ModeSetting("Rotation setting", "Hypixel Slow", "Hypixel Slow"),
-			towerMode = new ModeSetting("Tower mode", "None", "None", "Hypixel"/*, "NCP", "Test"*/);
+			towerMode = new ModeSetting("", "None", "None"/*, "NCP", "Test"*/);
 
 	@Override
 	public void loadSettings() {
 		rotationMode.modes.clear();
 		rotationMode.modes.addAll(Arrays.asList("Hypixel Slow"));
 		forwardExtendSetting.minimum = 0;
-		forwardExtendSetting.name = "Forward extend";
-		addSettings(/*forwardExtendSetting,*/ swaggyPaggyBoost, /*sidewaysExtendSetting, maxBlocksPlacedPerTickSetting, blinkBlaster, timerBoostSetting,
-				keepYSetting,*/ sprintSetting, /*legitSetting, overrideKeepYSetting, viewRotations, rotationMode,*/
-				fourDirectionalSpeed,/*, oneDirectionalSpeed, toggleBlink, itemSwitchDelay, clientSideBlockPicker,
+		forwardExtendSetting.name = "";
+		addSettings(/*forwardExtendSetting, swaggyPaggyBoost, sidewaysExtendSetting, maxBlocksPlacedPerTickSetting, blinkBlaster, timerBoostSetting,
+				keepYSetting, sprintSetting, legitSetting, overrideKeepYSetting, viewRotations, rotationMode,
+				fourDirectionalSpeed,, oneDirectionalSpeed, toggleBlink, itemSwitchDelay, clientSideBlockPicker,
 				hitVecFixer, noRotate, fakeMissPackets, towerMode, placeBlockAsync,*/ timerSlow);
 	}
 
