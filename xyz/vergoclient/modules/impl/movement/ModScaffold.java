@@ -185,8 +185,8 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 
 		float[] rots = new float[] {mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};
 
-		lastYaw = rots[0];
-		lastPitch = rots[1];
+		lastYaw = mc.thePlayer.rotationYaw;
+		lastPitch = mc.thePlayer.rotationPitch;
 
 //		lastYaw = mc.thePlayer.rotationYaw;
 //		lastPitch = mc.thePlayer.rotationPitch;
@@ -948,6 +948,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			/*
 
 				TESTING PURPOSES ONLY. DOES NOT WORK! DO NOT PUT INTO PRACTICE!
+			*/
 
 			float yaw = 0;
 			float pitch = 0;
@@ -961,17 +962,17 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 					pitch = RandomUtils.nextFloat(86.19f, 86.23f);
 					break;
 				case SOUTH:
-					yaw = RandomUtils.nextFloat(138, 139);
-					pitch = RandomUtils.nextFloat(88.1f, 88.8f);
+					yaw = 125;
+					pitch = RandomUtils.nextFloat(84.7f, 85f);
 					break;
 				case WEST:
-					yaw = 404;
+					yaw = 300;
 					pitch = RandomUtils.nextFloat(85.9f, 86.1f);
 					break;
 			}
-			return new float[] {yaw, pitch};*/
+			return new float[] {yaw, pitch};
 
-			if (!newBlock) {
+			/*if (!newBlock) {
 				lastYaw = RotationUtils.updateRotation(lastYaw, f1, RandomUtils.nextFloat(1, 2));
 				if (((f1 - lastYaw) * (f1 - lastYaw < 0 ? -1 : 1)) % 360 > 5) {
 					lastPitch = f2;
@@ -982,7 +983,7 @@ public class ModScaffold extends Module implements OnEventInterface, OnSettingCh
 			if (newBlock) {
 //				return new float[] {lastYaw, f2};
 			}
-			return new float[] {f1, f2};
+			return new float[] {f1, f2};*/
 
 		}
 		else if (rotationMode.is("Hypixel Sprint")) {
