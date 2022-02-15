@@ -45,7 +45,7 @@ public class AutoPlay extends Module implements OnEventInterface {
     public void loadSettings() {
 
 
-        addSettings(teamMode);
+        addSettings(teamMode, autoGG);
     }
 
     @Override

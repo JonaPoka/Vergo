@@ -479,8 +479,6 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 				wasOnBefore = true;
 			}
 
-			MovementUtils.setMotion(1.3f);
-
 			/*if(this.boostTiming.delay(1L)) {
 				mc.thePlayer.motionX = mc.thePlayer.motionX * 1.9;
 				mc.thePlayer.motionZ = mc.thePlayer.motionZ * 1.9;
@@ -732,8 +730,8 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		}
 		event.setYaw(rotations[0]);
 		event.setPitch(rotations[1]);
-		//RenderUtils.setCustomYaw(event.yaw);
-		//RenderUtils.setCustomPitch(event.pitch);
+		RenderUtils.setCustomYaw(event.yaw);
+		RenderUtils.setCustomPitch(event.pitch);
 		if (viewRotations.isEnabled()) {
 			mc.thePlayer.rotationYaw = event.getYaw();
 			mc.thePlayer.rotationPitch = event.getPitch();

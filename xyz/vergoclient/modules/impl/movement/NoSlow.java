@@ -19,7 +19,12 @@ public class NoSlow extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 
+		if(Vergo.config.modScaffold.isEnabled()) {
+			return;
+		}
+
 		if(MovementUtils.isMoving()) {
+
 			if (mc.gameSettings.keyBindSprint.isPressed()) {
 				mc.thePlayer.setSprinting(true);
 			}
