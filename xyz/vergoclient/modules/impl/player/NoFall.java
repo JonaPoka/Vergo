@@ -38,6 +38,9 @@ public class NoFall extends Module implements OnEventInterface {
 
 	@Override
 	public void onEnable() {
+		if(mode.is("Hypixel")) {
+			setInfo("Hypixel");
+		}
 		//ChatUtils.addChatMessage("Module Detected. Proceed with caution.");
 	}
 
@@ -51,30 +54,11 @@ public class NoFall extends Module implements OnEventInterface {
 
 	private void onNoFallHypixelEvent(Event e) {
 
-		if (e instanceof EventTick && e.isPre()) {
-			setInfo("Hypixel");
-		}
+		if (e instanceof EventUpdate && e.isPre()) {
 
-		else if (e instanceof EventUpdate && e.isPre()) {
-
-			/* double x = mc.thePlayer.posX;
-			double y = mc.thePlayer.posY;
-			double z = mc.thePlayer.posZ;
-
-			Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 6D, z, false));
-
-			for (int i =0; i < 15; ++i) {
-				Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.5D, z, false));
-				Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.2D, z, false));
-			} */
-
-			if (mc.thePlayer.fallDistance > 3 && !isOverVoid() && !mc.thePlayer.isSpectator()) {
-				mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer(true));
-			}
-			if (mc.thePlayer.fallDistance > 4 && !isOverVoid() && !mc.thePlayer.isSpectator()) {
-				mc.thePlayer.setPosition(mc.thePlayer.lastTickPosX, mc.thePlayer.posY, mc.thePlayer.lastTickPosZ);
-			}
-
+			if (!(mc.thePlayer.fallDistance > 2.69) || !e.isPre()) return;
+			mc.getNetHandler().getNetworkManager().sendPacketNoEvent(new C03PacketPlayer(true));
+			mc.thePlayer.fallDistance = 0.0f;
 		}
 	}
 

@@ -759,7 +759,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		if (blockPos == null && enumFacing == null) {
 			return null;
 		}
-		Vec3 positionEyes = mc.thePlayer.getPositionEyes(2.0f);
+		Vec3 positionEyes = mc.thePlayer.getPositionEyes(RandomUtils.nextFloat(2.0f, 2.1f));
 		Vec3 add = new Vec3((double)blockPos.getX() + 0.5, (double)blockPos.getY() + 0.5, (double)blockPos.getZ() + 0.5);
 		double n = add.xCoord - positionEyes.xCoord;
 		double n2 = add.yCoord - positionEyes.yCoord;

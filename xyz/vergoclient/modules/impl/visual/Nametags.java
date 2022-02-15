@@ -105,12 +105,12 @@ public class Nametags extends Module implements OnEventInterface {
 
 				Color healthColor = new Color(95, 255, 67);
 
-				if(player.getHealth() >= 15) {
+				if(player.getHealth() >= 11) {
 					healthColor = new Color(95, 255, 67);
-				} else if(player.getHealth() <= 8) {
-					healthColor = new Color(255, 108, 51);
-				} else if(player.getHealth() <= 3) {
-					healthColor = new Color(253, 40, 40);
+				} else if(player.getHealth() <= 10 && player.getHealth() > 5){
+					healthColor = new Color(250, 112, 57);
+				} else if(player.getHealth() < 5) {
+					healthColor = new Color(252, 37, 37);
 				}
 
 				FontUtil.comfortaaSmall.drawString(healthStr, fr.getStringWidth(text) + 7, 5.5f, healthColor.getRGB());

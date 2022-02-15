@@ -44,6 +44,10 @@ public class NoSlow extends Module implements OnEventInterface {
 			if (mc.thePlayer.isBlocking()) {
 				EventSendPacket event = (EventSendPacket) e;
 				if (event.packet instanceof C08PacketPlayerBlockPlacement) {
+					if (NoSlow.mc.thePlayer.getHeldItem() == null || !(NoSlow.mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) || !NoSlow.mc.gameSettings.keyBindUseItem.isKeyDown() || (double)NoSlow.mc.thePlayer.ticksExisted % 6	 != 0.0) {
+						return;
+					}
+
 					mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
 				}
 			}

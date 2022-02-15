@@ -349,6 +349,14 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
 		String welcomeMsg = "Logged in as:  " + AccountUtils.account.username + " | " + AccountUtils.account.uid;
 
+		String betaMsg = "You are on a BETA build of Vergo";
+
+		if(Vergo.beta) {
+			jFR.drawString(betaMsg, width / 2 - (jFR.getStringWidth(betaMsg) / 2), height / 1 - 15, -1);
+		} else if(!Vergo.beta) {
+
+		}
+
 		jFR.drawString(welcomeMsg, this.width % 2 + 3, height / 1 - 15, -1);
 
 		int textureWidth = 225;
