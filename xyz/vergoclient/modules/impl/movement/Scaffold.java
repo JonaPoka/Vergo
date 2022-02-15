@@ -132,6 +132,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		mc.thePlayer.setSprinting(false);
 
 		if (mc.thePlayer.isSprinting()) {
+			mc.gameSettings.keyBindSprint.pressed = false;
 			mc.thePlayer.setSprinting(false);
 		}
 
@@ -149,6 +150,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		if(rotationMode.is("Hypixel Slow") || rotationMode.is("Hypixel Sprint")) {
 
 			if (mc.thePlayer.isSprinting()) {
+				mc.gameSettings.keyBindSprint.pressed = false;
 				mc.thePlayer.setSprinting(false);
 			}
 
@@ -384,12 +386,6 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 
 		}*/
 
-		if(e instanceof EventMove && e.isPre()) {
-			if(MovementUtils.isOnGround(0.001)) {
-				insanityBoost(((EventMove) e));
-			}
-		}
-
 		if (e instanceof EventMove && e.isPre() && fourDirectionalSpeed.isEnabled()) {
 
 			mc.gameSettings.keyBindLeft.pressed = false;
@@ -502,6 +498,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		EventUpdate event = (EventUpdate) e;
 
 		if (!sprintSetting.isEnabled() && mc.thePlayer.isSprinting()) {
+			mc.gameSettings.keyBindSprint.pressed = false;
 			mc.thePlayer.setSprinting(false);
 		} else if (sprintSetting.isEnabled() && !mc.thePlayer.isSprinting()) {
 		}
@@ -720,6 +717,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 
 		// Places the block and sets the rots
 		if (mc.thePlayer.isSprinting())
+			mc.gameSettings.keyBindSprint.pressed = false;
 			mc.thePlayer.setSprinting(false);
 
 		float[] rotations = getBlockRotations(info.pos, info.facing);
