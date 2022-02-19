@@ -132,8 +132,8 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		mc.thePlayer.setSprinting(false);
 
 		if (mc.thePlayer.isSprinting()) {
-			mc.gameSettings.keyBindSprint.pressed = false;
-			mc.thePlayer.setSprinting(false);
+			//mc.gameSettings.keyBindSprint.pressed = false;
+			//mc.thePlayer.setSprinting(false);
 		}
 
 		boxOpacity.setOpacity(0);
@@ -150,8 +150,8 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		if(rotationMode.is("Hypixel Slow") || rotationMode.is("Hypixel Sprint")) {
 
 			if (mc.thePlayer.isSprinting()) {
-				mc.gameSettings.keyBindSprint.pressed = false;
-				mc.thePlayer.setSprinting(false);
+				//mc.gameSettings.keyBindSprint.pressed = false;
+				//mc.thePlayer.setSprinting(false);
 			}
 
 			if (timerSlow.isEnabled()) {
@@ -498,20 +498,19 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		EventUpdate event = (EventUpdate) e;
 
 		if (!sprintSetting.isEnabled() && mc.thePlayer.isSprinting()) {
-			mc.gameSettings.keyBindSprint.pressed = false;
-			mc.thePlayer.setSprinting(false);
+
 		} else if (sprintSetting.isEnabled() && !mc.thePlayer.isSprinting()) {
 		}
 
 		/*if (timerBoostSetting.getValueAsDouble() >= 1.000001)
 			mc.timer.timerSpeed = MovementUtils.isMoving() ? ((float) timerBoostSetting.getValueAsDouble()) : 1f;*/
 
-		if (rotationMode.is("Hypixel Slow")) {
+		/*if (rotationMode.is("Hypixel Slow")) {
 			if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
 				mc.thePlayer.motionX *= 0.6f;
 				mc.thePlayer.motionZ *= 0.6f;
 			}
-		}
+		}*/
 
 		// KeepY
 		if (MovementUtils.isOnGround(0.00001)) {
@@ -716,9 +715,10 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		}
 
 		// Places the block and sets the rots
-		if (mc.thePlayer.isSprinting())
-			mc.gameSettings.keyBindSprint.pressed = false;
-			mc.thePlayer.setSprinting(false);
+		if (mc.thePlayer.isSprinting()) {
+			//mc.gameSettings.keyBindSprint.pressed = false;
+			//mc.thePlayer.setSprinting(false);
+		}
 
 		float[] rotations = getBlockRotations(info.pos, info.facing);
 		float[] rots = getRotations(info.pos, info.facing,
@@ -727,7 +727,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 			return;
 		}
 		event.setYaw(rotations[0]);
-		event.setPitch(rotations[1]);
+		event.setPitch(rotations[1] + RandomUtils.nextFloat(0.02f, 0.2f));
 		RenderUtils.setCustomYaw(event.yaw);
 		RenderUtils.setCustomPitch(event.pitch);
 		if (viewRotations.isEnabled()) {
@@ -759,12 +759,12 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		if (blockPos == null && enumFacing == null) {
 			return null;
 		}
-		Vec3 positionEyes = mc.thePlayer.getPositionEyes(RandomUtils.nextFloat(2.0f, 2.1f));
+		Vec3 positionEyes = mc.thePlayer.getPositionEyes(RandomUtils.nextFloat(2.0f, 2.05f));
 		Vec3 add = new Vec3((double)blockPos.getX() + 0.5, (double)blockPos.getY() + 0.5, (double)blockPos.getZ() + 0.5);
 		double n = add.xCoord - positionEyes.xCoord;
 		double n2 = add.yCoord - positionEyes.yCoord;
 		double n3 = add.zCoord - positionEyes.zCoord;
-		return new float[]{(float)(Math.atan2(n3, n) * 180.0 / Math.PI - 90.0), -((float)(Math.atan2(n2, (float)Math.hypot(n, n3)) * 180.0 / Math.PI))};
+		return new float[]{(float)(Math.atan2(n3, n) * 180.0 / Math.PI - 89.5), -((float)(Math.atan2(n2, (float)Math.hypot(n, n3)) * 180.0 / Math.PI))};
 	}
 
 	private void placeBlock(EventUpdate event, BlockInfo info, ItemStack block) {
