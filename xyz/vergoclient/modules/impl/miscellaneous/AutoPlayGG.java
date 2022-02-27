@@ -16,12 +16,12 @@ import xyz.vergoclient.util.ChatUtils;
 import xyz.vergoclient.util.ServerUtils;
 import xyz.vergoclient.util.Timer;
 
-public class AutoPlay extends Module implements OnEventInterface {
+public class AutoPlayGG extends Module implements OnEventInterface {
 
     Timer timer;
 
-    public AutoPlay() {
-        super("AutoPlay&GG", Category.MISCELLANEOUS);
+    public AutoPlayGG() {
+        super("AutoPlay", Category.MISCELLANEOUS);
         this.timer = new Timer();
     }
 
@@ -34,6 +34,12 @@ public class AutoPlay extends Module implements OnEventInterface {
         if(teamMode != null) {
             this.timer.reset();
         }
+
+        if(autoGG.isEnabled()) {
+            setInfo("AutoGG");
+        } else {
+            setInfo("");
+        }
     }
 
     @Override
@@ -43,7 +49,6 @@ public class AutoPlay extends Module implements OnEventInterface {
 
     @Override
     public void loadSettings() {
-
 
         addSettings(teamMode, autoGG);
     }
@@ -62,7 +67,7 @@ public class AutoPlay extends Module implements OnEventInterface {
             if (packetEvent.packet instanceof S02PacketChat) {
                 S02PacketChat packet = (S02PacketChat) packetEvent.packet;
 
-                if(teamMode.is("Sky Solo Normal") || teamMode.is("Sky Solo Insane") /*|| teamMode.is("Teams Normal") || teamMode.is("Teams Insane")*/) {
+                if(teamMode.is("Sky Solo Normal") || teamMode.is("Sky Solo Insane") ) {
                     if (packet.getChatComponent().getUnformattedText().contains("You died! Want to play again?") || packet.getChatComponent().getUnformattedText().contains("You won! Want to play again?") ||
                             packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to return to lobby!") || packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to cancel!")) {
                         if(autoGG.isEnabled()) {

@@ -37,7 +37,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ModuleManager {
 
-	public AutoPlay modAutoPlay = new AutoPlay();
+	public AutoPlayGG modAutoPlay = new AutoPlayGG();
 	public ClickGui modClickgui = new ClickGui();
 	public ModTimer modTimer = new ModTimer();
 	public Fly modFly = new Fly();
@@ -100,7 +100,7 @@ public class ModuleManager {
 
 		// Misc
 		modAntibot = new LoaderModule<AntiBot>(modAntibot).generate();
-		modAutoPlay = new LoaderModule<AutoPlay>(modAutoPlay).generate();
+		modAutoPlay = new LoaderModule<AutoPlayGG>(modAutoPlay).generate();
 		modBlink = new LoaderModule<Blink>(modBlink).generate();
 		modClickgui = new LoaderModule<ClickGui>(modClickgui).generate();
 		modTeams = new LoaderModule<Teams>(modTeams).generate();
