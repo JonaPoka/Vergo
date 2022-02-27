@@ -1,6 +1,11 @@
 package xyz.vergoclient;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
+import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.minecraft.client.Minecraft;
@@ -169,6 +174,31 @@ public class Vergo {
 		public void task() {
 
 		}
+	}
+
+	public static void protTime() {
+		java.util.Timer timer = new java.util.Timer();
+
+		timer.schedule( new TimerTask() {
+			public void run() {
+				try {
+					URL url = new URL("https://vergoclient.xyz/");
+					HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+					connection.setRequestMethod("POST");
+					connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+					connection.connect();
+					int httpStatusCode = connection.getResponseCode();
+
+					if(httpStatusCode != 200) {
+						Minecraft.getMinecraft().shutdown();
+						return;
+					}
+
+				} catch(IOException er) {
+
+				}
+			}
+		}, 0, 3500);
 	}
 
 	public static Player getPlayer() {

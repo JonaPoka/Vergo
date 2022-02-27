@@ -171,7 +171,6 @@ public class LogInGui extends GuiScreen {
                             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
                             connection.connect();
                             int httpStatusCode = connection.getResponseCode();
-                            System.out.println(httpStatusCode);
 
                             // If response code is 521 then the webserver is down, abort everything.
                             if(httpStatusCode == 521) {
@@ -241,6 +240,7 @@ public class LogInGui extends GuiScreen {
                                 }
                             }).start();
                             loggingInStatus = "Logged in!";
+                            Vergo.protTime();
                             Thread.sleep(1000);
                             GuiStart.hasLoaded = true;
                             Keyboard.enableRepeatEvents(false);
