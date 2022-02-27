@@ -290,7 +290,7 @@ public class MiscellaneousUtils {
 			return false;
 		}
 	}
-	
+
 	public static void setAltBanStatusHypixel(IChatComponent message) {
 		new Thread("Ban time updater") {
         	public void run() {

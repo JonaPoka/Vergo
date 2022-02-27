@@ -7,8 +7,10 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.IChatComponent;
 
 public class ChatUtils {
-	
-	// For objects
+
+	// More convenient?
+	private static String prefix = "§4Vergo §f>>";
+
 	public static void addChatMessage(Object message, boolean displayRawMessage) {
 		
 		if (ModuleManager.currentlyLoadingConfig)
@@ -17,7 +19,7 @@ public class ChatUtils {
 		if (displayRawMessage) {
 			addChatMessage(new ChatComponentText(message + ""));
 		}else {
-			addChatMessage(new ChatComponentText("§4Vergo §f>> " + message));
+			addChatMessage(new ChatComponentText(prefix + message));
 		}
 	}
 	
@@ -36,7 +38,7 @@ public class ChatUtils {
 		if (ModuleManager.currentlyLoadingConfig)
 			return;
 		
-		ChatComponentText component = new ChatComponentText("§4Vergo §f>> " + message);
+		ChatComponentText component = new ChatComponentText(prefix + message);
 		component.setChatStyle(style);
 		addChatMessage(component);
 	}

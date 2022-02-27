@@ -22,6 +22,10 @@ import xyz.vergoclient.util.datas.DataDouble5;
 
 import java.awt.*;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
@@ -60,7 +64,7 @@ public class LogInGui extends GuiScreen {
         String logInString = "Login";
         String getHWIDString = "Get HWID";
 
-        fr.drawString(authenticateText, width / 2 - fr.getStringWidth(authenticateText)/2, 20, -1);
+        fr.drawString(authenticateText, width / 2 - fr.getStringWidth(authenticateText) / 2, 20, -1);
 
         int loginBoxWidth = 300;
         int loginBoxHeight = 170;
@@ -87,6 +91,10 @@ public class LogInGui extends GuiScreen {
         getHWID.y1 = loginBoxHeight / 1f;
         getHWID.y2 = loginBoxHeight / 1f + 30;
 
+
+        // This is where all the actual buttons, backgrounds, shapes and boxes are drawn.
+        // Only change this if you are altering colours or adding things.
+        // Please do not change this file too much as one small issue could be devastating towards client protection.
 
         RenderUtils.drawRoundedRect(width / 2 - loginBoxWidth / 2, 50, loginBoxWidth, loginBoxHeight, 3f, new Color(45, 45, 45));
 
@@ -155,10 +163,56 @@ public class LogInGui extends GuiScreen {
 
                         String response1 = NetworkManager.getNetworkManager().sendPost(new HttpPost("https://vergoclient.xyz/api/verCheck.php"));
                         if(!response1.equals(Vergo.version)) {
-                            loggingInStatus = "Outdated Version! !";
-                            Thread.sleep(5000);
-                            mc.shutdown();
-                            return;
+
+                            // 'Pings' the web server to get a response code.
+                            URL url = new URL("https://vergoclient.xyz/api/verCheck.php");
+                            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+                            connection.setRequestMethod("POST");
+                            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+                            connection.connect();
+                            int httpStatusCode = connection.getResponseCode();
+                            System.out.println(httpStatusCode);
+
+                            // If response code is 521 then the webserver is down, abort everything.
+                            if(httpStatusCode == 521) {
+
+                                loggingInStatus = "Vergo is down. Check log for more informaion.";
+                                System.out.println("The Vergo website is currently down or unreachable. Make sure you have an internet connection.");
+                                System.out.println("If you are sure that you do, check https://vergoclient.xyz | If it is down, check Discord for information.");
+                                System.out.println("If nothing has been said on Discord, please report it to one of Vergo's developers.");
+                                System.out.println("We apologise for the any inconvenience caused.");
+
+                                connection.disconnect();
+
+                                Thread.sleep(5000);
+                                mc.shutdown();
+                                return;
+                            } else if (httpStatusCode == 200) {
+
+                                // Else, print outdated version since everything else is working accordingly.
+                                System.out.println(response1);
+                                loggingInStatus = "Outdated Version!";
+
+                                connection.disconnect();
+
+                                Thread.sleep(2500);
+                                //mc.shutdown();
+                                return;
+
+                            } else {
+                                loggingInStatus = "Error! Check logs.";
+                                System.out.println("Something has gone wrong on our end.");
+                                System.out.println("Please try and access https://vergoclient.xyz | If it is down, check Discord for information");
+                                System.out.println("If nothing has been said on Discord, please report it to one of Vergo's developers.");
+                                System.out.println("We apologise for the any inconvenience caused.");
+
+                                connection.disconnect();
+
+                                Thread.sleep(2500);
+                                mc.shutdown();
+                                return;
+                            }
+
                         }
 
                         loggingInStatus = "Logging in...";
@@ -167,7 +221,7 @@ public class LogInGui extends GuiScreen {
                         ApiResponse apiResponse = MiscellaneousUtils.parseApiResponse(response);
                         if(apiResponse.status == ApiResponse.ResponseStatus.FORBIDDEN) {
                             loggingInStatus = "Account access disallowed.";
-                            Thread.sleep(1000);
+                            Thread.sleep(2500);
                             mc.shutdown();
                             return;
                         } else
@@ -226,6 +280,17 @@ public class LogInGui extends GuiScreen {
             }
         }
 
+    }
+
+    // If Vergo's website is NOT reachable, try to send a ping. If it returns false, the website is dead and Vergo should cease to function
+    // This is simply a safety procedure.
+    public static boolean pingHost(String host, int port, int timeout) {
+        try (Socket socket = new Socket()) {
+            socket.connect(new InetSocketAddress(host, port), timeout);
+            return true;
+        } catch (IOException e) {
+            return false; // Either timeout or unreachable or failed DNS lookup.
+        }
     }
 
 }

@@ -6,11 +6,12 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 public class ServerUtils {
 
 	public static Timer timer;
+
+	public static Minecraft mc = Minecraft.getMinecraft();
 	
 	public static boolean isOnHypixel() {
 		
 		try {
-			Minecraft mc = Minecraft.getMinecraft();
 			
 			if (!mc.isSingleplayer() && mc.getCurrentServerData().serverIP.toLowerCase().contains("hypixel.net")) {
 				return true;
@@ -22,75 +23,19 @@ public class ServerUtils {
 		return false;
 		
 	}
-	
-	public static boolean isOnBrokenlens() {
-		
-		try {
-			Minecraft mc = Minecraft.getMinecraft();
-			
-			if (!mc.isSingleplayer() && mc.getCurrentServerData().serverIP.toLowerCase().contains("brlns.net")) {
-				return true;
-			}
-		} catch (Exception e) {
-			
-		}
-		
-		return false;
-		
+
+	public static String getServerIP() {
+		return mc.getCurrentServerData() == null ? null : mc.getCurrentServerData().serverIP.toLowerCase();
 	}
-	
-	public static boolean isOnMineplex() {
-		
-		try {
-			Minecraft mc = Minecraft.getMinecraft();
-			
-			if (!mc.isSingleplayer() && mc.getCurrentServerData().serverIP.toLowerCase().contains("mineplex.com")) {
-				return true;
-			}
-		} catch (Exception e) {
-			
-		}
-		
-		return false;
-		
-	}
-	
-	public static boolean isOnInvaded() {
-		
-		try {
-			Minecraft mc = Minecraft.getMinecraft();
-			
-			if (!mc.isSingleplayer() && mc.getCurrentServerData().serverIP.toLowerCase().contains("invadedlands.net")) {
-				return true;
-			}
-		} catch (Exception e) {
-			
-		}
-		
-		return false;
-		
-	}
-	
-	public static boolean isOnMineMen() {
-		
-		try {
-			Minecraft mc = Minecraft.getMinecraft();
-			
-			if (!mc.isSingleplayer() && mc.getCurrentServerData().serverIP.toLowerCase().contains("minemen.club")) {
-				return true;
-			}
-		} catch (Exception e) {
-			
-		}
-		
-		return false;
-		
+
+	public static boolean isSinglePlayer(){
+		return mc.isIntegratedServerRunning();
 	}
 
 	public static NetworkPlayerInfo networkPlayerInfo;
 
 	public static int getHypixelNetworkPing() {
-		NetworkPlayerInfo networkPlayerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID());
+		NetworkPlayerInfo networkPlayerInfo = mc.getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID());
 		return networkPlayerInfo == null ? 0 : networkPlayerInfo.getResponseTime();
 	}
 

@@ -46,6 +46,7 @@ public class ModuleManager {
 	public KillAura modKillAura = new KillAura();
 	public WTap modWTap = new WTap();
 	public AutoPot modAutoPot = new AutoPot();
+	public Strafe modStrafe = new Strafe();
 	//public ModTPAura modTPAura = new ModTPAura();
 	public Velocity modVelocity = new Velocity();
 	public NightMode modNightMode = new NightMode();
@@ -56,7 +57,6 @@ public class ModuleManager {
 	public NoSlow modNoSlow = new NoSlow();
 	public TargetStrafe modTargetStrafe = new TargetStrafe();
 	public Sprint modSprint = new Sprint();
-	public Strafe modStrafe = new Strafe();
 	public LongJump modLongJump = new LongJump();
 	public AutoArmor modAutoArmor = new AutoArmor();
 	public AutoTool modAutotool = new AutoTool();
@@ -123,6 +123,7 @@ public class ModuleManager {
 		modScaffold = new LoaderModule<Scaffold>(modScaffold).generate();
 		modSpeed = new LoaderModule<Speed>(modSpeed).generate();
 		modSprint = new LoaderModule<Sprint>(modSprint).generate();
+		modStrafe = new LoaderModule<Strafe>(modStrafe).generate();
 		modVelocity = new LoaderModule<Velocity>(modVelocity).generate();
 
 		// Combat

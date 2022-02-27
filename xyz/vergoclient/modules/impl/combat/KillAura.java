@@ -138,8 +138,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 		lastPitch = mc.thePlayer.rotationPitch;
 		legitStartingYaw = mc.thePlayer.rotationYaw;
 		legitStartingPitch = mc.thePlayer.rotationPitch;
-		bezierCurveHelper.clearPoints();
-		bezierCurveHelper.clearProgress();
 		target = null;
 
 		this.blockTimer.reset();
@@ -219,7 +217,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 				if (!mc.gameSettings.keyBindUseItem.isKeyDown())
 					legitStartingYaw = mc.thePlayer.rotationYaw;
 					legitStartingPitch = mc.thePlayer.rotationPitch;
-					bezierCurveHelper.clearPoints();
 					mc.thePlayer.clearItemInUse();
 				return;
 			}
@@ -291,8 +288,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 			legitRotation = new DataDouble3(0, 0, 0);
 	public static transient float legitStartingYaw = 0, legitStartingPitch = 0;
 
-	public static transient BezierCurveHelper bezierCurveHelper = new BezierCurveHelper();
-
 	private boolean setRotations(EventUpdate e) {
 
 		if (rotationSetting.is("Lock")) {
@@ -308,7 +303,7 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 	private void setTarget() {
 
-		if (target != null && (target.isDead || target.getHealth() <= 0) && !ServerUtils.isOnMineplex()) {
+		if (target != null && (target.isDead || target.getHealth() <= 0)) {
 			target = null;
 		}
 
@@ -332,8 +327,7 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 				.filter(EntityLivingBase.class::isInstance).collect(Collectors.toList());
 		potentialTargets = potentialTargets.stream()
 				.filter(entity -> entity.getDistanceToEntity(mc.thePlayer) < rangeSetting.getValueAsDouble()
-						&& entity != mc.thePlayer
-						&& (ServerUtils.isOnMineplex() ? true : (!entity.isDead && entity.getHealth() > 0)))
+						&& entity != mc.thePlayer)
 				.collect(Collectors.toList());
 
 		// Sorts them
@@ -387,7 +381,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 		if (target != lastTarget) {
 			legitStartingYaw = lastYaw;
 			legitStartingPitch = lastPitch;
-			bezierCurveHelper.clearPoints();
 		}
 
 	}
