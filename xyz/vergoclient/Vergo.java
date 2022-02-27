@@ -177,12 +177,15 @@ public class Vergo {
 	}
 
 	public static void protTime() {
+
+		// rough and ugly code to shutdown Vergo if connection to the website is lost.
+
 		java.util.Timer timer = new java.util.Timer();
 
 		timer.schedule( new TimerTask() {
 			public void run() {
 				try {
-					URL url = new URL("https://vergoclient.xyz/");
+					URL url = new URL("https://vergoclient.xyz/api/testPage.php");
 					HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 					connection.setRequestMethod("POST");
 					connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");

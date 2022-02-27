@@ -159,7 +159,7 @@ public class Speed extends Module implements OnEventInterface {
 			mc.thePlayer.jump();
 			mc.thePlayer.motionY -= 0.023f;
 			if(mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown()) {
-				MovementUtils.setSpeed(0.489);
+				MovementUtils.setSpeed(0.4895);
 				mc.thePlayer.motionX *= 1.0015;
 				mc.thePlayer.motionY *= 1.0015;
 			} else {

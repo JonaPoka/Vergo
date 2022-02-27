@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.core.jmx.Server;
 import org.lwjgl.opengl.Display;
@@ -18,6 +19,7 @@ import xyz.vergoclient.event.impl.EventRenderGUI;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.modules.OnEventInterface;
+import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.*;
@@ -74,55 +76,17 @@ public class Hud implements OnEventInterface {
 				GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 				RenderUtils.drawImg(new ResourceLocation("Vergo/logo/512x512-transparent-round.png"), 0, 0, 32, 32);
 			} else if(Vergo.config.modHud.waterMark.is("vergosense")) {
-				//NetworkPlayerInfo you = mc.getNetHandler().getPlayerInfo(mc.thePlayer.getUniqueID());
-				//String ping = "Ping: \247f" + (you == null ? "0" : you.responseTime);
 
-				String s1 = "vergo           -";
-				String s12 = "vergo";
-				String s2 = " sense";
-				String s3 = "hypixel.net - ";
-				String s4 = "" + ServerUtils.getHypixelNetworkPing();
-				//String s4 = mc.thePlayer.getName();
+					JelloFontRenderer fr = FontUtil.comfortaaSmall;
 
-				float width1 = 54;
-				float width12 = 140;
+					String vergoStr = "vergo" + EnumChatFormatting.GREEN + "sense" + EnumChatFormatting.WHITE + " | " + ServerUtils.getServerIP() + " | " + AccountUtils.account.username + "#" + FormattingUtil.formatUID();
 
-				float width2 = 52;
-				float width22 = 138;
+					RenderUtils2.drawRect(2, 2, (float) (12 + fr.getStringWidth(vergoStr)), 18, new Color(0x434343).getRGB());
+					RenderUtils2.drawRect(3f, 3f, (float) (10 + fr.getStringWidth(vergoStr)), 16, new Color(0x434343).darker().getRGB());
+					RenderUtils2.drawRect(5, 5, (float) (6 + fr.getStringWidth(vergoStr)), 12, new Color(0x434343).getRGB());
+					RenderUtils2.drawRect(6f, 6f, (float) (4 + fr.getStringWidth(vergoStr)), 10, new Color(0x303030).darker().getRGB());
 
-				float width3 = 48;
-				float width32 = 134;
-
-				float width4 = 46;
-				float width42 = 132;
-
-				if(ServerUtils.isOnHypixel()) {
-					RenderUtils2.drawRect(2, 2, width12, 18, new Color(0x434343).getRGB());
-					RenderUtils2.drawRect(3f, 3f, width22, 16, new Color(0x434343).darker().getRGB());
-					RenderUtils2.drawRect(5, 5, width32, 12, new Color(0x434343).getRGB());
-					RenderUtils2.drawRect(6f, 6f, width42, 10, new Color(0x303030).darker().getRGB());
-					RenderUtils2.drawRect(6, 15f, width42, 1, ColorUtils.fadeColorHorizontal(new Color(10, 193, 0),(int) 8, 10).getRGB());
-				} else {
-					RenderUtils2.drawRect(2, 2, width1, 18, new Color(0x434343).getRGB());
-					RenderUtils2.drawRect(3f, 3f, width2, 16, new Color(0x434343).darker().getRGB());
-					RenderUtils2.drawRect(5, 5, width3, 12, new Color(0x434343).getRGB());
-					RenderUtils2.drawRect(6f, 6f, width4, 10, new Color(0x303030).darker().getRGB());
-					RenderUtils2.drawRect(6, 15f, 46, 1, ColorUtils.fadeColorHorizontal(new Color(10, 193, 0),(int) 8, 10).getRGB());
-				}
-
-				if(ServerUtils.isOnHypixel()) {
-					FontUtil.comfortaaSmall.drawString(s1, 8f, 9.5f, new Color(0xffffff).getRGB());
-					FontUtil.comfortaaSmall.drawString(s4 + "ms", 110f, 9.5f, new Color(0xffffff).getRGB());
-				} else {
-					FontUtil.comfortaaSmall.drawString(s12, 8f, 9.5f, new Color(0xffffff).getRGB());
-				}
-				FontUtil.comfortaaSmall.drawString(s2, 27f, 9.5f, new Color(0x5AFF00).getRGB());
-				if(ServerUtils.isOnHypixel()) {
-					FontUtil.comfortaaSmall.drawString(s3, 62, 9.5f, new Color(0xffffff).getRGB());
-				} else {
-
-				}
-				//FontUtil.comfortaaSmall.drawString(s4, 24.5f, 6, new Color(0xffffff).getRGB());
+					fr.drawString(vergoStr, 8f, 9.5f, new Color(0xffffff).getRGB());
 
 			}
 

@@ -76,7 +76,7 @@ public class GuiAltManager extends GuiScreen {
 		fr.drawCenteredString("Alt Manager", width / 2, height / 90, new Color(255, 255, 255).getRGB());
 
 		scrollTarget += Mouse.getDWheel();
-		scroll += (scrollTarget - scroll) / 4;
+		scroll += (scrollTarget - scroll) / 1;
 
 		if (scroll >= 0) {
 			scrollTarget = 0;
@@ -132,7 +132,7 @@ public class GuiAltManager extends GuiScreen {
 					if (alt.password.isEmpty()) {
 						SessionChanger.getInstance().setUserOffline(alt.username);
 					}else {
-						new Thread("Alt login thread") {
+						new Thread("ALT-THREAD-LOGIN") {
 							@Override
 							public void run() {
 								isLoggingIntoAlt = true;
