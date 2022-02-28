@@ -75,7 +75,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
 	public GuiMainMenu()
 	{
-		DisplayUtils.setCustomTitle("Vero " + Vergo.version + " | Main Menu");
+		DisplayUtils.setCustomTitle("Vergo " + Vergo.version + " | Main Menu");
 
 		this.field_146972_A = field_96138_a;
 		this.splashText = "oop";

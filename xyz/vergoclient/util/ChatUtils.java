@@ -9,7 +9,7 @@ import net.minecraft.util.IChatComponent;
 public class ChatUtils {
 
 	// More convenient?
-	private static String prefix = "§4Vergo §f>>";
+	private static String prefix = "§4Vergo §f>> ";
 
 	public static void addChatMessage(Object message, boolean displayRawMessage) {
 		

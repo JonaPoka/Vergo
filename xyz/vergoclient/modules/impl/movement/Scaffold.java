@@ -86,7 +86,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 			sprintSetting = new BooleanSetting("", false),
 	//			towerSetting = new BooleanSetting("Tower", false),
 	legitSetting = new BooleanSetting("", false),
-			timerSlow = new BooleanSetting("", false),
+			timerSlow = new BooleanSetting("Timer Slow", false),
 			overrideKeepYSetting = new BooleanSetting("", false),
 			viewRotations = new BooleanSetting("", false),
 			fourDirectionalSpeed = new BooleanSetting("", false),
