@@ -37,6 +37,8 @@ import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event.EventType;
 import xyz.vergoclient.event.impl.EventRenderGUI;
 import xyz.vergoclient.ui.notifications.NotificationManager;
+import xyz.vergoclient.util.Gl.BloomUtil;
+import xyz.vergoclient.util.Gl.BlurUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -111,13 +113,15 @@ public class GuiIngame extends Gui
         this.field_175193_B = 20;
     }
 
-    public void renderGameOverlay(float partialTicks)
+    public void renderGameOverlay(ScaledResolution scaledresolution, float partialTicks)
     {
-        ScaledResolution scaledresolution = new ScaledResolution(this.mc);
         int i = scaledresolution.getScaledWidth();
         int j = scaledresolution.getScaledHeight();
         this.mc.entityRenderer.setupOverlayRendering();
         GlStateManager.enableBlend();
+
+        BlurUtil.onRenderGameOverlay(this.mc.getFramebuffer(), scaledresolution);
+        BloomUtil.onRenderGameOverlay(scaledresolution, this.mc.getFramebuffer());
 
         if (Config.isVignetteEnabled())
         {

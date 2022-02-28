@@ -19,7 +19,7 @@ public class Hud extends Module {
 			bpsMode = new ModeSetting("BPS Mode", "Always On", "Always On", "Speed Only", "Off"),
 			vergoColor = new ModeSetting("Vergo Color Scheme", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green"),
 			barDirection = new ModeSetting("Align Color Bar", "Right", "Right", "Left", "None"),
-			waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "vergosense"),
+			waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "vergosense", "Simplistic"),
 			arrayListFont = new ModeSetting("ArrayList Font", "Neurial", "Jura", "Neurial"),
 			arrayListColors = new ModeSetting("ArrayList colors", "Rainbow", "Default", "Rainbow");
 	public BooleanSetting renderScoreboardNumbers = new BooleanSetting("Scoreboard Numbers", true),
@@ -41,7 +41,7 @@ public class Hud extends Module {
 		arrayListFont.modes.addAll(Arrays.asList("Jura", "Neurial"));
 
 		waterMark.modes.clear();
-		waterMark.modes.addAll(Arrays.asList("Rounded", "Planet", "vergosense"));
+		waterMark.modes.addAll(Arrays.asList("Rounded", "Planet", "vergosense", "Simplistic"));
 
 		barDirection.modes.clear();
 		barDirection.modes.addAll(Arrays.asList("Right", "Left", "None"));

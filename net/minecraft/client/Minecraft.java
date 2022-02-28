@@ -191,6 +191,8 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.OpenGLException;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
+import xyz.vergoclient.util.Gl.BloomUtil;
+import xyz.vergoclient.util.Gl.BlurUtil;
 
 public class Minecraft implements IThreadListener, IPlayerUsage {
 	private static final Logger logger = LogManager.getLogger();
@@ -1554,6 +1556,10 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 		if (this.entityRenderer != null) {
 			this.entityRenderer.updateShaderGroupSize(this.displayWidth, this.displayHeight);
 		}
+
+		BlurUtil.onFrameBufferResize(this.displayWidth, this.displayHeight);
+		BloomUtil.onFrameBufferResize(this.displayWidth, this.displayHeight);
+
 	}
 
 	public MusicTicker func_181535_r() {

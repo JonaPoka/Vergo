@@ -1,6 +1,8 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import net.minecraft.network.play.client.C14PacketTabComplete;
@@ -16,6 +18,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
+import xyz.vergoclient.util.Gl.BlurUtil;
+import xyz.vergoclient.util.RenderUtils2;
 
 public class GuiChat extends GuiScreen
 {
@@ -299,15 +303,26 @@ public class GuiChat extends GuiScreen
 
     /**
      * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+     * innominate da world (sketamine)
      */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
-        drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
-        this.inputField.drawTextBox();
-        IChatComponent ichatcomponent = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        final String input = this.inputField.getText();
+        final float inputWidth = input == null ? 0 : this.mc.fontRendererObj.getStringWidth(input + "_");
+        final int maxWidth = 320;
+        final int minWidth = 40;
 
-        if (ichatcomponent != null && ichatcomponent.getChatStyle().getChatHoverEvent() != null)
-        {
+        final float opacity = this.mc.gameSettings.chatOpacity * 255;
+
+        final double boxWidth = Math.max(this.mc.gameSettings.chatWidth * (maxWidth - minWidth) + minWidth, inputWidth) + 6;
+
+        BlurUtil.blurArea(2, this.height - 14, boxWidth, 12);
+        RenderUtils2.drawRect(2, this.height - 14, (float) boxWidth, 12, (int) opacity);
+
+        this.inputField.drawTextBox();
+
+        final IChatComponent ichatcomponent = this.mc.ingameGUI.getChatGUI().getChatComponent(mouseX, mouseY);
+
+        if (ichatcomponent != null && ichatcomponent.getChatStyle().getChatHoverEvent() != null) {
             this.handleComponentHover(ichatcomponent, mouseX, mouseY);
         }
 

@@ -11,6 +11,7 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import xyz.vergoclient.util.Gl.BlurUtil;
 
 public class GuiNewChat extends Gui
 {
@@ -79,6 +80,7 @@ public class GuiNewChat extends Gui
                             {
                                 int i2 = 0;
                                 int j2 = -i1 * 9;
+                                BlurUtil.blurArea(i2, j2 - 9, i2 + l + 4, j2);
                                 drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
                                 String s = chatline.getChatComponent().getFormattedText();
                                 GlStateManager.enableBlend();
@@ -103,7 +105,9 @@ public class GuiNewChat extends Gui
                     {
                         int k3 = j3 > 0 ? 170 : 96;
                         int l3 = this.isScrolled ? 13382451 : 3355562;
+                        BlurUtil.blurArea(0, -j3, 2, -j3 - k1);
                         drawRect(0, -j3, 2, -j3 - k1, l3 + (k3 << 24));
+                        BlurUtil.blurArea(2, -j3, 1, -j3 - k1);
                         drawRect(2, -j3, 1, -j3 - k1, 13421772 + (k3 << 24));
                     }
                 }

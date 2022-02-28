@@ -123,6 +123,7 @@ public class ModuleManager {
 		modScaffold = new LoaderModule<Scaffold>(modScaffold).generate();
 		modSpeed = new LoaderModule<Speed>(modSpeed).generate();
 		modSprint = new LoaderModule<Sprint>(modSprint).generate();
+		//modStep = new LoaderModule<Step>(modStep).generate();
 		modStrafe = new LoaderModule<Strafe>(modStrafe).generate();
 		modVelocity = new LoaderModule<Velocity>(modVelocity).generate();
 
