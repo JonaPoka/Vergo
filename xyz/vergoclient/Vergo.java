@@ -81,7 +81,7 @@ public class Vergo {
 						if (!discord.isAlive())
 							discord.start();
 						while (!Discord.cancelDiscordLoad)
-							if (FileManager.discordLibWindows.exists() || FileManager.discordLibUnix.exists())
+							if (FileManager.discordLibWindows.exists())
 								break;
 					}
 				},

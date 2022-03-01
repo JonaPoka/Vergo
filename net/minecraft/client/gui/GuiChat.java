@@ -305,6 +305,7 @@ public class GuiChat extends GuiScreen
      * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
      * innominate da world (sketamine)
      */
+    
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         final String input = this.inputField.getText();
         final float inputWidth = input == null ? 0 : this.mc.fontRendererObj.getStringWidth(input + "_");

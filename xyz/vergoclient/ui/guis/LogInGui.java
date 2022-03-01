@@ -1,6 +1,5 @@
 package xyz.vergoclient.ui.guis;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -189,7 +188,6 @@ public class LogInGui extends GuiScreen {
                             } else if (httpStatusCode == 200) {
 
                                 // Else, print outdated version since everything else is working accordingly.
-                                System.out.println(response1);
                                 loggingInStatus = "Outdated Version!";
 
                                 connection.disconnect();

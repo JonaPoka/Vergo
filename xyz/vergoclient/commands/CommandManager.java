@@ -30,7 +30,6 @@ public class CommandManager implements OnEventInterface {
 		commands.add(new CommandHelp());
 		commands.add(new CommandConfig());
 		commands.add(new CommandBind());
-		commands.add(new CommandKeybinds());
 	}
 	
 	// Event hook so we can use the commands
@@ -58,7 +57,7 @@ public class CommandManager implements OnEventInterface {
 					}
 				}
 
-				ChatUtils.addChatMessage("That command couldn't be found. Use '" + prefix + "help' for a list of valid commands.");
+				ChatUtils.addChatMessage("Command unrecognized. Please use .help for all valid commands.");
 				
 			}
 		}

@@ -126,18 +126,6 @@ public class Discord extends Thread {
 			if (FileManager.discordLibWindows.exists())
 				return FileManager.discordLibWindows;
 		}
-		else if (OSUtil.isLinux() || OSUtil.isMac()) {
-			if (!FileManager.discordLibUnix.exists()) {
-				GuiStart.percentText = "Downloading Discord RPC, Please Wait...";
-				FileManager.downloadFile("https://github.com/Hummus-Appreciation-Club/discord-game-lib-dll-download/raw/main/discord_game_sdk.so", FileManager.discordLibUnix);
-			}
-			GuiStart.percentText = RandomStringUtil.getRandomLoadingMsg();
-			try {
-				Thread.sleep(500);
-			} catch (Exception e) {}
-			if (FileManager.discordLibUnix.exists())
-				return FileManager.discordLibUnix;
-		}
 		return null;
 	}
 	

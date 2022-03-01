@@ -21,9 +21,9 @@ public class FileManager {
 			assetsDir = new File(mainDir, "assets"),
 			defaultKeybindsFile = new File(keybindsDir, "default.json"),
 			altsFile = new File(mainDir, "alts.json"),
-			discordLibUnix = new File(libsDir, "discord_game_sdk.so"),
+			//discordLibUnix = new File(libsDir, "discord_game_sdk.so"),
 			discordLibWindows = new File(libsDir, "discord_game_sdk.dll"),
-			clickguiTabs = new File(mainDir, "tabs.json");
+			clickguiTabs = new File(mainDir, "clickLay.json");
 	
 	// Creates dirs if they don't exist
 	public static void init() {

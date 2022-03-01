@@ -9,7 +9,7 @@ import xyz.vergoclient.files.impl.FileKeybinds;
 import xyz.vergoclient.keybinds.KeyboardManager;
 import xyz.vergoclient.util.ChatUtils;
 
-public class CommandKeybinds implements OnCommandInterface {
+/*public class CommandKeybinds implements OnCommandInterface {
 
 	@Override
 	public void onCommand(String... args) {
@@ -54,3 +54,4 @@ public class CommandKeybinds implements OnCommandInterface {
 	}
 
 }
+*/
