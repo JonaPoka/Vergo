@@ -759,12 +759,12 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		if (blockPos == null && enumFacing == null) {
 			return null;
 		}
-		Vec3 positionEyes = mc.thePlayer.getPositionEyes(RandomUtils.nextFloat(2.0f, 2.05f));
-		Vec3 add = new Vec3((double)blockPos.getX() + 0.5, (double)blockPos.getY() + 0.5, (double)blockPos.getZ() + 0.5);
+		Vec3 positionEyes = mc.thePlayer.getPositionEyes(RandomUtils.nextFloat(2.0f, 2.01f));
+		Vec3 add = new Vec3((double)blockPos.getX() + 0.01, (double)blockPos.getY() + 0.01, (double)blockPos.getZ() + 0.01);
 		double n = add.xCoord - positionEyes.xCoord;
 		double n2 = add.yCoord - positionEyes.yCoord;
 		double n3 = add.zCoord - positionEyes.zCoord;
-		return new float[]{(float)(Math.atan2(n3, n) * 180.0 / Math.PI - 89.5), -((float)(Math.atan2(n2, (float)Math.hypot(n, n3)) * 180.0 / Math.PI))};
+		return new float[]{(float)(Math.atan2(n3, n) * 180.0 / Math.PI - RandomUtils.nextFloat(89.4f, 89.5f)), -((float)(Math.atan2(n2, (float)Math.hypot(n, n3)) * 180.0 / Math.PI))};
 	}
 
 	private void placeBlock(EventUpdate event, BlockInfo info, ItemStack block) {

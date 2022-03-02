@@ -37,6 +37,12 @@ public class Hud implements OnEventInterface {
 	
 	public static ResourceLocation test = null;
 
+	private static final ResourceLocation VERGOSENSE_BACKGROUND_TEXTURE;
+
+	static {
+		VERGOSENSE_BACKGROUND_TEXTURE = new ResourceLocation("fuckafriendforfree.png");
+	}
+
 	@Override
 	public void onEvent(Event e) {
 		
@@ -80,6 +86,7 @@ public class Hud implements OnEventInterface {
 
 					RenderUtils2.drawRect(2, 2, (float) (12 + fr.getStringWidth(vergoStr)), 18, new Color(0x434343).getRGB());
 					RenderUtils2.drawRect(3f, 3f, (float) (10 + fr.getStringWidth(vergoStr)), 16, new Color(0x434343).darker().getRGB());
+					RenderUtils.drawImg(VERGOSENSE_BACKGROUND_TEXTURE, 3f, 3f, (float) (10 + fr.getStringWidth(vergoStr)), 16);
 					RenderUtils2.drawRect(5, 5, (float) (6 + fr.getStringWidth(vergoStr)), 12, new Color(0x434343).getRGB());
 					RenderUtils2.drawRect(6f, 6f, (float) (4 + fr.getStringWidth(vergoStr)), 10, new Color(0x303030).darker().getRGB());
 

@@ -32,14 +32,14 @@ public class Speed extends Module implements OnEventInterface {
 		this.packTimer = new Timer();
 	}
 
-	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1", "Hypixel2", "Hypixel3", "Hypixel4");
+	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1", "Hypixel2", "Hypixel3");
 
 	int ticks;
 
 	@Override
 	public void loadSettings() {
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Hypixel1", "Hypixel2", "Hypixel3", "Hypixel4"));
+		mode.modes.addAll(Arrays.asList("Hypixel1", "Hypixel2", "Hypixel3"));
 		addSettings(mode);
 	}
 
@@ -74,8 +74,6 @@ public class Speed extends Module implements OnEventInterface {
 			onHypixelEvent(e);
 		} else if(mode.is("Hypixel3")) {
 			onHypixelEvent(e);
-		} else if(mode.is("Hypixel4")) {
-			onHypixelEvent(e);
 		}
 
 	}
@@ -109,10 +107,6 @@ public class Speed extends Module implements OnEventInterface {
 			if(mode.is("Hypixel3")) {
 				if (MovementUtils.isMoving()) {
 					hypixelThree(event);
-				}
-			} else if(mode.is("Hypixel4")) {
-				if(MovementUtils.isMoving()) {
-					hypixelFour(event);
 				}
 			}
 		}
@@ -199,24 +193,9 @@ public class Speed extends Module implements OnEventInterface {
 
 	public void hypixelThree(EventMove e) {
 
-		if(MovementUtils.isOnGround(0.01)) {
-			MovementUtils.setMotion(Math.max(0.275, MovementUtils.getBaseMoveSpeed() * 1.15));
-		}
+		ChatUtils.addChatMessage("lol, no.");
+		mode.setMode("Hypixel2");
 
-	}
-
-	public void hypixelFour(EventMove e) {
-
-		ChatUtils.addChatMessage("This speed is currently detected and therefore cannot be used.");
-		mode.setMode("Hypixel1");
-
-		/*if(MovementUtils.isOnGround(0.001)) {
-			//MovementUtils.setMotion(0.0D);
-			mc.thePlayer.motionY = 0.37;
-			e.setY(0.37);
-		}
-
-		MovementUtils.setMotion(MovementUtils.getAirTickSpeed(MovementUtils.getSpeed() * 1.3));*/
 	}
 	
 }
