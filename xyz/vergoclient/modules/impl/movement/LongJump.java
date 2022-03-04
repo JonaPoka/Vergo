@@ -40,10 +40,6 @@ public class LongJump extends Module implements OnEventInterface {
 
     public BooleanSetting devSpeed = new BooleanSetting("BypassDevFilter", false);
 
-    //public NumberSetting speedSlider = new NumberSetting("SpeedSlider", 0.6, 0, 3.0, 0.01);//, heightSlider = new NumberSetting("Height Slider", 1.99, 1.0, 3.0, 0.01);
-
-    //public BooleanSetting automated = new BooleanSetting("Automated", true), autoMove = new BooleanSetting("Auto Move", true),
-            //autoJump = new BooleanSetting("Auto Jump", true);
     public static transient TimerUtil hypixelTimer = new TimerUtil();
 
     @Override
@@ -51,11 +47,7 @@ public class LongJump extends Module implements OnEventInterface {
         mode.modes.clear();
         mode.modes.addAll(Arrays.asList("HypixelBow"));
 
-        if(Vergo.isDev) {
-            addSettings(mode, devSpeed);
-        } else {
-            addSettings(mode/*, speedSlider, heightSlider, automated, autoMove, autoJump*/);
-        }
+        addSettings(mode);
     }
 
     public int i;
@@ -71,12 +63,6 @@ public class LongJump extends Module implements OnEventInterface {
 
         mc.gameSettings.keyBindSprint.pressed = false;
         mc.gameSettings.keyBindForward.pressed = false;
-
-        if (mode.is("Hypixel Bow")) {
-            mode.setMode("Hypixel Test");
-        } else if(mode.is("Hypixel Test")) {
-            setInfo("Hypickle New");
-        }
 
         this.timer.reset();
 
@@ -135,7 +121,7 @@ public class LongJump extends Module implements OnEventInterface {
         if (e instanceof EventUpdate && e.isPre()) {
             if (mode.is("HypixelBow")) {
 
-                setInfo("Hypixel1");
+                setInfo("HypixelBow");
 
                 if (!hasHurt) {
 
@@ -193,12 +179,7 @@ public class LongJump extends Module implements OnEventInterface {
 
                    // }
 
-                    if(Vergo.isDev) {
-                        MovementUtils.setMotion(0.65);
-                    } else {
-                        ChatUtils.addChatMessage("LongJump slowed. This is not a dev build!");
-                        MovementUtils.setMotion(0.6);
-                    }
+                    MovementUtils.setMotion(0.6);
 
                     if (this.timer.delay(1000L)) {
                         hasHurt = false;
