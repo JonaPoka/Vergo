@@ -35,18 +35,18 @@ public class LongJump extends Module implements OnEventInterface {
         this.timer = new Timer();
     }
 
-    public ModeSetting mode = new ModeSetting("Mode", "Hypixel Test", /*"Hypixel Bow",*/ "Hypixel Test");
+    public ModeSetting mode = new ModeSetting("Mode", "HypixelBow", /*"Hypixel Bow",*/ "HypixelBow");
 
-    public NumberSetting speedSlider = new NumberSetting("SpeedSlider", 0.6, 0, 3.0, 0.01);//, heightSlider = new NumberSetting("Height Slider", 1.99, 1.0, 3.0, 0.01);
+    //public NumberSetting speedSlider = new NumberSetting("SpeedSlider", 0.6, 0, 3.0, 0.01);//, heightSlider = new NumberSetting("Height Slider", 1.99, 1.0, 3.0, 0.01);
 
-    public BooleanSetting automated = new BooleanSetting("Automated", true), autoMove = new BooleanSetting("Auto Move", true),
-            autoJump = new BooleanSetting("Auto Jump", true);
+    //public BooleanSetting automated = new BooleanSetting("Automated", true), autoMove = new BooleanSetting("Auto Move", true),
+            //autoJump = new BooleanSetting("Auto Jump", true);
     public static transient TimerUtil hypixelTimer = new TimerUtil();
 
     @Override
     public void loadSettings() {
         mode.modes.clear();
-        mode.modes.addAll(Arrays.asList("Hypixel Test"));
+        mode.modes.addAll(Arrays.asList("HypixelBow"));
 
         addSettings(mode/*, speedSlider, heightSlider, automated, autoMove, autoJump*/);
     }
@@ -126,7 +126,8 @@ public class LongJump extends Module implements OnEventInterface {
     public void onEvent(Event e) {
 
         if (e instanceof EventUpdate && e.isPre()) {
-            //Aim up and shoot shoot shoot!
+            // Detected and unworking method.
+            /*Aim up and shoot shoot shoot!
             if (mode.is("Hypixel Bow")) {
                 if (!hasHurt) {
 
@@ -174,7 +175,7 @@ public class LongJump extends Module implements OnEventInterface {
 
                 }
 
-            } else if(mode.is("Hypixel Test"))  {
+            } else */if(mode.is("HypixelBow"))  {
 
                 setInfo("Hypixel1");
 
