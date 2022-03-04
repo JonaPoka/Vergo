@@ -729,6 +729,11 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		}
 		event.setYaw(rotations[0]);
 		event.setPitch(rotations[1] + RandomUtils.nextFloat(0.02f, 0.2f));
+		// Debugging Due To Flags
+		
+		ChatUtils.addChatMessage(event.getYaw);
+		ChatUtils.addChatMessage(event.getPitch);
+		
 		RenderUtils.setCustomYaw(event.yaw);
 		RenderUtils.setCustomPitch(event.pitch);
 		if (viewRotations.isEnabled()) {
