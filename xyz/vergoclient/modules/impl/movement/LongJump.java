@@ -8,6 +8,7 @@ import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventSendPacket;
@@ -37,6 +38,8 @@ public class LongJump extends Module implements OnEventInterface {
 
     public ModeSetting mode = new ModeSetting("Mode", "HypixelBow", /*"Hypixel Bow",*/ "HypixelBow");
 
+    public BooleanSetting devSpeed = new BooleanSetting("BypassDevFilter", false);
+
     //public NumberSetting speedSlider = new NumberSetting("SpeedSlider", 0.6, 0, 3.0, 0.01);//, heightSlider = new NumberSetting("Height Slider", 1.99, 1.0, 3.0, 0.01);
 
     //public BooleanSetting automated = new BooleanSetting("Automated", true), autoMove = new BooleanSetting("Auto Move", true),
@@ -48,7 +51,11 @@ public class LongJump extends Module implements OnEventInterface {
         mode.modes.clear();
         mode.modes.addAll(Arrays.asList("HypixelBow"));
 
-        addSettings(mode/*, speedSlider, heightSlider, automated, autoMove, autoJump*/);
+        if(Vergo.isDev) {
+            addSettings(mode, devSpeed);
+        } else {
+            addSettings(mode/*, speedSlider, heightSlider, automated, autoMove, autoJump*/);
+        }
     }
 
     public int i;
@@ -186,7 +193,12 @@ public class LongJump extends Module implements OnEventInterface {
 
                    // }
 
-                    MovementUtils.setMotion(0.6);
+                    if(Vergo.isDev) {
+                        MovementUtils.setMotion(0.65);
+                    } else {
+                        ChatUtils.addChatMessage("LongJump slowed. This is not a dev build!");
+                        MovementUtils.setMotion(0.6);
+                    }
 
                     if (this.timer.delay(1000L)) {
                         hasHurt = false;

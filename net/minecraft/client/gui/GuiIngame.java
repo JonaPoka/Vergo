@@ -120,9 +120,6 @@ public class GuiIngame extends Gui
         this.mc.entityRenderer.setupOverlayRendering();
         GlStateManager.enableBlend();
 
-        BlurUtil.onRenderGameOverlay(this.mc.getFramebuffer(), scaledresolution);
-        BloomUtil.onRenderGameOverlay(scaledresolution, this.mc.getFramebuffer());
-
         if (Config.isVignetteEnabled())
         {
             this.renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
@@ -348,18 +345,21 @@ public class GuiIngame extends Gui
             this.overlayPlayerList.renderPlayerlist(i, scoreboard, scoreobjective1);
         }
 
+        BlurUtil.onRenderGameOverlay(this.mc.getFramebuffer(), scaledresolution);
+        BloomUtil.onRenderGameOverlay(scaledresolution, this.mc.getFramebuffer());
+
         if(Vergo.config.modNotifications.isDisabled()) {
 
         } else {
             NotificationManager.render();
         }
-        
+
         EventRenderGUI event = new EventRenderGUI();
         event.setType(EventType.PRE);
         event.fire();
         event.setType(EventType.POST);
         event.fire();
-        
+
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();
         GlStateManager.enableAlpha();

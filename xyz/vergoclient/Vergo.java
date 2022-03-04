@@ -35,7 +35,9 @@ public class Vergo {
 
 	public static transient String version = "b1.0";
 
-	public static transient boolean beta = true;
+	public static transient boolean isDev = true;
+
+	public static transient boolean beta = false;
 
 	public static transient CopyOnWriteArrayList<ResourceLocation> cachedIcons = new CopyOnWriteArrayList<>();
 
