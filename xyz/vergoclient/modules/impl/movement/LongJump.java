@@ -126,56 +126,7 @@ public class LongJump extends Module implements OnEventInterface {
     public void onEvent(Event e) {
 
         if (e instanceof EventUpdate && e.isPre()) {
-            // Detected and unworking method.
-            /*Aim up and shoot shoot shoot!
-            if (mode.is("Hypixel Bow")) {
-                if (!hasHurt) {
-
-                    if (mc.thePlayer.ticksExisted - ticks == 3) {
-                        mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, random, true));
-                        mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
-
-                        // Switch back to original slot
-                        if (i != slotId) {
-                            mc.getNetHandler().getNetworkManager().sendPacket(new C09PacketHeldItemChange(slotId));
-                        }
-
-                    }
-                }
-
-                if(mc.thePlayer.hurtTime == 9) {
-                    hasHurt = true;
-                }
-
-                if(hasHurt) {
-
-                    if(automated.isEnabled()) {
-                        if(autoMove.isEnabled()) {
-                            mc.thePlayer.setSprinting(true);
-                            mc.thePlayer.movementInput.moveForward = 1;
-                        }
-                        if(autoJump.isEnabled()) {
-                            mc.thePlayer.jump();
-                        }
-                    }
-
-                    //mc.thePlayer.motionY *= heightSlider.getValueAsDouble();
-
-                    int x = 0;
-                    while(x < 5) {
-                        ChatUtils.addChatMessage(mc.thePlayer.motionY);
-                        x++;
-                    }
-                    MovementUtils.setMotion(MovementUtils.getSpeed() * speedSlider.getValueAsDouble());
-
-                    hasHurt = false;
-
-                    mc.thePlayer.movementInput.moveForward = 0;
-
-
-                }
-
-            } else */if(mode.is("HypixelBow"))  {
+            if (mode.is("HypixelBow")) {
 
                 setInfo("Hypixel1");
 
@@ -195,49 +146,49 @@ public class LongJump extends Module implements OnEventInterface {
                     }
                 }
 
-                if(mc.thePlayer.hurtTime == 9) {
+                if (mc.thePlayer.hurtTime == 9) {
                     hasHurt = true;
                 }
 
-                if(this.timer.delay(1000L)) {
+                if (this.timer.delay(1000L)) {
                     mc.timer.timerSpeed = 0.8f;
                 }
 
-                if(this.timer.delay(1200L)) {
+                if (this.timer.delay(1200L)) {
                     mc.timer.timerSpeed = 1.0f;
                 }
 
-                if(this.timer.delay(1500L)) {
+                if (this.timer.delay(1500L)) {
                     toggle();
                     mc.gameSettings.keyBindForward.pressed = false;
                 }
 
-                if(hasHurt) {
+                if (hasHurt) {
 
-                    if(automated.isEnabled()) {
+                    //if (automated.isEnabled()) {
 
-                        if(autoMove.isEnabled()) {
+                        //if (autoMove.isEnabled()) {
                             mc.gameSettings.keyBindForward.pressed = true;
                             mc.gameSettings.keyBindSprint.pressed = true;
-                        }
+                        //}
 
-                        if(autoJump.isEnabled()) {
-                            if(mc.gameSettings.keyBindJump.isKeyDown() || mc.gameSettings.keyBindJump.isPressed()) {
+                        //if (autoJump.isEnabled()) {
+                            if (mc.gameSettings.keyBindJump.isKeyDown() || mc.gameSettings.keyBindJump.isPressed()) {
 
                             }
-                            if(jumpCount == 0) {
+                            if (jumpCount == 0) {
                                 mc.thePlayer.jump();
                                 jumpCount++;
                             } else {
 
                             }
-                        }
+                        //}
 
-                    }
+                   // }
 
-                    MovementUtils.setMotion(speedSlider.getValueAsDouble());
+                    MovementUtils.setMotion(0.6);
 
-                    if(this.timer.delay(1000L)) {
+                    if (this.timer.delay(1000L)) {
                         hasHurt = false;
                         jumpCount = 0;
                     }
