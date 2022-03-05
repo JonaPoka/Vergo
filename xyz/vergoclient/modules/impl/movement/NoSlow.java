@@ -27,30 +27,38 @@ public class NoSlow extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 
-		if(Vergo.config.modScaffold.isEnabled() || Vergo.config.modSpeed.isEnabled()) {
+		if(Vergo.config.modScaffold.isEnabled()) {
 			return;
 		}
 
-		if(e instanceof EventSlowdown) {
-			if (mc.thePlayer.isUsingItem() || mc.thePlayer.isBlocking()) {
-				if(!mc.thePlayer.isEating()) {
-					ticks = mc.thePlayer.ticksExisted;
-					e.setCanceled(true);
-				} else {
-					return;
-				}
+		if(MovementUtils.isMoving()) {
+
+			if (mc.gameSettings.keyBindSprint.isPressed()) {
+				mc.thePlayer.setSprinting(true);
+			}
+
+			if(e instanceof EventSlowdown) {
+				e.setCanceled(true);
 			}
 		}
 
-		if(e instanceof EventUpdate && e.isPost()) {
+		if(Vergo.config.modScaffold.isEnabled()) {
+			return;
+		}
+		if(e instanceof EventSendPacket) {
 
-			if (mc.thePlayer.isUsingItem() || mc.thePlayer.isBlocking() && !mc.thePlayer.isEating()) {
-				mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255,
-						mc.thePlayer.inventory.getCurrentItem(), 0f, 0f, 0f));
-			} else {
-				ticks = mc.thePlayer.ticksExisted;
+
+
+			if (mc.thePlayer.isBlocking()) {
+				EventSendPacket event = (EventSendPacket) e;
+				if (event.packet instanceof C08PacketPlayerBlockPlacement) {
+					if (NoSlow.mc.thePlayer.getHeldItem() == null || !(NoSlow.mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) || !NoSlow.mc.gameSettings.keyBindUseItem.isKeyDown() || (double)NoSlow.mc.thePlayer.ticksExisted % 6	 != 0.0) {
+						return;
+					}
+
+					mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
+				}
 			}
-
 		}
 	}
 
