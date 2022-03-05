@@ -10,7 +10,7 @@ public class PacketUtil {
 
     public static Minecraft mc = Minecraft.getMinecraft();
 
-    public void sendPacketNoEvent(Packet packet) {
+    public static void sendPacketNoEvent(Packet packet) {
         mc.getNetHandler().getNetworkManager().sendPacketNoEvent(packet);
     }
 

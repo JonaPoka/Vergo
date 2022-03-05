@@ -23,6 +23,13 @@ public class MovementUtils {
 		return mc.thePlayer.getDistance(mc.thePlayer.lastTickPosX, mc.thePlayer.lastTickPosY, mc.thePlayer.lastTickPosZ) * (Minecraft.getMinecraft().timer.ticksPerSecond * Minecraft.getMinecraft().timer.timerSpeed);
 		
 	}
+
+	public static int getSpeedEffect() {
+		if (mc.thePlayer.isPotionActive(Potion.moveSpeed))
+			return mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier() + 1;
+		else
+			return 0;
+	}
 	
 	public static float getSpeed() {
         return (float) Math.sqrt(mc.thePlayer.motionX * mc.thePlayer.motionX + mc.thePlayer.motionZ * mc.thePlayer.motionZ);

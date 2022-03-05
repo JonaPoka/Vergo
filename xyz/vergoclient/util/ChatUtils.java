@@ -22,6 +22,15 @@ public class ChatUtils {
 			addChatMessage(new ChatComponentText(prefix + message));
 		}
 	}
+
+	public static void addDevMessage(Object message) {
+
+		if (ModuleManager.currentlyLoadingConfig)
+			return;
+
+
+		addChatMessage(new ChatComponentText("§4V§7Dev §8§o>> §r" + message));
+	}
 	
 	// For objects
 	public static void addChatMessage(Object message) {

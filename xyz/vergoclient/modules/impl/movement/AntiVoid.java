@@ -25,7 +25,7 @@ import net.minecraft.util.BlockPos;
 public class AntiVoid extends Module implements OnEventInterface {
 
 	public AntiVoid() {
-		super("Antivoid", Category.MOVEMENT);
+		super("AntiVoid", Category.MOVEMENT);
 	}
 	
 	public void onEnable() {
@@ -38,7 +38,7 @@ public class AntiVoid extends Module implements OnEventInterface {
 	}
 	
 	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Hypixel");
-	public NumberSetting fallDistance = new NumberSetting("Fall", 6.5, 3, 30, 0.5);
+	public NumberSetting fallDistance = new NumberSetting("Catch Distance", 6.5, 3, 30, 0.5);
 	public BooleanSetting autoEnableScaffold = new BooleanSetting("Scaffold-Save", false);
 	
 	@Override

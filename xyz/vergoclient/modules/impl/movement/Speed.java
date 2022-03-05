@@ -153,13 +153,12 @@ public class Speed extends Module implements OnEventInterface {
 	}
 
 	private void hypixelTwo(Event event) {
-
 		if(mc.thePlayer.isInLava() || mc.thePlayer.isInWater() || mc.thePlayer.isSpectator()) {
 			return;
 		}
 
 		if(mc.gameSettings.keyBindJump.isKeyDown()) {
-
+			return;
 		}
 
 
@@ -168,7 +167,7 @@ public class Speed extends Module implements OnEventInterface {
 		}
 
 		if(MovementUtils.isOnGround(0.0001) && !mc.thePlayer.isCollidedHorizontally) {
-			mc.thePlayer.jump();
+			//mc.thePlayer.jump();
 			mc.thePlayer.motionY -= 0.023f;
 			if(mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown()) {
 				MovementUtils.setSpeed(0.4895);
@@ -179,6 +178,7 @@ public class Speed extends Module implements OnEventInterface {
 				MovementUtils.setSpeed(0.25);
 			}
 			if (mc.thePlayer.isCollidedVertically) {
+				mc.thePlayer.speedInAir = 0.022f;
 				mc.thePlayer.motionY = 0.4;
 			}
 		}
