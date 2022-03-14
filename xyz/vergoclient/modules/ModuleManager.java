@@ -46,7 +46,6 @@ public class ModuleManager {
 	public KillAura modKillAura = new KillAura();
 	public WTap modWTap = new WTap();
 	public AutoPot modAutoPot = new AutoPot();
-	//public ModTPAura modTPAura = new ModTPAura();
 	public Velocity modVelocity = new Velocity();
 	public NightMode modNightMode = new NightMode();
 	public Step modStep = new Step();
@@ -275,6 +274,7 @@ public class ModuleManager {
 					
 				}
 			}
+
 			moduleJson.put("settings", settings);
 			config.put(module.getName(), moduleJson);
 		}
@@ -302,7 +302,7 @@ public class ModuleManager {
 		if (!file.exists()) {
 			ChatUtils.addChatMessage("That file does not exist");
 			ModuleManager newConfig = new ModuleManager();
-			newConfig.modules.clear();
+			//newConfig.modules.clear();
 			newConfig.init();
 			if (Minecraft.getMinecraft().entityRenderer.theShaderGroup != null) {
 				Minecraft.getMinecraft().entityRenderer.theShaderGroup.deleteShaderGroup();

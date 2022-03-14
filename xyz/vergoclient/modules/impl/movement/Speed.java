@@ -3,6 +3,7 @@ package xyz.vergoclient.modules.impl.movement;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
+import tv.twitch.chat.ChatUrlImageMessageToken;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
@@ -32,14 +33,14 @@ public class Speed extends Module implements OnEventInterface {
 		this.packTimer = new Timer();
 	}
 
-	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1", "Hypixel2", "Hypixel3");
+	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1", "Hypixel2");
 
 	int ticks;
 
 	@Override
 	public void loadSettings() {
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Hypixel1", "Hypixel2", "Hypixel3"));
+		mode.modes.addAll(Arrays.asList("Hypixel1", "Hypixel2"));
 		addSettings(mode);
 	}
 
@@ -72,8 +73,6 @@ public class Speed extends Module implements OnEventInterface {
 			onHypixelEvent(e);
 		} else if(mode.is("Hypixel2")) {
 			onHypixelEvent(e);
-		} else if(mode.is("Hypixel3")) {
-			onHypixelEvent(e);
 		}
 
 	}
@@ -86,8 +85,6 @@ public class Speed extends Module implements OnEventInterface {
 				setInfo("Hypixel1");
 			} else if(mode.is("Hypixel2")) {
 				setInfo("Hypixel2");
-			} else if(mode.is("Hypixel3")) {
-				setInfo("SlowOnGround");
 			}
 
 		} else if (e instanceof EventUpdate && e.isPre()) {
@@ -102,13 +99,6 @@ public class Speed extends Module implements OnEventInterface {
 				}
 			}
 			
-		} else if(e instanceof EventMove && e.isPre()) {
-			EventMove event = (EventMove) e;
-			if(mode.is("Hypixel3")) {
-				if (MovementUtils.isMoving()) {
-					hypixelThree(event);
-				}
-			}
 		}
 		
 	}
@@ -183,18 +173,13 @@ public class Speed extends Module implements OnEventInterface {
 			}
 		}
 
-		if(mc.thePlayer.motionY > 0.2) {
-			mc.timer.timerSpeed = 1.15f;
-		} else if(mc.thePlayer.motionY < 0.19) {
-			mc.timer.timerSpeed = 1.06f;
+		if(MovementUtils.isMoving() && mc.thePlayer.fallDistance < 0.3) {
+			if (mc.thePlayer.motionY > 0.2) {
+				mc.timer.timerSpeed = 1.15f;
+			} else if (mc.thePlayer.motionY < 0.19) {
+				mc.timer.timerSpeed = 1.06f;
+			}
 		}
-
-	}
-
-	public void hypixelThree(EventMove e) {
-
-		ChatUtils.addChatMessage("lol, no.");
-		mode.setMode("Hypixel2");
 
 	}
 	
