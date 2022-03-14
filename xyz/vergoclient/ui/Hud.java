@@ -95,7 +95,21 @@ public class Hud implements OnEventInterface {
 			} else if(Vergo.config.modHud.waterMark.is("Simplistic")) {
 				JelloFontRenderer fr = FontUtil.comfortaaSmall;
 
-				BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(10, 10, 100, 10, new Color(210, 8, 62).getRGB(), new Color(100, 100, 100).getRGB()));
+				JelloFontRenderer fr1 = FontUtil.comfortaaSmall;
+
+				String clientName = "Vergo : ";
+
+				String serverName = ServerUtils.getServerIP() + " : ";
+
+				String userName = AccountUtils.account.username;
+
+				BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(3, 5, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName)) + 18, 1.5f, new Color(210, 8, 62).getRGB(), new Color(108, 51, 217).getRGB()));
+				BlurUtil.blurArea(3, 6, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName)) + 18, 12f);
+				RenderUtils.drawAlphaRoundedRect(3, 6, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName)) + 18, 12f, 0f, new Color(60, 60, 60, 100));
+
+				fr1.drawString(clientName, 5, 11, 0xffffffff);
+				fr1.drawString(serverName, fr1.getStringWidth(clientName) + 5, 11, 0xffffffff);
+				fr1.drawString(userName, fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + 7, 11, 0xffffffff);
 
 			}
 

@@ -30,8 +30,8 @@ public class Notification extends GuiScreen {
         this.title = title;
         this.messsage = messsage;
 
-        fadedIn = 200 * length;
-        fadeOut = fadedIn + 500 * length;
+        fadedIn = 400 * length;
+        fadeOut = fadedIn + 800 * length;
         end = fadeOut + fadedIn;
     }
 
@@ -47,10 +47,14 @@ public class Notification extends GuiScreen {
         return System.currentTimeMillis() - start;
     }
 
+    public static double offset;
+    public static int width;
+    public static int height;
+
     public void render() {
-        double offset = 0;
-        int width = 130;
-        int height = 30;
+        offset = 0;
+        width = 130;
+        height = 30;
         long time = getTime();
 
         if (time < fadedIn) {
@@ -64,12 +68,18 @@ public class Notification extends GuiScreen {
         Color color = new Color(29, 29, 29, 150);
         Color color1;
 
-        if (type == NotificationType.INFO)
-            color1 = new Color(92, 199, 128);
-        else if (type == NotificationType.WARNING)
-            color1 = new Color(205, 65, 0);
-        else {
-            color1 = new Color(149, 12, 30);
+        if(type == NotificationType.TOGGLE_ON) {
+            color1 = new Color(104, 189, 71);
+        } else if(type == NotificationType.TOGGLE_OFF) {
+            color1 = new Color(199, 21, 53);
+        } else if(type == NotificationType.WARNING) {
+            color1 = new Color(236, 101, 42);
+        } else if(type == NotificationType.ERROR) {
+            color1 = new Color(156, 0, 0);
+        } else if(type == NotificationType.INFO) {
+            color1 = new Color(169, 241, 140);
+        } else {
+            color1 = new Color(20, 20, 20);
         }
 
         JelloFontRenderer fontRendererTitle = FontUtil.jelloFontMedium;

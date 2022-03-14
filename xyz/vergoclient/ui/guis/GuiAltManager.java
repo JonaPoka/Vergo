@@ -132,7 +132,7 @@ public class GuiAltManager extends GuiScreen {
 					if (alt.password.isEmpty()) {
 						SessionChanger.getInstance().setUserOffline(alt.username);
 					}else {
-						new Thread("ALT-THREAD-LOGIN") {
+						new Thread("ALT-SWITCH-LOG") {
 							@Override
 							public void run() {
 								isLoggingIntoAlt = true;

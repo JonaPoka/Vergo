@@ -385,7 +385,7 @@ public class ModuleManager {
 		
 		currentlyLoadingConfig = false;
 
-		NotificationManager.show(new Notification(NotificationType.INFO, "Config Loaded!", configName + " config loaded!", 2));
+		NotificationManager.show(new Notification(NotificationType.TOGGLE_ON, "Config Loaded!", configName + " config loaded!", 2));
 
 		return newConfig;
 	}

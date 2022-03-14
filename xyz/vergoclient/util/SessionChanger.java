@@ -33,10 +33,10 @@ public class SessionChanger {
 	
 	//Creates a new Authentication Service. 
 	private SessionChanger() {
-		UUID notSureWhyINeedThis = UUID.randomUUID(); //Idk, needs a UUID. Seems to be fine making it random
-		AuthenticationService authService = new YggdrasilAuthenticationService(Minecraft.getMinecraft().getProxy(), notSureWhyINeedThis.toString());
-		auth = authService.createUserAuthentication(Agent.MINECRAFT);
-		authService.createMinecraftSessionService();
+		UUID randomizedUUID = UUID.randomUUID();
+		AuthenticationService authSer = new YggdrasilAuthenticationService(Minecraft.getMinecraft().getProxy(), randomizedUUID.toString());
+		auth = authSer.createUserAuthentication(Agent.MINECRAFT);
+		authSer.createMinecraftSessionService();
 	}
 	
 	//Online mode

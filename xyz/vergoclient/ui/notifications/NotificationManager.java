@@ -20,9 +20,12 @@ public class NotificationManager {
         if (currentNotification == null && !pendingNotifications.isEmpty() && pendingNotifications.size() < 5) {
             currentNotification = pendingNotifications.poll();
             currentNotification.show();
-        } else if(pendingNotifications.size() > 5) {
-            ChatUtils.addChatMessage("Notifications have been cleared to reduce spam.");
-            pendingNotifications.clear();
+        } else if(pendingNotifications.size() > 1) {
+            //ChatUtils.addChatMessage("Notifications have been cleared to reduce spam.");
+            //pendingNotifications.clear();
+            //pendingNotifications.poll();
+            Notification.offset += 10;
+            pendingNotifications.poll();
         }
 
     }
