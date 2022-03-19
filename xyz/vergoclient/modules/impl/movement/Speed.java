@@ -1,9 +1,5 @@
 package xyz.vergoclient.modules.impl.movement;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.BlockPos;
-import tv.twitch.chat.ChatUrlImageMessageToken;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
@@ -11,10 +7,14 @@ import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
+import xyz.vergoclient.modules.OnSettingChangeInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
-import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.util.*;
+import xyz.vergoclient.settings.SettingChangeEvent;
+import xyz.vergoclient.util.ChatUtils;
+import xyz.vergoclient.util.MovementUtils;
+import xyz.vergoclient.util.Timer;
+import xyz.vergoclient.util.TimerUtil;
 
 import java.util.Arrays;
 
@@ -33,14 +33,15 @@ public class Speed extends Module implements OnEventInterface {
 		this.packTimer = new Timer();
 	}
 
-	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1", "Hypixel2");
+	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1", "Hypixel2", "Hypixel3", "Hypixel4");
 
 	int ticks;
 
 	@Override
 	public void loadSettings() {
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Hypixel1", "Hypixel2"));
+		mode.modes.addAll(Arrays.asList("Hypixel1", "Hypixel2", "Hypixel3", "Hypixel4"));
+
 		addSettings(mode);
 	}
 
@@ -61,6 +62,8 @@ public class Speed extends Module implements OnEventInterface {
 		mc.timer.timerSpeed = 1;
 		mc.timer.ticksPerSecond = 20;
 
+		mc.thePlayer.speedInAir = 0.02f;
+
 		if(Vergo.config.modBlink.isEnabled()) {
 			Vergo.config.modBlink.toggle();
 		}
@@ -72,6 +75,11 @@ public class Speed extends Module implements OnEventInterface {
 		if (mode.is("Hypixel1")) {
 			onHypixelEvent(e);
 		} else if(mode.is("Hypixel2")) {
+			onHypixelEvent(e);
+		} else if(mode.is("Hypixel3")) {
+			onHypixelEvent(e);
+		}
+		else if(mode.is("Hypixel4")) {
 			onHypixelEvent(e);
 		}
 
@@ -85,6 +93,11 @@ public class Speed extends Module implements OnEventInterface {
 				setInfo("Hypixel1");
 			} else if(mode.is("Hypixel2")) {
 				setInfo("Hypixel2");
+			} else if(mode.is("Hypixel3")) {
+				setInfo("Hypixel3");
+			}
+			else if(mode.is("Hypixel4")) {
+				setInfo("Hypixel4");
 			}
 
 		} else if (e instanceof EventUpdate && e.isPre()) {
@@ -98,7 +111,18 @@ public class Speed extends Module implements OnEventInterface {
 					hypixelTwo(e);
 				}
 			}
-			
+		} else if(e instanceof EventMove && e.isPre()) {
+			EventMove event = (EventMove) e;
+			if(mode.is("Hypixel3")) {
+				if(MovementUtils.isMoving()) {
+					hypixelThree(event);
+				}
+			}
+			 else if(mode.is("Hypixel4")) {
+				if(MovementUtils.isMoving()) {
+					hypixelFour(event);
+				}
+			}
 		}
 		
 	}
@@ -157,15 +181,14 @@ public class Speed extends Module implements OnEventInterface {
 		}
 
 		if(MovementUtils.isOnGround(0.0001) && !mc.thePlayer.isCollidedHorizontally) {
-			//mc.thePlayer.jump();
 			mc.thePlayer.motionY -= 0.023f;
 			if(mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown()) {
 				MovementUtils.setSpeed(0.4895);
-				mc.thePlayer.motionX *= 1.0015;
-				mc.thePlayer.motionY *= 1.0015;
+				mc.thePlayer.motionX *= 1.00154;
+				mc.thePlayer.motionY *= 1.00154;
 			} else {
 				mc.timer.timerSpeed = 1.0f;
-				MovementUtils.setSpeed(0.25);
+				MovementUtils.setSpeed(0.3);
 			}
 			if (mc.thePlayer.isCollidedVertically) {
 				mc.thePlayer.speedInAir = 0.022f;
@@ -173,11 +196,84 @@ public class Speed extends Module implements OnEventInterface {
 			}
 		}
 
-		if(MovementUtils.isMoving() && mc.thePlayer.fallDistance < 0.3) {
-			if (mc.thePlayer.motionY > 0.2) {
-				mc.timer.timerSpeed = 1.15f;
-			} else if (mc.thePlayer.motionY < 0.19) {
-				mc.timer.timerSpeed = 1.06f;
+		if(MovementUtils.isMoving()) {
+			if(mc.thePlayer.fallDistance < 1) {
+				mc.timer.timerSpeed = 1.0f;
+			} else {
+				if (mc.thePlayer.motionY > 0.2) {
+					mc.timer.timerSpeed = 1.15f;
+				} else if (mc.thePlayer.motionY < 0.19) {
+					mc.timer.timerSpeed = 1.06f;
+				}
+			}
+		}
+
+	}
+
+	private void hypixelThree(EventMove event) {
+		if(mc.thePlayer.isOnLadder() || mc.thePlayer.isInWater() || mc.thePlayer.isInLava()) {
+			return;
+		}
+
+		if(!mc.thePlayer.isSprinting() && Vergo.config.modSprint.isDisabled()) {
+			if(mc.gameSettings.keyBindForward.isKeyDown()) {
+				mc.thePlayer.setSprinting(true);
+			}
+		}
+
+		if(MovementUtils.isOnGround(0.001)) {
+			event.y = 0.4f;
+			//mc.thePlayer.motionY = 0.4f;
+		} else {
+			mc.thePlayer.speedInAir = 0.021f;
+			mc.thePlayer.motionX *= 1.010f;
+			mc.thePlayer.motionY *= 1.010f;
+			if(mc.thePlayer.fallDistance < 0.3) {
+				if (event.y <= -0.0784000015258789) {
+					event.y *= 0.3;
+				}
+			}
+		}
+
+		ChatUtils.addChatMessage(event.getY());
+
+
+
+
+	}
+
+	private void hypixelFour(EventMove event) {
+		if(mc.thePlayer.isOnLadder() || mc.thePlayer.isInWater() || mc.thePlayer.isInLava()) {
+			return;
+		}
+
+		if(!mc.thePlayer.isSprinting() && Vergo.config.modSprint.isDisabled()) {
+			if(mc.gameSettings.keyBindForward.isKeyDown()) {
+				mc.thePlayer.setSprinting(true);
+			}
+		}
+
+		if(MovementUtils.isOnGround(0.001)) {
+			//mc.thePlayer.jump();
+			event.setY(0.36f);
+		} else {
+			// hjartekrossare
+		}
+
+		/*
+			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> 0.3799999952316284 eventY
+			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.0784000015258789 motionY
+			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.1552320045166016 motionY
+			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.230527368912964 motionY
+			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.30431682745754424 motionY
+			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.37663049823865513 motionY
+			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.447497 89698341763 motionY
+		*/
+
+		// Glide, If no fall distance
+		if(mc.thePlayer.fallDistance < 0.3) {
+			if (event.y <= 0.1) {
+				event.y *= 0.2;
 			}
 		}
 

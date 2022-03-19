@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.EnumFacing;
 import org.apache.commons.lang3.RandomUtils;
@@ -288,7 +289,7 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 	private boolean setRotations(EventUpdate e) {
 
 		if (rotationSetting.is("Lock")) {
-			float[] rots = RotationUtils.getRotations(target);
+			float[] rots = RotationUtils.getRotationToEntity(target);
 			e.setYaw(rots[0]);
 			e.setPitch(rots[1]);
 			return true;

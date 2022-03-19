@@ -1,7 +1,9 @@
 package xyz.vergoclient.util;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
@@ -78,6 +80,8 @@ public class RotationUtils {
         float pitch = (float) -(Math.atan2(yDiff, dist) * 180.0D / 3.141592653589793D);
         return new float[]{yaw, pitch};
     }
+
+    protected static Minecraft mc = Minecraft.getMinecraft();
     
     public static float[] getRotations(Entity ent) {
         double x = ent.posX;
@@ -85,6 +89,44 @@ public class RotationUtils {
         double y = ent.posY + (ent.getEyeHeight() / 2.0F);
         return getRotationFromPosition(x, z, y);
     }
+
+    // New rotations that make the old
+	// ones fucking dogwater and obsolete.
+	public static float[] getRotations(final double posX, final double posY, final double posZ) {
+		final EntityPlayerSP player = mc.thePlayer;
+		final double x = posX - player.posX;
+		final double y = posY - (player.posY + player.getEyeHeight());
+		final double z = posZ - player.posZ;
+		final double dist = MathHelper.sqrt_double(x * x + z * z);
+		final float yaw = (float) (Math.atan2(z, x) * 180.0 / 3.141592653589793) - 90.0f;
+		final float pitch = (float) (-(Math.atan2(y, dist) * 180.0 / 3.141592653589793));
+		return new float[]{yaw, pitch};
+	}
+
+	public static float[] getRotation(Entity a1) {
+		double v1 = a1.posX - mc.thePlayer.posX;
+		double v3 = a1.posY + (double) a1.getEyeHeight() * 0.9 - (mc.thePlayer.posY + (double) mc.thePlayer.getEyeHeight());
+		double v5 = a1.posZ - mc.thePlayer.posZ;
+
+		double v7 = MathHelper.ceiling_float_int((float) (v1 * v1 + v5 * v5));
+		float v9 = (float) (Math.atan2(v5, v1) * 180.0 / 3.141592653589793) - 90.0f;
+		float v10 = (float) (-(Math.atan2(v3, v7) * 180.0 / 3.141592653589793));
+		return new float[]{mc.thePlayer.rotationYaw + MathHelper.wrapAngleTo180_float(v9 - mc.thePlayer.rotationYaw), mc.thePlayer.rotationPitch + MathHelper.wrapAngleTo180_float(v10 - mc.thePlayer.rotationPitch)};
+	}
+
+	//Best method
+	public static float[] getRotationToEntity(final EntityLivingBase entity) {
+		double xDiff = entity.posX - mc.thePlayer.posX;
+		double zDiff = entity.posZ - mc.thePlayer.posZ;
+		double yDiff = (entity.posY + entity.getEyeHeight() * 0.9) - (mc.thePlayer.posY + mc.thePlayer.getEyeHeight());
+
+		double distance = MathHelper.sqrt_double(xDiff * xDiff + zDiff * zDiff);
+
+		float yaw = (float) (Math.atan2(zDiff, xDiff) * 180.0D / Math.PI) - 90.0F;
+		float pitch = (float) (-(Math.atan2(yDiff, distance) * 180.0D / Math.PI));
+
+		return new float[]{yaw, pitch};
+	}
     
     public static Vec3 getVectorForRotation(float pitch, float yaw)
     {

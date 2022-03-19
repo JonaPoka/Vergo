@@ -65,75 +65,19 @@ public class Fly extends Module implements OnEventInterface {
 
 		if(e instanceof EventMove) {
 
-			if(mode.is("Hypixel")) {
-				doTheFunnyFly(((EventMove) e));
+			if(mode.is("Vanilla")) {
+				mc.thePlayer.setPosition(mc.thePlayer.posX, y - 0.1, mc.thePlayer.posZ);
+				mc.thePlayer.motionY = -0.0625;
 			}
 
-			else if(mode.is("Vanilla")) {
+			/*else if(mode.is("Vanilla")) {
 				if (!mc.thePlayer.capabilities.isFlying) {
 					mc.thePlayer.capabilities.isFlying = true;
 				}
-			}
+			}*/
 
 		}
 
-
-		if(mode.is("Hypixel")) {
-			if(e instanceof EventReceivePacket) {
-
-				state = 0;
-
-				if (((EventReceivePacket) e).packet instanceof S08PacketPlayerPosLook && this.state == 0) {
-					this.state = 1;
-				}
-
-				if (((EventReceivePacket) e).packet instanceof C03PacketPlayer.C04PacketPlayerPosition && this.state == 1) {
-					((C03PacketPlayer.C04PacketPlayerPosition) ((EventReceivePacket) e).packet).onGround = false;
-				}
-
-				if (((EventReceivePacket) e).packet instanceof C03PacketPlayer && this.state == 1) {
-					((C03PacketPlayer) ((EventReceivePacket) e).packet).onGround = false;
-				}
-
-				if (((EventReceivePacket) e).packet  instanceof C03PacketPlayer.C05PacketPlayerLook && this.state == 1) {
-					((C03PacketPlayer.C05PacketPlayerLook) ((EventReceivePacket) e).packet).onGround = false;
-				}
-
-				if (((EventReceivePacket) e).packet instanceof C03PacketPlayer.C06PacketPlayerPosLook && this.state == 1) {
-					((C03PacketPlayer.C06PacketPlayerPosLook) ((EventReceivePacket) e).packet).onGround = false;
-				}
-			}
-
-		}
-
-	}
-
-	private void doTheFunnyFly(EventMove eventMove) {
-
-		if(this.timer.delay(1200L)) {
-
-			//this.HClip(2.7, eventMove);
-
-			this.timer.reset();
-		}else {
-			eventMove.setX(0.0);
-			eventMove.setZ(0.0);
-		}
-	}
-
-	private void HClip(final double horizontal , EventMove eventMove) {
-		double playerYaw = Math.toRadians(mc.thePlayer.rotationYaw);
-
-		position = mc.thePlayer.getPosition();
-
-		//ChatUtils.addChatMessage("BLOCKPLACE + " + position);
-
-		position.x = (int) (position.getX() + horizontal * -Math.sin(playerYaw));
-		position.y = (int) (position.getY() - 2.0);
-		position.z = (int) (position.getZ() + horizontal * Math.cos(playerYaw));
-		eventMove.setX(position.getX());
-		eventMove.setY(position.getY());
-		eventMove.setZ(position.getZ());
 	}
 	
 }

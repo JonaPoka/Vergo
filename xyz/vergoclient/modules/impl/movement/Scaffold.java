@@ -12,7 +12,6 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.network.play.server.S2FPacketSetSlot;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
@@ -175,7 +174,8 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		lastRandZ = 0;
 
 		if (lastBlockPos != null && lastFacing != null) {
-			getRotations(lastBlockPos, lastFacing, false);
+			//getRotations(lastBlockPos, lastFacing, false);
+			getBlockRotations(lastBlockPos, lastFacing);
 		}
 
 		float[] rots = new float[] {mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};

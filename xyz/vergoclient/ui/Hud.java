@@ -97,9 +97,9 @@ public class Hud implements OnEventInterface {
 
 				JelloFontRenderer fr1 = FontUtil.comfortaaSmall;
 
-				String clientName = "Vergo : ";
+				String clientName = "Vergo - ";
 
-				String serverName = ServerUtils.getServerIP() + " : ";
+				String serverName = ServerUtils.getServerIP() + " - ";
 
 				String userName = AccountUtils.account.username;
 

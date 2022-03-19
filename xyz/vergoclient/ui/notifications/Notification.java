@@ -10,6 +10,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
+import xyz.vergoclient.util.Gl.BlurUtil;
 import xyz.vergoclient.util.RenderUtils;
 
 import java.awt.*;
@@ -87,7 +88,9 @@ public class Notification extends GuiScreen {
 
         RenderUtils.drawAlphaRoundedRect(GuiScreen.width - offset + 1, GuiScreen.height - 5 - height, width, height, 2f, color);
 
+        // Fix some weird kinky bug
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+
         fontRendererTitle.drawString(title, (int) (GuiScreen.width - offset + 8), GuiScreen.height - height - 1, -1);
         fontRendererMsg.drawString(messsage, (int) (GuiScreen.width - offset + 8), GuiScreen.height - 15, -1);
 
