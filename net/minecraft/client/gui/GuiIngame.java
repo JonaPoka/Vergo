@@ -346,6 +346,7 @@ public class GuiIngame extends Gui
         }
 
         BlurUtil.onRenderGameOverlay(this.mc.getFramebuffer(), scaledresolution);
+        BlurUtil.onRenderRoundedGameOverlay(this.mc.getFramebuffer(), scaledresolution);
         BloomUtil.onRenderGameOverlay(scaledresolution, this.mc.getFramebuffer());
 
         if(Vergo.config.modNotifications.isDisabled()) {

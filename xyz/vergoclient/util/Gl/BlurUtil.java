@@ -3,10 +3,12 @@ package xyz.vergoclient.util.Gl;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.network.Packet;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.util.ColorUtils;
+import xyz.vergoclient.util.RenderUtils;
 
 import java.awt.*;
 import java.nio.FloatBuffer;
@@ -96,6 +98,7 @@ public final class BlurUtil {
     public static boolean disableBlur;
 
     private static List<double[]> blurAreas = new ArrayList<>();
+    private static List<double[]> blurRoundedAreas = new ArrayList<>();
 
     private BlurUtil() {
     }
@@ -105,7 +108,52 @@ public final class BlurUtil {
         blurAreas.add(new double[]{x, y, width, height});
     }
 
+    public static void blurAreaRounded(final double x, final double y, final double width, final double height, final double roundRadius) {
+        if (disableBlur) return;
+        blurRoundedAreas.add(new double[]{x, y, width, height, roundRadius});
+    }
 
+    public static void onRenderRoundedGameOverlay(final Framebuffer mcFramebuffer, final ScaledResolution sr) {
+        if (framebuffer == null || framebufferRender == null || blurRoundedAreas.isEmpty()) return;
+        framebufferRender.framebufferClear();
+        // Draw into the blurFramebuffer
+        framebufferRender.bindFramebuffer(false);
+        // Draw the areas to be blurred
+        for (final double[] area : blurRoundedAreas) {
+            //ColorUtils.glDrawFilledQuad(area[0], area[1], area[2], area[3], 0xFF << 24);
+            RenderUtils.drawRoundedRect(area[0], area[1], area[2], area[3], (float) area[4], new Color(226, 226, 226));
+        }
+
+        blurRoundedAreas.clear();
+
+        // Enable blending and using glBlendFuncSeparate
+        final boolean restore = ColorUtils.glEnableBlend();
+
+        // Draw the first pass
+
+        framebuffer.bindFramebuffer(false);
+        blurShader.use(); // Use shader
+        onPass(1); // Set direction
+        // Draw the mcFramebuffer into the framebuffer
+        glDrawFramebuffer(sr, mcFramebuffer);
+        glUseProgram(0); // Stop using shader
+
+        // Draw the second pass
+
+        mcFramebuffer.bindFramebuffer(false);
+        blurShader.use(); // Use shader
+        onPass(0); // Update direction
+        // Set texture 20 to the framebuffer drawn into by the event
+        glActiveTexture(GL_TEXTURE20);
+        glBindTexture(GL_TEXTURE_2D, framebufferRender.framebufferTexture);
+        glActiveTexture(GL_TEXTURE0);
+        // Draw the frame buffer onto screen
+        glDrawFramebuffer(sr, framebuffer);
+        glUseProgram(0); // Stop using shader
+
+        // Restore the blend state
+        ColorUtils.glRestoreBlend(restore);
+    }
 
     public static void onRenderGameOverlay(final Framebuffer mcFramebuffer, final ScaledResolution sr) {
         if (framebuffer == null || framebufferRender == null || blurAreas.isEmpty()) return;
@@ -115,6 +163,7 @@ public final class BlurUtil {
         // Draw the areas to be blurred
         for (final double[] area : blurAreas) {
             ColorUtils.glDrawFilledQuad(area[0], area[1], area[2], area[3], 0xFF << 24);
+            //RenderUtils.drawRoundedRect(area[0], area[1], area[2], area[3], 3f, new Color(226, 226, 226));
         }
 
         blurAreas.clear();

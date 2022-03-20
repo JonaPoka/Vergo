@@ -31,6 +31,7 @@ import xyz.vergoclient.settings.SettingChangeEvent;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.*;
+import xyz.vergoclient.util.Gl.BlurUtil;
 import xyz.vergoclient.util.animations.OpacityAnimation;
 import xyz.vergoclient.util.animations.ScaleAnimation;
 
@@ -278,12 +279,13 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 
 
 			scaleAnim.interpolate(25, 30, 12);
-			boxOpacity.interp(200, 12);
+			boxOpacity.interp(100, 12);
 			numOpacity.interp(200, 12);
 			blockOpacity.interp(200, 12);
 
 			if (blocksLeft > 0) {
 
+				BlurUtil.blurAreaRounded(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f);
 				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) boxOpacity.getOpacity()));
 				if(blocksLeft <= 99 && blocksLeft > 9) {
 					jfr.drawString("0" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) numOpacity.getOpacity()));
@@ -298,6 +300,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 				mc.getRenderItem().renderItemAndEffectIntoGUI(setStackToPlace(), GuiScreen.width / 2 - 7.5f, GuiScreen.height / 2 + 20);
 
 			} else {
+				BlurUtil.blurAreaRounded(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f);
 				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) boxOpacity.getOpacity()));
 				RenderHelper.enableGUIStandardItemLighting();
 				jfr.drawString("000", GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(191, 9, 29, (int) numOpacity.getOpacity()));
