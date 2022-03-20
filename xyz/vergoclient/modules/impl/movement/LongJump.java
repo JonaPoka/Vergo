@@ -35,7 +35,7 @@ public class LongJump extends Module implements OnEventInterface {
 
     public ModeSetting mode = new ModeSetting("Mode", "HypixelBow", /*"Hypixel Bow",*/ "HypixelBow");
 
-    public BooleanSetting devSpeed = new BooleanSetting("BypassDevFilter", false);
+    public BooleanSetting devSpeed = new BooleanSetting("BypassDevFilter", false), smoothGlide = new BooleanSetting("Glide", false);
 
     public static transient TimerUtil hypixelTimer = new TimerUtil();
 
@@ -44,7 +44,7 @@ public class LongJump extends Module implements OnEventInterface {
         mode.modes.clear();
         mode.modes.addAll(Arrays.asList("HypixelBow"));
 
-        addSettings(mode);
+        addSettings(mode, smoothGlide);
     }
 
     public int i;
@@ -62,6 +62,10 @@ public class LongJump extends Module implements OnEventInterface {
         mc.gameSettings.keyBindForward.pressed = false;
 
         this.timer.reset();
+
+        if(smoothGlide.isEnabled()) {
+            ChatUtils.addDevMessage("Glide option MAY flag on Hypixel.x");
+        }
 
         if(MovementUtils.isMoving()) {
             mc.thePlayer.movementInput.moveForward = 0.0f;
@@ -187,10 +191,16 @@ public class LongJump extends Module implements OnEventInterface {
 
             }
 
-            ChatUtils.addDevMessage(RotationUtils.getBowVelocity());
+        }
 
+        if(e instanceof EventMove && e.isPre()) {
+            EventMove event = (EventMove) e;
 
-
+            if(mc.thePlayer.fallDistance <= 0.1 && smoothGlide.isEnabled()) {
+                if (event.y <= 0.2) {
+                    event.y *= 0.3;
+                }
+            }
         }
     }
 

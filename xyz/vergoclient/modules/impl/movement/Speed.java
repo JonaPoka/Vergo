@@ -211,6 +211,7 @@ public class Speed extends Module implements OnEventInterface {
 	}
 
 	private void hypixelThree(EventMove event) {
+
 		if(mc.thePlayer.isOnLadder() || mc.thePlayer.isInWater() || mc.thePlayer.isInLava()) {
 			return;
 		}
@@ -220,6 +221,18 @@ public class Speed extends Module implements OnEventInterface {
 				mc.thePlayer.setSprinting(true);
 			}
 		}
+
+		if (event.getY() <= -0.37663049823865513) {
+			if(mc.thePlayer.fallDistance <= 1) {
+				event.y *= 0.3f;
+				mc.thePlayer.speedInAir = 0.022f;
+				mc.timer.timerSpeed = 1.05f;
+				mc.timer.ticksPerSecond = 20.5f;
+			}
+		}
+
+		//ChatUtils.addChatMessage(mc.thePlayer.fallDistance);
+		/*
 
 		if(MovementUtils.isOnGround(0.001)) {
 			event.y = 0.4f;
@@ -235,10 +248,7 @@ public class Speed extends Module implements OnEventInterface {
 			}
 		}
 
-		ChatUtils.addChatMessage(event.getY());
-
-
-
+		ChatUtils.addChatMessage(event.getY());*/
 
 	}
 
