@@ -2133,6 +2133,10 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 		this.systemTime = 0L;
 	}
 
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
 	public void setDimensionAndSpawnPlayer(int dimension) {
 		this.theWorld.setInitialSpawnLocation();
 		this.theWorld.removeAllEntities();

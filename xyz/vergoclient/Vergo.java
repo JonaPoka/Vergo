@@ -1,13 +1,7 @@
 package xyz.vergoclient;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.TimerTask;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 import xyz.vergoclient.assets.Icons;
 import xyz.vergoclient.commands.CommandManager;
 import xyz.vergoclient.discord.Discord;
@@ -15,17 +9,24 @@ import xyz.vergoclient.files.FileManager;
 import xyz.vergoclient.files.FileSaver;
 import xyz.vergoclient.files.impl.FileKeybinds;
 import xyz.vergoclient.keybinds.KeyboardManager;
+import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.security.account.AccountUtils;
-import xyz.vergoclient.ui.hud.Hud;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.ui.guis.GuiClickGui;
 import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.ui.guis.LogInGui;
-import xyz.vergoclient.util.*;
+import xyz.vergoclient.ui.hud.Hud;
+import xyz.vergoclient.util.MiscellaneousUtils;
+import xyz.vergoclient.util.RandomStringUtil;
 import xyz.vergoclient.util.anticheat.Player;
-import net.minecraft.util.ResourceLocation;
-import xyz.vergoclient.modules.Module;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.TimerTask;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Vergo {
 

@@ -224,6 +224,7 @@ public class FontUtil {
 
 	public static JelloFontRenderer juraNormal = JelloFontRenderer.createFontRenderer(getJura(18));
 
+	public static JelloFontRenderer comfortaaHuge = JelloFontRenderer.createFontRenderer(getComfortaa(28));
 	public static JelloFontRenderer comfortaaNormal = JelloFontRenderer.createFontRenderer(getComfortaa(18));
 	public static JelloFontRenderer comfortaaSmall = JelloFontRenderer.createFontRenderer(getComfortaa(14));
 	public static JelloFontRenderer comfortaaSmaller = JelloFontRenderer.createFontRenderer(getComfortaa(6));

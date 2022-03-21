@@ -1,25 +1,25 @@
 package xyz.vergoclient.ui.guis;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ChatAllowedCharacters;
-import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.files.impl.FileAlts;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.*;
+import xyz.vergoclient.util.ColorUtils;
+import xyz.vergoclient.util.GuiUtils;
+import xyz.vergoclient.util.RenderUtils2;
+import xyz.vergoclient.util.SessionChanger;
 import xyz.vergoclient.util.datas.DataDouble5;
 import xyz.vergoclient.util.loginApi.MS;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class GuiAltManager extends GuiScreen {
 
@@ -59,22 +59,39 @@ public class GuiAltManager extends GuiScreen {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
 		// Draws the entire background.
+		//RenderUtils2.drawRect(0, 0, width, height, new Color(20, 20, 20).getRGB());
 
-		JelloFontRenderer fr = FontUtil.bakakakBig;
+		// Smooth Shadow Spell
+		glDisable(GL_ALPHA_TEST);
 
-		this.mc.getTextureManager().bindTexture(new ResourceLocation("Vergo/mainBg.png"));
-		GuiMainMenu.drawScaledCustomSizeModalRect(0, 0, 0.0f, 0.0f, this.width, this.height, this.width, this.height, this.width, this.height);
+		// Background
+		//RenderUtils2.drawRect(0, 0, width, height, new Color(10, 10, 10).getRGB());
 
-		// Backgrounds (Main and Alt)
-		Gui.drawRect(0, 0, width, height, new Color(19, 19, 19, 146).getRGB());
-		Gui.drawRect(width / 4, height / 20, width / 1.25f, height, new Color(19, 19, 19, 146).getRGB());
+		// Top
+		RenderUtils2.drawRect(0, 0, this.width, 45, new Color(10, 10, 10).getRGB());
 
-		// Rect's that surround alt background.
-		Gui.drawRect(width / 4, height / 20, width / 4.01f, height, new Color(57, 57, 57, 235).getRGB());
-		Gui.drawRect(width / 1.25f, height / 20, width / 1.251f, height, new Color(57, 57, 57, 235).getRGB());
+		// Shadow-Top
+		ColorUtils.glDrawFilledQuad(0, 45, this.width, 4, 0x96000000, 0);
 
+		JelloFontRenderer comNorm = FontUtil.comfortaaHuge;
+		JelloFontRenderer comRNorm = FontUtil.comfortaaNormal;
+		JelloFontRenderer comSmall = FontUtil.comfortaaSmall;
 
-		fr.drawCenteredString("Alt Manager", width / 2, height / 90, new Color(255, 255, 255).getRGB());
+		String altText = "Vergo Alt Manager";
+		String altAmnt = String.format("You Have \2476%s\247r Alts.", altsFile.alts.size());
+
+		// Bottom
+		ColorUtils.glDrawFilledQuad(0, this.height - 58, this.width, 58, 0xFF090909);
+
+		// Bottom shadow
+		ColorUtils.glDrawFilledQuad(0, this.height - 62, this.width, 4, 0, 0x96000000);
+
+		glEnable(GL_ALPHA_TEST);
+
+		mc.fontRendererObj.drawStringWithShadow("\2477Current Account: \247B" + mc.getSession().getUsername(), 4, 4, 0xFFFFFFFF);
+
+		comNorm.drawString(altText, width / 2 - (comNorm.getStringWidth(altText) / 2), 13, -1);
+		comSmall.drawString(altAmnt, width / 2 - (comSmall.getStringWidth(altAmnt) / 2), 33, -1);
 
 		scrollTarget += Mouse.getDWheel();
 		scroll += (scrollTarget - scroll) / 1;
@@ -93,17 +110,7 @@ public class GuiAltManager extends GuiScreen {
 		// All the font renderers
 		JelloFontRenderer fr1 = FontUtil.jelloFontAddAlt2;
 		JelloFontRenderer fr2 = FontUtil.arialRegular;
-		JelloFontRenderer fr3 = FontUtil.arialRegular;
-
-		// Draws a bunch of labels
-		//Gui.drawRect((width / 8) * 5, ((height / 9) * 4) - 20, width - 5, ((height / 9) * 5) - 20, Colors.ALT_MANAGER_BUTTONS.getColor());
-		//Gui.drawRect(((width / 8) * 5) + 5, ((height / 9) * 4) - 15, width - 10, ((height / 9) * 5) - 25, Colors.ALT_MANAGER_BACKGROUND.getColor());
-		//fr1.drawCenteredString(isLoggingIntoAlt ? "Logging in..." : deadAltMessage > System.currentTimeMillis() ? "That account is dead or your ip is blocked" : "Signed in as " + mc.session.getUsername(), (float) ((width / 8) * 5 + ((width - 5 - (width / 8) * 5) / 2)), (float) (((height / 9) * 4) - 20 + ((((height / 9) * 5) - 5 - ((height / 9) * 4) - 5) / 2) - fr1.FONT_HEIGHT + 5), deadAltMessage > System.currentTimeMillis() ? 0xffff0000 : -1);
-
-		//Gui.drawRect((width / 8) * 5, ((height / 9) * 3) - 25, width - 5, ((height / 9) * 4) - 25, Colors.ALT_MANAGER_BUTTONS.getColor());
-		//Gui.drawRect(((width / 8) * 5) + 5, ((height / 9) * 3) - 20, width - 10, ((height / 9) * 4) - 30, Colors.ALT_MANAGER_BACKGROUND.getColor());
-
-		fr2.drawCenteredString("You have " + altsFile.alts.size() + " alt" + (altsFile.alts.size() > 1 ? "s" : ""), width / 2, height / 27, -1);
+		JelloFontRenderer fr3 = FontUtil.neurialGrotesk;
 
 
 		// Creates the alt buttons
@@ -184,17 +191,9 @@ public class GuiAltManager extends GuiScreen {
 
 				RenderUtils2.drawBorderedRect((int) button.posAndColor.x1, (int) button.posAndColor.y1, boxResWidth, 40, 1f, new Color(19, 19, 19, 255), new Color(64, 64, 64, 190));
 			}
-			fr2.drawString(button.alt.username, button.posAndColor.x1 + 5, (float) button.posAndColor.y1 + 5, -1);
-			fr2.drawString(button.alt.email, button.posAndColor.x1 + 5, (float) button.posAndColor.y1 + 24, -1);
-			String unbannedAt = MiscellaneousUtils.getFormattedDateAndTime(button.alt.banTime);
-			if (button.alt.banTime == Long.MAX_VALUE) {
-				unbannedAt = "Permanently";
-			}
+			fr3.drawString(button.alt.username, button.posAndColor.x1 + 5, (float) button.posAndColor.y1 + 5, -1);
+			fr3.drawString(button.alt.email, button.posAndColor.x1 + 5, (float) button.posAndColor.y1 + 24, -1);
 		}
-
-		Gui.drawRect(0, height / 20, width, height / 20 - 2, new Color(57, 57, 57, 235).getRGB());
-		Gui.drawRect(0, height / 1.08, width, height, new Color(19, 19, 19, 255).getRGB());
-		Gui.drawRect(0, height / 1.08, width, height / 1.08 - 2, new Color(57, 57, 57, 255).getRGB());
 
 		// Add the login text box
 		if (isAddingAlt) {
@@ -254,11 +253,9 @@ public class GuiAltManager extends GuiScreen {
 			}
 		}
 
-		Gui.drawRect(0, height / 20, width, height / 20 - 2, new Color(57, 57, 57, 235).getRGB());
-		Gui.drawRect(0, height / 1.08, width, height, new Color(19, 19, 19, 255).getRGB());
-		Gui.drawRect(0, height / 1.08, width, height / 1.08 - 2, new Color(57, 57, 57, 255).getRGB());
+		RenderUtils2.drawRect(0, this.height - 58, this.width, 58, 0xFF090909);
 
-		for (Button button : buttons) {
+		/*for (Button button : buttons) {
 			RenderUtils2.drawBorderedRect((int) button.posAndColor.x1, (int) button.posAndColor.y1, (float) button.posAndColor.x1 - 272, 30, 1f, new Color(255, 255, 255, 0), new Color(255, 255, 255, 255));
 
 			if (GuiUtils.isMouseOverDataDouble5(mouseX, mouseY, button.posAndColor) && Mouse.isInsideWindow() && button.isEnabled && !isAddingAlt && !isAltSelected) {
@@ -267,30 +264,12 @@ public class GuiAltManager extends GuiScreen {
 				//button.hoverAnimation += (-button.hoverAnimation) / 2;
 			}
 			fr1.drawCenteredString(button.displayText, (float) button.posAndColor.x1 + 34, (float) button.posAndColor.y1 + 6, -1);
-		}
+		}*/
 
 	}
 
 	public void createComponents() {
 		buttons.clear();
-
-		// Add Microsoft Button
-		Button addMicroButton = new Button();
-		DataDouble5 addMicroPos = new DataDouble5();
-		addMicroPos.x1 = width / 4 + 20;
-		addMicroPos.x2 = width / 3 - 20;
-		addMicroPos.y1 = (height / 1.06) ;
-		addMicroPos.y2 = (height / 1.06) + 30 ;
-		addMicroButton.posAndColor = addMicroPos;
-		addMicroButton.displayText = "Add Alt";
-		addMicroButton.action = new Runnable() {
-			@Override
-			public void run() {
-				MS mS = new MS();
-				mS.authWithNoRefreshToken();
-			}
-		};
-		buttons.add(addMicroButton);
 
 		// Add Alt button
 		Button addAltButton = new Button();

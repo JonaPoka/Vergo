@@ -215,19 +215,6 @@ public class MiscellaneousUtils {
 		sessionTime = sessionTime % 1000;
 		return sessionTimeFormatted.substring(0, sessionTimeFormatted.length() - 1);
 	}
-	
-	public static String getFormattedDateAndTime(long millis) {
-		
-		String dateAndTime = "";
-		Timestamp time = new Timestamp(millis);
-		dateAndTime += time.getMonth() + 1;
-		dateAndTime += "/" + time.getDate();
-		dateAndTime += "/" + (time.getYear() + 1900);
-		dateAndTime += " " + (time.getHours());
-		dateAndTime += ":" + (time.getMinutes() + 1 <= 9 ? "0" + (time.getMinutes() + 1) : (time.getMinutes() + 1));
-		return dateAndTime;
-		
-	}
 
 	public static void connectToServer(String ip, int port, Minecraft mc) {
 		ServerData connect = new ServerData("temp", ip + ":" + port, false);

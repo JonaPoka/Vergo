@@ -18,6 +18,7 @@ import xyz.vergoclient.Vergo;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
+import xyz.vergoclient.ui.guis.altManager.NewAltMgr;
 import xyz.vergoclient.util.DisplayUtils;
 import xyz.vergoclient.util.FormattingUtil;
 
@@ -257,7 +258,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 		}
 
 		if(button.id == 1337) {
-			this.mc.displayGuiScreen(new GuiAltManager());
+			this.mc.displayGuiScreen(new NewAltMgr(this));
 		}
 
 		if (button.id == 4) {
