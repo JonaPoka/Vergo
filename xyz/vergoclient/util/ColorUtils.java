@@ -1,18 +1,11 @@
 package xyz.vergoclient.util;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import sun.plugin2.util.ColorUtil;
-
 import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL14.glBlendFuncSeparate;
 
 public class ColorUtils {
-
     /*
 
         Someone cool and sexy gave us this code.

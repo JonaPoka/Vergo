@@ -185,9 +185,14 @@ public class TargetHud extends Module implements OnEventInterface {
 				/*RenderUtils2.drawRoundedRect(30, 31.5f, this.animation, 5f, new Color(142, 2, 32).getRGB());
 				RenderUtils2.drawRoundedRect(30, 31.5f, drawPercent, 5f, new Color(142, 2, 32).getRGB());*/
 
-				RenderUtils.drawAlphaRoundedRect(27, 30, 82, 5f, 3f, getColor(5, 7, 15, (int) barOpacity.getOpacity()));
-				RenderUtils.drawAlphaRoundedRect(27, 30, healthBar, 5f, 3f, getColor(207, 84, 74, (int) barOpacity.getOpacity()));
-				// RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
+				final int startColour = ColorUtils.fadeBetween(new Color(210, 8, 62).getRGB(), new Color(108, 51, 217).getRGB(), 0);
+				final int endColour = ColorUtils.fadeBetween(new Color(108, 51, 217).getRGB(), new Color(210, 8, 62).getRGB(), 250);
+
+				RenderUtils.drawAlphaRoundedRect(27, 30, 82, 5f, 0f, getColor(5, 7, 15, 90));
+				ColorUtils.glDrawSidewaysGradientRect(27, 30, healthBar, 5f, startColour, endColour);
+
+				//RenderUtils.drawAlphaRoundedRect(27, 30, healthBar, 5f, 3f, getColor(207, 84, 74, (int) barOpacity.getOpacity()));
+				//RenderUtils.drawAlphaRoundedRect(27, 29, healthBar, 5f, 3f, getColor(142, 2, 32, (int) barOpacity.getOpacity()));
 
 				float f3 = 33 + (barWidth / 100f) * (ent.getTotalArmorValue() * 5);
 				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {

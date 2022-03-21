@@ -17,7 +17,7 @@ import xyz.vergoclient.files.impl.FileKeybinds;
 import xyz.vergoclient.keybinds.KeyboardManager;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.security.account.AccountUtils;
-import xyz.vergoclient.ui.Hud;
+import xyz.vergoclient.ui.hud.Hud;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.ui.guis.GuiClickGui;
 import xyz.vergoclient.ui.guis.GuiStart;

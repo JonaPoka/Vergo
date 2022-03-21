@@ -6,7 +6,7 @@ import xyz.vergoclient.Vergo;
 
 public class DisplayUtils {
 
-	public static void setTitle(String title) {
+	public static void setTitle() {
 		Display.setTitle("Vergo " + Vergo.version);
 	}
 

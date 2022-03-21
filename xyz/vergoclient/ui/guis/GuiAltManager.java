@@ -14,6 +14,7 @@ import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.datas.DataDouble5;
+import xyz.vergoclient.util.loginApi.MS;
 
 import java.awt.*;
 import java.io.IOException;
@@ -127,8 +128,10 @@ public class GuiAltManager extends GuiScreen {
 			altButton.posAndColor = altPos;
 			altButton.alt = alt;
 			altButton.action = new Runnable() {
+
 				@Override
 				public void run() {
+
 					if (alt.password.isEmpty()) {
 						SessionChanger.getInstance().setUserOffline(alt.username);
 					}else {
@@ -271,7 +274,25 @@ public class GuiAltManager extends GuiScreen {
 	public void createComponents() {
 		buttons.clear();
 
-		// Create buttons
+		// Add Microsoft Button
+		Button addMicroButton = new Button();
+		DataDouble5 addMicroPos = new DataDouble5();
+		addMicroPos.x1 = width / 4 + 20;
+		addMicroPos.x2 = width / 3 - 20;
+		addMicroPos.y1 = (height / 1.06) ;
+		addMicroPos.y2 = (height / 1.06) + 30 ;
+		addMicroButton.posAndColor = addMicroPos;
+		addMicroButton.displayText = "Add Alt";
+		addMicroButton.action = new Runnable() {
+			@Override
+			public void run() {
+				MS mS = new MS();
+				mS.authWithNoRefreshToken();
+			}
+		};
+		buttons.add(addMicroButton);
+
+		// Add Alt button
 		Button addAltButton = new Button();
 		DataDouble5 addAltPos = new DataDouble5();
 		addAltPos.x1 = width / 4 + 20;

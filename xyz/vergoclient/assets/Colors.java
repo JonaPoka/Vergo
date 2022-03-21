@@ -1,16 +1,8 @@
 package xyz.vergoclient.assets;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import xyz.vergoclient.Vergo;
-import xyz.vergoclient.ui.Hud;
-import xyz.vergoclient.ui.guis.GuiAltManager;
-import xyz.vergoclient.ui.guis.GuiMainMenu;
-import xyz.vergoclient.util.ColorUtils;
+import xyz.vergoclient.ui.hud.Hud;
 import xyz.vergoclient.util.RenderUtils;
-import net.minecraft.client.Minecraft;
 
 public enum Colors {
 	
@@ -44,21 +36,6 @@ public enum Colors {
 	
 	private int color;
 	private int getColorNoRainbowOverride() {
-		return color;
-	}
-	public int getColor() {
-		
-		if (Hud.arrayListColor != -1 && getColorNoRainbowOverride() == ARRAY_LIST_MODULE_NAMES.getColorNoRainbowOverride()) {
-			if (Vergo.config.modHud.arrayListColors.is("Default")) {
-				return color;
-			}
-			else if (Vergo.config.modHud.arrayListColors.is("Rainbow")) {
-				if (getColorNoRainbowOverride() == ARRAY_LIST_MODULE_NAMES.getColorNoRainbowOverride()) {
-					return RenderUtils.getRainbow(Hud.arrayListRainbow, 0.5f, 1f);
-				}
-			}
-		}
-		
 		return color;
 	}
 	

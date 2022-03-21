@@ -1,5 +1,7 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import net.minecraft.network.Packet;
+import tv.twitch.chat.Chat;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
@@ -11,10 +13,7 @@ import xyz.vergoclient.modules.OnSettingChangeInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.SettingChangeEvent;
-import xyz.vergoclient.util.ChatUtils;
-import xyz.vergoclient.util.MovementUtils;
-import xyz.vergoclient.util.Timer;
-import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.*;
 
 import java.util.Arrays;
 
@@ -110,15 +109,15 @@ public class Speed extends Module implements OnEventInterface {
 				if(MovementUtils.isMoving()) {
 					hypixelTwo(e);
 				}
+			} else if(mode.is("Hypixel3")) {
+				if(MovementUtils.isMoving()) {
+					hypixelThree(e);
+				}
 			}
 		} else if(e instanceof EventMove && e.isPre()) {
 			EventMove event = (EventMove) e;
-			if(mode.is("Hypixel3")) {
-				if(MovementUtils.isMoving()) {
-					hypixelThree(event);
-				}
-			}
-			 else if(mode.is("Hypixel4")) {
+
+			  if(mode.is("Hypixel4")) {
 				if(MovementUtils.isMoving()) {
 					hypixelFour(event);
 				}
@@ -210,7 +209,7 @@ public class Speed extends Module implements OnEventInterface {
 
 	}
 
-	private void hypixelThree(EventMove event) {
+	private void hypixelThree(Event event) {
 
 		if(mc.thePlayer.isOnLadder() || mc.thePlayer.isInWater() || mc.thePlayer.isInLava()) {
 			return;
@@ -222,33 +221,26 @@ public class Speed extends Module implements OnEventInterface {
 			}
 		}
 
-		if (event.getY() <= -0.37663049823865513) {
-			if(mc.thePlayer.fallDistance <= 1) {
-				event.y *= 0.3f;
-				mc.thePlayer.speedInAir = 0.022f;
-				mc.timer.timerSpeed = 1.05f;
-				mc.timer.ticksPerSecond = 20.5f;
-			}
-		}
-
-		//ChatUtils.addChatMessage(mc.thePlayer.fallDistance);
-		/*
+		//if(MovementUtils.isOnGround(0.001)) {
+			// -Math.sin(playerYaw) -- X things
+			// Math.cos(playerYaw) -- Y things
 
 		if(MovementUtils.isOnGround(0.001)) {
-			event.y = 0.4f;
-			//mc.thePlayer.motionY = 0.4f;
-		} else {
-			mc.thePlayer.speedInAir = 0.021f;
-			mc.thePlayer.motionX *= 1.010f;
-			mc.thePlayer.motionY *= 1.010f;
-			if(mc.thePlayer.fallDistance < 0.3) {
-				if (event.y <= -0.0784000015258789) {
-					event.y *= 0.3;
-				}
-			}
+			mc.thePlayer.jump();
 		}
 
-		ChatUtils.addChatMessage(event.getY());*/
+		final double yaw = MovementUtils.getDirection();
+
+		mc.thePlayer.motionX = -Math.sin(yaw) * MovementUtils.getSpeed();
+		mc.thePlayer.motionZ = Math.cos(yaw) * MovementUtils.getSpeed();
+
+		if(event instanceof EventUpdate) {
+			EventUpdate e = (EventUpdate) event;
+
+			e.setPitch(mc.thePlayer.rotationPitch);
+			e.setYaw((float) MovementUtils.getDirection());
+		}
+
 
 	}
 
@@ -263,11 +255,14 @@ public class Speed extends Module implements OnEventInterface {
 			}
 		}
 
+		mc.thePlayer.speedInAir = 0.02215637f;
+
 		if(MovementUtils.isOnGround(0.001)) {
 			//mc.thePlayer.jump();
 			event.setY(0.36f);
 		} else {
-			// hjartekrossare
+			mc.thePlayer.motionX *= 1.00130f;
+			mc.thePlayer.motionZ *= 1.00130f;
 		}
 
 		/*
@@ -280,10 +275,15 @@ public class Speed extends Module implements OnEventInterface {
 			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.447497 89698341763 motionY
 		*/
 
-		// Glide, If no fall distance
+		// Glide, If no fall distance | NOT IMPLEMENTED
 		if(mc.thePlayer.fallDistance < 0.3) {
-			if (event.y <= 0.1) {
-				event.y *= 0.2;
+			if (event.y <= -0.2) {
+				event.y *= 0.3;
+				mc.timer.timerSpeed = 1.06f;
+				ChatUtils.addDevMessage("trigger > " + mc.timer.timerSpeed);
+			} else {
+				mc.timer.timerSpeed = 1.0f;
+				ChatUtils.addDevMessage("trigger > " + mc.timer.timerSpeed);
 			}
 		}
 

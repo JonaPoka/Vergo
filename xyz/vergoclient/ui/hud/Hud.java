@@ -1,4 +1,4 @@
-package xyz.vergoclient.ui;
+package xyz.vergoclient.ui.hud;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -9,7 +9,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.Display;
 import xyz.vergoclient.Vergo;
-import xyz.vergoclient.assets.Colors;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventRenderGUI;
 import xyz.vergoclient.modules.Module;
@@ -51,7 +50,7 @@ public class Hud implements OnEventInterface {
 			if(Vergo.config.modHud.theFunny.isEnabled()) {
 				Display.setTitle("PAWG (Phat Ass White Girls)");
 			} else {
-				DisplayUtils.setTitle("1");
+				DisplayUtils.setTitle();
 			}
 
 			if (Vergo.config.modHud.bpsMode.is("Always On")) {
@@ -63,7 +62,7 @@ public class Hud implements OnEventInterface {
 					FontUtil.comfortaaNormal.drawStringWithShadow(Math.round(MovementUtils.getBlocksPerSecond()) + " BPS", (double) GuiScreen.width - GuiScreen.width + 2, GuiScreen.height - 20, new Color(0xFFFFFF).getRGB());
 				}
 			} else {
-				return;
+				// Do Nothing.
 			}
 
 			// Draws the watermark in the corner
@@ -93,6 +92,10 @@ public class Hud implements OnEventInterface {
 					fr.drawString(vergoStr, 8f, 9.5f, new Color(0xffffff).getRGB());
 
 			} else if(Vergo.config.modHud.waterMark.is("Simplistic")) {
+
+				final int startColour = ColorUtils.fadeBetween(new Color(210, 8, 62).getRGB(), new Color(108, 51, 217).getRGB(), 0);
+				final int endColour = ColorUtils.fadeBetween(new Color(108, 51, 217).getRGB(), new Color(210, 8, 62).getRGB(), 250);
+
 				JelloFontRenderer fr = FontUtil.comfortaaSmall;
 
 				JelloFontRenderer fr1 = FontUtil.comfortaaSmall;
@@ -103,7 +106,7 @@ public class Hud implements OnEventInterface {
 
 				String userName = AccountUtils.account.username;
 
-				BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(3, 5, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName)) + 18, 1.5f, new Color(210, 8, 62).getRGB(), new Color(108, 51, 217).getRGB()));
+				BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(3, 5, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName)) + 18, 1.5f, startColour, endColour));
 				BlurUtil.blurArea(3, 6, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName)) + 18, 12f);
 				RenderUtils.drawAlphaRoundedRect(3, 6, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName)) + 18, 12f, 0f, new Color(60, 60, 60, 100));
 
@@ -148,10 +151,10 @@ public class Hud implements OnEventInterface {
 		arrayListRainbow = 0;
 		arrayListColor = -1;
 			
-		if(Vergo.config.modHud.hudMode.is("Vergo")) {
+		if(Vergo.config.modHud.isEnabled()) {
 			arrayListColor++;
 
-			JelloFontRenderer fr = Vergo.config.modHud.arrayListFont.is("Neurial") ? FontUtil.neurialGrotesk : Vergo.config.modHud.arrayListFont.is("Jura") ? FontUtil.juraNormal : FontUtil.arialMedium;
+			JelloFontRenderer fr = FontUtil.neurialGrotesk;
 
 			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
@@ -220,28 +223,19 @@ public class Hud implements OnEventInterface {
 
 					}
 
-					if (Vergo.config.modHud.barDirection.is("Right")) {
-						if (Vergo.config.modHud.arrayListBackground.isEnabled()) {
-							//ChatUtils.addChatMessage(textToRender);
-							BlurUtil.blurArea(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, 0, sr.getScaledWidth(), (offset + 1) * (fr.FONT_HEIGHT + 4));
-							Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x40000000);
-						}
-						align = 4.5f;
-						Gui.drawRect(sr.getScaledWidth() - 2, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
-					} else if (Vergo.config.modHud.barDirection.is("Left")) {
-						if (Vergo.config.modHud.arrayListBackground.isEnabled()) {
-							BlurUtil.blurArea(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, 13, sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4));
-							Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x40000000);
-						}
-						align = 2.7f;
-						Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
-					} else {
-						if (Vergo.config.modHud.arrayListBackground.isEnabled()) {
-							BlurUtil.blurArea(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, 13, sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4));
-							Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x20000000);
-						}
-					}
+				//ChatUtils.addChatMessage(textToRender);
+				BlurUtil.blurArea(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, 0, sr.getScaledWidth(), (offset + 1) * (fr.FONT_HEIGHT + 4));
+				Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x40000000);
 
+				align = 4.5f;
+
+				BlurUtil.blurArea(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, 0, sr.getScaledWidth(), (offset + 1) * (fr.FONT_HEIGHT + 4));
+
+				Gui.drawRect(sr.getScaledWidth() - 2, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
+
+
+					final int startColour = ColorUtils.fadeBetween(new Color(210, 8, 62).getRGB(), new Color(108, 51, 217).getRGB(), 0);
+					final int endColour = ColorUtils.fadeBetween(new Color(108, 51, 217).getRGB(), new Color(210, 8, 62).getRGB(), 250);
 
 					GlStateManager.colorState.alpha = 1;
 
@@ -263,3 +257,5 @@ public class Hud implements OnEventInterface {
 	}
 	
 }
+
+

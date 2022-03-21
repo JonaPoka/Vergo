@@ -18,6 +18,8 @@ import xyz.vergoclient.util.RenderUtils2;
 
 import java.awt.*;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public class StorageESP extends Module implements OnEventInterface {
 
 	public StorageESP() {
@@ -52,6 +54,10 @@ public class StorageESP extends Module implements OnEventInterface {
 					GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
 					GL11.glEnable(32823);
 					GL11.glPolygonOffset(1.0f, -1099998.0f);
+
+					// Enable Alias
+					glEnable(GL_LINE_SMOOTH);
+					glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
 					// Horizontals
 					if(colorCoordinate.isEnabled()) {
@@ -88,7 +94,11 @@ public class StorageESP extends Module implements OnEventInterface {
 					GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 					//RenderUtils.drawColoredBox(chestLocation.getX() - 0.0001, chestLocation.getY() - 0.0001, chestLocation.getZ() - 0.0001, chestLocation.getX() + 1.0001, chestLocation.getY() + 1.0001, chestLocation.getZ() + 1.0001, 0x00000000);
 					//RenderUtils.drawColoredBox(chestLocation.getX() - 0.0001, chestLocation.getY() - 0.0001, chestLocation.getZ() - 0.0001, chestLocation.getX() + 1.0001, chestLocation.getY() + 1.0001, chestLocation.getZ() + 1.0001, new Color(normalRed.getValueAsInt(), normalGreen.getValueAsInt(), normalBlue.getValueAsInt(), normalAlpha.getValueAsInt()).getRGB());
-					
+
+					// Disable Alias
+					glDisable(GL_LINE_SMOOTH);
+					glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+
 					GlStateManager.depthMask(true);
 					
 					GlStateManager.popAttrib();

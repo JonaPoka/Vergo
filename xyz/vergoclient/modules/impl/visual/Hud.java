@@ -14,42 +14,21 @@ public class Hud extends Module {
 	public Hud() {
 		super("Hud", Category.VISUAL);
 	}
-	
-	public ModeSetting hudMode = new ModeSetting("Mode", "Vergo", "Vergo"),
-			bpsMode = new ModeSetting("BPS Mode", "Always On", "Always On", "Speed Only", "Off"),
-			vergoColor = new ModeSetting("Vergo Color Scheme", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green"),
-			barDirection = new ModeSetting("Align Color Bar", "Right", "Right", "Left", "None"),
-			waterMark = new ModeSetting("Watermark", "Rounded", "Rounded", "Planet", "vergosense", "Simplistic"),
-			arrayListFont = new ModeSetting("ArrayList Font", "Neurial", "Jura", "Neurial"),
-			arrayListColors = new ModeSetting("ArrayList colors", "Rainbow", "Default", "Rainbow");
-	public BooleanSetting renderScoreboardNumbers = new BooleanSetting("Scoreboard Numbers", true),
-						  arrayListBackground = new BooleanSetting("ArrayList Background", true),
-						  theFunny = new BooleanSetting("TheFunnyName", false);
+
+	public ModeSetting currentTheme = new ModeSetting("Theme", "Default", "Default"),
+						waterMark = new ModeSetting("Watermark", "Simple", "Simple", "vergosense", "Text", "Planet"),
+						bpsMode = new ModeSetting("BPS Count", "Always On", "Speed Only", "Never"),
+						vergoColor = new ModeSetting("Colours", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green");
+
+	public BooleanSetting theFunny = new BooleanSetting("TheFunnyName", false), blurToggle = new BooleanSetting("ArrayBlur", true);
+
 	@Override
 	public void loadSettings() {
+		currentTheme.modes.addAll(Arrays.asList("Default"));
 
-		hudMode.modes.clear();
-		hudMode.modes.addAll(Arrays.asList("Vergo"));
+		waterMark.modes.addAll(Arrays.asList("Simple", "vergosense", "Text", "Planet"));
 
-		bpsMode.modes.clear();
-		bpsMode.modes.addAll(Arrays.asList("Always On", "Speed Only", "Off"));
-
-		vergoColor.modes.clear();
-		vergoColor.modes.addAll(Arrays.asList("Burgundy", "Sea Blue", "Nuclear Green"));
-
-		arrayListFont.modes.clear();
-		arrayListFont.modes.addAll(Arrays.asList("Jura", "Neurial"));
-
-		waterMark.modes.clear();
-		waterMark.modes.addAll(Arrays.asList("Rounded", "Planet", "vergosense", "Simplistic"));
-
-		barDirection.modes.clear();
-		barDirection.modes.addAll(Arrays.asList("Right", "Left", "None"));
-
-		//arrayListColors.modes.clear();
-		//arrayListColors.modes.addAll(Arrays.asList("Default", "Rainbow"));
-		
-		addSettings(/*hudMode,*/ vergoColor, bpsMode, /*barDirection,*/ waterMark, arrayListFont, /*arrayListColors*/ arrayListBackground, renderScoreboardNumbers, theFunny);
+		addSettings(currentTheme, waterMark, theFunny, blurToggle);
 
 	}
 	
