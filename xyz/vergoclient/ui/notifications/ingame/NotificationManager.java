@@ -1,36 +1,163 @@
 package xyz.vergoclient.ui.notifications.ingame;
 
-import xyz.vergoclient.util.ChatUtils;
+import net.minecraft.client.gui.ScaledResolution;
+import xyz.vergoclient.util.RenderUtils;
+import xyz.vergoclient.util.animations.Animation;
+import xyz.vergoclient.util.animations.Direction;
+import xyz.vergoclient.util.animations.impl.DecelerateAnimation;
 
-import java.util.concurrent.LinkedBlockingQueue;
+import java.awt.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class NotificationManager {
-    public static LinkedBlockingQueue<Notification> pendingNotifications = new LinkedBlockingQueue<>();
-    private static Notification currentNotification = null;
+    private final float spacing = 10;
+    private final float widthSpacing = 25;
+    public static final CopyOnWriteArrayList<Notification> notifications = new CopyOnWriteArrayList<>();
+    Animation downAnimation = null;
 
-    public static void show(Notification notification) {
-        pendingNotifications.add(notification);
+    public void drawNotifications(ScaledResolution sr) {
+        int count = 0;
+
+        for (Notification notification : notifications) {
+            if (notification.timerUtil.hasTimeElapsed((long) notification.getMaxTime(), false)) {
+                if (notification.getAnimation() != null) {
+                    if (notification.getAnimation().isDone()) {
+                        notifications.remove(notification);
+                        downAnimation = new DecelerateAnimation(225, 1, Direction.FORWARDS);
+                        continue;
+                    }
+                } else vanish(notification);
+            } else {
+                if (notification.getAnimation() != null) {
+                    if (notification.getAnimation().isDone()) notification.stopAnimation();
+                }
+            }
+
+            float notifWidth = notification.getWidth() + widthSpacing;
+            float notifX = sr.getScaledWidth() - (notifWidth + 5);
+            if (count == 0) notification.notificationY = sr.getScaledHeight();
+            notification.notificationY = notifications.get(Math.max(count - 1, 0)).notificationY - spacing - notification.getHeight();
+
+            if (notification.isAnimating()) notifX += notifWidth * notification.getAnimation().getOutput();
+
+            if (downAnimation != null) {
+                if (downAnimation.isDone()) {
+                    downAnimation = null;
+                    return;
+                }
+
+                float newY = sr.getScaledHeight() - (spacing + notification.getHeight()) * (count + 2);
+                notification.notificationY = (float) (newY + ((notification.getHeight() + spacing) * downAnimation.getOutput()));
+            }
+
+            notificationDraw(notifX, notification.notificationY, notifWidth, notification.getHeight(), notification);
+
+            count++;
+        }
     }
 
-    public static void update() {
-        if (currentNotification != null && !currentNotification.isShown()) {
-            currentNotification = null;
+    public void notificationDraw(float x, float y, float width, float height, Notification notification) {
+        int color = -1;
+        String iconText = "";
+        float yOffset = 8;
+        float xOffset = 5;
+        switch (notification.getNotificationType()) {
+            case SUCCESS:
+                color = new Color(20, 250, 90).getRGB();
+                break;
+            case WARNING:
+                color = new Color(255, 255, 0).getRGB();
+                break;
+            case DISABLE:
+                color = new Color(255, 30, 30).getRGB();
+                yOffset = 9;
+                break;
+            case INFO:
+                color = new Color(255, 255, 255).getRGB();
+                xOffset = 7;
+                break;
         }
 
-        if (currentNotification == null && !pendingNotifications.isEmpty() && pendingNotifications.size() < 5) {
-            currentNotification = pendingNotifications.poll();
-            currentNotification.show();
-        } else if(pendingNotifications.size() > 1) {
-            ChatUtils.addChatMessage("Notifications have been cleared to reduce spam.");
-            pendingNotifications.clear();
+        Color baseColor = new Color(20, 20, 20, 110);
+        Color colorr = interpolateColorC(baseColor, new Color(applyOpacity(color, .3f)), 0.5f);
+
+        RenderUtils.drawRoundedRect(x, y, width, height, 4, colorr);
+
+        notification.titleFont.drawString(notification.getTitle(), x + 28, y + 3, -1);
+        notification.descriptionFont.drawString(notification.getDescription(), x + 28, y + 16, -1);
+    }
+
+    public void blurNotifs(ScaledResolution sr) {
+        int count = 0;
+        for (Notification notification : notifications) {
+            float notifWidth = notification.getWidth() + widthSpacing;
+            float notifX = sr.getScaledWidth() - (notifWidth + 5);
+            if (count == 0) notification.notificationY = sr.getScaledHeight(); //- Watermark.y;
+            notification.notificationY = notifications.get(Math.max(count - 1, 0)).notificationY - spacing - notification.getHeight();
+
+            if (notification.isAnimating()) notifX += notifWidth * notification.getAnimation().getOutput();
+
+            if (downAnimation != null) {
+                if (downAnimation.isDone()) {
+                    downAnimation = null;
+                    return;
+                }
+                float newY = sr.getScaledHeight() - (/*Watermark.y +*/ ((spacing + notification.getHeight()) * (count + 2)));
+                notification.notificationY = (float) (newY + ((notification.getHeight() + spacing) * downAnimation.getOutput()));
+            }
+
+            Color baseColor = new Color(50, 50, 44, 80);
+            Color colorr = interpolateColorC(baseColor, new Color(applyOpacity(-1, .3f)), 0.5f);
+
+            RenderUtils.drawRoundedRect(notifX, notification.notificationY, notifWidth, notification.getHeight(), 4.75f, colorr);
+            count++;
         }
-
     }
 
-    public static void render() {
-        update();
 
-        if (currentNotification != null)
-            currentNotification.render();
+
+    public static void post(NotificationType type, String title, String description) {
+        post(new Notification(type, title, description));
     }
+
+    public static void post(NotificationType type, String title, String description, float time) {
+        post(new Notification(type, title, description, time));
+    }
+
+    private static void post(Notification notification) {
+        notifications.add(notification);
+        notification.startAnimation(new DecelerateAnimation(225, 1, Direction.BACKWARDS));
+    }
+
+    public static void vanish(Notification notification) {
+        notification.startAnimation(new DecelerateAnimation(225, 1, Direction.FORWARDS));
+    }
+
+    public static int interpolateInt(int oldValue, int newValue, double interpolationValue){
+        return interpolate(oldValue, newValue, (float) interpolationValue).intValue();
+    }
+
+    public static Double interpolate(double oldValue, double newValue, double interpolationValue){
+        return (oldValue + (newValue - oldValue) * interpolationValue);
+    }
+
+    public static Color interpolateColorC(Color color1, Color color2, float amount) {
+        amount = Math.min(1, Math.max(0, amount));
+        return new Color(interpolateInt(color1.getRed(), color2.getRed(), amount),
+                interpolateInt(color1.getGreen(), color2.getGreen(), amount),
+                interpolateInt(color1.getBlue(), color2.getBlue(), amount),
+                interpolateInt(color1.getAlpha(), color2.getAlpha(), amount));
+    }
+
+    public static int applyOpacity(int color, float opacity) {
+        Color old = new Color(color);
+        return applyOpacity(old, opacity).getRGB();
+    }
+
+    //Opacity value ranges from 0-1
+    public static Color applyOpacity(Color color, float opacity) {
+        opacity = Math.min(1, Math.max(0, opacity));
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) (color.getAlpha() * opacity));
+    }
+
 }

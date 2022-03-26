@@ -264,7 +264,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 			if (blocksLeft > 0) {
 
 				BlurUtil.blurAreaRounded(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f);
-				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) 255));
+				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) 100));
 				if(blocksLeft <= 99 && blocksLeft > 9) {
 					jfr.drawString("0" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) 255));
 				} else if(blocksLeft <= 9) {
@@ -279,7 +279,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 
 			} else {
 				BlurUtil.blurAreaRounded(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f);
-				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) 255));
+				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) 100));
 				RenderHelper.enableGUIStandardItemLighting();
 				jfr.drawString("000", GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(191, 9, 29, (int) 255));
 			}

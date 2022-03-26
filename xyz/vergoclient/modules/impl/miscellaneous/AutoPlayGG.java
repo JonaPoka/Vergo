@@ -71,7 +71,7 @@ public class AutoPlayGG extends Module implements OnEventInterface {
                         if(autoGG.isEnabled()) {
                             mc.thePlayer.sendChatMessage("gg");
                         }
-                        NotificationManager.show(new Notification(NotificationType.TOGGLE_ON, "Game Ended!", "Sending you to a new game...", 2));
+                        //NotificationManager.show(new Notification(NotificationType.TOGGLE_ON, "Game Ended!", "Sending you to a new game...", 2));
                         doCommands();
                     } else {
                         if(packet.getChatComponent().getFormattedText().contains("A player has been removed from your game.")) {

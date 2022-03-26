@@ -35,6 +35,8 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static xyz.vergoclient.ui.notifications.ingame.NotificationManager.notifications;
+
 public class ModuleManager {
 
 	public AutoPlayGG modAutoPlay = new AutoPlayGG();
@@ -302,7 +304,6 @@ public class ModuleManager {
 		for (Module module : modules) {
 			if (module.isEnabled())
 				module.toggle();
-			NotificationManager.pendingNotifications.clear();
 		}
 		
 		if (!file.exists()) {
@@ -381,7 +382,7 @@ public class ModuleManager {
 				}
 				if (moduleJson.getBoolean("isEnabled"))
 					module.toggle();
-					NotificationManager.pendingNotifications.clear();
+					notifications.clear();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -391,7 +392,7 @@ public class ModuleManager {
 		
 		currentlyLoadingConfig = false;
 
-		NotificationManager.show(new Notification(NotificationType.TOGGLE_ON, "Config Loaded!", configName + " config loaded!", 2));
+		NotificationManager.post(NotificationType.SUCCESS, configName + " has been loaded!", "You're config is ready.");
 
 		return newConfig;
 	}

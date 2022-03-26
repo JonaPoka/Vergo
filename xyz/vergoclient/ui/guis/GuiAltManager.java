@@ -11,9 +11,7 @@ import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.ColorUtils;
 import xyz.vergoclient.util.GuiUtils;
 import xyz.vergoclient.util.RenderUtils2;
-import xyz.vergoclient.util.SessionChanger;
 import xyz.vergoclient.util.datas.DataDouble5;
-import xyz.vergoclient.util.loginApi.MS;
 
 import java.awt.*;
 import java.io.IOException;

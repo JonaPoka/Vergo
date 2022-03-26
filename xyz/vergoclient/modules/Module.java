@@ -93,7 +93,7 @@ public abstract class Module {
 
 				} else {
 					String message = WordUtils.wrap(getName() + " has been enabled!", 120);
-					NotificationManager.show(new Notification(NotificationType.TOGGLE_ON, getName() + " Enabled!", message, 1));
+					NotificationManager.post(NotificationType.SUCCESS, getName() + " Enabled!", message);
 				}
 				onEnable();
 			}else {
@@ -101,7 +101,7 @@ public abstract class Module {
 
 				} else {
 					String message = WordUtils.wrap(getName() + " has been disabled!", 120);
-					NotificationManager.show(new Notification(NotificationType.TOGGLE_OFF, getName() + " Disabled!", message, 1));
+					NotificationManager.post(NotificationType.DISABLE, getName() + " Disabled!", message);
 				}
 				onDisable();
 			}

@@ -17,6 +17,7 @@ import xyz.vergoclient.ui.guis.GuiClickGui;
 import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.ui.guis.LogInGui;
 import xyz.vergoclient.ui.hud.Hud;
+import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
 import xyz.vergoclient.util.MiscellaneousUtils;
 import xyz.vergoclient.util.RandomStringUtil;
 import xyz.vergoclient.util.anticheat.Player;
@@ -40,6 +41,8 @@ public class Vergo {
 
 	public static transient boolean beta = false;
 
+	private static final NotificationManager notificationManager = new NotificationManager();
+
 	public static transient CopyOnWriteArrayList<ResourceLocation> cachedIcons = new CopyOnWriteArrayList<>();
 
 	public static transient CopyOnWriteArrayList<StartupTask> startupTasks = new CopyOnWriteArrayList<>();
@@ -47,6 +50,10 @@ public class Vergo {
 	public static transient CommandManager commandManager;
 
 	private static transient Player player = new Player();
+
+	public static NotificationManager getNotificationManager() {
+		return notificationManager;
+	}
 
 	public static void startup() {
 		

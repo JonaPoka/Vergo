@@ -36,6 +36,7 @@ import optifine.CustomColors;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event.EventType;
 import xyz.vergoclient.event.impl.EventRenderGUI;
+import xyz.vergoclient.ui.notifications.ingame.Notification;
 import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
 import xyz.vergoclient.util.Gl.BloomUtil;
 import xyz.vergoclient.util.Gl.BlurUtil;
@@ -352,7 +353,7 @@ public class GuiIngame extends Gui
         if(Vergo.config.modNotifications.isDisabled()) {
 
         } else {
-            NotificationManager.render();
+            Vergo.getNotificationManager().drawNotifications(scaledresolution);
         }
 
         EventRenderGUI event = new EventRenderGUI();

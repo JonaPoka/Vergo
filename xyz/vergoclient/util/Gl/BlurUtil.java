@@ -1,12 +1,8 @@
 package xyz.vergoclient.util.Gl;
 
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.network.Packet;
-import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.util.ColorUtils;
 import xyz.vergoclient.util.RenderUtils;
 
@@ -19,8 +15,6 @@ import static org.lwjgl.BufferUtils.createFloatBuffer;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
-import static xyz.vergoclient.util.RenderUtils.drawCirclePart;
-import static xyz.vergoclient.util.RenderUtils.drawFillRectangle;
 
 // innominate da world
 // (for dummies, this is skidded from ketamine.

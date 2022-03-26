@@ -28,7 +28,7 @@ public class Hud extends Module {
 
 		waterMark.modes.addAll(Arrays.asList("Simple", "vergosense", "Text", "Planet"));
 
-		addSettings(currentTheme, waterMark, theFunny, blurToggle);
+		addSettings(currentTheme, waterMark, bpsMode, theFunny, blurToggle);
 
 	}
 	

@@ -1,93 +1,75 @@
 package xyz.vergoclient.ui.notifications.ingame;
 
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.RenderUtils;
+import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.animations.Animation;
 
-import java.awt.*;
+public class Notification {
 
-public class Notification extends GuiScreen {
-    private NotificationType type;
-    private String title;
-    private String messsage;
-    private long start;
+    private final NotificationType notificationType;
+    private final String title, description;
+    private final float height = 28, time;
+    public float notificationY;
+    public JelloFontRenderer descriptionFont = FontUtil.comfortaaSmall;
+    public JelloFontRenderer titleFont = FontUtil.comfortaaNormal;
+    public final TimerUtil timerUtil;
+    private Animation animation;
 
-    private long fadedIn;
-    private long fadeOut;
-    private long end;
-
-
-    public Notification(NotificationType type, String title, String messsage, int length) {
-        this.type = type;
+    public Notification(NotificationType type, String title, String description) {
         this.title = title;
-        this.messsage = messsage;
-
-        fadedIn = 400 * length;
-        fadeOut = fadedIn + 800 * length;
-        end = fadeOut + fadedIn;
+        this.description = description;
+        this.time = 1500; // 1.5 seconds
+        timerUtil = new TimerUtil();
+        this.notificationType = type;
     }
 
-    public void show() {
-        start = System.currentTimeMillis();
+    public Notification(NotificationType type, String title, String description, float time) {
+        this.title = title;
+        this.description = description;
+        this.time = (long) (time * 1000);
+        timerUtil = new TimerUtil();
+        this.notificationType = type;
     }
 
-    public boolean isShown() {
-        return getTime() <= end;
+    public NotificationType getNotificationType() {
+        return notificationType;
     }
 
-    private long getTime() {
-        return System.currentTimeMillis() - start;
+    public float getWidth() {
+        return 17 + (float) Math.max(descriptionFont.getStringWidth(description), titleFont.getStringWidth(title));
     }
 
-    public static double offset;
-    public static int width;
-    public static int height;
+    public String getTitle() {
+        return title;
+    }
 
-    public void render() {
-        offset = 0;
-        width = 130;
-        height = 30;
-        long time = getTime();
+    public String getDescription() {
+        return description;
+    }
 
-        if (time < fadedIn) {
-            offset = Math.tanh(time / (double) (fadedIn) * 3.0) * width;
-        } else if (time > fadeOut) {
-            offset = (Math.tanh(3.0 - (time - fadeOut) / (double) (end - fadeOut) * 3.0) * width);
-        } else {
-            offset = width;
-        }
+    public float getHeight() {
+        return height;
+    }
 
-        Color color = new Color(29, 29, 29, 150);
-        Color color1;
+    public float getMaxTime() {
+        return time;
+    }
 
-        if(type == NotificationType.TOGGLE_ON) {
-            color1 = new Color(104, 189, 71);
-        } else if(type == NotificationType.TOGGLE_OFF) {
-            color1 = new Color(199, 21, 53);
-        } else if(type == NotificationType.WARNING) {
-            color1 = new Color(236, 101, 42);
-        } else if(type == NotificationType.ERROR) {
-            color1 = new Color(156, 0, 0);
-        } else if(type == NotificationType.INFO) {
-            color1 = new Color(169, 241, 140);
-        } else {
-            color1 = new Color(20, 20, 20);
-        }
+    public void startAnimation(Animation animation) {
+        this.animation = animation;
+    }
 
-        JelloFontRenderer fontRendererTitle = FontUtil.jelloFontMedium;
-        JelloFontRenderer fontRendererMsg = FontUtil.jelloFontSmall;
+    public void stopAnimation() {
+        this.animation = null;
+    }
 
-        RenderUtils.drawAlphaRoundedRect(GuiScreen.width - offset + 1, GuiScreen.height - 5 - height, width, height, 2f, color);
+    public Animation getAnimation() {
+        return animation;
+    }
 
-        // Fix some weird kinky bug
-        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-
-        fontRendererTitle.drawString(title, (int) (GuiScreen.width - offset + 8), GuiScreen.height - height - 1, -1);
-        fontRendererMsg.drawString(messsage, (int) (GuiScreen.width - offset + 8), GuiScreen.height - 15, -1);
-
-        RenderUtils.drawRoundedRect(GuiScreen.width - offset, GuiScreen.height - 5 - height, width - offset + 4, height, 2f, color1);
+    public boolean isAnimating() {
+        return animation != null && !animation.isDone();
     }
 
 }
