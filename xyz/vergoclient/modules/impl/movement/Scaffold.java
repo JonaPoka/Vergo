@@ -32,8 +32,6 @@ import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.Gl.BlurUtil;
-import xyz.vergoclient.util.animations.OpacityAnimation;
-import xyz.vergoclient.util.animations.ScaleAnimation;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -136,10 +134,6 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 			mc.thePlayer.setSprinting(false);
 		}
 
-		boxOpacity.setOpacity(0);
-		numOpacity.setOpacity(0);
-		blockOpacity.setOpacity(0);
-
 
 		this.boostTiming.reset();
 
@@ -212,11 +206,6 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 
 	public void onDisable() {
 
-		scaleAnim.setValues(20, 30);
-		boxOpacity.setOpacity(0);
-		numOpacity.setOpacity(0);
-		blockOpacity.setOpacity(0);
-
 		if(flagFold) {
 			scafStartY = 0;
 			mc.timer.timerSpeed = 1f;
@@ -245,11 +234,6 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 	public static transient EnumFacing facing = null;
 	public static transient long lastPlacedBlockTime = System.currentTimeMillis();
 
-
-	private OpacityAnimation boxOpacity = new OpacityAnimation(0), blockOpacity = new OpacityAnimation(0), numOpacity = new OpacityAnimation(0);
-
-	private ScaleAnimation scaleAnim = new ScaleAnimation(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 15, 20);
-
 	public void onEvent(Event e) {
 
 		if (e instanceof EventRenderGUI && e.isPre()) {
@@ -277,33 +261,27 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 			GlStateManager.pushMatrix();
 
 
-
-			scaleAnim.interpolate(25, 30, 12);
-			boxOpacity.interp(100, 12);
-			numOpacity.interp(200, 12);
-			blockOpacity.interp(200, 12);
-
 			if (blocksLeft > 0) {
 
 				BlurUtil.blurAreaRounded(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f);
-				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) boxOpacity.getOpacity()));
+				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) 255));
 				if(blocksLeft <= 99 && blocksLeft > 9) {
-					jfr.drawString("0" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) numOpacity.getOpacity()));
+					jfr.drawString("0" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) 255));
 				} else if(blocksLeft <= 9) {
-					jfr.drawString("00" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) numOpacity.getOpacity()));
+					jfr.drawString("00" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) 255));
 				} else {
-					jfr.drawString(left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) numOpacity.getOpacity()));
+					jfr.drawString(left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) 255));
 				}
 				GlStateManager.resetColor();
 				RenderHelper.enableGUIStandardItemLighting();
-				GlStateManager.color(1, 1, 1, blockOpacity.getOpacity());
+				GlStateManager.color(1, 1, 1, 255);
 				mc.getRenderItem().renderItemAndEffectIntoGUI(setStackToPlace(), GuiScreen.width / 2 - 7.5f, GuiScreen.height / 2 + 20);
 
 			} else {
 				BlurUtil.blurAreaRounded(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f);
-				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) boxOpacity.getOpacity()));
+				RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) 255));
 				RenderHelper.enableGUIStandardItemLighting();
-				jfr.drawString("000", GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(191, 9, 29, (int) numOpacity.getOpacity()));
+				jfr.drawString("000", GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(191, 9, 29, (int) 255));
 			}
 
 			GlStateManager.popMatrix();
@@ -733,7 +711,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 
 		event.setYaw(rotations[0]);
 		event.setPitch(rotations[1]);
-		
+
 		RenderUtils.setCustomYaw(event.yaw);
 		RenderUtils.setCustomPitch(event.pitch);
 		if (viewRotations.isEnabled()) {

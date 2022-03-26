@@ -1,18 +1,18 @@
 package xyz.vergoclient.modules.impl.movement;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
+import xyz.vergoclient.event.impl.EventRender3D;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.modules.impl.combat.KillAura;
 import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.util.ChatUtils;
-import xyz.vergoclient.util.MovementUtils;
-import xyz.vergoclient.util.RotationUtils;
-import xyz.vergoclient.util.ServerUtils;
+import xyz.vergoclient.util.*;
 
 public class TargetStrafe extends Module implements OnEventInterface {
 
@@ -24,7 +24,7 @@ public class TargetStrafe extends Module implements OnEventInterface {
 	protected static Minecraft mc = Minecraft.getMinecraft();
 	private static int strafe = 1;
 
-	public static NumberSetting range = new NumberSetting("Range", 1, 0, 3, 0.1);
+	public static NumberSetting range = new NumberSetting("Range", 1.5, 1, 8, 0.1);
 
 	@Override
 	public void onEnable() {
@@ -76,9 +76,9 @@ public class TargetStrafe extends Module implements OnEventInterface {
 			return false;
 		}
 
-		if (!(Vergo.config.modSpeed.isEnabled() || Vergo.config.modFly.isEnabled())) {
+		/*if (!(Vergo.config.modSpeed.isEnabled() || Vergo.config.modFly.isEnabled())) {
 			return false;
-		}
+		}*/
 
 		if(KillAura.target == null) {
 			return false;

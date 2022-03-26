@@ -17,9 +17,7 @@ public class ModTimer extends Module implements OnEventInterface {
 	
 	public static TimerUtil blinkTimer = new TimerUtil();
 	
-	public NumberSetting ticksPerSecond = new NumberSetting("TPS", 20, 1, 100, 1),
-			timerSpeed = new NumberSetting("Timer speed", 1, 0.3, 5, 0.05);
-	public BooleanSetting hypixelBlinkToggle = new BooleanSetting("Hypixel blink toggle", true);
+	public NumberSetting timerSpeed = new NumberSetting("Timer speed", 1, 1, 2, 0.05);
 	
 	@Override
 	public void loadSettings() {
@@ -45,15 +43,7 @@ public class ModTimer extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 		if (e instanceof EventTick && e.isPre()) {
-			setInfo((ticksPerSecond.getValueAsDouble() * timerSpeed.getValueAsDouble()) + " TPS");
 			mc.timer.timerSpeed = (float) timerSpeed.getValueAsDouble();
-			mc.timer.ticksPerSecond = (float) ticksPerSecond.getValueAsDouble();
-			
-			if (hypixelBlinkToggle.isEnabled()) {
-		        if (blinkTimer.hasTimeElapsed(230, true)) {
-		        	Vergo.config.modBlink.silentToggle();
-		        }
-			}
 		}
 	}
 

@@ -48,6 +48,15 @@ public class RenderUtils {
 		shouldSetCustomPitch = true;
 	}
 
+	public static void scale(float x, float y, float scale, Runnable data) {
+		GL11.glPushMatrix();
+		GL11.glTranslatef(x, y, 0);
+		GL11.glScalef(scale, scale, 1);
+		GL11.glTranslatef(-x, -y, 0);
+		data.run();
+		GL11.glPopMatrix();
+	}
+
 	public static void resetPlayerPitch() {
 		shouldSetCustomPitch = false;
 	}

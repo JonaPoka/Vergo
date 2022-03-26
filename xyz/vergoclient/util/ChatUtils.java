@@ -1,5 +1,7 @@
 package xyz.vergoclient.util;
 
+import net.minecraft.network.Packet;
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
@@ -29,7 +31,11 @@ public class ChatUtils {
 			return;
 
 
-		addChatMessage(new ChatComponentText("§4V§7Dev §8§o>> §r" + message));
+		if(Vergo.isDev) {
+			addChatMessage(new ChatComponentText("§4V§7Dev §8§o>> §r" + message));
+		} else {
+			// do nothing
+		}
 	}
 
 	public static void addProtMsg(Object message) {
@@ -38,7 +44,7 @@ public class ChatUtils {
 			return;
 
 
-		addChatMessage(new ChatComponentText("[\2472Vergo Protection\247r] " + message));
+		addChatMessage(new ChatComponentText("[§2Vergo Protection§r] " + message));
 	}
 	
 	// For objects

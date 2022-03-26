@@ -1,9 +1,6 @@
 package xyz.vergoclient.modules.impl.visual;
 
-import net.minecraft.client.gui.GuiPlayerTabOverlay;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -11,7 +8,6 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
@@ -25,21 +21,21 @@ import xyz.vergoclient.modules.impl.combat.KillAura;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.guis.GuiClickGui;
-import xyz.vergoclient.util.*;
+import xyz.vergoclient.util.ColorUtils;
 import xyz.vergoclient.util.Gl.BlurUtil;
-import xyz.vergoclient.util.animations.OpacityAnimation;
+import xyz.vergoclient.util.MiscellaneousUtils;
+import xyz.vergoclient.util.RenderUtils;
+import xyz.vergoclient.util.animations.Animation;
+import xyz.vergoclient.util.animations.impl.DecelerateAnimation;
+import xyz.vergoclient.util.animations.impl.EaseBackIn;
 
 import java.awt.*;
-
-import static net.minecraft.client.gui.Gui.drawScaledCustomSizeModalRect;
 
 public class TargetHud extends Module implements OnEventInterface {
 
 	public TargetHud() {
 		super("TargetHud", Category.VISUAL);
 	}
-
-	public float animation = 0;
 
 	public ModeSetting mode = new ModeSetting("Mode", "Vergo", "Vergo");
 
@@ -51,19 +47,14 @@ public class TargetHud extends Module implements OnEventInterface {
 		addSettings(mode);
 	}
 
-	private OpacityAnimation boxOpacity = new OpacityAnimation(0), textOpacity = new OpacityAnimation(0), barOpacity = new OpacityAnimation(0), armorOpacity = new OpacityAnimation(0);
-
 	@Override
 	public void onEnable() {
-		boxOpacity.setOpacity(0);
-		barOpacity.setOpacity(0);
-		armorOpacity.setOpacity(0);
-		textOpacity.setOpacity(0);
+
 	}
 
 	@Override
 	public void onDisable() {
-		//opacity.setOpacity(0);
+
 	}
 
 
@@ -83,12 +74,6 @@ public class TargetHud extends Module implements OnEventInterface {
 				if (ent == null) {
 					if (mc.currentScreen instanceof GuiClickGui) {
 						ent = mc.thePlayer;
-					} else {
-						boxOpacity.setOpacity(0);
-						barOpacity.setOpacity(0);
-						armorOpacity.setOpacity(0);
-						textOpacity.setOpacity(0);
-						return;
 					}
 				}
 
@@ -139,11 +124,6 @@ public class TargetHud extends Module implements OnEventInterface {
 
 				GlStateManager.translate(x, y, 0);
 
-				boxOpacity.interp(250, 15);
-				armorOpacity.interp(250, 15);
-				barOpacity.interp(250, 15);
-				textOpacity.interp(250, 15);
-
 				//GL11.glColor4f();
 
 				// RenderUtils2.drawBorderedRect(0, 0, 40 + width, 40, 1, getColor(20, 20, 20, (int) boxOpacity.getOpacity()), getColor(29, 29, 29, (int) boxOpacity.getOpacity()));
@@ -151,8 +131,8 @@ public class TargetHud extends Module implements OnEventInterface {
 
 				BlurUtil.blurAreaRounded(x, y, 40 + width, 40, 3f);
 
-				FontUtil.bakakakmedium.drawString(clientTag + playerName, 30f, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
-				FontUtil.bakakakmedium.drawString(healthStr, 37 + width - FontUtil.bakakakmedium.getStringWidth(healthStr) - 2, 4f, getColor(255, 255, 255, (int) textOpacity.getOpacity()));
+				FontUtil.bakakakmedium.drawString(clientTag + playerName, 30f, 4f, getColor(255, 255, 255, (int) 255));
+				FontUtil.bakakakmedium.drawString(healthStr, 37 + width - FontUtil.bakakakmedium.getStringWidth(healthStr) - 2, 4f, getColor(255, 255, 255, 255));
 
 				boolean isNaN = Float.isNaN(ent.getHealth());
 				float health = isNaN ? 20 : ent.getHealth();
@@ -207,15 +187,13 @@ public class TargetHud extends Module implements OnEventInterface {
 				GlStateManager.resetColor();
 				// 3D model of the target
 				GlStateManager.disableBlend();
-				GlStateManager.color(1, 1, 1, armorOpacity.getOpacity());
+				GlStateManager.color(1, 1, 1, 1);
 				if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {
 
 				} else {
 					GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
 				}
 				GL11.glPopMatrix();
-			} else if (mode.is("Fluks")) {
-
 			}
 		}
 	}
@@ -257,7 +235,7 @@ public class TargetHud extends Module implements OnEventInterface {
 
 		GlStateManager.disableCull();
 
-		GlStateManager.color(1, 1, 1, armorOpacity.getOpacity());
+		GlStateManager.color(1, 1, 1, 255);
 		this.mc.getRenderItem().renderItemAndEffectIntoGUI(stack, x, y);
 		this.mc.getRenderItem().renderItemOverlays(this.mc.fontRendererObj, stack, x, y);
 

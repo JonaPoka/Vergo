@@ -1,5 +1,7 @@
 package xyz.vergoclient.ui.guis;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -21,8 +23,13 @@ import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.GuiUtils;
+import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.RenderUtils2;
 import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.animations.Animation;
+import xyz.vergoclient.util.animations.Direction;
+import xyz.vergoclient.util.animations.impl.DecelerateAnimation;
+import xyz.vergoclient.util.animations.impl.EaseBackIn;
 import xyz.vergoclient.util.datas.DataDouble5;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.settings.BooleanSetting;
@@ -35,7 +42,11 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiClickGui extends GuiScreen {
-	
+
+	private Animation openingAnimation;
+	private EaseBackIn fadeAnimation;
+	private DecelerateAnimation configHover;
+
 	// The file for the tabs so we can save them with gson
 	public static class TabFile{
 		@SerializedName(value = "tabs")
@@ -55,7 +66,7 @@ public class GuiClickGui extends GuiScreen {
 	public static transient TimerUtil colorChangeTimer = new TimerUtil();
 	
 	// The tabs
-	public static class ClickguiTab{
+	public static class ClickguiTab {
 		
 		@SerializedName(value = "x")
 		public float x = 0;
@@ -97,7 +108,24 @@ public class GuiClickGui extends GuiScreen {
 	public Color var21;
 
 	@Override
+	public void initGui() {
+		openingAnimation = new EaseBackIn(400, .4f, 2f);
+
+		selectedTab = null;
+		selectedButton = null;
+		clickguiButtons.clear();
+		if (OpenGlHelper.shadersSupported && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
+			if (this.mc.entityRenderer.theShaderGroup != null) {
+				this.mc.entityRenderer.theShaderGroup.deleteShaderGroup();
+			}
+			mc.entityRenderer.loadShader(new ResourceLocation("shader/post/blur.json"));
+		}
+	}
+
+	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+		ScaledResolution sr = new ScaledResolution(mc);
 
 		// Allows the user to drag the tabs
 		if (selectedTab != null) {
@@ -451,6 +479,10 @@ public class GuiClickGui extends GuiScreen {
 				}
 			}
 		}
+
+		RenderUtils.scale(sr.getScaledWidth() / 2f, sr.getScaledHeight() / 2f, (float) openingAnimation.getOutput() + .6f, () -> {
+			super.drawScreen(mouseX, mouseY, partialTicks);
+		});
 		
 	}
 	
@@ -522,19 +554,6 @@ public class GuiClickGui extends GuiScreen {
 		selectedTab = null;
 		if (selectedButton != null && selectedButton.setting != null && !(selectedButton.setting instanceof KeybindSetting)) {
 			selectedButton = null;
-		}
-	}
-	
-	@Override
-	public void initGui() {
-		selectedTab = null;
-		selectedButton = null;
-		clickguiButtons.clear();
-		if (OpenGlHelper.shadersSupported && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
-			if (this.mc.entityRenderer.theShaderGroup != null) {
-				this.mc.entityRenderer.theShaderGroup.deleteShaderGroup();
-			}
-			mc.entityRenderer.loadShader(new ResourceLocation("shader/post/blur.json"));
 		}
 	}
 	

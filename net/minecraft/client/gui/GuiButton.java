@@ -7,7 +7,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.RenderUtils;
+import xyz.vergoclient.util.animations.Direction;
+import xyz.vergoclient.util.animations.impl.EaseBackIn;
 
 import java.awt.*;
 
@@ -31,6 +32,10 @@ public class GuiButton extends Gui
     public String displayString;
     public int id;
 
+    // Animation?
+    private EaseBackIn startHover;
+    private EaseBackIn endHover;
+
     /** True if this control is enabled, false to disable. */
     public boolean enabled;
 
@@ -45,6 +50,9 @@ public class GuiButton extends Gui
 
     public GuiButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText)
     {
+        startHover = new EaseBackIn(250, 1, 2f);
+        endHover = new EaseBackIn(100, -1, 2f);
+
         this.width = 200;
         this.height = 20;
         this.enabled = true;
@@ -105,9 +113,16 @@ public class GuiButton extends Gui
                 j = new Color(255, 255, 156, 255).getRGB();
             }
 
+            startHover.setDirection(this.hovered ? Direction.FORWARDS : Direction.BACKWARDS);
+            endHover.setDirection(this.hovered ? Direction.FORWARDS : Direction.BACKWARDS);
+
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            fontrenderer.drawCenteredString(this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2 + 2.5f, j);
+            if(this.hovered) {
+                fontrenderer.drawCenteredString(this.displayString, this.xPosition + this.width / 2, (float) (this.yPosition + (this.height - 8) / 2 + 2.5f - startHover.getOutput()), j);
+            } else {
+                fontrenderer.drawCenteredString(this.displayString, this.xPosition + this.width / 2, (float) ((float) (this.yPosition + (this.height - 8) / 2 + 2.5f) + endHover.getOutput()), j);
+            }
         }
     }
 

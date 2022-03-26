@@ -1,23 +1,17 @@
 package xyz.vergoclient.modules.impl.movement;
 
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventReceivePacket;
-import xyz.vergoclient.event.impl.EventRender3D;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.ModeSetting;
-import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.util.*;
+import xyz.vergoclient.util.MovementUtils;
+import xyz.vergoclient.util.Timer;
 
 import java.util.Arrays;
-
-import static org.lwjgl.opengl.GL11.*;
 
 
 public class Fly extends Module implements OnEventInterface {
@@ -29,35 +23,32 @@ public class Fly extends Module implements OnEventInterface {
 		this.timer = new Timer();
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla");
+	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Vanilla", "Hypixel");
+
+	private float stage;
+	private boolean hasClipped;
+	private boolean doFly;
+	private double x, y, z;
+
 
 	@Override
 	public void loadSettings() {
 		
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList( "Vanilla"));
+		mode.modes.addAll(Arrays.asList("Vanilla", "Hypixel"));
 		
 		addSettings(mode);
 	}
 
-	public static BlockPos position = null;
-
-	public static double y = 0;
-
 	@Override
 	public void onEnable() {
-		//if(mode.is("Hypixel")) {
-			//y = mc.thePlayer.posY;
-
-			//if(mc.thePlayer.onGround) {
-			//	mc.thePlayer.posY = 0.05D;
-			//}
-		//}
-
+		doFly = false;
+		stage = 0;
+		x = mc.thePlayer.posX;
 		y = mc.thePlayer.posY;
-
-		mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.1, mc.thePlayer.posZ);
-
+		z = mc.thePlayer.posZ;
+		hasClipped = false;
+		super.onEnable();
 	}
 	
 	@Override
@@ -67,6 +58,8 @@ public class Fly extends Module implements OnEventInterface {
 			mc.thePlayer.capabilities.isFlying = false;
 
 		}
+
+		mc.timer.timerSpeed = 1.0f;
 	}
 
 	public int state;
@@ -74,39 +67,48 @@ public class Fly extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 
-
-		if(e instanceof EventRender3D) {
-			GlStateManager.color(1.0f, 1.0f, 1.0f);
-
-			// Alias
-			glEnable(GL_LINE_SMOOTH);
-			glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
-			RenderUtils.drawLine(mc.thePlayer.posX - 0.5, mc.thePlayer.posY, mc.thePlayer.posZ - 0.6f, mc.thePlayer.posX + 0.5, mc.thePlayer.posY, mc.thePlayer.posZ - 0.6f);
-
-			RenderUtils.drawLine(mc.thePlayer.posX - 0.5, mc.thePlayer.posY, mc.thePlayer.posZ - 0.6f, mc.thePlayer.posX - 0.5, mc.thePlayer.posY, mc.thePlayer.posZ + 0.4f);
-
-			RenderUtils.drawLine(mc.thePlayer.posX + 0.5, mc.thePlayer.posY, mc.thePlayer.posZ + 0.4f, mc.thePlayer.posX - 0.5, mc.thePlayer.posY, mc.thePlayer.posZ + 0.4f);
-
-			RenderUtils.drawLine(mc.thePlayer.posX + 0.5, mc.thePlayer.posY, mc.thePlayer.posZ + 0.4, mc.thePlayer.posX + 0.5, mc.thePlayer.posY, mc.thePlayer.posZ - 0.6f);
-
-			// Alias be gone
-			glDisable(GL_LINE_SMOOTH);
-			glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-		}
-
 		if(e instanceof EventMove) {
-
-			EventMove event = (EventMove) e;
-
-			if(mode.is("Vanilla")) {
-
-				if(!mc.thePlayer.capabilities.isFlying) {
+			if (mode.is("Vanilla")) {
+				if (!mc.thePlayer.capabilities.isFlying) {
 					mc.thePlayer.capabilities.isFlying = true;
 				}
+			}
+		}
 
+		// Hypixel
+
+		if(mode.is("Hypixel")) {
+
+			if(e instanceof EventMove) {
+				mc.thePlayer.cameraYaw = mc.thePlayer.cameraPitch = 0.05f;
+				mc.thePlayer.posY = y;
+				if (mc.thePlayer.onGround && stage == 0) {
+					mc.thePlayer.motionY = 0.09;
+				}
+				stage++;
+				if (mc.thePlayer.onGround && stage > 2 && !hasClipped) {
+					mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.15, mc.thePlayer.posZ, false));
+					mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.15, mc.thePlayer.posZ, true));
+					hasClipped = true;
+				}
+				if (doFly) {
+					mc.thePlayer.motionY = 0;
+					mc.thePlayer.onGround = true;
+					mc.timer.timerSpeed = 2;
+				} else {
+					MovementUtils.setSpeed(0);
+					mc.timer.timerSpeed = 5;
+				}
 			}
 
+			if(e instanceof EventReceivePacket) {
+				EventReceivePacket erc = (EventReceivePacket) e;
+				if (erc.packet instanceof S08PacketPlayerPosLook) {
+					S08PacketPlayerPosLook s08 = (S08PacketPlayerPosLook) erc.packet;
+					y = s08.getY();
+					doFly = true;
+				}
+			}
 		}
 
 	}

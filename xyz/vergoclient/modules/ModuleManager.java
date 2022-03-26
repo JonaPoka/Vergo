@@ -82,6 +82,7 @@ public class ModuleManager {
 	public TargetHud modTargetHud = new TargetHud();
 	public AutoClicker modAutoClicker = new AutoClicker();
 	public Notifications modNotifications = new Notifications();
+	public ResetVL modResetVL = new ResetVL();
 	
 	private void loadModules() {
 
@@ -103,6 +104,7 @@ public class ModuleManager {
 		modBlink = new LoaderModule<Blink>(modBlink).generate();
 		modClickgui = new LoaderModule<ClickGui>(modClickgui).generate();
 		modDisabler = new LoaderModule<Disabler>(modDisabler).generate();
+		modResetVL = new LoaderModule<ResetVL>(modResetVL).generate();
 		modTeams = new LoaderModule<Teams>(modTeams).generate();
 
 		// Player
@@ -123,7 +125,7 @@ public class ModuleManager {
 		modScaffold = new LoaderModule<Scaffold>(modScaffold).generate();
 		modSpeed = new LoaderModule<Speed>(modSpeed).generate();
 		modSprint = new LoaderModule<Sprint>(modSprint).generate();
-		modStrafe = new LoaderModule<Strafe>(modStrafe).generate();
+		//modStrafe = new LoaderModule<Strafe>(modStrafe).generate();
 		//modStep = new LoaderModule<Step>(modStep).generate();
 		modVelocity = new LoaderModule<Velocity>(modVelocity).generate();
 

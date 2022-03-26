@@ -2,10 +2,7 @@ package net.minecraft.client.entity;
 
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event.EventType;
-import xyz.vergoclient.event.impl.EventChatMessage;
-import xyz.vergoclient.event.impl.EventMove;
-import xyz.vergoclient.event.impl.EventSlowdown;
-import xyz.vergoclient.event.impl.EventUpdate;
+import xyz.vergoclient.event.impl.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;

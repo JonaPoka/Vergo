@@ -22,6 +22,7 @@ import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.util.*;
 import net.minecraft.network.Packet;
+import xyz.vergoclient.util.packet.PacketUtil;
 
 public class Disabler extends Module implements OnEventInterface {
 
@@ -33,6 +34,8 @@ public class Disabler extends Module implements OnEventInterface {
 	}
 	
 	public ModeSetting mode = new ModeSetting("Disabler", "Watchdog", "Watchdog");
+
+	private boolean cancel;
 	
 	public static transient CopyOnWriteArrayList<Packet> packets = new CopyOnWriteArrayList<Packet>();
 
@@ -45,7 +48,14 @@ public class Disabler extends Module implements OnEventInterface {
 		addSettings(mode);
 		
 	}
-	
+
+	public TimerUtil timer1 = new TimerUtil();
+	public TimerUtil timer2 = new TimerUtil();
+	public TimerUtil timer3= new TimerUtil();
+
+	private int jumped;
+	private double y;
+
 	@Override
 	public void onEnable() {
 
@@ -64,11 +74,44 @@ public class Disabler extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 
+		if(e instanceof EventMove) {
+			EventMove moveE = (EventMove) e;
+			if (mc.isSingleplayer()) return;
+			if (timer1.hasTimeElapsed(10000, true)) {
+				cancel = true;
+				timer2.reset();
+			}
+		}
+
+		// Strafe disabler
 		if(e instanceof EventSendPacket) {
 			EventSendPacket event = (EventSendPacket) e;
 			if (event.packet instanceof C03PacketPlayer || event.packet instanceof C03PacketPlayer.C04PacketPlayerPosition || event.packet instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
 				if (mc.thePlayer.ticksExisted < 50) {
 					event.setCanceled(true);
+				}
+			}
+		}
+
+		// Timer disabler
+		if(e instanceof EventSendPacket) {
+			EventSendPacket event1 = (EventSendPacket) e;
+			if (event1.packet instanceof C03PacketPlayer) {
+				C03PacketPlayer c03 = (C03PacketPlayer) event1.packet;
+				if (!c03.isMoving() && !mc.thePlayer.isUsingItem()) {
+					event1.setCanceled(true);
+				}
+				if (cancel) {
+					if (!timer2.hasTimeElapsed(400, false)) {
+						if(!Vergo.config.modScaffold.isEnabled()) {
+							event1.setCanceled(true);
+							packets.add(event1.packet);
+						}
+					} else {
+						packets.forEach(PacketUtil::sendPacketNoEvent);
+						packets.clear();
+						cancel = false;
+					}
 				}
 			}
 		}
