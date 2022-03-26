@@ -1,13 +1,20 @@
 package xyz.vergoclient.ui.notifications.ingame;
 
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.opengl.GL11;
+import xyz.vergoclient.util.ColorUtils;
 import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.animations.Animation;
 import xyz.vergoclient.util.animations.Direction;
 import xyz.vergoclient.util.animations.impl.DecelerateAnimation;
+import xyz.vergoclient.util.animations.impl.EaseBackIn;
+import xyz.vergoclient.util.animations.impl.ElasticAnimation;
 
 import java.awt.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import static xyz.vergoclient.modules.impl.visual.TargetHud.getColor;
 
 public class NotificationManager {
     private final float spacing = 10;
@@ -23,7 +30,7 @@ public class NotificationManager {
                 if (notification.getAnimation() != null) {
                     if (notification.getAnimation().isDone()) {
                         notifications.remove(notification);
-                        downAnimation = new DecelerateAnimation(225, 1, Direction.FORWARDS);
+                        downAnimation = new DecelerateAnimation(200, 1, Direction.FORWARDS);
                         continue;
                     }
                 } else vanish(notification);
@@ -58,18 +65,19 @@ public class NotificationManager {
 
     public void notificationDraw(float x, float y, float width, float height, Notification notification) {
         int color = -1;
+        int color2 = -1;
         String iconText = "";
         float yOffset = 8;
         float xOffset = 5;
         switch (notification.getNotificationType()) {
             case SUCCESS:
-                color = new Color(20, 250, 90).getRGB();
+                color = new Color(101, 255, 144).getRGB();
                 break;
             case WARNING:
-                color = new Color(255, 255, 0).getRGB();
+                color = new Color(255, 66, 30).getRGB();
                 break;
             case DISABLE:
-                color = new Color(255, 30, 30).getRGB();
+                color = new Color(255, 77, 77).getRGB();
                 yOffset = 9;
                 break;
             case INFO:
@@ -79,12 +87,15 @@ public class NotificationManager {
         }
 
         Color baseColor = new Color(20, 20, 20, 110);
-        Color colorr = interpolateColorC(baseColor, new Color(applyOpacity(color, .3f)), 0.5f);
+        Color colorr = interpolateColorC(baseColor, new Color(applyOpacity(color, .4f)), 0.6f);
 
-        RenderUtils.drawRoundedRect(x, y, width, height, 4, colorr);
+        RenderUtils.drawAlphaRoundedRect(x, y, width, height, 4, colorr);
 
-        notification.titleFont.drawString(notification.getTitle(), x + 28, y + 3, -1);
-        notification.descriptionFont.drawString(notification.getDescription(), x + 28, y + 16, -1);
+        GlStateManager.color(1, 1, 1, 1);
+        notification.titleFont.drawString(notification.getTitle(), x + 5, y + 6, -1);
+
+        GlStateManager.color(1, 1, 1, 1);
+        notification.descriptionFont.drawString(notification.getDescription(), x + 6, y + 18, -1);
     }
 
     public void blurNotifs(ScaledResolution sr) {
@@ -126,11 +137,11 @@ public class NotificationManager {
 
     private static void post(Notification notification) {
         notifications.add(notification);
-        notification.startAnimation(new DecelerateAnimation(225, 1, Direction.BACKWARDS));
+        notification.startAnimation(new DecelerateAnimation(200, 1, Direction.BACKWARDS));
     }
 
     public static void vanish(Notification notification) {
-        notification.startAnimation(new DecelerateAnimation(225, 1, Direction.FORWARDS));
+        notification.startAnimation(new DecelerateAnimation(200, 1, Direction.FORWARDS));
     }
 
     public static int interpolateInt(int oldValue, int newValue, double interpolationValue){

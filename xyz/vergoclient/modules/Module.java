@@ -92,7 +92,7 @@ public abstract class Module {
 				if(Vergo.config.modNotifications.isDisabled()) {
 
 				} else {
-					String message = WordUtils.wrap(getName() + " has been enabled!", 120);
+					String message = WordUtils.wrap("Toggled on " + getName(), 120);
 					NotificationManager.post(NotificationType.SUCCESS, getName() + " Enabled!", message);
 				}
 				onEnable();
@@ -100,7 +100,7 @@ public abstract class Module {
 				if(Vergo.config.modNotifications.isDisabled()) {
 
 				} else {
-					String message = WordUtils.wrap(getName() + " has been disabled!", 120);
+					String message = WordUtils.wrap("Toggled off " + getName(), 120);
 					NotificationManager.post(NotificationType.DISABLE, getName() + " Disabled!", message);
 				}
 				onDisable();

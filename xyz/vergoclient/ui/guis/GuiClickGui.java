@@ -10,6 +10,7 @@ import xyz.vergoclient.modules.Module;
 
 import java.awt.*;
 import java.io.IOException;
+import java.security.Key;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -22,6 +23,7 @@ import xyz.vergoclient.modules.impl.miscellaneous.ClickGui;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
+import xyz.vergoclient.util.Gl.BlurUtil;
 import xyz.vergoclient.util.GuiUtils;
 import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.RenderUtils2;
@@ -587,11 +589,14 @@ public class GuiClickGui extends GuiScreen {
 			}
 		}else {
 			KeyboardManager.keypress(keyCode);
-			if (keyCode == Keyboard.KEY_ESCAPE)
+			if (keyCode == Keyboard.KEY_ESCAPE || keyCode == Keyboard.KEY_RSHIFT) {
 				mc.displayGuiScreen(null);
-			if (mc.entityRenderer.theShaderGroup != null) {
-				mc.entityRenderer.theShaderGroup.deleteShaderGroup();
-				mc.entityRenderer.theShaderGroup = null;
+				if (mc.entityRenderer.theShaderGroup != null) {
+					mc.entityRenderer.theShaderGroup.deleteShaderGroup();
+					mc.entityRenderer.theShaderGroup = null;
+				} else {
+					// do nothing
+				}
 			}
 		}
 	}
