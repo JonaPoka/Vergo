@@ -2,9 +2,11 @@ package xyz.vergoclient.modules.impl.movement;
 
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S30PacketWindowItems;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventReceivePacket;
@@ -46,17 +48,14 @@ public class NoSlow extends Module implements OnEventInterface {
 			return;
 		}
 		if(e instanceof EventSendPacket) {
-
-
-
+			EventSendPacket event = (EventSendPacket) e;
 			if (mc.thePlayer.isBlocking()) {
-				EventSendPacket event = (EventSendPacket) e;
 				if (event.packet instanceof C08PacketPlayerBlockPlacement) {
-					if (NoSlow.mc.thePlayer.getHeldItem() == null || !(NoSlow.mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) || !NoSlow.mc.gameSettings.keyBindUseItem.isKeyDown() || (double)NoSlow.mc.thePlayer.ticksExisted % 6	 != 0.0) {
-						return;
+					if (mc.thePlayer.ticksExisted % 3 == 0) {
+						mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+					} else {
+						mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
 					}
-
-					mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
 				}
 			}
 		}
