@@ -91,7 +91,7 @@ public class Hud implements OnEventInterface {
 
 					fr.drawString(vergoStr, 8f, 9.5f, new Color(0xffffff).getRGB());
 
-			} else if(Vergo.config.modHud.waterMark.is("Simplistic")) {
+			} else if(Vergo.config.modHud.waterMark.is("Simple")) {
 
 				final int startColour = ColorUtils.fadeBetween(new Color(210, 8, 62).getRGB(), new Color(108, 51, 217).getRGB(), 0);
 				final int endColour = ColorUtils.fadeBetween(new Color(108, 51, 217).getRGB(), new Color(210, 8, 62).getRGB(), 250);
