@@ -1807,23 +1807,20 @@ public class GameSettings
             MathHelper.fastMath = this.ofFastMath;
         }
 
-        /*if (p_setOptionValueOF_1_ == GameSettings.Options.FAST_RENDER)
-        {
-            if (!this.ofFastRender && Config.isShaders())
-            {
+        if (p_setOptionValueOF_1_ == GameSettings.Options.FAST_RENDER) {
+            this.ofFastRender = false;
+
+            if (!this.ofFastRender && Config.isShaders()) {
                 Config.showGuiMessage(Lang.get("of.message.fr.shaders1"), Lang.get("of.message.fr.shaders2"));
                 return;
             }
 
-            this.ofFastRender = !this.ofFastRender;
-
-            if (this.ofFastRender)
-            {
-                this.mc.entityRenderer.func_181022_b();
+            if (this.ofFastRender) {
+                this.mc.entityRenderer.stopUseShader();
             }
 
             Config.updateFramebufferSize();
-        }*/
+        }
 
         if (p_setOptionValueOF_1_ == GameSettings.Options.TRANSLUCENT_BLOCKS)
         {
@@ -2312,7 +2309,7 @@ public class GameSettings
         }
         else if (p_getKeyBindingOF_1_ == GameSettings.Options.FAST_RENDER)
         {
-            return this.ofFastRender ? s + Lang.getOn() : s + Lang.getOff();
+            return "Nothing to see here @.@";
         }
         else if (p_getKeyBindingOF_1_ == GameSettings.Options.TRANSLUCENT_BLOCKS)
         {

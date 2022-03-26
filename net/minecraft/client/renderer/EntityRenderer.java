@@ -274,6 +274,15 @@ public class EntityRenderer implements IResourceManagerReloadListener
         return OpenGlHelper.shadersSupported && this.theShaderGroup != null;
     }
 
+    public void stopUseShader() {
+        if (this.theShaderGroup != null) {
+            this.theShaderGroup.deleteShaderGroup();
+        }
+
+        this.theShaderGroup = null;
+        this.shaderIndex = shaderCount;
+    }
+
     public void func_181022_b()
     {
         if (this.theShaderGroup != null)
