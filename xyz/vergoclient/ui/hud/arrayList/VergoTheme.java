@@ -1,4 +1,4 @@
 package xyz.vergoclient.ui.hud.arrayList;
 
-public class DefaultTheme {
+public class VergoTheme {
 }

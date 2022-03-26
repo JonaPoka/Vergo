@@ -47,12 +47,14 @@ public class Hud implements OnEventInterface {
 		
 		if (e instanceof EventRenderGUI && e.isPre()) {
 
+			// The epic funny name.
 			if(Vergo.config.modHud.theFunny.isEnabled()) {
 				Display.setTitle("PAWG (Phat Ass White Girls)");
 			} else {
 				DisplayUtils.setTitle();
 			}
 
+			// Speed counter
 			if (Vergo.config.modHud.bpsMode.is("Always On")) {
 				GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 				FontUtil.comfortaaNormal.drawStringWithShadow(Math.round(MovementUtils.getBlocksPerSecond()) + " BPS", (double) GuiScreen.width - GuiScreen.width + 2, GuiScreen.height - 20, new Color(0xFFFFFF).getRGB());
@@ -104,15 +106,18 @@ public class Hud implements OnEventInterface {
 
 				String serverName = ServerUtils.getServerIP() + " - ";
 
-				String userName = AccountUtils.account.username;
+				String userName = AccountUtils.account.username + " - ";
 
-				BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(3, 5, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName)) + 18, 1.5f, startColour, endColour));
-				BlurUtil.blurArea(3, 6, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName)) + 18, 12f);
-				RenderUtils.drawAlphaRoundedRect(3, 6, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName)) + 18, 12f, 0f, new Color(60, 60, 60, 100));
+				String frameCount = String.valueOf(Minecraft.getDebugFPS()) + "fps";
+
+				BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(3, 5, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName) + fr.getStringWidth(frameCount)) + 2, 1.5f, startColour, endColour));
+				BlurUtil.blurArea(3, 6, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName) + fr.getStringWidth(frameCount)) + 2, 12f);
+				RenderUtils.drawAlphaRoundedRect(3, 6, (float) (fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(userName) + fr.getStringWidth(frameCount)) + 2, 12f, 0f, new Color(60, 60, 60, 100));
 
 				fr1.drawString(clientName, 5, 11, 0xffffffff);
 				fr1.drawString(serverName, fr1.getStringWidth(clientName) + 5, 11, 0xffffffff);
 				fr1.drawString(userName, fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + 7, 11, 0xffffffff);
+				fr1.drawString(frameCount, fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + fr1.getStringWidth(frameCount) + 9, 11, 0xffffffff);
 
 			}
 

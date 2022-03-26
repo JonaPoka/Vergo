@@ -51,7 +51,7 @@ public class GuiButton extends Gui
     public GuiButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText)
     {
         startHover = new EaseBackIn(250, 1, 2f);
-        endHover = new EaseBackIn(100, -1, 2f);
+        endHover = new EaseBackIn(250, 0, 2f);
 
         this.width = 200;
         this.height = 20;
@@ -121,7 +121,7 @@ public class GuiButton extends Gui
             if(this.hovered) {
                 fontrenderer.drawCenteredString(this.displayString, this.xPosition + this.width / 2, (float) (this.yPosition + (this.height - 8) / 2 + 2.5f - startHover.getOutput()), j);
             } else {
-                fontrenderer.drawCenteredString(this.displayString, this.xPosition + this.width / 2, (float) ((float) (this.yPosition + (this.height - 8) / 2 + 2.5f) + endHover.getOutput()), j);
+                fontrenderer.drawCenteredString(this.displayString, this.xPosition + this.width / 2, (float) ((float) (this.yPosition + (this.height - 8) / 2 + 2.5f) - endHover.getOutput()), j);
             }
         }
     }
