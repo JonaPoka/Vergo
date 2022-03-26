@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 
 import java.net.Proxy;
-import java.util.*;
+import java.util.UUID;
 
 public final class Account {
 

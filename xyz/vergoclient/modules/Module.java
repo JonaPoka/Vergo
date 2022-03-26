@@ -5,15 +5,13 @@ import org.apache.commons.lang3.text.WordUtils;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.assets.Icons;
 import xyz.vergoclient.settings.Setting;
-import xyz.vergoclient.ui.notifications.Notification;
-import xyz.vergoclient.ui.notifications.NotificationManager;
-import xyz.vergoclient.ui.notifications.NotificationType;
+import xyz.vergoclient.ui.notifications.ingame.Notification;
+import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
+import xyz.vergoclient.ui.notifications.ingame.NotificationType;
 import xyz.vergoclient.util.anticheat.Player;
 
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import static xyz.vergoclient.modules.ModuleManager.notiFix;
 
 public abstract class Module {
 	

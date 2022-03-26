@@ -40,17 +40,13 @@ public class GuiAltManager extends GuiScreen {
 	public static transient double scroll = 0, scrollTarget = 0;
 	public static transient long deadAltMessage = Long.MIN_VALUE;
 
-	public static class Button{
+	public static class Button {
 		public DataDouble5 posAndColor = new DataDouble5();
 		public double hoverAnimation = 0;
 		public String displayText = "Default text", otherText = "";
 		public boolean isEnabled = true, drawTextAsPassword = false, bool1 = false;
 		public FileAlts.Alt alt = null;
-		public Runnable action = new Runnable() {@Override public void run() {System.out.println("This is the default action for the button, please change me in the source code");}};
-	}
-
-	public static class Textbox extends Button{
-
+		public Runnable action = new Runnable() {@Override public void run() {System.out.println("");}};
 	}
 
 	public float boxResWidth = 0;
@@ -140,14 +136,14 @@ public class GuiAltManager extends GuiScreen {
 				public void run() {
 
 					if (alt.password.isEmpty()) {
-						SessionChanger.getInstance().setUserOffline(alt.username);
+						//SessionChanger.getInstance().setUserOffline(alt.username);
 					}else {
 						new Thread("ALT-SWITCH-LOG") {
 							@Override
 							public void run() {
 								isLoggingIntoAlt = true;
 								String username = mc.session.getUsername();
-								SessionChanger.getInstance().setUser(alt.email, alt.password);
+								//SessionChanger.getInstance().setUser(alt.email, alt.password);
 								if (!username.equals(mc.session.getUsername()))
 									alt.username = mc.session.getUsername();
 								else

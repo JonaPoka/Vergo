@@ -1,16 +1,9 @@
-package xyz.vergoclient.ui.notifications;
+package xyz.vergoclient.ui.notifications.ingame;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
-import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.Gl.BlurUtil;
 import xyz.vergoclient.util.RenderUtils;
 
 import java.awt.*;

@@ -1,85 +1,83 @@
 package xyz.vergoclient.util;
 
-import java.net.Proxy;
-import java.util.UUID;
-
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
-
-import com.google.gson.Gson;
 import com.mojang.authlib.Agent;
-import com.mojang.authlib.AuthenticationService;
-import com.mojang.authlib.UserAuthentication;
+import com.mojang.authlib.UserType;
+import com.mojang.authlib.exceptions.AuthenticationException;
+import com.mojang.authlib.exceptions.AuthenticationUnavailableException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-import com.mojang.util.UUIDTypeAdapter;
-
-import xyz.vergoclient.security.ApiResponse;
-import xyz.vergoclient.security.account.AccountUtils;
+import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 
+import java.net.Proxy;
+
 public class SessionChanger {
 
-	private static SessionChanger instance;
-	private final UserAuthentication auth;
-
-	public static SessionChanger getInstance() {
-		if (instance == null) {
-			instance = new SessionChanger();
-		}
-
-		return instance;
+	public static String login(String email, String password) {
+		return login(email, password, false);
 	}
-	
-	//Creates a new Authentication Service. 
-	private SessionChanger() {
-		UUID randomizedUUID = UUID.randomUUID();
-		AuthenticationService authSer = new YggdrasilAuthenticationService(Minecraft.getMinecraft().getProxy(), randomizedUUID.toString());
-		auth = authSer.createUserAuthentication(Agent.MINECRAFT);
-		authSer.createMinecraftSessionService();
-	}
-	
-	//Online mode
-	//Checks if your already logged in to the account.
-	public void setUser(String email, String password) {
-		
-		String currentUsername = Minecraft.getMinecraft().session.getUsername();
-		
-		Proxy temp = Minecraft.getMinecraft().proxy;
-		Minecraft.getMinecraft().proxy = Proxy.NO_PROXY;
-		
-		if(!Minecraft.getMinecraft().getSession().getUsername().equals(email) || Minecraft.getMinecraft().getSession().getToken().equals("0")){
 
-			this.auth.logOut();
-			this.auth.setUsername(email);
-			this.auth.setPassword(password);
-			try {
-				this.auth.logIn();
-				Session session = new Session(this.auth.getSelectedProfile().getName(), UUIDTypeAdapter.fromUUID(auth.getSelectedProfile().getId()), this.auth.getAuthenticatedToken(), this.auth.getUserType().getName());
-				setSession(session);
-				
-			} 
-			catch (Exception e) {
-				e.printStackTrace();
+	public static String login(String email, String password, boolean autoRemove) {
+
+		System.out.println("Logging in with [" + email + ":********]");
+		final YggdrasilAuthenticationService authenticationService = new YggdrasilAuthenticationService(Proxy.NO_PROXY,
+				"");
+		final YggdrasilUserAuthentication authentication = (YggdrasilUserAuthentication) authenticationService
+				.createUserAuthentication(Agent.MINECRAFT);
+		authentication.setUsername(email);
+		authentication.setPassword(password);
+		try {
+			authentication.logIn();
+			Minecraft.getMinecraft().session = new Session(authentication.getSelectedProfile().getName(), authentication.getSelectedProfile().getId().toString(), authentication.getAuthenticatedToken(), UserType.MOJANG.getName());
+
+			return null;
+		} catch (AuthenticationUnavailableException e2) {
+			return "Cannot contact authentication server!";
+		} catch (AuthenticationException e) {
+			if (e.getMessage().contains("Invalid username or password.")
+					|| e.getMessage().toLowerCase().contains("account migrated")) {
+
+				/*if (autoRemove) {
+					Alt curAlt = null;
+					for (Alt alt : NewAltMgr.alts) {
+						if (alt.getEmail().equalsIgnoreCase(email)) {
+							curAlt = alt;
+							break;
+						}
+					}
+
+					if (curAlt != null) {
+						NewAltMgr.alts.remove(curAlt);
+					}
+				}*/
+
+				return "Wrong password!";
+			} else {
+				return "Cannot contact authentication server!";
 			}
-			
+		} catch (NullPointerException e3) {
+			return "Wrong password!";
 		}
-		
-		Minecraft.getMinecraft().proxy = temp;
-		
 	}
 
-	//Sets the session.
-	//You need to make this public, and remove the final modifier on the session Object.
-	private void setSession(Session session) {
-		Minecraft.getMinecraft().session = session;
-	}
+	public static Session getSession(String email, String password) {
 
-	//Login offline mode
-	//Just like MCP does
-	public void setUserOffline(String username) {
-		this.auth.logOut();
-		Session session = new Session(username, username, "0", "legacy");
-		setSession(session);
+		System.out.println("Logging in with [" + email + ":********]");
+		final YggdrasilAuthenticationService authenticationService = new YggdrasilAuthenticationService(Proxy.NO_PROXY,
+				"");
+		final YggdrasilUserAuthentication authentication = (YggdrasilUserAuthentication) authenticationService.createUserAuthentication(Agent.MINECRAFT);
+		authentication.setUsername(email);
+		authentication.setPassword(password);
+		try {
+			authentication.logIn();
+			return new Session(authentication.getSelectedProfile().getName(), authentication.getSelectedProfile().getId().toString(), authentication.getAuthenticatedToken(), UserType.MOJANG.getName());
+		} catch (AuthenticationUnavailableException e2) {
+
+		} catch (AuthenticationException e) {
+
+		} catch (NullPointerException e3) {
+
+		}
+		return null;
 	}
 }

@@ -32,7 +32,7 @@ public class Disabler extends Module implements OnEventInterface {
 		this.timer = new Timer();
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Test", "Test", "Test2");
+	public ModeSetting mode = new ModeSetting("Disabler", "Watchdog", "Watchdog");
 	
 	public static transient CopyOnWriteArrayList<Packet> packets = new CopyOnWriteArrayList<Packet>();
 
@@ -41,13 +41,17 @@ public class Disabler extends Module implements OnEventInterface {
 
 
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Test", "Test2"));
+		mode.modes.addAll(Arrays.asList("Watchdog"));
 		addSettings(mode);
 		
 	}
 	
 	@Override
 	public void onEnable() {
+
+		if(mode.is("Watchdog")) {
+			setInfo("Watchdawg");
+		}
 
 	}
 	
@@ -60,43 +64,15 @@ public class Disabler extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 
-		if(e instanceof EventMove) {
-
-			if(mode.is("Test")) {
-				doTheFunnyFly(((EventMove) e));
+		if(e instanceof EventSendPacket) {
+			EventSendPacket event = (EventSendPacket) e;
+			if (event.packet instanceof C03PacketPlayer || event.packet instanceof C03PacketPlayer.C04PacketPlayerPosition || event.packet instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
+				if (mc.thePlayer.ticksExisted < 50) {
+					event.setCanceled(true);
+				}
 			}
-
 		}
 
-	}
-
-	public static BlockPos position = null;
-
-	private void doTheFunnyFly(EventMove eventMove) {
-		double playerYaw = Math.toRadians(mc.thePlayer.rotationYaw);
-		position = mc.thePlayer.getPosition();
-
-		eventMove.setSpeed(0.001);
-		position.x = (int) (position.getX() + 2.7 * -Math.sin(playerYaw));
-		position.y = (int) (position.getY() - 2.0);
-		position.z = (int) (position.getZ() + 2.7 * Math.cos(playerYaw));
-
-		eventMove.setX(position.x);
-		eventMove.setY(position.y);
-		eventMove.setZ(position.z);
-	}
-
-	private void HClip(final double horizontal , EventMove eventMove) {
-		/*double playerYaw = Math.toRadians(mc.thePlayer.rotationYaw);
-
-		position = mc.thePlayer.getPosition();
-
-		//ChatUtils.addChatMessage("BLOCKPLACE + " + position);
-
-		position.x = (int) (position.getX() + horizontal * -Math.sin(playerYaw));
-		position.y = (int) (position.getY() - 2.0);
-		position.z = (int) (position.getZ() + horizontal * Math.cos(playerYaw));
-		mc.thePlayer.setPosition(position.getX(), position.getY(), position.getZ());*/
 	}
 	
 }

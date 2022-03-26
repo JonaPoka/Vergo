@@ -190,7 +190,6 @@ public class Speed extends Module implements OnEventInterface {
 				MovementUtils.setSpeed(0.3);
 			}
 			if (mc.thePlayer.isCollidedVertically) {
-				mc.thePlayer.speedInAir = 0.022f;
 				mc.thePlayer.motionY = 0.4;
 			}
 		}
@@ -220,11 +219,6 @@ public class Speed extends Module implements OnEventInterface {
 				mc.thePlayer.setSprinting(true);
 			}
 		}
-
-		//if(MovementUtils.isOnGround(0.001)) {
-			// -Math.sin(playerYaw) -- X things
-			// Math.cos(playerYaw) -- Y things
-
 		if(MovementUtils.isOnGround(0.001)) {
 			mc.thePlayer.jump();
 		}
@@ -274,18 +268,6 @@ public class Speed extends Module implements OnEventInterface {
 			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.37663049823865513 motionY
 			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.447497 89698341763 motionY
 		*/
-
-		// Glide, If no fall distance | NOT IMPLEMENTED
-		if(mc.thePlayer.fallDistance < 0.3) {
-			if (event.y <= -0.2) {
-				event.y *= 0.3;
-				mc.timer.timerSpeed = 1.06f;
-				ChatUtils.addDevMessage("trigger > " + mc.timer.timerSpeed);
-			} else {
-				mc.timer.timerSpeed = 1.0f;
-				ChatUtils.addDevMessage("trigger > " + mc.timer.timerSpeed);
-			}
-		}
 
 	}
 	

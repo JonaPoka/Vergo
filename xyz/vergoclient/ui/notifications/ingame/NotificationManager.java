@@ -1,4 +1,4 @@
-package xyz.vergoclient.ui.notifications;
+package xyz.vergoclient.ui.notifications.ingame;
 
 import xyz.vergoclient.util.ChatUtils;
 

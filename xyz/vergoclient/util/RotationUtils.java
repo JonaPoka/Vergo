@@ -22,6 +22,14 @@ public class RotationUtils {
 
 		return current + var4;
 	}
+
+	public static float getYaw(Vec3 to) {
+		float x = (float) (to.xCoord - mc.thePlayer.posX);
+		float z = (float) (to.zCoord - mc.thePlayer.posZ);
+		float var1 = (float) (StrictMath.atan2(z, x) * 180.0D / StrictMath.PI) - 90.0F;
+		float rotationYaw = mc.thePlayer.rotationYaw;
+		return rotationYaw + MathHelper.wrapAngleTo180_float(var1 - rotationYaw);
+	}
 	
 	public static float getRotationChange(float current, float intended) {
 		float var4 = MathHelper.wrapAngleTo180_float(intended - current);

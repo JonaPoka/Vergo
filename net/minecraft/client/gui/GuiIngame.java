@@ -36,7 +36,7 @@ import optifine.CustomColors;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event.EventType;
 import xyz.vergoclient.event.impl.EventRenderGUI;
-import xyz.vergoclient.ui.notifications.NotificationManager;
+import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
 import xyz.vergoclient.util.Gl.BloomUtil;
 import xyz.vergoclient.util.Gl.BlurUtil;
 

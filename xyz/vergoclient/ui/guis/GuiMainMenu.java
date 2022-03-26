@@ -18,7 +18,7 @@ import xyz.vergoclient.Vergo;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.ui.guis.altManager.NewAltMgr;
+import xyz.vergoclient.ui.guis.altManager.pages.DirectLogin;
 import xyz.vergoclient.util.DisplayUtils;
 import xyz.vergoclient.util.FormattingUtil;
 
@@ -258,7 +258,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 		}
 
 		if(button.id == 1337) {
-			this.mc.displayGuiScreen(new NewAltMgr(this));
+			this.mc.displayGuiScreen(new DirectLogin(this));
 		}
 
 		if (button.id == 4) {
@@ -340,6 +340,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 		GlStateManager.popMatrix();
 
 		JelloFontRenderer jFR = FontUtil.jelloFont;
+
+		mc.fontRendererObj.drawStringWithShadow("\2477Current Account: \247B" + mc.getSession().getUsername(), 4, 4, 0xFFFFFFFF);
 
 		String welcomeMsg = "Logged in as:  " + AccountUtils.account.username + "#" + FormattingUtil.formatUID();
 

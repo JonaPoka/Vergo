@@ -31,6 +31,15 @@ public class ChatUtils {
 
 		addChatMessage(new ChatComponentText("§4V§7Dev §8§o>> §r" + message));
 	}
+
+	public static void addProtMsg(Object message) {
+
+		if (ModuleManager.currentlyLoadingConfig)
+			return;
+
+
+		addChatMessage(new ChatComponentText("[\2472Vergo Protection\247r] " + message));
+	}
 	
 	// For objects
 	public static void addChatMessage(Object message) {

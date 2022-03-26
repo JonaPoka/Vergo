@@ -8,9 +8,9 @@ import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.files.FileManager;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.guis.GuiStart;
-import xyz.vergoclient.ui.notifications.Notification;
-import xyz.vergoclient.ui.notifications.NotificationManager;
-import xyz.vergoclient.ui.notifications.NotificationType;
+import xyz.vergoclient.ui.notifications.ingame.Notification;
+import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
+import xyz.vergoclient.ui.notifications.ingame.NotificationType;
 import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.datas.DataDouble6;
 import net.minecraft.client.Minecraft;
@@ -77,6 +77,7 @@ public class ModuleManager {
 	public Nametags modNametags = new Nametags();
 	public StorageESP modChestESP = new StorageESP();
 	public Xray modXray = new Xray();
+	public Strafe modStrafe = new Strafe();
 	public ChinaHat modChinaHat = new ChinaHat();
 	public TargetHud modTargetHud = new TargetHud();
 	public AutoClicker modAutoClicker = new AutoClicker();
@@ -101,6 +102,7 @@ public class ModuleManager {
 		modAutoPlay = new LoaderModule<AutoPlayGG>(modAutoPlay).generate();
 		modBlink = new LoaderModule<Blink>(modBlink).generate();
 		modClickgui = new LoaderModule<ClickGui>(modClickgui).generate();
+		modDisabler = new LoaderModule<Disabler>(modDisabler).generate();
 		modTeams = new LoaderModule<Teams>(modTeams).generate();
 
 		// Player
@@ -121,6 +123,7 @@ public class ModuleManager {
 		modScaffold = new LoaderModule<Scaffold>(modScaffold).generate();
 		modSpeed = new LoaderModule<Speed>(modSpeed).generate();
 		modSprint = new LoaderModule<Sprint>(modSprint).generate();
+		modStrafe = new LoaderModule<Strafe>(modStrafe).generate();
 		//modStep = new LoaderModule<Step>(modStep).generate();
 		modVelocity = new LoaderModule<Velocity>(modVelocity).generate();
 
@@ -128,6 +131,7 @@ public class ModuleManager {
 		modAutoClicker = new LoaderModule<AutoClicker>(modAutoClicker).generate();
 		modKillAura = new LoaderModule<KillAura>(modKillAura).generate();
 		modReach = new LoaderModule<Reach>(modReach).generate();
+		modTargetStrafe = new LoaderModule<TargetStrafe>(modTargetStrafe).generate();
 	}
 
 	public static CopyOnWriteArrayList<OnEventInterface> eventListeners = new CopyOnWriteArrayList<>();

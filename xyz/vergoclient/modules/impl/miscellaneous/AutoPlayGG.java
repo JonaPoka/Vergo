@@ -8,11 +8,9 @@ import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
-import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.ui.notifications.Notification;
-import xyz.vergoclient.ui.notifications.NotificationManager;
-import xyz.vergoclient.ui.notifications.NotificationType;
-import xyz.vergoclient.util.ChatUtils;
+import xyz.vergoclient.ui.notifications.ingame.Notification;
+import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
+import xyz.vergoclient.ui.notifications.ingame.NotificationType;
 import xyz.vergoclient.util.ServerUtils;
 import xyz.vergoclient.util.Timer;
 
