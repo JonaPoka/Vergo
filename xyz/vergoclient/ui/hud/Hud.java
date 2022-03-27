@@ -41,7 +41,7 @@ public class Hud implements OnEventInterface {
 				DisplayUtils.setTitle();
 			}
 
-			// Speed counter
+			// Speed counters
 			if (Vergo.config.modHud.bpsMode.is("Always On")) {
 				GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 				FontUtil.comfortaaNormal.drawStringWithShadow(Math.round(MovementUtils.getBlocksPerSecond()) + " BPS", (double) GuiScreen.width - GuiScreen.width + 2, GuiScreen.height - 20, new Color(0xFFFFFF).getRGB());
