@@ -125,14 +125,14 @@ public class TargetHud extends Module implements OnEventInterface {
 					}
 
 
-					final int startColour = ColorUtils.fadeBetween(new Color(210, 8, 62).getRGB(), new Color(108, 51, 217).getRGB(), 0);
-					final int endColour = ColorUtils.fadeBetween(new Color(108, 51, 217).getRGB(), new Color(210, 8, 62).getRGB(), 250);
+					final int startColour = ColorUtils.fadeBetween(new Color(255, 0, 115).getRGB(), new Color(109, 0, 182).getRGB(), 0);
+					final int endColour = ColorUtils.fadeBetween(new Color(255, 0, 115).getRGB(), new Color(109, 0, 182).getRGB(), 250);
 
 					RenderUtils.drawAlphaRoundedRect(27, 30, 82, 5f, 0f, getColor(5, 7, 15, 90));
-					ColorUtils.glDrawSidewaysGradientRect(27, 30f, healthBar, 5f, startColour, endColour);
-					BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(x + 27, y + 29.5f, healthBar, 5f, startColour, endColour));
+					ColorUtils.glDrawSidewaysGradientRect(27, 30f, healthBar, 5f, endColour, startColour);
+					BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(x + 27, y + 29.5f, healthBar, 5f, endColour, startColour));
 
-					BloomUtil.drawAndBloom(() -> ColorUtils.drawRoundedRect(x, y, 40 + width, 40, 5f, startColour));
+					BloomUtil.drawAndBloom(() -> ColorUtils.drawRoundedRect(x, y, 40 + width, 40, 10f, startColour));
 
 					if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {
 

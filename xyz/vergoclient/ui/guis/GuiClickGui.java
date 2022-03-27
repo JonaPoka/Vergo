@@ -23,11 +23,8 @@ import xyz.vergoclient.modules.impl.miscellaneous.ClickGui;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
+import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.Gl.BlurUtil;
-import xyz.vergoclient.util.GuiUtils;
-import xyz.vergoclient.util.RenderUtils;
-import xyz.vergoclient.util.RenderUtils2;
-import xyz.vergoclient.util.TimerUtil;
 import xyz.vergoclient.util.animations.Animation;
 import xyz.vergoclient.util.animations.Direction;
 import xyz.vergoclient.util.animations.impl.DecelerateAnimation;
@@ -379,7 +376,7 @@ public class GuiClickGui extends GuiScreen {
 				var21 = new Color(19, 19, 19, 200);
 
 				Gui.drawRect(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, var21.getRGB());
-				Gui.drawRectNoAlphaChange(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, new Color(222, 105, 105).getRGB(), (float) button.posAndColor.data);
+				Gui.drawRectNoAlphaChange(button.posAndColor.x1, button.posAndColor.y1, button.posAndColor.x2, button.posAndColor.y2, new Color(255, 55, 115).getRGB(), (float) button.posAndColor.data);
 				GlStateManager.color(1, 1, 1, 1);
 				FontUtil.neurialGrotesk.drawString(button.module.getName(), button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 				if (!button.module.settings.isEmpty()) {
@@ -473,7 +470,7 @@ public class GuiClickGui extends GuiScreen {
 					double realMin = numberSetting.minimum + barEndAdd,
 							realMax = numberSetting.maximum + barEndAdd;
 					double barEndX = 0 + ((button.posAndColor.x2 - button.posAndColor.x1 - 6) * ((numberSetting.getValueAsDouble() + barEndAdd) / (realMax)));
-					Gui.drawRect(button.posAndColor.x1 + barEndX + 3, button.posAndColor.y1 + 2, button.posAndColor.x1 + barEndX + 1, button.posAndColor.y2 - 2, new Color(222, 105, 105).getRGB());
+					Gui.drawRect(button.posAndColor.x1 + barEndX + 3, button.posAndColor.y1 + 2, button.posAndColor.x1 + barEndX + 1, button.posAndColor.y2 - 2, new Color(255, 55, 115).getRGB());
 					FontUtil.neurialGrotesk.drawString(button.setting.name + ": " + new DecimalFormat("#.###").format(numberSetting.getValueAsDouble()), button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 				}
 				else {

@@ -84,6 +84,22 @@ public class Watermark implements OnEventInterface {
             fr1.drawString(serverName, fr1.getStringWidth(clientName) + 5, 11, 0xffffffff);
             fr1.drawString(userName, fr1.getStringWidth(clientName) + fr1.getStringWidth(serverName) + 7, 11, 0xffffffff);
 
+        } else if (Vergo.config.modHud.waterMark.is("Text")) {
+            final int startColour = ColorUtils.fadeBetween(new Color(210, 8, 62).getRGB(), new Color(108, 51, 217).getRGB(), 0);
+            final int endColour = ColorUtils.fadeBetween(new Color(108, 51, 217).getRGB(), new Color(210, 8, 62).getRGB(), 250);
+
+            JelloFontRenderer fr = FontUtil.comfortaaHuge;
+
+            JelloFontRenderer fr1 = FontUtil.comfortaaHuge;
+
+            String clientName = " Vergo ";
+
+            BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(3, 5, (float) (fr1.getStringWidth(clientName)  + 5.3f), 2f, startColour, endColour));
+            BlurUtil.blurArea(3, 6, (float) (fr1.getStringWidth(clientName) + 5), 21f);
+            RenderUtils.drawAlphaRoundedRect(3, 6, (float) (fr1.getStringWidth(clientName) + 5), 21f, 2f, new Color(60, 60, 60, 100));
+
+            fr1.drawString(clientName, 5, 12.25f, 0xffffffff);
+
         }
 
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
