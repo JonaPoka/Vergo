@@ -1,14 +1,12 @@
 package xyz.vergoclient.modules.impl.combat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.EnumFacing;
+import optifine.MathUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -25,6 +23,7 @@ import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.settings.SettingChangeEvent;
 import xyz.vergoclient.util.*;
+import xyz.vergoclient.util.Timer;
 import xyz.vergoclient.util.datas.DataDouble3;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
@@ -36,6 +35,7 @@ import net.minecraft.network.play.client.C02PacketUseEntity.Action;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import xyz.vergoclient.util.packet.PacketUtil;
 
 public class KillAura extends Module implements OnSettingChangeInterface, OnEventInterface {
 
@@ -288,10 +288,11 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 	private boolean setRotations(EventUpdate e) {
 
+
 		if (rotationSetting.is("Lock")) {
 			float[] rots = RotationUtils.getRotationToEntity(target);
-			e.setYaw(rots[0]);
-			e.setPitch(rots[1]);
+			rots[0] = (float) (rots[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2);
+			rots[1] = (float) (rots[1] + ((Math.abs(target.posY - target.lastTickPosY) - Math.abs(target.getEntityBoundingBox().minY - target.lastTickPosY))));
 			return true;
 		}
 
@@ -385,9 +386,7 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 	private void block(boolean shouldBlock) {
 
-		if (mc.thePlayer.getCurrentEquippedItem() == null
-				|| !(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)
-				|| autoblockSetting.is("None"))
+		if (mc.thePlayer.getCurrentEquippedItem() == null || !(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) || autoblockSetting.is("None"))
 			return;
 
 		mc.gameSettings.keyBindUseItem.pressed = true;
