@@ -291,8 +291,8 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 		if (rotationSetting.is("Lock")) {
 			float[] rots = RotationUtils.getRotationToEntity(target);
-			rots[0] = (float) (rots[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2);
-			rots[1] = (float) (rots[1] + ((Math.abs(target.posY - target.lastTickPosY) - Math.abs(target.getEntityBoundingBox().minY - target.lastTickPosY))));
+			e.setYaw((float) (rots[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2));
+			e.setPitch((float) (rots[1] + ((Math.abs(target.posY - target.lastTickPosY) - Math.abs(target.getEntityBoundingBox().minY - target.lastTickPosY)))));
 			return true;
 		}
 

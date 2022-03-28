@@ -1,6 +1,8 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import net.minecraft.block.BlockAir;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import xyz.vergoclient.Vergo;
@@ -59,16 +61,34 @@ public class TargetStrafe extends Module implements OnEventInterface {
 	}
 
 	public static boolean strafe(EventMove e) {
-		return strafe(e, MovementUtils.getSpeed());
+		return strafe(e, MovementUtils.getSpeed() * 0.85);
 	}
 
 	public static boolean strafe(EventMove e, double moveSpeed) {
 		if (canStrafe()) {
+			if(mc.gameSettings.keyBindLeft.isPressed()) strafe = 1;
+			if(mc.gameSettings.keyBindRight.isPressed()) strafe = -1;
+
+			if(mc.thePlayer.isCollidedHorizontally) strafe = -strafe;
+
+			if(isOverVoid()) {
+				strafe = -strafe;
+			}
+
 			setSpeed(e, moveSpeed, RotationUtils.getYaw(KillAura.target.getPositionVector()), strafe,
 					mc.thePlayer.getDistanceToEntity(KillAura.target) <= range.getValueAsDouble() ? 0 : 1);
 			return true;
 		}
 		return false;
+	}
+
+	public static boolean isOverVoid() {
+		for (double posY = mc.thePlayer.posY; posY > 0.0D; posY--) {
+			if (!(mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, posY, mc.thePlayer.posZ)).getBlock() instanceof BlockAir)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public static boolean canStrafe() {
@@ -79,6 +99,10 @@ public class TargetStrafe extends Module implements OnEventInterface {
 		/*if (!(Vergo.config.modSpeed.isEnabled() || Vergo.config.modFly.isEnabled())) {
 			return false;
 		}*/
+
+		if(mc.thePlayer.isOnLadder() || mc.thePlayer.isInLava() || mc.thePlayer.isInWater()) {
+			return false;
+		}
 
 		if(KillAura.target == null) {
 			return false;
