@@ -1,4 +1,4 @@
-package xyz.vergoclient.modules.impl.movement;
+package xyz.vergoclient.modules.impl.combat;
 
 import net.minecraft.block.BlockAir;
 import net.minecraft.client.Minecraft;
@@ -19,7 +19,7 @@ import xyz.vergoclient.util.*;
 public class TargetStrafe extends Module implements OnEventInterface {
 
 	public TargetStrafe() {
-		super("TargetStrafe", Category.MOVEMENT);
+		super("TargetStrafe", Category.COMBAT);
 	}
 
 

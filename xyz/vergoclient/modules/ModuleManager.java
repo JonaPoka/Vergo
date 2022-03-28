@@ -8,7 +8,6 @@ import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.files.FileManager;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.guis.GuiStart;
-import xyz.vergoclient.ui.notifications.ingame.Notification;
 import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
 import xyz.vergoclient.ui.notifications.ingame.NotificationType;
 import xyz.vergoclient.util.*;

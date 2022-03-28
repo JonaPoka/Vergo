@@ -74,6 +74,9 @@ public class Disabler extends Module implements OnEventInterface {
 	public TimerUtil timer2 = new TimerUtil();
 	public TimerUtil timer3= new TimerUtil();
 
+
+	public boolean hasDisablerFinished;
+
 	@Override
 	public void onEnable() {
 
@@ -82,6 +85,10 @@ public class Disabler extends Module implements OnEventInterface {
 		}
 
 		notiAnim1 = new DecelerateAnimation(800, 1, Direction.FORWARDS);
+
+		if(mc.thePlayer.ticksExisted > 60 ) {
+			hasDisablerFinished = true;
+		}
 
 	}
 	
@@ -92,8 +99,6 @@ public class Disabler extends Module implements OnEventInterface {
 	}
 
 	public static double boxY;
-
-	public boolean hasDisablerFinished;
 
 	@Override
 	public void onEvent(Event e) {
@@ -125,7 +130,7 @@ public class Disabler extends Module implements OnEventInterface {
 
 		if(e instanceof EventRenderGUI) {
 
-			if(notiToggle.isEnabled()) {
+			if(notiToggle.isEnabled() && !hasDisablerFinished) {
 
 				if(!hasDisablerFinished) {
 					notiAnim1.setDirection(Direction.FORWARDS);
@@ -180,7 +185,7 @@ public class Disabler extends Module implements OnEventInterface {
 						hasDisablerFinished = true;
 					}
 
-					RenderUtils2.drawRect((float) ((GuiScreen.width / 2) - (boxWidth / 2)), 55, percentage, 10, new Color(255, 255, 255).getRGB());
+					RenderUtils.drawTestedRoundRect((float) ((GuiScreen.width / 2) - (boxWidth / 2)), 55, percentage, 10, 5f, new Color(255, 255, 255));
 				}
 
 			} else {

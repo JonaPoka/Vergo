@@ -23,7 +23,7 @@ public class AutoPlayGG extends Module implements OnEventInterface {
         this.timer = new Timer();
     }
 
-    public ModeSetting teamMode = new ModeSetting("Team Mode", "Sky Solo Normal", "Sky Solo Normal", "Sky Solo Insane"/*, "Teams Normal", "Teams Insane"*/);
+    public ModeSetting teamMode = new ModeSetting("Team Mode", "Sky Solo Normal", "Sky Solo Normal", "Sky Solo Insane");
 
     public static BooleanSetting autoGG = new BooleanSetting("Auto-GG", true);
 
