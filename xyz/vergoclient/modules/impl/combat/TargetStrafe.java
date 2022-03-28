@@ -58,6 +58,7 @@ public class TargetStrafe extends Module implements OnEventInterface {
 			EventMove event = (EventMove) e;
 			strafe(event);
 		}
+
 	}
 
 	public static boolean strafe(EventMove e) {

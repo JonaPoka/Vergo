@@ -4,6 +4,8 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.util.ColorUtils;
+import xyz.vergoclient.util.Gl.BloomUtil;
+import xyz.vergoclient.util.Gl.BlurUtil;
 import xyz.vergoclient.util.RenderUtils;
 import xyz.vergoclient.util.animations.Animation;
 import xyz.vergoclient.util.animations.Direction;
@@ -14,6 +16,7 @@ import xyz.vergoclient.util.animations.impl.ElasticAnimation;
 import java.awt.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static org.lwjgl.opengl.GL11.*;
 import static xyz.vergoclient.modules.impl.visual.TargetHud.getColor;
 
 public class NotificationManager {
@@ -89,7 +92,17 @@ public class NotificationManager {
         Color baseColor = new Color(20, 20, 20, 110);
         Color colorr = interpolateColorC(baseColor, new Color(applyOpacity(color, .4f)), 0.6f);
 
+        // Enables Alias
+        glEnable(GL_LINE_SMOOTH);
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
+        BlurUtil.blurAreaRounded(x, y, width, height, 4);
         RenderUtils.drawAlphaRoundedRect(x, y, width, height, 4, colorr);
+        BloomUtil.drawAndBloom(() -> ColorUtils.drawRoundedRect(x, y - 0.5f, width, height, 4f, colorr.getRGB()));
+
+        // Disabled Alias
+        glDisable(GL_LINE_SMOOTH);
+        glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
 
         GlStateManager.color(1, 1, 1, 1);
         notification.titleFont.drawString(notification.getTitle(), x + 5, y + 6, -1);

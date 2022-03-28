@@ -391,7 +391,7 @@ public class ModuleManager {
 		
 		currentlyLoadingConfig = false;
 
-		NotificationManager.post(NotificationType.SUCCESS, configName + " has been loaded!", "You're config is ready.");
+		NotificationManager.post(NotificationType.SUCCESS, configName + " has been loaded!", "Your config is ready.");
 
 		return newConfig;
 	}
