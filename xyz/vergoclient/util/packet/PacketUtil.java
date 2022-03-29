@@ -14,7 +14,7 @@ public class PacketUtil {
         mc.getNetHandler().getNetworkManager().sendPacketNoEvent(packet);
     }
 
-    public void sendPacket(Packet packet) {
+    public static void sendPacket(Packet packet) {
         mc.getNetHandler().getNetworkManager().sendPacket(packet);
     }
 

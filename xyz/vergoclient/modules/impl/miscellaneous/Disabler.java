@@ -84,9 +84,9 @@ public class Disabler extends Module implements OnEventInterface {
 			setInfo("Watchdawg");
 		}
 
-		notiAnim1 = new DecelerateAnimation(800, 1, Direction.FORWARDS);
+		notiAnim1 = new DecelerateAnimation(400, 1, Direction.FORWARDS);
 
-		if(mc.thePlayer.ticksExisted > 60 ) {
+		if(mc.thePlayer.ticksExisted > 50 ) {
 			hasDisablerFinished = true;
 		}
 
@@ -94,8 +94,8 @@ public class Disabler extends Module implements OnEventInterface {
 	
 	@Override
 	public void onDisable() {
-
-
+		mc.timer.timerSpeed = 1.0f;
+		packets.clear();
 	}
 
 	public static double boxY;
@@ -103,28 +103,52 @@ public class Disabler extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 
-		/*if(!ServerUtils.isOnHypixel()) {
-			setInfo("");
-			return;
-		}*/
+		if(e instanceof EventTick) {
+			setInfo("Watchdog" + hasDisablerFinished);
+		}
 
-		if(e instanceof EventMove) {
-			EventMove moveE = (EventMove) e;
-			if (mc.isSingleplayer()) return;
-			if (timer1.hasTimeElapsed(10000, true)) {
-				cancel = true;
-				timer2.reset();
+		if(e instanceof EventWorldRender) {
+			packets.clear();
+		}
+
+		if(e instanceof EventSendPacket) {
+			EventSendPacket event1 = (EventSendPacket) e;
+
+			// Strafe Disabler
+			if(event1.packet instanceof C03PacketPlayer || event1.packet instanceof C03PacketPlayer.C04PacketPlayerPosition || event1.packet instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
+				if(mc.thePlayer.ticksExisted < 50) {
+					event1.setCanceled(true);
+					hasDisablerFinished = true;
+				}
+			}
+
+			// Ping Spoof (timer disabler)
+			if(event1.packet instanceof C03PacketPlayer) {
+				C03PacketPlayer c03PacketPlayer = (C03PacketPlayer) event1.packet;
+				if(!c03PacketPlayer.isMoving() && !mc.thePlayer.isUsingItem()) {
+					event1.setCanceled(true);
+				}
+				if(cancel) {
+					if(!timer2.hasTimeElapsed(400, false)) {
+						if(Vergo.config.modScaffold.isDisabled()) {
+							event1.setCanceled(true);
+							packets.add(event1.packet);
+						}
+					} else {
+						packets.forEach(PacketUtil::sendPacketNoEvent);
+						packets.clear();
+						cancel = false;
+					}
+				}
 			}
 		}
 
-		// Strafe disabler
-		if(e instanceof EventSendPacket) {
-			EventSendPacket event = (EventSendPacket) e;
-			if (event.packet instanceof C03PacketPlayer || event.packet instanceof C03PacketPlayer.C04PacketPlayerPosition || event.packet instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
-				if (mc.thePlayer.ticksExisted < 60) {
-					hasDisablerFinished = false;
-					event.setCanceled(true);
-				}
+		if(e instanceof EventTick) {
+			if(mc.isSingleplayer()) return;
+
+			if(timer1.hasTimeElapsed(10000, true)) {
+				cancel = true;
+				timer2.reset();
 			}
 		}
 
@@ -157,10 +181,6 @@ public class Disabler extends Module implements OnEventInterface {
 					RenderUtils.drawImg(new ResourceLocation("Vergo/icons/info.png"), (GuiScreen.width / 2) - (boxWidth / 2) + 5, imgY, 30, 30);
 				}
 
-				// Disabled Alias
-				glDisable(GL_LINE_SMOOTH);
-				glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-
 				// If opening animation is done, draw text.
 				if(notiAnim1.isDone() && notiAnim1.getDirection() == Direction.FORWARDS) {
 
@@ -175,8 +195,8 @@ public class Disabler extends Module implements OnEventInterface {
 
 					int percentage;
 
-					if (mc.thePlayer.ticksExisted < 60) {
-						percentage = mc.thePlayer.ticksExisted * 3;
+					if (mc.thePlayer.ticksExisted < 50) {
+						percentage = mc.thePlayer.ticksExisted * 4;
 					} else {
 						percentage = 200;
 						if(notiAnim1.isDone()) {
@@ -188,31 +208,12 @@ public class Disabler extends Module implements OnEventInterface {
 					RenderUtils.drawTestedRoundRect((float) ((GuiScreen.width / 2) - (boxWidth / 2)), 55, percentage, 10, 5f, new Color(255, 255, 255));
 				}
 
+				// Disabled Alias
+				glDisable(GL_LINE_SMOOTH);
+				glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+
 			} else {
 
-			}
-		}
-
-		// Timer disabler
-		if(e instanceof EventSendPacket) {
-			EventSendPacket event1 = (EventSendPacket) e;
-			if (event1.packet instanceof C03PacketPlayer) {
-				C03PacketPlayer c03 = (C03PacketPlayer) event1.packet;
-				if (!c03.isMoving() && !mc.thePlayer.isUsingItem()) {
-					event1.setCanceled(true);
-				}
-				if (cancel) {
-					if (!timer2.hasTimeElapsed(400, false)) {
-						if(!Vergo.config.modScaffold.isEnabled()) {
-							event1.setCanceled(true);
-							packets.add(event1.packet);
-						}
-					} else {
-						packets.forEach(PacketUtil::sendPacketNoEvent);
-						packets.clear();
-						cancel = false;
-					}
-				}
 			}
 		}
 

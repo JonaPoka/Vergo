@@ -144,7 +144,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 	@Override
 	public void onDisable() {
 		target = null;
-		block(false);
 		mc.thePlayer.clearItemInUse();
 		mc.gameSettings.keyBindUseItem.pressed = false;
 	}
@@ -247,9 +246,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 					currentAps = maxApsSetting.getValueAsDouble();
 				}
 
-				// autoblock
-				block(false);
-
 				// Send hit packet
 				for (int i = 0; i < 1; i++) {
 					mc.thePlayer.swingItem();
@@ -291,8 +287,8 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 		if (rotationSetting.is("Lock")) {
 			float[] rots = RotationUtils.getRotationToEntity(target);
-			e.setYaw((float) (rots[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2));
-			e.setPitch((float) (rots[1] + ((Math.abs(target.posY - target.lastTickPosY) - Math.abs(target.getEntityBoundingBox().minY - target.lastTickPosY)))));
+			e.setYaw(rots[0]);
+			e.setPitch(rots[1]);
 			return true;
 		}
 

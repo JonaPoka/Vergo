@@ -16,6 +16,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import xyz.vergoclient.event.Event.EventType;
 import xyz.vergoclient.event.impl.EventTick;
+import xyz.vergoclient.event.impl.EventWorldRender;
 import xyz.vergoclient.keybinds.KeyboardManager;
 
 import java.awt.image.BufferedImage;
@@ -2070,6 +2071,12 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	 * world first
 	 */
 	public void loadWorld(WorldClient worldClientIn, String loadingMessage) {
+
+		if(theWorld != null) {
+			EventWorldRender eWR = new EventWorldRender.Unload(theWorld);
+			eWR.fire();
+		}
+
 		if (worldClientIn == null) {
 			NetHandlerPlayClient nethandlerplayclient = this.getNetHandler();
 
