@@ -84,7 +84,7 @@ public class Disabler extends Module implements OnEventInterface {
 			setInfo("Watchdawg");
 		}
 
-		notiAnim1 = new DecelerateAnimation(400, 1, Direction.FORWARDS);
+		notiAnim1 = new DecelerateAnimation(800, 1, Direction.FORWARDS);
 
 		if(mc.thePlayer.ticksExisted > 50 ) {
 			hasDisablerFinished = true;
@@ -109,6 +109,7 @@ public class Disabler extends Module implements OnEventInterface {
 
 		if(e instanceof EventWorldRender) {
 			packets.clear();
+			hasDisablerFinished = false;
 		}
 
 		if(e instanceof EventSendPacket) {
@@ -118,6 +119,8 @@ public class Disabler extends Module implements OnEventInterface {
 			if(event1.packet instanceof C03PacketPlayer || event1.packet instanceof C03PacketPlayer.C04PacketPlayerPosition || event1.packet instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
 				if(mc.thePlayer.ticksExisted < 50) {
 					event1.setCanceled(true);
+					hasDisablerFinished = false;
+				} else {
 					hasDisablerFinished = true;
 				}
 			}
