@@ -104,7 +104,11 @@ public class Disabler extends Module implements OnEventInterface {
 	public void onEvent(Event e) {
 
 		if(e instanceof EventTick) {
-			setInfo("Watchdog" + hasDisablerFinished);
+			if(Vergo.isDev) {
+				setInfo("Watchdog " + hasDisablerFinished);
+			} else {
+				setInfo("Watchdog");
+			}
 		}
 
 		if(e instanceof EventWorldRender) {
@@ -129,7 +133,8 @@ public class Disabler extends Module implements OnEventInterface {
 			if(event1.packet instanceof C03PacketPlayer) {
 				C03PacketPlayer c03PacketPlayer = (C03PacketPlayer) event1.packet;
 				if(!c03PacketPlayer.isMoving() && !mc.thePlayer.isUsingItem()) {
-					event1.setCanceled(true);
+					// Prevent Bans?!
+					//event1.setCanceled(true);
 				}
 				if(cancel) {
 					if(!timer2.hasTimeElapsed(400, false)) {

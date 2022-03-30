@@ -6,6 +6,7 @@ import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.event.impl.EventSendPacket;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.files.FileManager;
+import xyz.vergoclient.modules.impl.movement.scaffold.NewScaffold;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
@@ -61,7 +62,7 @@ public class ModuleManager {
 	public AutoTool modAutotool = new AutoTool();
 	public InvManager modInventoryManager = new InvManager();
 	public AntiVoid modAntivoid = new AntiVoid();
-	public Scaffold modScaffold = new Scaffold();
+	public NewScaffold modScaffold = new NewScaffold();
 	public Blink modBlink = new Blink();
 	public BedBreaker modBedBreaker = new BedBreaker();
 	public ChestStealer modChestStealer = new ChestStealer();
@@ -123,7 +124,7 @@ public class ModuleManager {
 		modFly = new LoaderModule<Fly>(modFly).generate();
 		modLongJump = new LoaderModule<LongJump>(modLongJump).generate();
 		modNoSlow = new LoaderModule<NoSlow>(modNoSlow).generate();
-		modScaffold = new LoaderModule<Scaffold>(modScaffold).generate();
+		modScaffold = new LoaderModule<NewScaffold>(modScaffold).generate();
 		modSpeed = new LoaderModule<Speed>(modSpeed).generate();
 		modSprint = new LoaderModule<Sprint>(modSprint).generate();
 		//modStrafe = new LoaderModule<Strafe>(modStrafe).generate();

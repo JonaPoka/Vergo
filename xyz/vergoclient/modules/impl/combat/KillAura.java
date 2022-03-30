@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.EnumFacing;
 import optifine.MathUtils;
@@ -51,25 +52,13 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 	public NumberSetting rangeSetting = new NumberSetting("Range", 3.8, 0.5, 6, 0.1),
 			minApsSetting = new NumberSetting("Min", 10, 0.1, 20, 0.1),
 			maxApsSetting = new NumberSetting("Max", 14, 0.1, 20, 0.1),
-			//combatPacketsPerHit = new NumberSetting("Combat packets per hit", 1, 1, 10, 1),
-			tickSwitchTimeSetting = new NumberSetting("Switch Timer", 20, 1, 200, 1);
-			//almostLegitMovementSensitivity = new NumberSetting("Movement sensitivity", 0.25, 0.05, 1, 0.05),
-			//almostLegitHitboxExpand = new NumberSetting("Hitbox expand", 0.25, 0.01, 0.5, 0.01),
-			//almostLegitSnapBack = new NumberSetting("Snap back", 0.5, 0.1, 1, 0.05),
-			//minRotationSpeed = new NumberSetting("Min Rot Speed", 20, 0, 100, 1),
-			//maxRotationSpeed = new NumberSetting("Max Rot Speed", 30, 1, 100, 1),
-			//minRotationBezierCurveSpeed = new NumberSetting("Min Rot Speed", 0.05, 0, 1, 0.01),
-			//maxRotationBezierCurveSpeed = new NumberSetting("Max Rot Speed", 0.07, 0.01, 1, 0.01);
+	tickSwitchTimeSetting = new NumberSetting("Switch Timer", 20, 1, 200, 1);
 	public BooleanSetting targetPlayersSetting = new BooleanSetting("Players", true),
 			targetAnimalsSetting = new BooleanSetting("Animals", false),
 			targetMobsSetting = new BooleanSetting("Mobs", false),
 			targetOtherSetting = new BooleanSetting("Others", false),
 			rayTraceCheck = new BooleanSetting("Visible Only", false),
-			//viewRotations = new BooleanSetting("View rotations", false),
-			//movementMatchRotation = new BooleanSetting("Movement Match Rotation", false),
-			//visualizeRange = new BooleanSetting("Visualize Range", false),
-			visualizeTargetCircle = new BooleanSetting("Visualize Target", true);
-			//criticals = new BooleanSetting("Criticals", true);
+	visualizeTargetCircle = new BooleanSetting("Visualize Target", true);
 	public ModeSetting targetSelectionSetting = new ModeSetting("Attack Mode", "Switch", "Switch", "Single"),
 			targetSortingSetting = new ModeSetting("Priority", "Health", "Health", "Distance"),
 			rotationSetting = new ModeSetting("Rotations", "Lock", /*"Smooth",*/ "Lock"/*, "Spin", "None", "Almost legit", "Bezier Curve"*/),
@@ -81,9 +70,9 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 		autoblockSetting.modes.clear();
 		autoblockSetting.modes.addAll(Arrays.asList("None", "Hypixel"));
 
-		addSettings(rangeSetting, minApsSetting, maxApsSetting, /*combatPacketsPerHit,*/ targetPlayersSetting, targetAnimalsSetting,
+		addSettings(rangeSetting, minApsSetting, maxApsSetting, targetPlayersSetting, targetAnimalsSetting,
 				targetMobsSetting, targetOtherSetting, rayTraceCheck, targetSelectionSetting, targetSortingSetting,
-				/*rotationSetting,*/ autoblockSetting, visualizeTargetCircle /*visualizeRange, criticals*/);
+				autoblockSetting, visualizeTargetCircle);
 
 	}
 
@@ -134,8 +123,7 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 		lastYaw = mc.thePlayer.rotationYaw;
 		lastPitch = mc.thePlayer.rotationPitch;
-		legitStartingYaw = mc.thePlayer.rotationYaw;
-		legitStartingPitch = mc.thePlayer.rotationPitch;
+
 		target = null;
 
 		this.blockTimer.reset();
@@ -162,8 +150,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 				final double y = target.lastTickPosY + (target.posY - target.lastTickPosY) * timer;
 				final double z = target.lastTickPosZ + (target.posZ - target.lastTickPosZ) * timer;
 
-				// Animation up and down. Don't change... PLEASE
-
 				GlStateManager.pushMatrix();
 				GlStateManager.pushAttrib();
 				Vec3 lastLine = null;
@@ -182,12 +168,9 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 					if (i != 0) {
 						GL11.glColor4f(0.7f, 0.52f, 1.0f, 0.05f);
+
 						RenderUtils.drawLine(lastLine.xCoord, y, lastLine.zCoord, x2, y + 2, z2);
 
-						/*GL11.glColor4f(0.7f, 0.52f, 1.0f, 0.25f);
-						RenderUtils.drawLine(lastLine.xCoord, y + 0.5, lastLine.zCoord, x2, y + 0.2, z2);
-						GL11.glColor4f(0.7f, 0.52f, 1.0f, 0.2f);
-						RenderUtils.drawLine(lastLine.xCoord, y + 0.2, lastLine.zCoord, x2, y + 0.1, z2);*/
 					}
 
 					lastLine.xCoord = x2;
@@ -201,20 +184,15 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 		if (e instanceof EventUpdate && e.isPre()) {
 			EventUpdate event = (EventUpdate) e;
 
-			if (rotationSetting.is("Lock")) {
-				setInfo("WatchDog");
-			}
-
-			// Sets the target
 			setTarget();
-			//mc.leftClickCounter = 0;
 
 			// If there is no target return
 			if (target == null) {
-				if (!mc.gameSettings.keyBindUseItem.isKeyDown())
-					legitStartingYaw = mc.thePlayer.rotationYaw;
-					legitStartingPitch = mc.thePlayer.rotationPitch;
-					mc.thePlayer.clearItemInUse();
+				if (!mc.gameSettings.keyBindUseItem.isKeyDown()) {
+					return;
+				}
+
+				mc.thePlayer.clearItemInUse();
 				return;
 			}
 
@@ -224,6 +202,7 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 			// Sets the rotations
 			boolean shouldHit = setRotations(event);
+
 			RenderUtils.setCustomYaw(event.getYaw());
 			RenderUtils.setCustomPitch(event.getPitch());
 
@@ -238,7 +217,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 			// Hits at the aps that the user set
 			if (apsTimer.hasTimeElapsed((long) (1000 / currentAps), true)) {
 
-				// For the randomness in the aps
 				if (minApsSetting.getValueAsDouble() != maxApsSetting.getValueAsDouble()) {
 					currentAps = RandomUtils.nextDouble(minApsSetting.getValueAsDouble(),
 							maxApsSetting.getValueAsDouble());
@@ -254,14 +232,16 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 				}
 
 				// autoblock
-				if (autoblockSetting.is("Hypixel"))
+				if (autoblockSetting.is("Hypixel")) {
 					if (target != null) {
 						block(true);
 					}
+				}
 
 			}
 
 		}
+
 		if (e instanceof EventSendPacket && e.isPre()) {
 			EventSendPacket event = (EventSendPacket) e;
 			if (event.packet instanceof C09PacketHeldItemChange) {
@@ -276,11 +256,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 	// Returns false if the rotation is not finished
 	public static transient float lastYaw = 0, lastPitch = 0;
-
-	// For the almost legit rotation settings
-	public static transient DataDouble3 legitOffsets = new DataDouble3(0, 0, 0),
-			legitRotation = new DataDouble3(0, 0, 0);
-	public static transient float legitStartingYaw = 0, legitStartingPitch = 0;
 
 	private boolean setRotations(EventUpdate e) {
 
@@ -297,12 +272,10 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 	}
 
 	private void setTarget() {
-
 		if (target != null && (target.isDead || target.getHealth() <= 0)) {
 			target = null;
 		}
 
-		// For the switch mode to not switch targets unless necessary
 		if (targetSelectionSetting.is("Switch")) {
 			if (tickSwitch <= 0) {
 				tickSwitch = tickSwitchTimeSetting.getValueAsDouble();
@@ -317,7 +290,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 			}
 		}
 
-		// Gets potential targets
 		List<EntityLivingBase> potentialTargets = (List<EntityLivingBase>) mc.theWorld.loadedEntityList.stream()
 				.filter(EntityLivingBase.class::isInstance).collect(Collectors.toList());
 		potentialTargets = potentialTargets.stream()
@@ -325,7 +297,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 						&& entity != mc.thePlayer)
 				.collect(Collectors.toList());
 
-		// Sorts them
 		if (targetSortingSetting.is("Health")) {
 			potentialTargets.sort(Comparator.comparingDouble(entity -> ((EntityLivingBase) entity).getHealth()));
 		} else if (targetSortingSetting.is("Distance")) {
@@ -333,7 +304,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 					.comparingDouble(entity -> ((EntityLivingBase) entity).getDistanceToEntity(mc.thePlayer)));
 		}
 
-		// Sorts them even more
 		ArrayList<EntityLivingBase> targets = new ArrayList<>();
 		for (EntityLivingBase e : potentialTargets) {
 
@@ -344,10 +314,8 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 			}
 
 			if (e instanceof EntityPlayer && targetPlayersSetting.isEnabled())
-				// Antibot
 				if (Vergo.config.modAntibot.isDisabled() || !AntiBot.isBot(((EntityPlayer) e)))
 					if (Vergo.config.modTeams.isDisabled() || !Teams.isOnSameTeam(e))
-						// Add target
 						targets.add(e);
 
 			if (e instanceof EntityAnimal && targetAnimalsSetting.isEnabled())
@@ -362,8 +330,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 		}
 
-		// If there are no targets that fit the specified criteria then set the target
-		// to null
 		if (targets.isEmpty()) {
 			target = null;
 			return;
@@ -371,13 +337,6 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 		// Get target
 		target = targets.get(0);
-
-		// For the almost legit rotations
-		if (target != lastTarget) {
-			legitStartingYaw = lastYaw;
-			legitStartingPitch = lastPitch;
-		}
-
 	}
 
 	private void block(boolean shouldBlock) {

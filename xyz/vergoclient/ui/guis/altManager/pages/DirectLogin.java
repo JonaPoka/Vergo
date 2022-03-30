@@ -29,7 +29,9 @@ public final class DirectLogin extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         // Background
-        ColorUtils.glDrawFilledQuad(0, 0, this.width, this.height, 0xFF080808, 0xFF0F0F0F);
+        //ColorUtils.glDrawFilledQuad(0, 0, this.width, this.height, 0xFF080808, 0xFF0F0F0F);
+
+        this.drawDefaultBackground();
 
         // Title
         this.mc.fontRendererObj.drawStringWithShadow("Add Account", (float) (this.width / 2.0 - this.mc.fontRendererObj.getStringWidth("Add Account") / 2.0),

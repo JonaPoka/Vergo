@@ -1,4 +1,4 @@
-package xyz.vergoclient.modules.impl.movement;
+/*package xyz.vergoclient.modules.impl.movement;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -42,7 +42,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 	Timer boostTiming;
 
 	public Scaffold() {
-		super("Scaffold", Category.MOVEMENT);
+		super("OldScaffold", Category.MOVEMENT);
 		this.boostTiming = new Timer();
 	}
 
@@ -98,7 +98,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 			placeBlockAsync = new BooleanSetting("", true),
 			swaggyPaggyBoost = new BooleanSetting("", false);
 	public ModeSetting rotationMode = new ModeSetting("", "Hypixel Slow", "Hypixel Slow"),
-			towerMode = new ModeSetting("", "None", "None"/*, "NCP", "Test"*/);
+			towerMode = new ModeSetting("", "None", "None"/*, "NCP", "Test");
 
 	@Override
 	public void loadSettings() {
@@ -109,7 +109,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		addSettings(/*forwardExtendSetting, swaggyPaggyBoost, sidewaysExtendSetting, maxBlocksPlacedPerTickSetting, blinkBlaster, timerBoostSetting,
 				keepYSetting, sprintSetting, legitSetting, overrideKeepYSetting, viewRotations, rotationMode,
 				fourDirectionalSpeed,, oneDirectionalSpeed, toggleBlink, itemSwitchDelay, clientSideBlockPicker,
-				hitVecFixer, noRotate, fakeMissPackets, towerMode, placeBlockAsync,*/ timerSlow);
+				hitVecFixer, noRotate, fakeMissPackets, towerMode, placeBlockAsync, timerSlow);
 	}
 
 	private double scafStartY = 0;
@@ -168,7 +168,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		lastRandX = 0;
 		lastRandZ = 0;
 
-		if (lastBlockPos != null && lastFacing != null) {
+		/*if (lastBlockPos != null && lastFacing != null) {
 			//getRotations(lastBlockPos, lastFacing, false);
 			getBlockRotations(lastBlockPos, lastFacing);
 		}
@@ -365,7 +365,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 			GlStateManager.popAttrib();
 			GlStateManager.popMatrix();
 
-		}*/
+		}
 
 		if (e instanceof EventMove && e.isPre() && fourDirectionalSpeed.isEnabled()) {
 
@@ -468,7 +468,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 			}
 			if(this.boostTiming.delay(1000L)) {
 				this.boostTiming.reset();
-			}*/
+			}
 
 		}
 	}
@@ -492,7 +492,7 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 				mc.thePlayer.motionX *= 0.6f;
 				mc.thePlayer.motionZ *= 0.6f;
 			}
-		}*/
+		}
 
 		// KeepY
 		if (MovementUtils.isOnGround(0.00001)) {
@@ -902,8 +902,8 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		double d3 = mc.thePlayer.posY + (double) mc.thePlayer.getEyeHeight() - ((double) paramBlockPos.getY() + randY);
 		double d4 = (double) MathHelper.sqrt_double(d1 * d1 + d2 * d2);
 
-		float f1 = (float) (Math.atan2(d2, d1) * 180.0D / 3.24159/*2653589793D*/) - 87.0F;
-		float f2 = (float) (Math.atan2(d3, d4) * 180.0D / 3.24159/*2653589793D*/);
+		float f1 = (float) (Math.atan2(d2, d1) * 180.0D / 3.24159/*2653589793D) - 87.0F;
+		float f2 = (float) (Math.atan2(d3, d4) * 180.0D / 3.24159/*2653589793D);
 
 		if (f2 > 90)
 			f2 = 89;
@@ -1192,4 +1192,4 @@ public class Scaffold extends Module implements OnEventInterface, OnSettingChang
 		return color;
 	}
 
-}
+}*/
