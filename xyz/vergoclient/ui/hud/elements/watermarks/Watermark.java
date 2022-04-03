@@ -1,23 +1,10 @@
 package xyz.vergoclient.ui.hud.elements.watermarks;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import sun.java2d.pipe.SpanShapeRenderer;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventRenderGUI;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.security.account.AccountUtils;
-import xyz.vergoclient.ui.fonts.FontUtil;
-import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.Gl.BloomUtil;
-import xyz.vergoclient.util.Gl.BlurUtil;
-import xyz.vergoclient.util.main.*;
-
-import java.awt.*;
 
 public class Watermark implements OnEventInterface {
 
@@ -37,7 +24,7 @@ public class Watermark implements OnEventInterface {
 
     public static void drawWatermark(EventRenderGUI e) {
         if(Vergo.config.modHud.waterMark.is("Simple")) {
-            SimpleWatermark sw = new SimpleWatermark();
+            simpleWatermark sw = new simpleWatermark();
 
             sw.onEvent(e);
         }
@@ -46,6 +33,18 @@ public class Watermark implements OnEventInterface {
             vergosenseWatermark vergosenseWatermark = new vergosenseWatermark();
 
             vergosenseWatermark.onEvent(e);
+        }
+
+        if(Vergo.config.modHud.waterMark.is("Text")) {
+            textWatermark tw = new textWatermark();
+
+            tw.onEvent(e);
+        }
+
+        if(Vergo.config.modHud.waterMark.is("Planet")) {
+            planetWatermark pw = new planetWatermark();
+
+            pw.onEvent(e);
         }
     }
 }

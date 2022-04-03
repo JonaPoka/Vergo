@@ -16,7 +16,7 @@ import xyz.vergoclient.util.main.*;
 
 import java.awt.*;
 
-public class SimpleWatermark implements OnEventInterface {
+public class simpleWatermark implements OnEventInterface {
 
     @Override
     public void onEvent(Event e) {

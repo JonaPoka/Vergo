@@ -15,7 +15,7 @@ public class Hud extends Module {
 		super("Hud", Category.VISUAL);
 	}
 
-	public ModeSetting currentTheme = new ModeSetting("Theme", "Default", "Default"),
+	public ModeSetting currentTheme = new ModeSetting("Theme", "Default", "Default", "New"),
 						waterMark = new ModeSetting("Watermark", "Simple", "Simple", "vergosense", "Text", "Planet"),
 						bpsMode = new ModeSetting("BPS Count", "Always On", "Always On", "Speed Only", "Never"),
 						vergoColor = new ModeSetting("Colours", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green", "Rainbow");
@@ -24,11 +24,11 @@ public class Hud extends Module {
 
 	@Override
 	public void loadSettings() {
-		currentTheme.modes.addAll(Arrays.asList("Default"));
+		currentTheme.modes.addAll(Arrays.asList("Default", "New"));
 
 		waterMark.modes.addAll(Arrays.asList("Simple", "vergosense", "Text", "Planet"));
 
-		addSettings(vergoColor, waterMark, bpsMode, theFunny, blurToggle);
+		addSettings(currentTheme, vergoColor, waterMark, bpsMode, theFunny, blurToggle);
 
 	}
 	

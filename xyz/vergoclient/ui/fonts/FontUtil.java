@@ -181,6 +181,21 @@ public class FontUtil {
 		return font;
 	}
 
+	private static Font getUbuntu(int size) {
+		Font font = null;
+		try {
+			InputStream is = Minecraft.getMinecraft().getResourceManager()
+					.getResource(new ResourceLocation("Vergo/font/Ubuntu-light.ttf")).getInputStream();
+			font = Font.createFont(0, is);
+			font = font.deriveFont(0, size);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("Error loading font");
+			font = new Font("default", 0, +10);
+		}
+		return font;
+	}
+
 	
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static FontRenderer fr = mc.fontRendererObj;
@@ -231,6 +246,8 @@ public class FontUtil {
 
 	public static JelloFontRenderer neurialGrotesk = JelloFontRenderer.createFontRenderer(getNeurialGrotesk(18));
 	public static JelloFontRenderer neurialGroteskBig = JelloFontRenderer.createFontRenderer(getNeurialGrotesk(25));
+
+	public static JelloFontRenderer ubuntuNormal = JelloFontRenderer.createFontRenderer(getUbuntu(18));
 
 	public static JelloFontRenderer tahomaFont = JelloFontRenderer.createFontRenderer(getTahoma(24));
 

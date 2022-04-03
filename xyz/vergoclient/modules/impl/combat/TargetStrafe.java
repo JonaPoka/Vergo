@@ -30,9 +30,13 @@ public class TargetStrafe extends Module implements OnEventInterface {
 	@Override
 	public void onEnable() {
 
-		if (Vergo.config.modDisabler.isDisabled() && ServerUtils.isOnHypixel()) {
+		/*if (Vergo.config.modDisabler.isDisabled() && ServerUtils.isOnHypixel()) {
 			Vergo.config.modDisabler.toggle();
 			ChatUtils.addProtMsg("Disabler has been enabled for strafe.");
+		}*/
+
+		if(Vergo.config.modDisabler.isDisabled()) {
+			ChatUtils.addProtMsg("CAUTION! You do not have Disabler enabled!");
 		}
 	}
 

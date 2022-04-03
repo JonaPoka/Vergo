@@ -106,7 +106,7 @@ public class Disabler extends Module implements OnEventInterface {
 		if(e instanceof EventSendPacket) {
 			EventSendPacket event1 = (EventSendPacket) e;
 
-			// Strafe Disabler
+			/* Strafe Disabler
 			if(event1.packet instanceof C03PacketPlayer || event1.packet instanceof C03PacketPlayer.C04PacketPlayerPosition || event1.packet instanceof C03PacketPlayer.C06PacketPlayerPosLook) {
 				if(mc.thePlayer.ticksExisted < 50) {
 					event1.setCanceled(true);
@@ -114,7 +114,7 @@ public class Disabler extends Module implements OnEventInterface {
 				} else {
 					hasDisablerFinished = true;
 				}
-			}
+			}*/
 
 			// Ping Spoof (timer disabler)
 			if(event1.packet instanceof C03PacketPlayer) {

@@ -124,8 +124,13 @@ public class VergoTheme implements OnEventInterface {
 
                 }
 
-                //ChatUtils.addChatMessage(textToRender);
-                BlurUtil.blurArea(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, 0, sr.getScaledWidth(), (offset + 1) * (fr.FONT_HEIGHT + 4));
+
+                if(Vergo.config.modHud.blurToggle.isEnabled()) {
+                    BlurUtil.blurArea(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, 0, sr.getScaledWidth(), (offset + 1) * (fr.FONT_HEIGHT + 4));
+                } else {
+
+                }
+
                 Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), 0x40000000);
 
                 align = 4.5f;
@@ -133,10 +138,6 @@ public class VergoTheme implements OnEventInterface {
                 BlurUtil.blurArea(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, 0, sr.getScaledWidth(), (offset + 1) * (fr.FONT_HEIGHT + 4));
 
                 Gui.drawRect(sr.getScaledWidth() - 1.3f, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
-
-
-                final int startColour = ColorUtils.fadeBetween(new Color(210, 8, 62).getRGB(), new Color(108, 51, 217).getRGB(), 0);
-                final int endColour = ColorUtils.fadeBetween(new Color(108, 51, 217).getRGB(), new Color(210, 8, 62).getRGB(), 250);
 
                 GlStateManager.colorState.alpha = 1;
 

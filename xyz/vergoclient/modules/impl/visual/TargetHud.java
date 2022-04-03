@@ -141,7 +141,9 @@ public class TargetHud extends Module implements OnEventInterface {
 				final int endColour = ColorUtils.fadeBetween(new Color(255, 0, 115).getRGB(), new Color(109, 0, 182).getRGB(), 250);
 
 				RenderUtils.drawAlphaRoundedRect(27, 30, 82, 5f, 0f, getColor(5, 7, 15, 90));
+
 				ColorUtils.glDrawSidewaysGradientRect(27, 30f, healthBar, 5f, endColour, startColour);
+
 				BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(x + 27, y + 29.5f, healthBar, 5f, endColour, startColour));
 
 				BloomUtil.drawAndBloom(() -> ColorUtils.drawRoundedRect(x, y, 40 + width, 40, 10f, startColour));

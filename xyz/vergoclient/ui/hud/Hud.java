@@ -13,6 +13,7 @@ import xyz.vergoclient.event.impl.EventRenderGUI;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.ui.fonts.FontUtil;
+import xyz.vergoclient.ui.hud.elements.arrayList.NewTheme;
 import xyz.vergoclient.ui.hud.elements.watermarks.Watermark;
 import xyz.vergoclient.ui.hud.elements.arrayList.VergoTheme;
 import xyz.vergoclient.util.main.DisplayUtils;
@@ -60,7 +61,11 @@ public class Hud implements OnEventInterface {
 			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
 			// Draws the arraylist
-			VergoTheme.drawArrayList();
+			if(Vergo.config.modHud.currentTheme.is("Default")) {
+				VergoTheme.drawArrayList();
+			} else if(Vergo.config.modHud.currentTheme.is("New")) {
+				NewTheme.drawArrayList();
+			}
 			// Draws the watermark.
 			Watermark.drawWatermark(event);
 
