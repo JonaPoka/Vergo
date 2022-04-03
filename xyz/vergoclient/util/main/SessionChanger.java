@@ -1,4 +1,4 @@
-package xyz.vergoclient.util;
+package xyz.vergoclient.util.main;
 
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.UserType;

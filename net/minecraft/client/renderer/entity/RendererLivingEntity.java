@@ -4,8 +4,8 @@ import com.google.common.collect.Lists;
 
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.modules.impl.miscellaneous.AntiBot;
-import xyz.vergoclient.util.ESPUtils;
-import xyz.vergoclient.util.RenderUtils;
+import xyz.vergoclient.util.main.ESPUtils;
+import xyz.vergoclient.util.main.RenderUtils;
 
 import java.nio.FloatBuffer;
 import java.util.List;

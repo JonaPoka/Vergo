@@ -1,14 +1,5 @@
 package xyz.vergoclient.commands.impl;
 
-import java.io.File;
-
-import xyz.vergoclient.commands.CommandManager;
-import xyz.vergoclient.commands.OnCommandInterface;
-import xyz.vergoclient.files.FileManager;
-import xyz.vergoclient.files.impl.FileKeybinds;
-import xyz.vergoclient.keybinds.KeyboardManager;
-import xyz.vergoclient.util.ChatUtils;
-
 /*public class CommandKeybinds implements OnCommandInterface {
 
 	@Override

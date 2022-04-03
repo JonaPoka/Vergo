@@ -6,8 +6,8 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.util.InventoryUtils;
-import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.main.InventoryUtils;
+import xyz.vergoclient.util.main.TimerUtil;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;

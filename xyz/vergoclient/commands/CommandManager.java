@@ -10,7 +10,7 @@ import xyz.vergoclient.event.impl.EventChatMessage;
 import xyz.vergoclient.event.impl.EventKey;
 import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.util.ChatUtils;
+import xyz.vergoclient.util.main.ChatUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.event.ClickEvent.Action;

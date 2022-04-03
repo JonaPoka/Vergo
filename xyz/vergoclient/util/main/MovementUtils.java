@@ -1,4 +1,4 @@
-package xyz.vergoclient.util;
+package xyz.vergoclient.util.main;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -6,9 +6,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-
-import javax.vecmath.Vector3f;
-import java.util.ArrayList;
 
 public class MovementUtils {
 	

@@ -1,7 +1,9 @@
 package xyz.vergoclient.modules.impl.visual;
 
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntityMob;
@@ -11,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.network.Packet;
 import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
@@ -20,12 +23,15 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.modules.impl.combat.KillAura;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.ui.fonts.FontUtil;
+import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.ui.guis.GuiClickGui;
-import xyz.vergoclient.util.ColorUtils;
+import xyz.vergoclient.util.animations.Animation;
+import xyz.vergoclient.util.animations.Direction;
+import xyz.vergoclient.util.animations.impl.DecelerateAnimation;
+import xyz.vergoclient.util.main.ColorUtils;
 import xyz.vergoclient.util.Gl.BloomUtil;
 import xyz.vergoclient.util.Gl.BlurUtil;
-import xyz.vergoclient.util.MiscellaneousUtils;
-import xyz.vergoclient.util.RenderUtils;
+import xyz.vergoclient.util.main.RenderUtils;
 
 import java.awt.*;
 
@@ -40,14 +46,17 @@ public class TargetHud extends Module implements OnEventInterface {
 	@Override
 	public void loadSettings() {
 
-		// mode.modes.addAll(Arrays.asList("Rismose", "Vergo Blue", "Vergo Red"));
-
 		addSettings(mode);
 	}
 
+	Animation anim1;
+
+	public static double barSpeed;
+
 	@Override
 	public void onEnable() {
-
+		anim1 = new DecelerateAnimation(300, 1, Direction.FORWARDS);
+		barSpeed = 0;
 	}
 
 	@Override
@@ -61,105 +70,97 @@ public class TargetHud extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 		if (e instanceof EventRenderGUI && e.isPre()) {
-			if (mode.is("Vergo")) {
+			EventRenderGUI event = (EventRenderGUI) e;
 
-				EntityLivingBase ent = null;
+			renderVergoTargetHud(event);
+		}
+	}
 
-				if (Vergo.config.modKillAura.isEnabled() && KillAura.target != null) {
-					ent = KillAura.target;
+	private void renderVergoTargetHud(EventRenderGUI e) {
+		if (mode.is("Vergo")) {
+
+			EntityLivingBase ent = null;
+
+			if (Vergo.config.modKillAura.isEnabled() && KillAura.target != null) {
+				ent = KillAura.target;
+			}
+
+			if (ent == null) {
+				if (mc.currentScreen instanceof GuiClickGui) {
+					ent = mc.thePlayer;
+				}
+			}
+
+			if (ent != null) {
+				GlStateManager.pushMatrix();
+
+				GlStateManager.translate(484, 383, 1);
+
+				double barSpeed = 6;
+				if (healthBar > healthBarTarget) {
+					healthBar = ((healthBar) - ((healthBar - healthBarTarget) / barSpeed));
+				} else if (healthBar < healthBarTarget) {
+					healthBar = ((healthBar) + ((healthBarTarget - healthBar) / barSpeed));
 				}
 
-				if (ent == null) {
-					if (mc.currentScreen instanceof GuiClickGui) {
-						ent = mc.thePlayer;
-					}
+				String healthStr = null;
+				healthStr = Math.round(ent.getHealth() * 10) / 10d + " hp";
+
+				JelloFontRenderer fr = FontUtil.bakakakmedium;
+
+				// String data
+				String playerName = ent.getName();
+
+				String clientTag = "";
+
+				// All the location and scale data.
+				float x = 484;
+				float y = 383;
+				float width = (float) Math.max(75, FontUtil.arialMedium.getStringWidth(clientTag + playerName) + 25);
+				float boxScale = 1;
+
+				// Draws The Text
+				fr.drawString(playerName, 30f, 4f, -1);
+				fr.drawString(healthStr, 37 + width - FontUtil.bakakakmedium.getStringWidth(healthStr) - 2, 4f, -1);
+
+				// This draws the background blur
+				BlurUtil.blurAreaRounded(x, y, 40 + width, 40, 5f);
+
+
+				// This draws the players 3D model.
+				drawPlayerModel(ent);
+
+				// Health bars and all that
+				healthBarTarget = 82 * (ent.getHealth() / ent.getMaxHealth());
+				if (healthBar > 82) {
+					healthBar = 82;
 				}
 
-				if (ent != null) {
 
-					// Lower is faster, higher is slower
-					double barSpeed = 6;
-					if (healthBar > healthBarTarget) {
-						healthBar = ((healthBar) - ((healthBar - healthBarTarget) / barSpeed));
-					} else if (healthBar < healthBarTarget) {
-						healthBar = ((healthBar) + ((healthBarTarget - healthBar) / barSpeed));
-					}
+				final int startColour = ColorUtils.fadeBetween(new Color(255, 0, 115).getRGB(), new Color(109, 0, 182).getRGB(), 0);
+				final int endColour = ColorUtils.fadeBetween(new Color(255, 0, 115).getRGB(), new Color(109, 0, 182).getRGB(), 250);
 
-					String healthStr = null;
-					healthStr = Math.round(ent.getHealth() * 10) / 10d + " hp";
+				RenderUtils.drawAlphaRoundedRect(27, 30, 82, 5f, 0f, getColor(5, 7, 15, 90));
+				ColorUtils.glDrawSidewaysGradientRect(27, 30f, healthBar, 5f, endColour, startColour);
+				BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(x + 27, y + 29.5f, healthBar, 5f, endColour, startColour));
 
-					int x = 484;
-					int y = 359;
+				BloomUtil.drawAndBloom(() -> ColorUtils.drawRoundedRect(x, y, 40 + width, 40, 10f, startColour));
 
-
-					// EXTREMELY SECRET. DO NOT FUCKING RE-USE. SERIOUSLY, I WILL GET FUCKING SUED.
-
-					GlStateManager.pushMatrix();
-					String playerName = ent.getName();
-
-					String clientTag = "";
-
-					float width = (float) Math.max(75, FontUtil.arialMedium.getStringWidth(clientTag + playerName) + 25);
-
-
-					//更改TargetHUD在屏幕坐标的初始位置
-
-					GlStateManager.translate(x, y, 0);
-
-					BlurUtil.blurAreaRounded(x, y, 40 + width, 40, 3f);
-
-					GL11.glColor4f(1,1,1,1);
-
-					FontUtil.bakakakmedium.drawString(clientTag + playerName, 30f, 4f, -1);
-					FontUtil.bakakakmedium.drawString(healthStr, 37 + width - FontUtil.bakakakmedium.getStringWidth(healthStr) - 2, 4f, -1);
-
-					// REMEMBER ME
-					// boolean isNaN = Float.isNaN(ent.getHealth());
-
-					healthBarTarget = (((82) / (ent.getMaxHealth())) * (ent.getHealth()));
-
-					// Health bar
-					healthBarTarget = 82 * (ent.getHealth() / ent.getMaxHealth());
-					if (healthBar > 82) {
-						healthBar = 82;
-					}
-
-
-					final int startColour = ColorUtils.fadeBetween(new Color(255, 0, 115).getRGB(), new Color(109, 0, 182).getRGB(), 0);
-					final int endColour = ColorUtils.fadeBetween(new Color(255, 0, 115).getRGB(), new Color(109, 0, 182).getRGB(), 250);
-
-					RenderUtils.drawAlphaRoundedRect(27, 30, 82, 5f, 0f, getColor(5, 7, 15, 90));
-					ColorUtils.glDrawSidewaysGradientRect(27, 30f, healthBar, 5f, endColour, startColour);
-					BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(x + 27, y + 29.5f, healthBar, 5f, endColour, startColour));
-
-					BloomUtil.drawAndBloom(() -> ColorUtils.drawRoundedRect(x, y, 40 + width, 40, 10f, startColour));
-
-					if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {
-
-					} else {
-						this.renderArmor((EntityPlayer) ent, 67);
-					}
-
-					GlStateManager.disableBlend();
-					GlStateManager.enableAlpha();
-
-					GlStateManager.resetColor();
-
-					// 3D model of the target
-					GlStateManager.disableBlend();
-					GlStateManager.color(1, 1, 1, 1);
-					if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {
-
-					} else {
-						GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
-					}
-					GL11.glPopMatrix();
-				}
+				GlStateManager.popMatrix();
 			}
 		}
 	}
 
+	private void drawPlayerModel(EntityLivingBase ent) {
+		GlStateManager.pushMatrix();
+		GlStateManager.color(1, 1, 1, 1);
+		if (ent instanceof EntityMob || ent instanceof EntityAnimal || ent instanceof EntityVillager || ent instanceof EntityArmorStand) {
 
+		} else {
+			GuiInventory.drawEntityOnScreen(15, 34, (int) (28 / ent.height), 0, 0, ent);
+		}
+		GlStateManager.popMatrix();
+	}
 
 
 	public void renderArmor(EntityPlayer player, int xLocation) {

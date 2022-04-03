@@ -2,7 +2,6 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import net.minecraft.network.play.client.C14PacketTabComplete;
@@ -16,10 +15,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import xyz.vergoclient.ui.fonts.FontUtil;
-import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.Gl.BlurUtil;
-import xyz.vergoclient.util.RenderUtils2;
+import xyz.vergoclient.util.main.RenderUtils2;
 
 public class GuiChat extends GuiScreen
 {

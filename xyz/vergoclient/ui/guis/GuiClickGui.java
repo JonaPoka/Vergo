@@ -1,6 +1,5 @@
 package xyz.vergoclient.ui.guis;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,7 +9,6 @@ import xyz.vergoclient.modules.Module;
 
 import java.awt.*;
 import java.io.IOException;
-import java.security.Key;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -23,10 +21,7 @@ import xyz.vergoclient.modules.impl.miscellaneous.ClickGui;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.*;
-import xyz.vergoclient.util.Gl.BlurUtil;
 import xyz.vergoclient.util.animations.Animation;
-import xyz.vergoclient.util.animations.Direction;
 import xyz.vergoclient.util.animations.impl.DecelerateAnimation;
 import xyz.vergoclient.util.animations.impl.EaseBackIn;
 import xyz.vergoclient.util.datas.DataDouble5;
@@ -39,6 +34,10 @@ import xyz.vergoclient.settings.Setting;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import xyz.vergoclient.util.main.GuiUtils;
+import xyz.vergoclient.util.main.RenderUtils;
+import xyz.vergoclient.util.main.RenderUtils2;
+import xyz.vergoclient.util.main.TimerUtil;
 
 public class GuiClickGui extends GuiScreen {
 

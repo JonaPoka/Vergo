@@ -5,9 +5,8 @@ import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.main.TimerUtil;
 
 public class ModTimer extends Module implements OnEventInterface {
 

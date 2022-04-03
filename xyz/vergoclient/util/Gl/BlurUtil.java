@@ -3,8 +3,8 @@ package xyz.vergoclient.util.Gl;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.shader.Framebuffer;
 import org.lwjgl.opengl.Display;
-import xyz.vergoclient.util.ColorUtils;
-import xyz.vergoclient.util.RenderUtils;
+import xyz.vergoclient.util.main.ColorUtils;
+import xyz.vergoclient.util.main.RenderUtils;
 
 import java.awt.*;
 import java.nio.FloatBuffer;

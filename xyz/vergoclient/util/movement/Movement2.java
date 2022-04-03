@@ -5,15 +5,11 @@ package xyz.vergoclient.util.movement;
 
 import net.minecraft.block.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.*;
 import xyz.vergoclient.event.impl.EventMove;
-import xyz.vergoclient.util.MovementUtils;
-import xyz.vergoclient.util.packet.PacketUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;

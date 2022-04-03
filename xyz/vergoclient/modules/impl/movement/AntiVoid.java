@@ -4,7 +4,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
-import xyz.vergoclient.event.impl.EventSendPacket;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
@@ -12,14 +11,10 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.util.ChatUtils;
-import xyz.vergoclient.util.MiscellaneousUtils;
-import xyz.vergoclient.util.MovementUtils;
-import xyz.vergoclient.util.TimerUtil;
-import xyz.vergoclient.util.datas.DataDouble6;
+import xyz.vergoclient.util.main.MovementUtils;
+import xyz.vergoclient.util.main.TimerUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
 
 public class AntiVoid extends Module implements OnEventInterface {

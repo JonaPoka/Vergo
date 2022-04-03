@@ -1,9 +1,5 @@
 package xyz.vergoclient.assets;
 
-import xyz.vergoclient.Vergo;
-import xyz.vergoclient.ui.hud.Hud;
-import xyz.vergoclient.util.RenderUtils;
-
 public enum Colors {
 	
 	COLOR(0xffcbb277),

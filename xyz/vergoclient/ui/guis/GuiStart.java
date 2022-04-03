@@ -4,15 +4,13 @@ import java.awt.*;
 import java.io.IOException;
 
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.entity.player.EntityPlayer;
-import org.lwjgl.opengl.Display;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.ui.fonts.FontUtil;
-import xyz.vergoclient.util.*;
 import net.minecraft.util.ResourceLocation;
+import xyz.vergoclient.util.main.RandomStringUtil;
+import xyz.vergoclient.util.main.RenderUtils;
+import xyz.vergoclient.util.main.TimerUtil;
 
 public class GuiStart extends GuiScreen {
 

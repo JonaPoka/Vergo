@@ -1,4 +1,4 @@
-package xyz.vergoclient.util;
+package xyz.vergoclient.util.main;
 
 import java.awt.*;
 

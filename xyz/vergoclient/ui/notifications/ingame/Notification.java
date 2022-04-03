@@ -2,7 +2,7 @@ package xyz.vergoclient.ui.notifications.ingame;
 
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.main.TimerUtil;
 import xyz.vergoclient.util.animations.Animation;
 
 public class Notification {

@@ -5,7 +5,7 @@ import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.StepEvent;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.settings.BooleanSetting;
-import xyz.vergoclient.util.ChatUtils;
+import xyz.vergoclient.util.main.ChatUtils;
 
 public class Step extends Module {
 

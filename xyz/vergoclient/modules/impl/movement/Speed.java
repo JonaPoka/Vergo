@@ -1,7 +1,5 @@
 package xyz.vergoclient.modules.impl.movement;
 
-import net.minecraft.network.Packet;
-import tv.twitch.chat.Chat;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
@@ -9,11 +7,10 @@ import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.modules.OnSettingChangeInterface;
-import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
-import xyz.vergoclient.settings.SettingChangeEvent;
-import xyz.vergoclient.util.*;
+import xyz.vergoclient.util.main.MovementUtils;
+import xyz.vergoclient.util.main.Timer;
+import xyz.vergoclient.util.main.TimerUtil;
 
 import java.util.Arrays;
 

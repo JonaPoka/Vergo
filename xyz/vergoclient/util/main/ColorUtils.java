@@ -1,4 +1,4 @@
-package xyz.vergoclient.util;
+package xyz.vergoclient.util.main;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -19,6 +19,13 @@ public class ColorUtils {
         Forever grateful <3
 
      */
+
+    public static Color rainbow(int speed, int index, float saturation, float brightness, float opacity) {
+        int angle = (int) ((System.currentTimeMillis() / speed + index) % 360);
+        float hue = angle / 360f;
+        Color color = new Color(Color.HSBtoRGB(hue, saturation, brightness));
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), Math.max(0, Math.min(255, (int) (opacity * 255))));
+    }
 
     public static void glDrawFilledQuad(final double x,
                                         final double y,

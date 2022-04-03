@@ -1,4 +1,4 @@
-package xyz.vergoclient.util;
+package xyz.vergoclient.util.animations;
 
 // DO NOT SHARE, I WILL BE MOTHERFUCKING SUED
 

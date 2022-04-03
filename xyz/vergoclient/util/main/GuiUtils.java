@@ -1,4 +1,4 @@
-package xyz.vergoclient.util;
+package xyz.vergoclient.util.main;
 
 import net.minecraft.client.gui.Gui;
 import xyz.vergoclient.util.datas.DataDouble5;

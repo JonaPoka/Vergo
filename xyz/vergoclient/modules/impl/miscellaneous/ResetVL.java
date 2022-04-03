@@ -4,7 +4,7 @@ import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.util.ChatUtils;
+import xyz.vergoclient.util.main.ChatUtils;
 
 public class ResetVL extends Module implements OnEventInterface {
 

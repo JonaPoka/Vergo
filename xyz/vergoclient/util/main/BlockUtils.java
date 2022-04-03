@@ -1,4 +1,4 @@
-package xyz.vergoclient.util;
+package xyz.vergoclient.util.main;
 
 import com.sun.javafx.geom.Vec3d;
 import net.minecraft.block.*;

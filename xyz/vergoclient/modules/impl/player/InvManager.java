@@ -15,8 +15,8 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.util.InventoryUtils;
-import xyz.vergoclient.util.MovementUtils;
+import xyz.vergoclient.util.main.InventoryUtils;
+import xyz.vergoclient.util.main.MovementUtils;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -25,8 +25,8 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.client.C0DPacketCloseWindow;
 import net.minecraft.network.play.client.C0BPacketEntityAction.Action;
 
-import static xyz.vergoclient.util.InventoryUtils.drop;
-import static xyz.vergoclient.util.InventoryUtils.isBadPotion;
+import static xyz.vergoclient.util.main.InventoryUtils.drop;
+import static xyz.vergoclient.util.main.InventoryUtils.isBadPotion;
 
 public class InvManager extends Module implements OnEventInterface {
 

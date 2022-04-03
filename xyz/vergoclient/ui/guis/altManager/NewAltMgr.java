@@ -10,8 +10,8 @@ import xyz.vergoclient.ui.guis.altManager.accounts.Account;
 import xyz.vergoclient.ui.guis.altManager.elements.AltButton;
 import xyz.vergoclient.ui.guis.altManager.handling.Alt;
 import xyz.vergoclient.ui.guis.altManager.pages.DirectLogin;
-import xyz.vergoclient.util.ColorUtils;
-import xyz.vergoclient.util.RenderUtils2;
+import xyz.vergoclient.util.main.ColorUtils;
+import xyz.vergoclient.util.main.RenderUtils2;
 
 import java.awt.*;
 import java.io.IOException;

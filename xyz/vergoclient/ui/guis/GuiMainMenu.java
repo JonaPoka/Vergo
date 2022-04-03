@@ -19,8 +19,8 @@ import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.ui.guis.altManager.pages.DirectLogin;
-import xyz.vergoclient.util.DisplayUtils;
-import xyz.vergoclient.util.FormattingUtil;
+import xyz.vergoclient.util.main.DisplayUtils;
+import xyz.vergoclient.util.main.FormattingUtil;
 
 import java.awt.*;
 import java.io.BufferedReader;

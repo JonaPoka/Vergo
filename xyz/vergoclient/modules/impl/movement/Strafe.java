@@ -7,8 +7,8 @@ import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.util.ChatUtils;
-import xyz.vergoclient.util.ServerUtils;
+import xyz.vergoclient.util.main.ChatUtils;
+import xyz.vergoclient.util.main.ServerUtils;
 
 public class Strafe extends Module implements OnEventInterface {
 

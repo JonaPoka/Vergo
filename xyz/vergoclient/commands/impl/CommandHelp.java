@@ -1,13 +1,7 @@
 package xyz.vergoclient.commands.impl;
 
-import xyz.vergoclient.Vergo;
-import xyz.vergoclient.commands.CommandManager;
 import xyz.vergoclient.commands.OnCommandInterface;
-import xyz.vergoclient.util.ChatUtils;
-import net.minecraft.event.HoverEvent;
-import net.minecraft.event.HoverEvent.Action;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatStyle;
+import xyz.vergoclient.util.main.ChatUtils;
 
 public class CommandHelp implements OnCommandInterface {
 

@@ -18,8 +18,8 @@ import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.ui.guis.LogInGui;
 import xyz.vergoclient.ui.hud.Hud;
 import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
-import xyz.vergoclient.util.MiscellaneousUtils;
-import xyz.vergoclient.util.RandomStringUtil;
+import xyz.vergoclient.util.main.MiscellaneousUtils;
+import xyz.vergoclient.util.main.RandomStringUtil;
 import xyz.vergoclient.util.anticheat.Player;
 
 import java.io.IOException;

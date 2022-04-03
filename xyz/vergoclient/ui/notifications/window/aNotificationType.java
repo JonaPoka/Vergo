@@ -1,4 +1,8 @@
 package xyz.vergoclient.ui.notifications.window;
 
-public class aNotificationType {
+public enum aNotificationType {
+    SUCCESS,
+    DISABLE,
+    INFO,
+    WARNING
 }

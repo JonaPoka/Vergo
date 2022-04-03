@@ -12,9 +12,9 @@ import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.ColorUtils;
+import xyz.vergoclient.util.main.ColorUtils;
 import xyz.vergoclient.util.Gl.BlurUtil;
-import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.main.TimerUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,12 +35,14 @@ public class VergoTheme implements OnEventInterface {
     public static int arrayListRainbow = 0;
     public static int arrayListColor = -1;
 
-    public static float align = 4.5f;
+    public static float align = 3.5f;
 
     public static Color waveColor = null;
     public int Rainbow = 125;
 
     public int waveColor2;
+
+    public static double squeeze;
 
     public static void drawArrayList() {
 
@@ -113,7 +115,10 @@ public class VergoTheme implements OnEventInterface {
 
                     waveColor = ColorUtils.fadeColor(new Color(60, 213, 69), (int) offset, 30);
 
-                } else {
+                } else if (Vergo.config.modHud.vergoColor.is("Rainbow")) {
+                    waveColor = ColorUtils.rainbow(20, (int) offset * 5, 0.7f, 1, 1);
+                }
+                else {
 
                     waveColor = new Color(250, 250, 250);
 
@@ -127,7 +132,7 @@ public class VergoTheme implements OnEventInterface {
 
                 BlurUtil.blurArea(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, 0, sr.getScaledWidth(), (offset + 1) * (fr.FONT_HEIGHT + 4));
 
-                Gui.drawRect(sr.getScaledWidth() - 2, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
+                Gui.drawRect(sr.getScaledWidth() - 1.3f, (offset + 1) * (fr.FONT_HEIGHT + 4), sr.getScaledWidth(), (offset) * (fr.FONT_HEIGHT + 4), waveColor.getRGB());
 
 
                 final int startColour = ColorUtils.fadeBetween(new Color(210, 8, 62).getRGB(), new Color(108, 51, 217).getRGB(), 0);
@@ -135,6 +140,11 @@ public class VergoTheme implements OnEventInterface {
 
                 GlStateManager.colorState.alpha = 1;
 
+                GlStateManager.translate((float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 0, 0);
+
+                GlStateManager.scale(squeeze, squeeze, 1);
+
+                GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
                 fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - align), (float) (offset * (fr.FONT_HEIGHT + 4)) + 3f, waveColor.getRGB());
 
                 GlStateManager.popMatrix();

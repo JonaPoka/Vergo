@@ -5,7 +5,7 @@ import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventSendPacket;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.util.InventoryUtils;
+import xyz.vergoclient.util.main.InventoryUtils;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;

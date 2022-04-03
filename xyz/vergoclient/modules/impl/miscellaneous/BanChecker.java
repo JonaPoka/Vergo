@@ -8,9 +8,9 @@ import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.util.ChatUtils;
-import xyz.vergoclient.util.NetworkManager;
-import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.main.ChatUtils;
+import xyz.vergoclient.util.main.NetworkManager;
+import xyz.vergoclient.util.main.TimerUtil;
 import net.minecraft.network.play.server.S02PacketChat;
 
 public class BanChecker extends Module implements OnEventInterface {

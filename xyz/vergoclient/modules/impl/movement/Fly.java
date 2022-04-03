@@ -8,8 +8,8 @@ import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.ModeSetting;
-import xyz.vergoclient.util.MovementUtils;
-import xyz.vergoclient.util.Timer;
+import xyz.vergoclient.util.main.MovementUtils;
+import xyz.vergoclient.util.main.Timer;
 
 import java.util.Arrays;
 

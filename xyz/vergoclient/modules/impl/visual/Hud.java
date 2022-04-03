@@ -17,8 +17,8 @@ public class Hud extends Module {
 
 	public ModeSetting currentTheme = new ModeSetting("Theme", "Default", "Default"),
 						waterMark = new ModeSetting("Watermark", "Simple", "Simple", "vergosense", "Text", "Planet"),
-						bpsMode = new ModeSetting("BPS Count", "Always On", "Speed Only", "Never"),
-						vergoColor = new ModeSetting("Colours", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green");
+						bpsMode = new ModeSetting("BPS Count", "Always On", "Always On", "Speed Only", "Never"),
+						vergoColor = new ModeSetting("Colours", "Burgundy", "Burgundy", "Sea Blue", "Nuclear Green", "Rainbow");
 
 	public BooleanSetting theFunny = new BooleanSetting("TheFunnyName", false), blurToggle = new BooleanSetting("ArrayBlur", true);
 
@@ -28,7 +28,7 @@ public class Hud extends Module {
 
 		waterMark.modes.addAll(Arrays.asList("Simple", "vergosense", "Text", "Planet"));
 
-		addSettings(currentTheme, waterMark, bpsMode, theFunny, blurToggle);
+		addSettings(vergoColor, waterMark, bpsMode, theFunny, blurToggle);
 
 	}
 	

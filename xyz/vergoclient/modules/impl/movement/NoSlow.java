@@ -1,22 +1,16 @@
 package xyz.vergoclient.modules.impl.movement;
 
-import net.minecraft.item.ItemSword;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-import net.minecraft.network.play.server.S30PacketWindowItems;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
-import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.event.impl.EventSendPacket;
 import xyz.vergoclient.event.impl.EventSlowdown;
-import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.util.ChatUtils;
-import xyz.vergoclient.util.MovementUtils;
+import xyz.vergoclient.util.main.MovementUtils;
 
 public class NoSlow extends Module implements OnEventInterface {
 

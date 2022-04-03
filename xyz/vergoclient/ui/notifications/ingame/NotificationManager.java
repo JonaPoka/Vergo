@@ -2,16 +2,13 @@ package xyz.vergoclient.ui.notifications.ingame;
 
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.opengl.GL11;
-import xyz.vergoclient.util.ColorUtils;
+import xyz.vergoclient.util.main.ColorUtils;
 import xyz.vergoclient.util.Gl.BloomUtil;
 import xyz.vergoclient.util.Gl.BlurUtil;
-import xyz.vergoclient.util.RenderUtils;
+import xyz.vergoclient.util.main.RenderUtils;
 import xyz.vergoclient.util.animations.Animation;
 import xyz.vergoclient.util.animations.Direction;
 import xyz.vergoclient.util.animations.impl.DecelerateAnimation;
-import xyz.vergoclient.util.animations.impl.EaseBackIn;
-import xyz.vergoclient.util.animations.impl.ElasticAnimation;
 
 import java.awt.*;
 import java.util.concurrent.CopyOnWriteArrayList;

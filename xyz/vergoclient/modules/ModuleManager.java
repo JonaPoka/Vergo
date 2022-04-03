@@ -11,7 +11,6 @@ import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
 import xyz.vergoclient.ui.notifications.ingame.NotificationType;
-import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.datas.DataDouble6;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -28,6 +27,7 @@ import xyz.vergoclient.modules.impl.movement.*;
 import xyz.vergoclient.modules.impl.player.*;
 import xyz.vergoclient.modules.impl.visual.*;
 import xyz.vergoclient.settings.*;
+import xyz.vergoclient.util.main.*;
 
 import java.io.File;
 import java.lang.reflect.Field;

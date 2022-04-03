@@ -4,7 +4,7 @@ import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.util.MovementUtils;
+import xyz.vergoclient.util.main.MovementUtils;
 import net.minecraft.client.Minecraft;
 
 public class Player implements OnEventInterface {

@@ -8,7 +8,7 @@ package xyz.vergoclient.util.Gl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.shader.Framebuffer;
-import xyz.vergoclient.util.ColorUtils;
+import xyz.vergoclient.util.main.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.List;

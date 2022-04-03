@@ -2,9 +2,8 @@ package xyz.vergoclient.commands.impl;
 
 import net.minecraft.client.Minecraft;
 import xyz.vergoclient.Vergo;
-import xyz.vergoclient.commands.CommandManager;
 import xyz.vergoclient.commands.OnCommandInterface;
-import xyz.vergoclient.util.ChatUtils;
+import xyz.vergoclient.util.main.ChatUtils;
 
 public class GetItemDebug implements OnCommandInterface {
 

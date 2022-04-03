@@ -1,7 +1,6 @@
 package xyz.vergoclient.modules.impl.combat;
 
 import java.awt.AWTException;
-import java.text.DecimalFormat;
 
 import org.apache.commons.lang3.RandomUtils;
 
@@ -13,8 +12,8 @@ import xyz.vergoclient.modules.OnSettingChangeInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.settings.SettingChangeEvent;
-import xyz.vergoclient.util.MiscellaneousUtils;
-import xyz.vergoclient.util.TimerUtil;
+import xyz.vergoclient.util.main.MiscellaneousUtils;
+import xyz.vergoclient.util.main.TimerUtil;
 
 public class AutoClicker extends Module implements OnSettingChangeInterface {
 

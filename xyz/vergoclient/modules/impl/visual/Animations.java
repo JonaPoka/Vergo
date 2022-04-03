@@ -10,8 +10,6 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.ModeSetting;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.util.MathHelper;
-import xyz.vergoclient.util.MovementUtils;
 
 public class Animations extends Module implements OnEventInterface {
 

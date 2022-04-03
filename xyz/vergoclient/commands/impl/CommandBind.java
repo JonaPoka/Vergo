@@ -11,7 +11,7 @@ import xyz.vergoclient.keybinds.Keybind;
 import xyz.vergoclient.keybinds.KeyboardManager;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.ModuleManager;
-import xyz.vergoclient.util.ChatUtils;
+import xyz.vergoclient.util.main.ChatUtils;
 
 public class CommandBind implements OnCommandInterface {
 

@@ -5,8 +5,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import xyz.vergoclient.files.impl.FileAlts;
 import xyz.vergoclient.ui.guis.altManager.addOns.Account;
-import xyz.vergoclient.util.ColorUtils;
-import xyz.vergoclient.util.SessionChanger;
+import xyz.vergoclient.util.main.SessionChanger;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;

@@ -16,8 +16,8 @@ import xyz.vergoclient.security.HWID;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.*;
 import xyz.vergoclient.util.datas.DataDouble5;
+import xyz.vergoclient.util.main.*;
 
 import java.awt.*;
 import java.io.IOException;

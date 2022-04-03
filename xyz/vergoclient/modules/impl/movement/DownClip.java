@@ -2,7 +2,7 @@ package xyz.vergoclient.modules.impl.movement;
 
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.settings.NumberSetting;
-import xyz.vergoclient.util.ChatUtils;
+import xyz.vergoclient.util.main.ChatUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 

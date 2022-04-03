@@ -8,9 +8,9 @@ import org.lwjgl.input.Mouse;
 import xyz.vergoclient.files.impl.FileAlts;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
-import xyz.vergoclient.util.ColorUtils;
-import xyz.vergoclient.util.GuiUtils;
-import xyz.vergoclient.util.RenderUtils2;
+import xyz.vergoclient.util.main.ColorUtils;
+import xyz.vergoclient.util.main.GuiUtils;
+import xyz.vergoclient.util.main.RenderUtils2;
 import xyz.vergoclient.util.datas.DataDouble5;
 
 import java.awt.*;

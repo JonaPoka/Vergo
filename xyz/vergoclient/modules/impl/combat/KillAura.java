@@ -3,11 +3,8 @@ package xyz.vergoclient.modules.impl.combat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.EnumFacing;
-import optifine.MathUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -23,9 +20,12 @@ import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.settings.SettingChangeEvent;
-import xyz.vergoclient.util.*;
-import xyz.vergoclient.util.Timer;
-import xyz.vergoclient.util.datas.DataDouble3;
+import xyz.vergoclient.util.animations.Animation;
+import xyz.vergoclient.util.animations.Direction;
+import xyz.vergoclient.util.animations.impl.DecelerateAnimation;
+import xyz.vergoclient.util.main.RenderUtils;
+import xyz.vergoclient.util.main.RotationUtils;
+import xyz.vergoclient.util.main.Timer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
@@ -36,12 +36,14 @@ import net.minecraft.network.play.client.C02PacketUseEntity.Action;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import xyz.vergoclient.util.packet.PacketUtil;
+import xyz.vergoclient.util.main.TimerUtil;
 
 public class KillAura extends Module implements OnSettingChangeInterface, OnEventInterface {
 
 	// Timers
 	Timer blockTimer;
+
+	Animation animation1;
 
 	public KillAura() {
 		super("KillAura", Category.COMBAT);
@@ -127,6 +129,8 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 		target = null;
 
 		this.blockTimer.reset();
+
+		animation1 = new DecelerateAnimation(800, 1.8f, Direction.FORWARDS);
 	}
 
 	@Override
@@ -143,7 +147,7 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 		if (e instanceof EventRender3D && e.isPre()) {
 
-			if (visualizeTargetCircle.isEnabled() && target != null) {
+			/*if (visualizeTargetCircle.isEnabled() && target != null) {
 
 				final float timer = mc.timer.renderPartialTicks;
 				final double x = target.lastTickPosX + (target.posX - target.lastTickPosX) * timer;
@@ -179,7 +183,9 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 				}
 				GlStateManager.popMatrix();
 				GlStateManager.popAttrib();
-			}
+			}*/
+
+			drawVisTarget();
 		}
 		if (e instanceof EventUpdate && e.isPre()) {
 			EventUpdate event = (EventUpdate) e;
@@ -251,6 +257,55 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 				}
 			}
 		}
+
+	}
+
+	private void drawVisTarget() {
+		// New Visualize Target
+		if(target == null) {
+			return;
+		}
+		GlStateManager.pushMatrix();
+		final float timer = mc.timer.renderPartialTicks;
+		final double x = target.lastTickPosX + (target.posX - target.lastTickPosX) * timer;
+		final double y = target.lastTickPosY + (target.posY - target.lastTickPosY) * timer;
+		final double z = target.lastTickPosZ + (target.posZ - target.lastTickPosZ) * timer;
+
+		Vec3 lastLine = null;
+
+		for (short i = 0; i <= 360 * 2; i++) {
+
+			float f = (float) ((target.rotationYaw + i) * (Math.PI / 180));
+			double x2 = x, z2 = z;
+			x2 -= (double) (MathHelper.sin(f) * 0.7) * -1;
+			z2 += (double) (MathHelper.cos(f) * 0.7) * -1;
+
+			if (lastLine == null) {
+				lastLine = new Vec3(x2, y, z2);
+				continue;
+			}
+
+			if (i != 0) {
+				GL11.glColor4f(0.7f, 0.52f, 1.0f, 0.9f);
+
+				if(animation1.isDone()) {
+					animation1.changeDirection();
+				}
+
+				// Render Moving Circles.
+				RenderUtils.drawLine(lastLine.xCoord, y + animation1.getOutput() + 0.2f, lastLine.zCoord, x2, y + animation1.getOutput() + 0.2f, z2);
+				GL11.glColor4f(0.7f, 0.52f, 1.0f, 0.6f);
+				RenderUtils.drawLine(lastLine.xCoord, y + animation1.getOutput() + 0.15f, lastLine.zCoord, x2, y + animation1.getOutput() + 0.15f, z2);
+				GL11.glColor4f(0.7f, 0.52f, 1.0f, 0.3f);
+				RenderUtils.drawLine(lastLine.xCoord, y + animation1.getOutput() + 0.1f, lastLine.zCoord, x2, y + animation1.getOutput() + 0.1f, z2);
+			}
+
+			lastLine.xCoord = x2;
+			lastLine.zCoord = z2;
+
+		}
+
+		GlStateManager.popMatrix();
 
 	}
 

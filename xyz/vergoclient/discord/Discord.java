@@ -6,14 +6,12 @@ import java.time.Instant;
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.activity.Activity;
-import net.minecraft.client.gui.GuiScreen;
 import xyz.vergoclient.files.FileManager;
 import xyz.vergoclient.security.account.AccountUtils;
-import xyz.vergoclient.ui.guis.GuiMainMenu;
 import xyz.vergoclient.ui.guis.GuiStart;
-import xyz.vergoclient.util.OSUtil;
-import xyz.vergoclient.util.RandomStringUtil;
-import xyz.vergoclient.util.ServerUtils;
+import xyz.vergoclient.util.main.OSUtil;
+import xyz.vergoclient.util.main.RandomStringUtil;
+import xyz.vergoclient.util.main.ServerUtils;
 import net.minecraft.client.Minecraft;
 
 import static xyz.vergoclient.Vergo.version;

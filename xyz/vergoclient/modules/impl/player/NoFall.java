@@ -2,23 +2,15 @@ package xyz.vergoclient.modules.impl.player;
 
 import java.util.Arrays;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import xyz.vergoclient.event.Event;
-import xyz.vergoclient.event.impl.EventReceivePacket;
-import xyz.vergoclient.event.impl.EventSendPacket;
-import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.ModeSetting;
-import xyz.vergoclient.util.ChatUtils;
-import xyz.vergoclient.util.MovementUtils;
+import xyz.vergoclient.util.main.MovementUtils;
 import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C0BPacketEntityAction;
-import net.minecraft.network.play.server.S08PacketPlayerPosLook;
-import net.minecraft.potion.Potion;
 
 public class NoFall extends Module implements OnEventInterface {
 

@@ -13,9 +13,10 @@ import xyz.vergoclient.event.impl.EventRenderGUI;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.ui.fonts.FontUtil;
-import xyz.vergoclient.ui.hud.elements.Watermark;
+import xyz.vergoclient.ui.hud.elements.watermarks.Watermark;
 import xyz.vergoclient.ui.hud.elements.arrayList.VergoTheme;
-import xyz.vergoclient.util.*;
+import xyz.vergoclient.util.main.DisplayUtils;
+import xyz.vergoclient.util.main.MovementUtils;
 
 import java.awt.*;
 
@@ -33,6 +34,8 @@ public class Hud implements OnEventInterface {
 	public void onEvent(Event e) {
 		
 		if (e instanceof EventRenderGUI && e.isPre()) {
+
+			EventRenderGUI event = (EventRenderGUI) e;
 
 			// The epic funny name.
 			if(Vergo.config.modHud.theFunny.isEnabled()) {
@@ -59,7 +62,7 @@ public class Hud implements OnEventInterface {
 			// Draws the arraylist
 			VergoTheme.drawArrayList();
 			// Draws the watermark.
-			Watermark.drawWatermark();
+			Watermark.drawWatermark(event);
 
 			// Renders all the cached images
 			for (ResourceLocation cachedIcon : Vergo.cachedIcons) {
