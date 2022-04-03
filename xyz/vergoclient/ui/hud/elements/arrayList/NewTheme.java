@@ -13,10 +13,7 @@ import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.Gl.BloomUtil;
 import xyz.vergoclient.util.Gl.BlurUtil;
-import xyz.vergoclient.util.main.ColorUtils;
-import xyz.vergoclient.util.main.Draw;
-import xyz.vergoclient.util.main.RenderUtils;
-import xyz.vergoclient.util.main.RenderUtils2;
+import xyz.vergoclient.util.main.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,6 +21,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class NewTheme implements OnEventInterface {
+
+    public static transient TimerUtil arrayListToggleMovement = new TimerUtil();
 
     @Override
     public void onEvent(Event e) {
@@ -33,9 +32,11 @@ public class NewTheme implements OnEventInterface {
         }
     }
 
+    static boolean updateToggleMovement = arrayListToggleMovement.hasTimeElapsed(1000 / 40, true);
+
     public static void drawArrayList() {
 
-        JelloFontRenderer fr = FontUtil.ubuntuNormal;
+        JelloFontRenderer fr = FontUtil.kanitNormal;
 
         ArrayList<Module> modules = new ArrayList<>();
         ModuleManager.modules.forEach(module -> {
@@ -46,7 +47,6 @@ public class NewTheme implements OnEventInterface {
 
         double offset = 0;
         for (Module module : modules) {
-            GlStateManager.pushMatrix();
 
             String textToRender = module.getName() + " §7" + module.getInfo();
 
@@ -60,11 +60,19 @@ public class NewTheme implements OnEventInterface {
             if (squeeze > 1)
                 squeeze = 1;
 
-            GlStateManager.translate((float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 0, 0);
+            if (updateToggleMovement) {
+                if (module.isEnabled()) {
+                    module.arrayListAnimation += (1 - module.arrayListAnimation) / 8;
+                    if (module.arrayListAnimation > 1)
+                        module.arrayListAnimation = 1;
+                } else {
+                    module.arrayListAnimation -= module.arrayListAnimation / 3;
+                    if (module.arrayListAnimation < 0)
+                        module.arrayListAnimation = 0;
+                }
+            }
 
-            GlStateManager.scale(1, squeeze, 1);
-
-            GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
+            GlStateManager.pushMatrix();
 
             Color waveColor;
 
@@ -105,7 +113,15 @@ public class NewTheme implements OnEventInterface {
 
             BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(sr.getScaledWidth() - fr.getStringWidth(finalText) - 6.5, (double) 2.5, (offsetFin + 1) * (fr.FONT_HEIGHT + 4), 1, startColour, endColour));
 
-            fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4.5f), (float) (offset * (fr.FONT_HEIGHT + 4)) + 7f, ColorUtils.fadeColorHorizontal(new Color(109, 0, 182), (int) (offset), 15).getRGB());
+            GlStateManager.colorState.alpha = 1;
+
+            GlStateManager.translate((float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 0, 0);
+
+            GlStateManager.scale(squeeze, squeeze, 1);
+
+            GlStateManager.translate(-(float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), -((float) (offset * (fr.FONT_HEIGHT + 4)) + 0), 0);
+
+            fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - 4.5f), (float) (offset * (fr.FONT_HEIGHT + 4)) + 5.5f, ColorUtils.fadeColorHorizontal(new Color(109, 0, 182), (int) (offset), 15).getRGB());
 
             GlStateManager.popMatrix();
 
