@@ -10,7 +10,6 @@ import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL14.glBlendFuncSeparate;
-import static xyz.vergoclient.ui.notifications.ingame.NotificationManager.interpolateColorC;
 
 public class ColorUtils {
     /*
@@ -25,6 +24,17 @@ public class ColorUtils {
         float hue = angle / 360f;
         Color color = new Color(Color.HSBtoRGB(hue, saturation, brightness));
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), Math.max(0, Math.min(255, (int) (opacity * 255))));
+    }
+
+    public static int applyOpacity(int color, float opacity) {
+        Color old = new Color(color);
+        return applyOpacity(old, opacity).getRGB();
+    }
+
+    //Opacity value ranges from 0-1
+    public static Color applyOpacity(Color color, float opacity) {
+        opacity = Math.min(1, Math.max(0, opacity));
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) (color.getAlpha() * opacity));
     }
 
     public static void glDrawFilledQuad(final double x,
@@ -93,6 +103,8 @@ public class ColorUtils {
         glEnable(GL_TEXTURE_2D);
     }
 
+    protected static Minecraft mc = Minecraft.getMinecraft();
+
     public static void glDrawFramebuffer(final int framebufferTexture, final int width, final int height) {
         // Bind the texture of our framebuffer
         glBindTexture(GL_TEXTURE_2D, framebufferTexture);
@@ -120,6 +132,37 @@ public class ColorUtils {
         glRestoreBlend(restore);
         // Restore alpha test
         glEnable(GL_ALPHA_TEST);
+    }
+
+    public static void drawQuads(float x, float y, float width, float height) {
+        if (mc.gameSettings.ofFastRender) return;
+        glBegin(GL_QUADS);
+        glTexCoord2f(0, 0);
+        glVertex2f(x, y);
+        glTexCoord2f(0, 1);
+        glVertex2f(x, y + height);
+        glTexCoord2f(1, 1);
+        glVertex2f(x + width, y + height);
+        glTexCoord2f(1, 0);
+        glVertex2f(x + width, y);
+        glEnd();
+    }
+
+    public static void drawQuads() {
+        if (mc.gameSettings.ofFastRender) return;
+        ScaledResolution sr = new ScaledResolution(mc);
+        float width = (float) sr.getScaledWidth_double();
+        float height = (float) sr.getScaledHeight_double();
+        glBegin(GL_QUADS);
+        glTexCoord2f(0, 1);
+        glVertex2f(0, 0);
+        glTexCoord2f(0, 0);
+        glVertex2f(0, height);
+        glTexCoord2f(1, 0);
+        glVertex2f(width, height);
+        glTexCoord2f(1, 1);
+        glVertex2f(width, 0);
+        glEnd();
     }
 
     public static Color fadeColor(Color color, int index, int count) {

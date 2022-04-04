@@ -84,6 +84,7 @@ public class ModuleManager {
 	public TargetHud modTargetHud = new TargetHud();
 	public AutoClicker modAutoClicker = new AutoClicker();
 	public Notifications modNotifications = new Notifications();
+	public SessionInfo modSessionInfo = new SessionInfo();
 	public ResetVL modResetVL = new ResetVL();
 	
 	private void loadModules() {
@@ -96,6 +97,7 @@ public class ModuleManager {
 		modNametags = new LoaderModule<Nametags>(modNametags).generate();
 		modNotifications = new LoaderModule<Notifications>(modNotifications).generate();
 		modPlayerESP = new LoaderModule<PlayerESP>(modPlayerESP).generate();
+		modSessionInfo = new LoaderModule<SessionInfo>(modSessionInfo).generate();
 		modChestESP = new LoaderModule<StorageESP>(modChestESP).generate();
 		modTargetHud = new LoaderModule<TargetHud>(modTargetHud).generate();
 		modXray = new LoaderModule<Xray>(modXray).generate();

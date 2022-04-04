@@ -263,6 +263,7 @@ public class FontUtil {
 	public static JelloFontRenderer neurialGroteskBig = JelloFontRenderer.createFontRenderer(getNeurialGrotesk(25));
 
 	public static JelloFontRenderer ubuntuNormal = JelloFontRenderer.createFontRenderer(getUbuntu(18));
+	public static JelloFontRenderer ubuntuBig = JelloFontRenderer.createFontRenderer(getUbuntu(24));
 
 	public static JelloFontRenderer tahomaFont = JelloFontRenderer.createFontRenderer(getTahoma(24));
 

@@ -149,6 +149,7 @@ public class VergoTheme implements OnEventInterface {
                 fr.drawString(textToRender, (float) (sr.getScaledWidth() - fr.getStringWidth(textToRender) - align), (float) (offset * (fr.FONT_HEIGHT + 4)) + 3f, waveColor.getRGB());
 
                 GlStateManager.popMatrix();
+
                 offset++;
                 if (squeeze != 1) {
                     offset--;

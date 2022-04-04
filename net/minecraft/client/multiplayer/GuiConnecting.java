@@ -21,6 +21,8 @@ import org.apache.logging.log4j.Logger;
 
 import xyz.vergoclient.modules.ModuleManager;
 
+import static xyz.vergoclient.tasks.backgroundTasks.sessionInfo.SessionInfo.getPlayTime;
+
 public class GuiConnecting extends GuiScreen
 {
     private static final AtomicInteger CONNECTION_ID = new AtomicInteger(0);
@@ -53,6 +55,7 @@ public class GuiConnecting extends GuiScreen
     	ModuleManager.wasOnHypixel = ip.toLowerCase().contains("hypixel.net");
     	
         logger.info("Connecting to " + ip + ", " + port);
+        getPlayTime();
         (new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet())
         {
             public void run()

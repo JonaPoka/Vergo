@@ -1,5 +1,8 @@
 package xyz.vergoclient.modules.impl.visual;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
@@ -14,6 +17,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.network.Packet;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
@@ -49,13 +53,13 @@ public class TargetHud extends Module implements OnEventInterface {
 		addSettings(mode);
 	}
 
-	Animation anim1;
+	Animation scale;
 
 	public static double barSpeed;
 
 	@Override
 	public void onEnable() {
-		anim1 = new DecelerateAnimation(300, 1, Direction.FORWARDS);
+		scale = new DecelerateAnimation(300, 1, Direction.FORWARDS);
 		barSpeed = 0;
 	}
 

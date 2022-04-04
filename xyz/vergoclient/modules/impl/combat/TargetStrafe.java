@@ -36,7 +36,7 @@ public class TargetStrafe extends Module implements OnEventInterface {
 		}*/
 
 		if(Vergo.config.modDisabler.isDisabled()) {
-			ChatUtils.addProtMsg("CAUTION! You do not have Disabler enabled!");
+			ChatUtils.addProtMsg("CAUTION! THIS IS DETECTED!");
 		}
 	}
 

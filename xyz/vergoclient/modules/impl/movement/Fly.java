@@ -5,6 +5,7 @@ import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventReceivePacket;
+import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.ModeSetting;
@@ -67,6 +68,10 @@ public class Fly extends Module implements OnEventInterface {
 	@Override
 	public void onEvent(Event e) {
 
+		if(e instanceof EventTick) {
+			mc.thePlayer.motionY = 0.09f;
+		}
+
 		if(e instanceof EventMove) {
 			if (mode.is("Vanilla")) {
 				if (!mc.thePlayer.capabilities.isFlying) {
@@ -92,7 +97,7 @@ public class Fly extends Module implements OnEventInterface {
 					hasClipped = true;
 				}
 				if (doFly) {
-					mc.thePlayer.motionY = 0;
+					mc.thePlayer.motionY = 0.09;
 					mc.thePlayer.onGround = true;
 					mc.timer.timerSpeed = 2;
 				} else {
