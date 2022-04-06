@@ -1,5 +1,6 @@
 package xyz.vergoclient.util.main;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.network.Packet;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.modules.ModuleManager;
@@ -11,7 +12,7 @@ import net.minecraft.util.IChatComponent;
 public class ChatUtils {
 
 	// More convenient?
-	private static String prefix = "\2474Vergo \247f>> ";
+	private static String prefix = ChatFormatting.RED + "Vergo " + ChatFormatting.WHITE + ">> ";
 
 	public static void addChatMessage(Object message, boolean displayRawMessage) {
 		
@@ -44,7 +45,7 @@ public class ChatUtils {
 			return;
 
 
-		addChatMessage(new ChatComponentText("[\2472Vergo Protection\247r] " + message));
+		addChatMessage(new ChatComponentText("[" + ChatFormatting.DARK_GREEN + "Vergo Protection" + ChatFormatting.WHITE + "] " + message));
 	}
 	
 	// For objects

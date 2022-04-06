@@ -1,5 +1,6 @@
 package xyz.vergoclient.ui.hud.elements.arrayList;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -50,7 +51,7 @@ public class NewTheme implements OnEventInterface {
         double offset = 0;
         for (Module module : modules) {
 
-            String textToRender = module.getName() + " \2477" + module.getInfo();
+            String textToRender = module.getName() + ChatFormatting.GRAY + module.getInfo();
             if (module.getInfo().isEmpty())
                 textToRender = module.getName();
 
