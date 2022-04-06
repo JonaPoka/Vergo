@@ -51,7 +51,7 @@ public class NewTheme implements OnEventInterface {
         double offset = 0;
         for (Module module : modules) {
 
-            String textToRender = module.getName() + ChatFormatting.GRAY + module.getInfo();
+            String textToRender = module.getName() + ChatFormatting.GRAY + " " + module.getInfo();
             if (module.getInfo().isEmpty())
                 textToRender = module.getName();
 

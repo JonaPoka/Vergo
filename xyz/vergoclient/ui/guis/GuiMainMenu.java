@@ -1,6 +1,7 @@
 package xyz.vergoclient.ui.guis;
 
 import com.google.common.collect.Lists;
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,6 +20,7 @@ import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.ui.guis.altManager.pages.DirectLogin;
+import xyz.vergoclient.util.main.ChatUtils;
 import xyz.vergoclient.util.main.DisplayUtils;
 import xyz.vergoclient.util.main.FormattingUtil;
 
@@ -341,7 +343,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
 		JelloFontRenderer jFR = FontUtil.arialBig;
 
-		mc.fontRendererObj.drawStringWithShadow("\2477Current Account: \247B" + mc.getSession().getUsername(), 4, 4, 0xFFFFFFFF);
+		mc.fontRendererObj.drawStringWithShadow(ChatFormatting.GRAY + "Current Account:" + ChatFormatting.AQUA + mc.getSession().getUsername(), 4, 4, 0xFFFFFFFF);
 
 		String welcomeMsg = "Logged in as:  " + AccountUtils.account.username + "#" + FormattingUtil.formatUID();
 

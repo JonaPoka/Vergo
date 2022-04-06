@@ -72,7 +72,7 @@ public class VergoTheme implements OnEventInterface {
                 arrayListRainbow += 125;
                 arrayListColor++;
 
-                String textToRender = module.getName() + ChatFormatting.GRAY + module.getInfo();
+                String textToRender = module.getName() + ChatFormatting.GRAY + " " + module.getInfo();
                 if (module.getInfo().isEmpty())
                     textToRender = module.getName();
 

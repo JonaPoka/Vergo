@@ -12,7 +12,7 @@ import net.minecraft.util.IChatComponent;
 public class ChatUtils {
 
 	// More convenient?
-	private static String prefix = ChatFormatting.RED + "Vergo " + ChatFormatting.WHITE + ">> ";
+	private static String prefix = ChatFormatting.DARK_RED + " Vergo " + ChatFormatting.WHITE + ChatFormatting.ITALIC + ">> " + ChatFormatting.RESET;
 
 	public static void addChatMessage(Object message, boolean displayRawMessage) {
 		
