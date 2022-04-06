@@ -50,7 +50,7 @@ public class NewTheme implements OnEventInterface {
         double offset = 0;
         for (Module module : modules) {
 
-            String textToRender = module.getName() + " §7" + module.getInfo();
+            String textToRender = module.getName() + " \2477" + module.getInfo();
             if (module.getInfo().isEmpty())
                 textToRender = module.getName();
 

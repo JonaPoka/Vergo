@@ -5,7 +5,6 @@ import net.minecraft.network.play.server.S02PacketChat;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.util.main.ChatUtils;
 
 public class SessionBGTask implements OnEventInterface {
 
@@ -20,11 +19,10 @@ public class SessionBGTask implements OnEventInterface {
                 S02PacketChat packet = (S02PacketChat) event.packet;
 
                 if(packet.getChatComponent().getUnformattedText().contains("was killed by " + mc.thePlayer.getName())) {
-                    ChatUtils.addDevMessage("Trigger. Kill Added!");
                     SessionInfo.killCount += 1;
                 }
 
-                if(packet.getChatComponent().getUnformattedText().contains(mc.thePlayer.getName() + " died.") || packet.getChatComponent().getUnformattedText().contains(mc.thePlayer.getName() + " was killed by")) {
+                if(packet.getChatComponent().getUnformattedText().contains("You died!") || packet.getChatComponent().getUnformattedText().contains(mc.thePlayer.getName() + " was killed by")) {
                     SessionInfo.deathCount += 1;
                 }
 

@@ -12,6 +12,7 @@ import xyz.vergoclient.keybinds.KeyboardManager;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.security.account.AccountUtils;
+import xyz.vergoclient.tasks.backgroundTasks.sessionInfo.SessionBGTask;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.ui.guis.GuiClickGui;
 import xyz.vergoclient.ui.guis.GuiStart;
@@ -138,6 +139,13 @@ public class Vergo {
 					@Override
 					public void task() {
 						ModuleManager.eventListeners.add(player);
+					}
+				},
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
+					@Override
+					public void task() {
+						// Starts the BG tasks.
+						ModuleManager.eventListeners.add(new SessionBGTask());
 					}
 				}
 			));

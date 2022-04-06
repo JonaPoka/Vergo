@@ -257,13 +257,13 @@ public class Speed extends Module implements OnEventInterface {
 		}
 
 		/*
-			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> 0.3799999952316284 eventY
-			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.0784000015258789 motionY
-			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.1552320045166016 motionY
-			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.230527368912964 motionY
-			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.30431682745754424 motionY
-			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.37663049823865513 motionY
-			[13:34:45] [Client thread/INFO]: [CHAT] §4Vergo §f>> -0.447497 89698341763 motionY
+			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> 0.3799999952316284 eventY
+			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.0784000015258789 motionY
+			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.1552320045166016 motionY
+			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.230527368912964 motionY
+			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.30431682745754424 motionY
+			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.37663049823865513 motionY
+			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.447497 89698341763 motionY
 		*/
 
 	}

@@ -11,7 +11,7 @@ import net.minecraft.util.IChatComponent;
 public class ChatUtils {
 
 	// More convenient?
-	private static String prefix = "§4Vergo §f>> ";
+	private static String prefix = "\2474Vergo \247f>> ";
 
 	public static void addChatMessage(Object message, boolean displayRawMessage) {
 		
@@ -32,7 +32,7 @@ public class ChatUtils {
 
 
 		if(Vergo.isDev) {
-			addChatMessage(new ChatComponentText("§4V§7Dev §8§o>> §r" + message));
+			addChatMessage(new ChatComponentText("\2474V\2477Dev \2478\247o>> \247r" + message));
 		} else {
 			// do nothing
 		}
@@ -44,7 +44,7 @@ public class ChatUtils {
 			return;
 
 
-		addChatMessage(new ChatComponentText("[§2Vergo Protection§r] " + message));
+		addChatMessage(new ChatComponentText("[\2472Vergo Protection\247r] " + message));
 	}
 	
 	// For objects

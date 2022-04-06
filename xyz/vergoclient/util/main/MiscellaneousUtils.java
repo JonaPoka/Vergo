@@ -251,7 +251,7 @@ public class MiscellaneousUtils {
 			String mode = "";
 			boolean removeNext = false;
 			for (char c : scoreTitle.toCharArray()) {
-				if (c == "§".toCharArray()[0]) {
+				if (c == "\247".toCharArray()[0]) {
 					removeNext = true;
 				}
 				else if (!removeNext) {
@@ -420,7 +420,7 @@ public class MiscellaneousUtils {
 			String output = "";
 			boolean removeNext = false;
 			for (char c : input.toCharArray()) {
-				if (c == "§".toCharArray()[0]) {
+				if (c == "\247".toCharArray()[0]) {
 					removeNext = true;
 				}
 				else if (!removeNext) {

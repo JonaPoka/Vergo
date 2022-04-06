@@ -71,7 +71,7 @@ public class VergoTheme implements OnEventInterface {
                 arrayListRainbow += 125;
                 arrayListColor++;
 
-                String textToRender = module.getName() + " §7" + module.getInfo();
+                String textToRender = module.getName() + " \2477" + module.getInfo();
                 if (module.getInfo().isEmpty())
                     textToRender = module.getName();
 

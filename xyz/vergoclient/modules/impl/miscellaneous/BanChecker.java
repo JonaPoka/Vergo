@@ -68,7 +68,7 @@ public class BanChecker extends Module implements OnEventInterface {
 		else if (e instanceof EventReceivePacket && e.isPre()) {
 			if (((EventReceivePacket)e).packet instanceof S02PacketChat) {
 				if (((S02PacketChat)((EventReceivePacket)e).packet).getChatComponent().getUnformattedTextForChat().startsWith("Your new API key is ")) {
-					apiKey = ((S02PacketChat)((EventReceivePacket)e).packet).getChatComponent().getFormattedText().replaceAll("§aYour new API key is §r§b", "").replaceAll("§r", "");
+					apiKey = ((S02PacketChat)((EventReceivePacket)e).packet).getChatComponent().getFormattedText().replaceAll("\247aYour new API key is \247r\247b", "").replaceAll("\247r", "");
 //					ChatUtils.addChatMessage(apiKey);
 					e.setCanceled(true);
 				}
