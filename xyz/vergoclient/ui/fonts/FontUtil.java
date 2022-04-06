@@ -12,9 +12,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class FontUtil {
 	
-	public static JelloFontRenderer getTextFieldFont(boolean password){
+	/*public static JelloFontRenderer getTextFieldFont(boolean password){
 		return password ? jelloFontGui : mc.currentScreen instanceof GuiAltManager ? jelloFontGui : jelloFontAddAlt;
-	}
+	}*/
 	
 	private static Font getFont(float size, boolean bold, ResourceLocation fontFile) {
 		Font font = null;
@@ -31,56 +31,11 @@ public class FontUtil {
 		return font;
 	}
 	
-	private static Font getJelloFont(float size, boolean bold) {
-		Font font = null;
-		try {
-			InputStream is = Minecraft.getMinecraft().getResourceManager()
-					.getResource(new ResourceLocation(bold ? "Jello/jellomedium.ttf": "Jello/jellolight.ttf")).getInputStream();
-			font = Font.createFont(0, is);
-			font = font.deriveFont(0, size);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("Error loading font");
-			font = new Font("default", 0, +10);
-		}
-		return font;
-	}
-	
-	private static Font getJelloFontRegular(int size) {
-		Font font = null;
-		try {
-			InputStream is = Minecraft.getMinecraft().getResourceManager()
-					.getResource(new ResourceLocation("Jello/jelloregular.ttf")).getInputStream();
-			font = Font.createFont(0, is);
-			font = font.deriveFont(0, size);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("Error loading font");
-			font = new Font("default", 0, +10);
-		}
-		return font;
-	}
-	
 	private static Font getMinecraftFont(float size) {
 		Font font = null;
 		try {
 			InputStream is = Minecraft.getMinecraft().getResourceManager()
 					.getResource(new ResourceLocation("Vergo/font/MinecraftRegular-Bmg3.ttf")).getInputStream();
-			font = Font.createFont(0, is);
-			font = font.deriveFont(0, size);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("Error loading font");
-			font = new Font("default", 0, +10);
-		}
-		return font;
-	}
-	
-	private static Font getJelloFontUltralight(int size) {
-		Font font = null;
-		try {
-			InputStream is = Minecraft.getMinecraft().getResourceManager()
-					.getResource(new ResourceLocation("Jello/jelloultralight.ttf")).getInputStream();
 			font = Font.createFont(0, is);
 			font = font.deriveFont(0, size);
 		} catch (Exception ex) {
@@ -185,7 +140,7 @@ public class FontUtil {
 		Font font = null;
 		try {
 			InputStream is = Minecraft.getMinecraft().getResourceManager()
-					.getResource(new ResourceLocation("Vergo/font/Ubuntu-light.ttf")).getInputStream();
+					.getResource(new ResourceLocation("Vergo/font/Ubuntu-Light.ttf")).getInputStream();
 			font = Font.createFont(0, is);
 			font = font.deriveFont(0, size);
 		} catch (Exception ex) {
@@ -214,7 +169,7 @@ public class FontUtil {
 	
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static FontRenderer fr = mc.fontRendererObj;
-	public static JelloFontRenderer jelloFont = JelloFontRenderer.createFontRenderer(getJelloFont(20, false));
+	/*public static JelloFontRenderer jelloFont = JelloFontRenderer.createFontRenderer(getJelloFont(20, false));
 	public static JelloFontRenderer jelloFontScale = JelloFontRenderer.createFontRenderer(getJelloFont(24, false));
 	public static JelloFontRenderer jelloFontAddAlt = JelloFontRenderer.createFontRenderer(getJelloFont(24, false));
 	public static JelloFontRenderer jelloFontGui = JelloFontRenderer.createFontRenderer(getJelloFont(25, false));
@@ -236,7 +191,7 @@ public class FontUtil {
 	public static JelloFontRenderer fontBig = JelloFontRenderer.createFontRenderer(getJelloFontRegular(33));
 	public static JelloFontRenderer fontSmall = JelloFontRenderer.createFontRenderer(getJelloFontRegular(14));
 	
-	public static JelloFontRenderer spicyClickGuiFont = JelloFontRenderer.createFontRenderer(getJelloFont(23, false));
+	public static JelloFontRenderer spicyClickGuiFont = JelloFontRenderer.createFontRenderer(getJelloFont(23, false));*/
 	public static JelloFontRenderer minecraftFont = JelloFontRenderer.createFontRenderer(getMinecraftFont(18));
 	
 	public static JelloFontRenderer arialBigger = JelloFontRenderer.createFontRenderer(getArial(41));
@@ -268,5 +223,6 @@ public class FontUtil {
 	public static JelloFontRenderer tahomaFont = JelloFontRenderer.createFontRenderer(getTahoma(24));
 
 	public static JelloFontRenderer kanitNormal = JelloFontRenderer.createFontRenderer(getKanit(18));
+	public static JelloFontRenderer kanitBig = JelloFontRenderer.createFontRenderer(getKanit(24));
 
 }

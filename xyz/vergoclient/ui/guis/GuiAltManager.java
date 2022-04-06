@@ -102,7 +102,7 @@ public class GuiAltManager extends GuiScreen {
 		}
 
 		// All the font renderers
-		JelloFontRenderer fr1 = FontUtil.jelloFontAddAlt2;
+		JelloFontRenderer fr1 = FontUtil.arialMedium;
 		JelloFontRenderer fr2 = FontUtil.arialRegular;
 		JelloFontRenderer fr3 = FontUtil.neurialGrotesk;
 
@@ -115,7 +115,7 @@ public class GuiAltManager extends GuiScreen {
 		for (FileAlts.Alt alt : altsFile.alts) {
 
 			if (alt.email.toLowerCase().contains("@alt.com")) {
-				System.out.println("Removed " + alt.email + " because it's an altening token and not a real alt");
+				//System.out.println("Removed " + alt.email + " because it's an altening token and not a real alt");
 				alteningAlts.add(alt);
 				continue;
 			}

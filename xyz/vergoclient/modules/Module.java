@@ -3,9 +3,7 @@ package xyz.vergoclient.modules;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.text.WordUtils;
 import xyz.vergoclient.Vergo;
-import xyz.vergoclient.assets.Icons;
 import xyz.vergoclient.settings.Setting;
-import xyz.vergoclient.ui.notifications.ingame.Notification;
 import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
 import xyz.vergoclient.ui.notifications.ingame.NotificationType;
 import xyz.vergoclient.util.anticheat.Player;
@@ -129,19 +127,19 @@ public abstract class Module {
 	
 	public static enum Category{
 		
-		COMBAT("Combat", Icons.CLICKGUICOMBAT),
-		VISUAL("Visual", Icons.CLICKGUIVISUAL),
-		PLAYER("Player", Icons.CLICKGUIPLAYER),
-		MOVEMENT("Movement", Icons.CLICKGUIMOVEMENT),
-		MEMES("Memes", Icons.CLICKGUIMEMES),
-		MISCELLANEOUS("Miscellaneous", Icons.CLICKGUIMISC);
+		COMBAT("Combat"),
+		VISUAL("Visual"),
+		PLAYER("Player"),
+		MOVEMENT("Movement"),
+		MEMES("Memes"),
+		MISCELLANEOUS("Miscellaneous");
 		
 		public final String displayName;
-		public final Icons icon;
+		//public final Icons icon;
 		
-		private Category(String displayName, Icons icon) {
+		private Category(String displayName/*, Icons icon*/) {
 			this.displayName = displayName;
-			this.icon = icon;
+			//this.icon = icon;
 		}
 		
 	}

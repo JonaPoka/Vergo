@@ -2,7 +2,7 @@ package xyz.vergoclient;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import xyz.vergoclient.assets.Icons;
+import org.apache.http.client.methods.HttpPost;
 import xyz.vergoclient.commands.CommandManager;
 import xyz.vergoclient.discord.Discord;
 import xyz.vergoclient.files.FileManager;
@@ -18,9 +18,10 @@ import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.ui.guis.LogInGui;
 import xyz.vergoclient.ui.hud.Hud;
 import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
-import xyz.vergoclient.util.main.MiscellaneousUtils;
-import xyz.vergoclient.util.main.RandomStringUtil;
 import xyz.vergoclient.util.anticheat.Player;
+import xyz.vergoclient.util.main.MiscellaneousUtils;
+import xyz.vergoclient.util.main.NetworkManager;
+import xyz.vergoclient.util.main.RandomStringUtil;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -66,21 +67,16 @@ public class Vergo {
 						
 						if (FileManager.defaultKeybindsFile.exists()) {
 							KeyboardManager.keybinds = FileManager.readFromFile(FileManager.defaultKeybindsFile, new FileKeybinds());
+							System.out.println(KeyboardManager.keybinds);
 						}else {
 							KeyboardManager.keybinds = new FileKeybinds();
+							System.out.println(KeyboardManager.keybinds);
 						}
 						
 						if (FileManager.altsFile.exists()) {
 							GuiAltManager.altsFile = FileManager.readFromFile(FileManager.altsFile, GuiAltManager.altsFile);
 						}
 						
-					}
-				},
-				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
-					@Override
-					public void task() {
-						for (Icons icon : Icons.values())
-							cachedIcons.add(icon.iconLocation);
 					}
 				},
 				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
@@ -113,11 +109,13 @@ public class Vergo {
 					public void task() {
 						if (FileManager.clickguiTabs.exists()) {
 							GuiClickGui.tabs = FileManager.readFromFile(FileManager.clickguiTabs, new GuiClickGui.TabFile());
+							System.out.println(GuiClickGui.tabs);
 						}else {
 							for (Module.Category category : Module.Category.values()) {
 								GuiClickGui.ClickguiTab clickguiTab = new GuiClickGui.ClickguiTab();
 								clickguiTab.category = category;
 								GuiClickGui.tabs.tabs.add(clickguiTab);
+								System.out.println(GuiClickGui.tabs);
 							}
 						}
 					}
@@ -140,12 +138,6 @@ public class Vergo {
 					@Override
 					public void task() {
 						ModuleManager.eventListeners.add(player);
-					}
-				},
-				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
-					@Override
-					public void task() {
-
 					}
 				}
 			));
@@ -207,6 +199,31 @@ public class Vergo {
 					}
 
 				} catch(IOException er) {
+
+				}
+			}
+		}, 0, 3500);
+	}
+
+	public static void verProtTime() {
+
+		// rough and ugly code to shutdown Vergo if connection to the website is lost.
+
+		java.util.Timer timer = new java.util.Timer();
+
+		timer.schedule( new TimerTask() {
+			public void run() {
+				try {
+					String response1 = NetworkManager.getNetworkManager().sendPost(new HttpPost("https://vergoclient.xyz/api/verCheck.php"));
+					if(!response1.equals(Vergo.version)) {
+
+						// If your Vergo version doesnt match latest throw in log and shutdown.
+						System.out.println(String.format("Vergo has an update <%s>. You are on %s. Update your client to continue using Vergo.", response1, Vergo.version));
+						Minecraft.getMinecraft().shutdown();
+
+					}
+
+				} catch(Exception er) {
 
 				}
 			}

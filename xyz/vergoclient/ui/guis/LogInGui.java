@@ -239,6 +239,7 @@ public class LogInGui extends GuiScreen {
                             }).start();
                             loggingInStatus = "Logged in!";
                             Vergo.protTime();
+                            Vergo.verProtTime();
                             Thread.sleep(1000);
                             GuiStart.hasLoaded = true;
                             Keyboard.enableRepeatEvents(false);

@@ -10,7 +10,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
-import xyz.vergoclient.assets.Icons;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -465,7 +464,7 @@ public class RenderUtils {
 
 		if (object == null) {
 			ThreadDownloadImageData threadDownloadImageData = new ThreadDownloadImageData((File) null, url,
-					Icons.MISSING_TEXTURE.iconLocation, new ImageBufferDownload());
+					new ResourceLocation("Vergo/logo/16x16.png"), new ImageBufferDownload());
 			new Thread(() -> {
 				try {
 					URLConnection connection = new URL(url).openConnection();

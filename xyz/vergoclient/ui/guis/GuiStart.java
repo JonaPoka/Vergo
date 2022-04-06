@@ -52,12 +52,12 @@ public class GuiStart extends GuiScreen {
 		FontUtil.bakakRegular.drawCenteredString(percentText, width / 2 - 10, height / 2 + 70 - FontUtil.arialMedium.FONT_HEIGHT, new Color(180, 0, 79).getRGB());
 
 		// Renders all the cached images
-		ScaledResolution sr = new ScaledResolution(mc);
+		/*ScaledResolution sr = new ScaledResolution(mc);
 		for (ResourceLocation cachedIcon : Vergo.cachedIcons) {
 			mc.getTextureManager().bindTexture(cachedIcon);
 			int imageWidth = 1, imageHeight = 1;
 			Gui.drawModalRectWithCustomSizedTexture(sr.getScaledWidth() + 10, sr.getScaledHeight() + 10, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
-		}
+		}*/
 	}
 
 	// We override this so you can't trigger the startup tasks more than once

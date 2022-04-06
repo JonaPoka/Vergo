@@ -20,22 +20,22 @@ public class FileManager {
 			assetsDir = new File(mainDir, "assets"),
 			defaultKeybindsFile = new File(keybindsDir, "default.json"),
 			altsFile = new File(mainDir, "alts.json"),
-			//discordLibUnix = new File(libsDir, "discord_game_sdk.so"),
 			discordLibWindows = new File(libsDir, "discord_game_sdk.dll"),
-			clickguiTabs = new File(mainDir, "clickLay.json");
+			clickguiTabs = new File(mainDir, "tabs.json");
 	
 	// Creates dirs if they don't exist
 	public static void init() {
-		if (!mainDir.exists()) 
+		if(!mainDir.exists())
 			mainDir.mkdirs();
-		if (!configDir.exists()) 
+
+		if(!configDir.exists())
 			configDir.mkdirs();
-		if (!keybindsDir.exists()) 
-			keybindsDir.mkdirs();
-		if (!libsDir.exists()) 
+
+		if(!libsDir.exists())
 			libsDir.mkdirs();
-		if (!assetsDir.exists()) 
-			assetsDir.mkdirs();
+
+		if(!assetsDir.exists())
+			libsDir.mkdirs();
 	}
 	
 	// Writes a byte array to a file
@@ -54,10 +54,9 @@ public class FileManager {
 	
 	// Writes an object serialized in json
 	public static void writeToFile(File file, Object obj) {
-		
-		// We use pretty printing because it looks nicer
+
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		
+
 		// Writes to the file
 		writeToFile(file, gson.toJson(obj).toString().getBytes());
 		

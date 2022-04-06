@@ -65,7 +65,7 @@ public class SessionInfo extends Module implements OnEventInterface {
 
                 int[] playTime = getPlayTime();
 
-                JelloFontRenderer fr = FontUtil.ubuntuBig;
+                JelloFontRenderer fr = FontUtil.kanitBig;
                 JelloFontRenderer fr2 = FontUtil.kanitNormal;
 
                 // Location Data
@@ -96,22 +96,27 @@ public class SessionInfo extends Module implements OnEventInterface {
                 GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 
                 // Session Info Text
-                fr.drawString(sessionInfoStr, boxX + (boxWidth / 2) - (fr.getStringWidth(sessionInfoStr) / 2), boxY + 4, -1);
+                fr.drawString(sessionInfoStr, boxX + (boxWidth / 2) - (fr.getStringWidth(sessionInfoStr) / 2), boxY + 0.5f, -1);
+
                 // Playtime Text
                 fr2.drawString("Current Session:", boxX + (boxWidth / 2.7f) - (fr.getStringWidth("Current Session:") / 2), boxY + 22f, -1);
-                fr2.drawString(playtimeString, boxX + (boxWidth / 1.25f) - (fr.getStringWidth(playtimeString) / 2), boxY + 22f, -1);
+                fr2.drawString(playtimeString, 46 + (fr2.getStringWidth("Current Session:") / 2), boxY + 22f, -1);
+
                 // Win Count
-                fr2.drawString("Wins: ", boxX + (boxWidth / 2.7f) - (fr.getStringWidth("Current Session:") / 2), boxY + 35f, -1);
-                fr2.drawString(winCount + "", boxX + (boxWidth / 1.8f) - (fr.getStringWidth("Current Session:") / 2), boxY + 35f, -1);
+                fr2.drawString("Wins: ", 8, boxY + 35f, -1);
+                fr2.drawString(winCount + "", 20 + (fr2.getStringWidth("Wins: ") / 2), boxY + 35f, -1);
+
                 // Kill Count
-                fr2.drawString("Kills: ", boxX + (boxWidth / 2.7f) - (fr.getStringWidth("Current Session:") / 2), boxY + 48f, -1);
-                fr2.drawString(killCount + "", boxX + (boxWidth / 1.88f) - (fr.getStringWidth("Current Session:") / 2), boxY + 48f, -1);
+                fr2.drawString("Kills: ", 8, boxY + 48f, -1);
+                fr2.drawString(killCount + "", 17 + (fr2.getStringWidth("Kills: ") / 2), boxY + 48f, -1);
+
                 // Death Count
-                fr2.drawString("Deaths: ", boxX + (boxWidth / 2.7f) - (fr.getStringWidth("Current Session:") / 2), boxY + 61f, -1);
-                fr2.drawString(deathCount + "", boxX + (boxWidth / 1.6f) - (fr.getStringWidth("Current Session:") / 2), boxY + 61f, -1);
+                fr2.drawString("Deaths: ", 8, boxY + 61f, -1);
+                fr2.drawString(deathCount + "", 24 + (fr2.getStringWidth("Deaths: ") / 2), boxY + 61f, -1);
+
                 // Games Played
-                fr2.drawString("Games Played: ", boxX + (boxWidth / 2.7f) - (fr.getStringWidth("Current Session:") / 2), boxY + 74f, -1);
-                fr2.drawString(gamesPlayed + "", boxX + (boxWidth / 1.18f) - (fr.getStringWidth("Current Session:") / 2), boxY + 74f, -1);
+                fr2.drawString("Games Played: ", 8, boxY + 74f, -1);
+                fr2.drawString(gamesPlayed + "", 39 + (fr2.getStringWidth("Games Played: ") / 2), boxY + 74f, -1);
 
                 GlStateManager.popMatrix();
             }

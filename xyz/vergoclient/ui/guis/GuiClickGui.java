@@ -188,35 +188,35 @@ public class GuiClickGui extends GuiScreen {
 					// For the settings
 					for (Setting setting : module.settings) {
 						if (setting instanceof BooleanSetting) {
-							if (FontUtil.jelloFontBoldSmall.getStringWidth(setting.name) >= maxWidthTarget)
-								maxWidthTarget = FontUtil.jelloFontBoldSmall.getStringWidth(setting.name);
+							if (FontUtil.kanitNormal.getStringWidth(setting.name) >= maxWidthTarget)
+								maxWidthTarget = FontUtil.kanitNormal.getStringWidth(setting.name);
 						}
 						else if (setting instanceof ModeSetting) {
-							if (FontUtil.jelloFontBoldSmall.getStringWidth(setting.name + ":  " + ((ModeSetting)setting).getMode()) - 15 >= maxWidthTarget)
-								maxWidthTarget = FontUtil.jelloFontBoldSmall.getStringWidth(setting.name + ":  " + ((ModeSetting)setting).getMode()) - 15;
+							if (FontUtil.kanitNormal.getStringWidth(setting.name + ":  " + ((ModeSetting)setting).getMode()) - 15 >= maxWidthTarget)
+								maxWidthTarget = FontUtil.kanitNormal.getStringWidth(setting.name + ":  " + ((ModeSetting)setting).getMode()) - 15;
 						}
 						else if (setting instanceof KeybindSetting) {
 							if (selectedButton != null && selectedButton.setting != null && setting == selectedButton.setting) {
-								if (FontUtil.jelloFontBoldSmall.getStringWidth(setting.name + ":  BINDING") - 15 >= maxWidthTarget)
-									maxWidthTarget = FontUtil.jelloFontBoldSmall.getStringWidth(setting.name + ":  BINDING") - 15;
+								if (FontUtil.kanitNormal.getStringWidth(setting.name + ":  BINDING") - 15 >= maxWidthTarget)
+									maxWidthTarget = FontUtil.kanitNormal.getStringWidth(setting.name + ":  BINDING") - 15;
 							}else {
-								if (FontUtil.jelloFontBoldSmall.getStringWidth(setting.name + ":  " + Keyboard.getKeyName(((KeybindSetting)setting).getKeycode())) - 15 >= maxWidthTarget)
-									maxWidthTarget = FontUtil.jelloFontBoldSmall.getStringWidth(setting.name + ":  " + Keyboard.getKeyName(((KeybindSetting)setting).getKeycode())) - 15;
+								if (FontUtil.kanitNormal.getStringWidth(setting.name + ":  " + Keyboard.getKeyName(((KeybindSetting)setting).getKeycode())) - 15 >= maxWidthTarget)
+									maxWidthTarget = FontUtil.kanitNormal.getStringWidth(setting.name + ":  " + Keyboard.getKeyName(((KeybindSetting)setting).getKeycode())) - 15;
 							}
 						}
 						else if (setting instanceof NumberSetting) {
 							DecimalFormat decimalFormat = new DecimalFormat("#.###");
 							String longestValue = decimalFormat.format(((NumberSetting)setting).getValueAsDouble());
-							if (((NumberSetting)setting).clickguiMaxLength.equals("") || FontUtil.jelloFontBoldSmall.getStringWidth(decimalFormat.format(((NumberSetting)setting).getValueAsDouble())) > FontUtil.jelloFontBoldSmall.getStringWidth(((NumberSetting)setting).clickguiMaxLength)) {
+							if (((NumberSetting)setting).clickguiMaxLength.equals("") || FontUtil.kanitNormal.getStringWidth(decimalFormat.format(((NumberSetting)setting).getValueAsDouble())) > FontUtil.kanitNormal.getStringWidth(((NumberSetting)setting).clickguiMaxLength)) {
 								for (double i = ((NumberSetting)setting).getMinimum(); i <= ((NumberSetting)setting).getMaximum(); i += ((NumberSetting)setting).getIncrement())
-									if (FontUtil.jelloFontBoldSmall.getStringWidth(decimalFormat.format(i)) > FontUtil.jelloFontBoldSmall.getStringWidth(longestValue))
+									if (FontUtil.kanitNormal.getStringWidth(decimalFormat.format(i)) > FontUtil.kanitNormal.getStringWidth(longestValue))
 										longestValue = decimalFormat.format(i);
 								((NumberSetting)setting).clickguiMaxLength = longestValue;
 							}else {
 								longestValue = ((NumberSetting)setting).clickguiMaxLength;
 							}
-							if (FontUtil.jelloFontBoldSmall.getStringWidth(setting.name + ": " + longestValue) - 15 >= maxWidthTarget)
-								maxWidthTarget = FontUtil.jelloFontBoldSmall.getStringWidth(setting.name + ": " + longestValue) - 15;
+							if (FontUtil.kanitNormal.getStringWidth(setting.name + ": " + longestValue) - 15 >= maxWidthTarget)
+								maxWidthTarget = FontUtil.kanitNormal.getStringWidth(setting.name + ": " + longestValue) - 15;
 						}
 					}
 			}
@@ -379,16 +379,16 @@ public class GuiClickGui extends GuiScreen {
 				GlStateManager.color(1, 1, 1, 1);
 				FontUtil.neurialGrotesk.drawString(button.module.getName(), button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 				if (!button.module.settings.isEmpty()) {
-					GlStateManager.translate((button.posAndColor.x2 - (FontUtil.jelloFontBoldSmall.getStringWidth("v")) * 2.3f) + (FontUtil.jelloFontBoldSmall.getStringWidth("v") / 2), (float) (button.posAndColor.y1 + 2.7 + (FontUtil.jelloFontBoldSmall.FONT_HEIGHT / 2)), 1);
+					GlStateManager.translate((button.posAndColor.x2 - (FontUtil.kanitNormal.getStringWidth("v")) * 2.3f) + (FontUtil.kanitNormal.getStringWidth("v") / 2), (float) (button.posAndColor.y1 + 2.7 + (FontUtil.kanitNormal.FONT_HEIGHT / 2)), 1);
 //					GlStateManager.rotate(180 * button.module.clickguiFlip, 0, 0, 0);
 					GlStateManager.scale(1, (button.module.clickguiFlip * 2) - 1, 1);
 					if (button.module.clickguiFlip <= 0.5) {
 						GlStateManager.scale(-1, 1, 1);
-						GlStateManager.translate(-FontUtil.jelloFontBoldSmall.getStringWidth("v"), -FontUtil.jelloFontBoldSmall.FONT_HEIGHT + 2, 0);
+						GlStateManager.translate(-FontUtil.kanitNormal.getStringWidth("v"), -FontUtil.kanitNormal.FONT_HEIGHT + 2, 0);
 					}
-//					GlStateManager.translate(FontUtil.jelloFontBoldSmall.getStringWidth("v") * button.module.clickguiFlip, 0, 0);
-					GlStateManager.translate(-(button.posAndColor.x2 - (FontUtil.jelloFontBoldSmall.getStringWidth("v")) * 2.3f), -((float) (button.posAndColor.y1 + 2.7)), 1);
-					FontUtil.neurialGrotesk.drawString("v", button.posAndColor.x2 - (FontUtil.jelloFontBoldSmall.getStringWidth("v")) * 2.3f, (float) (button.posAndColor.y1 + 2.7 + ((FontUtil.jelloFontBoldSmall.FONT_HEIGHT / 2)) * (button.module.clickguiFlip <= 0.5 ? 1 : -1)), moduleTextColor);
+//					GlStateManager.translate(FontUtil.kanitNormal.getStringWidth("v") * button.module.clickguiFlip, 0, 0);
+					GlStateManager.translate(-(button.posAndColor.x2 - (FontUtil.kanitNormal.getStringWidth("v")) * 2.3f), -((float) (button.posAndColor.y1 + 2.7)), 1);
+					FontUtil.neurialGrotesk.drawString("v", button.posAndColor.x2 - (FontUtil.kanitNormal.getStringWidth("v")) * 2.3f, (float) (button.posAndColor.y1 + 2.7 + ((FontUtil.kanitNormal.FONT_HEIGHT / 2)) * (button.module.clickguiFlip <= 0.5 ? 1 : -1)), moduleTextColor);
 				}
 				GlStateManager.popMatrix();
 				
@@ -448,14 +448,14 @@ public class GuiClickGui extends GuiScreen {
 				}
 				else if (setting instanceof ModeSetting) {
 					FontUtil.neurialGrotesk.drawString(button.setting.name + ":", button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
-					FontUtil.neurialGrotesk.drawString(((ModeSetting)button.setting).getMode(), button.posAndColor.x2 - FontUtil.jelloFontBoldSmall.getStringWidth(((ModeSetting)button.setting).getMode()) - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+					FontUtil.neurialGrotesk.drawString(((ModeSetting)button.setting).getMode(), button.posAndColor.x2 - FontUtil.kanitNormal.getStringWidth(((ModeSetting)button.setting).getMode()) - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 				}
 				else if (setting instanceof KeybindSetting) {
 					FontUtil.neurialGrotesk.drawString(button.setting.name + ":", button.posAndColor.x1 + 4, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 					if (selectedButton != null && selectedButton.setting != null && setting == selectedButton.setting) {
-						FontUtil.neurialGrotesk.drawString("BINDING", button.posAndColor.x2 - FontUtil.jelloFontBoldSmall.getStringWidth("BINDING") - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+						FontUtil.neurialGrotesk.drawString("BINDING", button.posAndColor.x2 - FontUtil.kanitNormal.getStringWidth("BINDING") - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 					}else {
-						FontUtil.neurialGrotesk.drawString(Keyboard.getKeyName(((KeybindSetting)button.setting).getKeycode()), button.posAndColor.x2 - FontUtil.jelloFontBoldSmall.getStringWidth(Keyboard.getKeyName(((KeybindSetting)button.setting).getKeycode())) - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
+						FontUtil.neurialGrotesk.drawString(Keyboard.getKeyName(((KeybindSetting)button.setting).getKeycode()), button.posAndColor.x2 - FontUtil.kanitNormal.getStringWidth(Keyboard.getKeyName(((KeybindSetting)button.setting).getKeycode())) - 2, (float) (button.posAndColor.y1 + 3), moduleTextColor);
 					}
 				}
 				else if (setting instanceof NumberSetting) {

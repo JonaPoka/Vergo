@@ -339,7 +339,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
 		GlStateManager.popMatrix();
 
-		JelloFontRenderer jFR = FontUtil.jelloFont;
+		JelloFontRenderer jFR = FontUtil.arialBig;
 
 		mc.fontRendererObj.drawStringWithShadow("\2477Current Account: \247B" + mc.getSession().getUsername(), 4, 4, 0xFFFFFFFF);
 
