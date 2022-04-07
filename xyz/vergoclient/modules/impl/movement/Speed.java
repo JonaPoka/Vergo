@@ -7,10 +7,12 @@ import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
+import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.util.main.MovementUtils;
 import xyz.vergoclient.util.main.Timer;
 import xyz.vergoclient.util.main.TimerUtil;
+import xyz.vergoclient.util.movement.Movement2;
 
 import java.util.Arrays;
 
@@ -31,6 +33,8 @@ public class Speed extends Module implements OnEventInterface {
 
 	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1", "Hypixel2", "Hypixel3", "Hypixel4");
 
+	public BooleanSetting strafe = new BooleanSetting("Strafe", true);
+
 	int ticks;
 
 	@Override
@@ -38,7 +42,7 @@ public class Speed extends Module implements OnEventInterface {
 		mode.modes.clear();
 		mode.modes.addAll(Arrays.asList("Hypixel1", "Hypixel2", "Hypixel3", "Hypixel4"));
 
-		addSettings(mode);
+		addSettings(mode, strafe);
 	}
 
 	@Override
@@ -135,6 +139,9 @@ public class Speed extends Module implements OnEventInterface {
 
 		}
 
+		if(Vergo.config.modStrafe.isDisabled() && strafe.isEnabled()) {
+			Strafe.strafe();
+		}
 
 		if(!mc.thePlayer.isSprinting()) {
 			mc.thePlayer.setSprinting(true);
@@ -174,6 +181,10 @@ public class Speed extends Module implements OnEventInterface {
 
 		if(!mc.thePlayer.isSprinting()) {
 			mc.thePlayer.setSprinting(true);
+		}
+
+		if(Vergo.config.modStrafe.isDisabled() && strafe.isEnabled()) {
+			Strafe.strafe();
 		}
 
 		if(MovementUtils.isOnGround(0.0001) && !mc.thePlayer.isCollidedHorizontally) {
@@ -220,10 +231,9 @@ public class Speed extends Module implements OnEventInterface {
 			mc.thePlayer.jump();
 		}
 
-		final double yaw = MovementUtils.getDirection();
-
-		mc.thePlayer.motionX = -Math.sin(yaw) * MovementUtils.getSpeed();
-		mc.thePlayer.motionZ = Math.cos(yaw) * MovementUtils.getSpeed();
+		if(Vergo.config.modStrafe.isDisabled() && strafe.isEnabled()) {
+			Strafe.strafe();
+		}
 
 		if(event instanceof EventUpdate) {
 			EventUpdate e = (EventUpdate) event;
@@ -244,6 +254,10 @@ public class Speed extends Module implements OnEventInterface {
 			if(mc.gameSettings.keyBindForward.isKeyDown()) {
 				mc.thePlayer.setSprinting(true);
 			}
+		}
+
+		if(Vergo.config.modStrafe.isDisabled() && strafe.isEnabled()) {
+			Strafe.strafe();
 		}
 
 		mc.thePlayer.speedInAir = 0.02215637f;

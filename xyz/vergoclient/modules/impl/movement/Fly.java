@@ -24,7 +24,7 @@ public class Fly extends Module implements OnEventInterface {
 		this.timer = new Timer();
 	}
 	
-	public ModeSetting mode = new ModeSetting("Mode", "Hypixel", "Vanilla", "Hypixel");
+	public ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla"/*, "Hypixel"*/);
 
 	private float stage;
 	private boolean hasClipped;
@@ -36,7 +36,7 @@ public class Fly extends Module implements OnEventInterface {
 	public void loadSettings() {
 		
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Vanilla", "Hypixel"));
+		mode.modes.addAll(Arrays.asList("Vanilla"/*, "Hypixel"*/));
 		
 		addSettings(mode);
 	}
@@ -67,10 +67,6 @@ public class Fly extends Module implements OnEventInterface {
 
 	@Override
 	public void onEvent(Event e) {
-
-		if(e instanceof EventTick) {
-			mc.thePlayer.motionY = 0.09f;
-		}
 
 		if(e instanceof EventMove) {
 			if (mode.is("Vanilla")) {

@@ -1,5 +1,6 @@
 package xyz.vergoclient.util.main;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
@@ -50,6 +51,42 @@ public class RenderUtils2 {
         float green = (float) (colorHex >> 8 & 255) / 255.0F;
         float blue = (float) (colorHex & 255) / 255.0F;
         GL11.glColor4f(red, green, blue, alpha);
+    }
+
+    // This method and the two underneath are from Flux
+    // UPDATE: before the leak.
+    public static void setup2DRendering(Runnable f) {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(GL_TEXTURE_2D);
+        f.run();
+        glEnable(GL_TEXTURE_2D);
+        GlStateManager.disableBlend();
+    }
+
+    public static void render(int mode, Runnable render){
+        glBegin(mode);
+        render.run();
+        glEnd();
+    }
+
+    protected static Minecraft mc = Minecraft.getMinecraft();
+
+    public static void drawGoodCircle(double x, double y, float radius, int color) {
+        color(color);
+        setup2DRendering(() -> {
+            glEnable(GL_POINT_SMOOTH);
+            glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+            glPointSize(radius * (2 * mc.gameSettings.guiScale));
+            render(GL_POINTS, () -> glVertex2d(x, y));
+        });
+    }
+
+    public static void color(int color) {
+        float r = (float) (color >> 16 & 255) / 255.0F;
+        float g = (float) (color >> 8 & 255) / 255.0F;
+        float b = (float) (color & 255) / 255.0F;
+        GlStateManager.color(r, g, b, 255);
     }
 
     public static void drawFullCircle(float cx, float cy, float r) {

@@ -10,6 +10,8 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.util.main.ChatUtils;
 import xyz.vergoclient.util.main.ServerUtils;
 
+import static xyz.vergoclient.util.movement.Movement2.*;
+
 public class Strafe extends Module implements OnEventInterface {
 
     public Strafe() {
@@ -41,8 +43,34 @@ public class Strafe extends Module implements OnEventInterface {
 
         if (e instanceof EventMove) {
             EventMove event = (EventMove) e;
-
+            strafe();
         }
+    }
+
+    public static void strafe() {
+        strafe(getSpeed());
+    }
+
+    public static void strafe(EventMove e) {
+        strafe(e , getSpeed());
+    }
+
+    public static void strafe(final double d) {
+        if (!isMoving())
+            return;
+
+        final double yaw = getDirection();
+        mc.thePlayer.motionX = -Math.sin(yaw) * d;
+        mc.thePlayer.motionZ = Math.cos(yaw) * d;
+    }
+
+    public static void strafe(EventMove e , final double d) {
+        if (!isMoving())
+            return;
+
+        final double yaw = getDirection();
+        e.setX(mc.thePlayer.motionX = -Math.sin(yaw) * d);
+        e.setZ(mc.thePlayer.motionZ = Math.cos(yaw) * d);
     }
 
 }

@@ -86,6 +86,7 @@ public class ModuleManager {
 	public Notifications modNotifications = new Notifications();
 	public SessionInfo modSessionInfo = new SessionInfo();
 	public ResetVL modResetVL = new ResetVL();
+	public Criticals modCriticals = new Criticals();
 	
 	private void loadModules() {
 
@@ -130,12 +131,13 @@ public class ModuleManager {
 		modScaffold = new LoaderModule<NewScaffold>(modScaffold).generate();
 		modSpeed = new LoaderModule<Speed>(modSpeed).generate();
 		modSprint = new LoaderModule<Sprint>(modSprint).generate();
-		//modStrafe = new LoaderModule<Strafe>(modStrafe).generate();
+		modStrafe = new LoaderModule<Strafe>(modStrafe).generate();
 		//modStep = new LoaderModule<Step>(modStep).generate();
 		modVelocity = new LoaderModule<Velocity>(modVelocity).generate();
 
 		// Combat
 		modAutoClicker = new LoaderModule<AutoClicker>(modAutoClicker).generate();
+		modCriticals = new LoaderModule<Criticals>(modCriticals).generate();
 		modKillAura = new LoaderModule<KillAura>(modKillAura).generate();
 		modReach = new LoaderModule<Reach>(modReach).generate();
 		modTargetStrafe = new LoaderModule<TargetStrafe>(modTargetStrafe).generate();

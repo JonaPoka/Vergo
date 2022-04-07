@@ -211,6 +211,8 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.MapData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import xyz.vergoclient.event.impl.EventBlockDamage;
+import xyz.vergoclient.event.impl.EventTeleport;
 
 public class NetHandlerPlayClient implements INetHandlerPlayClient
 {
@@ -243,7 +245,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      * True if the client has finished downloading terrain and may spawn. Set upon receipt of S08PacketPlayerPosLook,
      * reset upon respawning
      */
-    private boolean doneLoadingTerrain;
+    public boolean doneLoadingTerrain;
     private final Map<UUID, NetworkPlayerInfo> playerInfoMap = Maps.<UUID, NetworkPlayerInfo>newHashMap();
     public int currentServerMaxPlayers = 20;
     private boolean field_147308_k = false;
@@ -675,6 +677,19 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         double d2 = packetIn.getZ();
         float f = packetIn.getYaw();
         float f1 = packetIn.getPitch();
+
+        final EventTeleport event = new EventTeleport(
+                new C03PacketPlayer.C06PacketPlayerPosLook(entityplayer.posX, entityplayer.posY, entityplayer.posZ, entityplayer.rotationYaw, entityplayer.rotationPitch, false),
+                d0,
+                d1,
+                d2,
+                f,
+                f1
+        );
+
+        event.fire();
+
+        if(event.isCanceled()) return;
 
         if (packetIn.func_179834_f().contains(S08PacketPlayerPosLook.EnumFlags.X))
         {

@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.visual;
 
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,6 +25,7 @@ import xyz.vergoclient.ui.click.GuiClickGui;
 import xyz.vergoclient.util.animations.Animation;
 import xyz.vergoclient.util.animations.Direction;
 import xyz.vergoclient.util.animations.impl.DecelerateAnimation;
+import xyz.vergoclient.util.animations.impl.EaseBackIn;
 import xyz.vergoclient.util.main.ColorUtils;
 import xyz.vergoclient.util.Gl.BloomUtil;
 import xyz.vergoclient.util.Gl.BlurUtil;
@@ -45,13 +47,13 @@ public class TargetHud extends Module implements OnEventInterface {
 		addSettings(mode);
 	}
 
-	Animation scale;
+	Animation openingAnimation;
 
 	public static double barSpeed;
 
 	@Override
 	public void onEnable() {
-		scale = new DecelerateAnimation(300, 1, Direction.FORWARDS);
+		openingAnimation = new EaseBackIn(400, .4f, 2f);
 		barSpeed = 0;
 	}
 
@@ -74,6 +76,7 @@ public class TargetHud extends Module implements OnEventInterface {
 
 	private void renderVergoTargetHud(EventRenderGUI e) {
 		if (mode.is("Vergo")) {
+			ScaledResolution sr = new ScaledResolution(mc);
 
 			EntityLivingBase ent = null;
 
@@ -145,6 +148,7 @@ public class TargetHud extends Module implements OnEventInterface {
 				BloomUtil.drawAndBloom(() -> ColorUtils.drawRoundedRect(x, y, 40 + width, 40, 10f, startColour));
 
 				GlStateManager.popMatrix();
+
 			}
 		}
 	}

@@ -6,6 +6,8 @@ import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.NumberSetting;
+import xyz.vergoclient.util.main.ChatUtils;
+import xyz.vergoclient.util.main.ServerUtils;
 import xyz.vergoclient.util.main.TimerUtil;
 
 public class ModTimer extends Module implements OnEventInterface {
@@ -27,6 +29,11 @@ public class ModTimer extends Module implements OnEventInterface {
 	public void onEnable() {
 		if (Vergo.config.modBlink.isEnabled()) {
 			Vergo.config.modBlink.toggle();
+		}
+
+		if(ServerUtils.isOnHypixel()) {
+			ChatUtils.addProtMsg("WARNING! Timer doesn't work on Hypixel!");
+			ChatUtils.addProtMsg("We recommend turning it off!");
 		}
 	}
 	

@@ -39,7 +39,7 @@ public class Vergo {
 
 	public static transient String version = "b1.01";
 
-	public static transient boolean isDev = false;
+	public static transient boolean isDev = true;
 
 	public static transient boolean beta = false;
 
