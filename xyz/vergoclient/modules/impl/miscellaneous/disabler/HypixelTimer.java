@@ -7,7 +7,6 @@ import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventSendPacket;
-import xyz.vergoclient.event.impl.EventWorldRender;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.util.main.TimerUtil;
 import xyz.vergoclient.util.packet.PacketUtil;

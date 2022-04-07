@@ -1,18 +1,22 @@
 package xyz.vergoclient.modules.impl.movement;
 
+import net.minecraft.network.play.client.C03PacketPlayer;
+import tv.twitch.chat.Chat;
 import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventMove;
+import xyz.vergoclient.event.impl.EventSendPacket;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
+import xyz.vergoclient.util.main.ChatUtils;
 import xyz.vergoclient.util.main.MovementUtils;
 import xyz.vergoclient.util.main.Timer;
 import xyz.vergoclient.util.main.TimerUtil;
-import xyz.vergoclient.util.movement.Movement2;
+import xyz.vergoclient.util.packet.PacketUtil;
 
 import java.util.Arrays;
 
@@ -84,9 +88,9 @@ public class Speed extends Module implements OnEventInterface {
 		}
 
 	}
-	
+
 	private void onHypixelEvent(Event e) {
-		
+
 		if (e instanceof EventTick && e.isPre()) {
 
 			if(mode.is("Hypixel1")) {
@@ -115,16 +119,8 @@ public class Speed extends Module implements OnEventInterface {
 					hypixelThree(e);
 				}
 			}
-		} else if(e instanceof EventMove && e.isPre()) {
-			EventMove event = (EventMove) e;
-
-			  if(mode.is("Hypixel4")) {
-				if(MovementUtils.isMoving()) {
-					hypixelFour(event);
-				}
-			}
 		}
-		
+
 	}
 
 	public static TimerUtil blinkTimer = new TimerUtil();
@@ -190,12 +186,12 @@ public class Speed extends Module implements OnEventInterface {
 		if(MovementUtils.isOnGround(0.0001) && !mc.thePlayer.isCollidedHorizontally) {
 			mc.thePlayer.motionY -= 0.023f;
 			if(mc.gameSettings.keyBindForward.isKeyDown() && !mc.gameSettings.keyBindLeft.isKeyDown() && !mc.gameSettings.keyBindRight.isKeyDown() && !mc.gameSettings.keyBindBack.isKeyDown()) {
-				MovementUtils.setSpeed(0.4895);
+				MovementUtils.setSpeed(0.49);
 				mc.thePlayer.motionX *= 1.00154;
 				mc.thePlayer.motionY *= 1.00154;
 			} else {
 				mc.timer.timerSpeed = 1.0f;
-				MovementUtils.setSpeed(0.3);
+				MovementUtils.setSpeed(0.32);
 			}
 			if (mc.thePlayer.isCollidedVertically) {
 				mc.thePlayer.motionY = 0.4;
@@ -235,51 +231,6 @@ public class Speed extends Module implements OnEventInterface {
 			Strafe.strafe();
 		}
 
-		if(event instanceof EventUpdate) {
-			EventUpdate e = (EventUpdate) event;
-
-			e.setPitch(mc.thePlayer.rotationPitch);
-			e.setYaw((float) MovementUtils.getDirection());
-		}
-
-
 	}
 
-	private void hypixelFour(EventMove event) {
-		if(mc.thePlayer.isOnLadder() || mc.thePlayer.isInWater() || mc.thePlayer.isInLava()) {
-			return;
-		}
-
-		if(!mc.thePlayer.isSprinting() && Vergo.config.modSprint.isDisabled()) {
-			if(mc.gameSettings.keyBindForward.isKeyDown()) {
-				mc.thePlayer.setSprinting(true);
-			}
-		}
-
-		if(Vergo.config.modStrafe.isDisabled() && strafe.isEnabled()) {
-			Strafe.strafe();
-		}
-
-		mc.thePlayer.speedInAir = 0.02215637f;
-
-		if(MovementUtils.isOnGround(0.001)) {
-			//mc.thePlayer.jump();
-			event.setY(0.36f);
-		} else {
-			mc.thePlayer.motionX *= 1.00130f;
-			mc.thePlayer.motionZ *= 1.00130f;
-		}
-
-		/*
-			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> 0.3799999952316284 eventY
-			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.0784000015258789 motionY
-			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.1552320045166016 motionY
-			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.230527368912964 motionY
-			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.30431682745754424 motionY
-			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.37663049823865513 motionY
-			[13:34:45] [Client thread/INFO]: [CHAT] \2474Vergo \247f>> -0.447497 89698341763 motionY
-		*/
-
-	}
-	
 }

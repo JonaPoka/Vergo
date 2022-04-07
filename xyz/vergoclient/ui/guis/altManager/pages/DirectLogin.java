@@ -59,8 +59,8 @@ public final class DirectLogin extends GuiScreen {
         final int buttonLeft = left + (fullWidth - buttonWidth) / 2;
 
         //this.buttonList.add(new GuiButton(2, buttonLeft, top + xBuffer * 2 + height * 2, buttonWidth, 20, "Add"));
-        this.buttonList.add(new GuiButton(1, buttonLeft, top + xBuffer * 2 + height * 4, buttonWidth, 20, "Direct Login"));
         this.buttonList.add(new GuiButton(0, buttonLeft, top + xBuffer * 2 + height * 3, buttonWidth, 20, "Paste Clipboard"));
+        this.buttonList.add(new GuiButton(1, buttonLeft, top + xBuffer * 2 + height * 4, buttonWidth, 20, "Direct Login"));
         this.buttonList.add(new GuiButton(3, buttonLeft, top + xBuffer * 2 + height * 5, buttonWidth, 20, "Done"));
     }
 

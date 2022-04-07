@@ -44,7 +44,7 @@ public class HTTPServer {
 
                 if(request.getUri() != null && request.getUri().contains("auth-response")) {
                     this.token = request.getUri().replace("/auth-response?code=", "");
-                    System.out.println("Token obtained! Shutting down server...");
+                    System.out.println("Token obtained! Shutting down localhost server...");
                     this.shutdown = true;
                 }
             } catch (Exception ignored) {}

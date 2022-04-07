@@ -343,7 +343,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
 		JelloFontRenderer jFR = FontUtil.arialBig;
 
-		mc.fontRendererObj.drawStringWithShadow(ChatFormatting.GRAY + "Current Account:" + ChatFormatting.AQUA + mc.getSession().getUsername(), 4, 4, 0xFFFFFFFF);
+		mc.fontRendererObj.drawStringWithShadow(ChatFormatting.GRAY + "Current Account: " + ChatFormatting.AQUA + mc.getSession().getUsername(), 4, 4, 0xFFFFFFFF);
 
 		String welcomeMsg = "Logged in as:  " + AccountUtils.account.username + "#" + FormattingUtil.formatUID();
 

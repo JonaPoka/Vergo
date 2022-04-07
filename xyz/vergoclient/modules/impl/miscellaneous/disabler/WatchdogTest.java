@@ -30,11 +30,11 @@ public class WatchdogTest implements OnEventInterface {
 
     private static Vec3 initPos;
 
-    private static long nextS;
-
     public static boolean isSendable;
 
     public static int keyNew;
+
+    // Someone sent me the code for this Disabler.
 
     @Override
     public void onEvent(Event e) {
@@ -42,6 +42,8 @@ public class WatchdogTest implements OnEventInterface {
         if(e instanceof EventMove && e.isPre()) {
             if(!ServerUtils.isOnHypixel() || mc.isSingleplayer()) return;
 
+            // If packet.size is greather than 50 and packet
+            // isn't empty, send a noEvent packet.
             if(packet.size() > 50 ) {
                 while(!packet.isEmpty()) {
                     PacketUtil.sendPacketNoEvent(packet.remove(0));
@@ -70,6 +72,11 @@ public class WatchdogTest implements OnEventInterface {
         if(p instanceof C03PacketPlayer) {
             final C03PacketPlayer c03 = (C03PacketPlayer) p;
 
+            // If one tick has existed, make a new Vec3.
+            // One tick because we need the Packet Player location.
+            // Then, if initpos has been set, terrain has loaded, and
+            // less than 100 ticks have existed, set the C03 x,y and z
+            // to the modified Vec3.
             if(mc.thePlayer.ticksExisted == 1) {
                 initPos = new Vec3(c03.x + RandomUtils.nextInt(-1000000, 1000000), c03.y + RandomUtils.nextInt(-1000000, 1000000), c03.z + RandomUtils.nextInt(-1000000, 1000000));
             } else if(mc.thePlayer.sendQueue.doneLoadingTerrain && initPos != null && mc.thePlayer.ticksExisted < 100) {
@@ -81,12 +88,16 @@ public class WatchdogTest implements OnEventInterface {
         }
 
         if(p instanceof C0FPacketConfirmTransaction) {
+            // If packet is C0f add it to the list, cancel
+            // the packet.
             packet.add(p);
             e.setCanceled(true);
             ChatUtils.addDevMessage("Test [2]");
         }
 
         if(p instanceof C00PacketKeepAlive) {
+            // Everytime keyNew %3 equals 0 add packet to list,
+            // and cancel the event.
             keyNew++;
             if(keyNew % 3 == 0) {
                 packet.add(p);
@@ -98,6 +109,13 @@ public class WatchdogTest implements OnEventInterface {
 
     private void doDisable(EventTeleport e) {
         if(!ServerUtils.isOnHypixel() || mc.isSingleplayer()) return;
+
+        // If the terrain is done loading and less than
+        // 100 ticks have existed, start the for loop.
+        // For loop sends 10 packets of the players C03C06.
+        // Then send a no event packet of e.response.
+        // Then if the distance returns true, cancel the packet.
+        // Then set pos X and Z to the defined number.
 
         if(mc.thePlayer.sendQueue.doneLoadingTerrain) {
             if(mc.thePlayer.ticksExisted < 100) {
