@@ -174,7 +174,7 @@ public class LogInGui extends GuiScreen {
                             // If response code is 521 then the webserver is down, abort everything.
                             if(httpStatusCode == 521) {
 
-                                loggingInStatus = "Vergo is down. Check log for more informaion.";
+                                loggingInStatus = "Vergo is down. Check log for more information.";
                                 System.out.println("The Vergo website is currently down or unreachable. Make sure you have an internet connection.");
                                 System.out.println("If you are sure that you do, check https://vergoclient.xyz | If it is down, check Discord for information.");
                                 System.out.println("If nothing has been said on Discord, please report it to one of Vergo's developers.");
@@ -253,6 +253,7 @@ public class LogInGui extends GuiScreen {
                         }
                     } catch (Exception e) {
                         loggingInStatus = "Login Failed!";
+                        e.printStackTrace();
                     }
                     isLoggingIn = false;
                 }).start();

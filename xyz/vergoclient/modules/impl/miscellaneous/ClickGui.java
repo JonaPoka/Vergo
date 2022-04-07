@@ -1,8 +1,7 @@
 package xyz.vergoclient.modules.impl.miscellaneous;
 
 import xyz.vergoclient.modules.Module;
-import xyz.vergoclient.settings.ModeSetting;
-import xyz.vergoclient.ui.guis.GuiClickGui;
+import xyz.vergoclient.ui.click.GuiClickGui;
 
 public class ClickGui extends Module {
 

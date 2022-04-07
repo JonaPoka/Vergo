@@ -2,7 +2,7 @@ package xyz.vergoclient.files;
 
 import xyz.vergoclient.keybinds.KeyboardManager;
 import xyz.vergoclient.ui.guis.GuiAltManager;
-import xyz.vergoclient.ui.guis.GuiClickGui;
+import xyz.vergoclient.ui.click.GuiClickGui;
 
 public class FileSaver {
 	

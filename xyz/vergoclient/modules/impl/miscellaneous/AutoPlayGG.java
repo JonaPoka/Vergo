@@ -19,7 +19,7 @@ public class AutoPlayGG extends Module implements OnEventInterface {
         super("AutoPlay", Category.MISCELLANEOUS);
     }
 
-    public static NumberSetting commandDelay = new NumberSetting("Delay", 1000, 0, 5000, 10);
+    //public static NumberSetting commandDelay = new NumberSetting("Delay", 1000, 0, 5000, 10);
 
     public ModeSetting teamMode = new ModeSetting("Team Mode", "Sky Solo Normal", "Sky Solo Normal", "Sky Solo Insane");
 
@@ -44,7 +44,7 @@ public class AutoPlayGG extends Module implements OnEventInterface {
     @Override
     public void loadSettings() {
 
-        addSettings(commandDelay, teamMode, autoGG);
+        addSettings(teamMode, autoGG);
     }
 
     @Override
@@ -81,8 +81,8 @@ public class AutoPlayGG extends Module implements OnEventInterface {
     }
 
     public void doCommands() {
-        autoTimer.reset();
-        if(autoTimer.hasTimeElapsed(commandDelay.getValueAsLong(), true)) {
+        //autoTimer.reset();
+        //if(autoTimer.hasTimeElapsed(commandDelay.getValueAsLong(), true)) {
             if (teamMode.is("Sky Solo Normal")) {
                 mc.thePlayer.sendChatMessage("/play solo_normal");
             } else if (teamMode.is("Sky Solo Insane")) {
@@ -92,7 +92,7 @@ public class AutoPlayGG extends Module implements OnEventInterface {
             } else if (teamMode.is("Teams Insane")) {
                 mc.thePlayer.sendChatMessage("/play teams_insane");
             }
-        }
+        //}
     }
 
 }

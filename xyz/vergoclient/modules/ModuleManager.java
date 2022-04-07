@@ -124,6 +124,7 @@ public class ModuleManager {
 		modAntivoid = new LoaderModule<AntiVoid>(modAntivoid).generate();
 		modDownClip = new LoaderModule<DownClip>(modDownClip).generate();
 		modFly = new LoaderModule<Fly>(modFly).generate();
+		modInvMove = new LoaderModule<InvMove>(modInvMove).generate();
 		modLongJump = new LoaderModule<LongJump>(modLongJump).generate();
 		modNoSlow = new LoaderModule<NoSlow>(modNoSlow).generate();
 		modScaffold = new LoaderModule<NewScaffold>(modScaffold).generate();

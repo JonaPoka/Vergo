@@ -14,7 +14,7 @@ import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.tasks.backgroundTasks.sessionInfo.SessionBGTask;
 import xyz.vergoclient.ui.guis.GuiAltManager;
-import xyz.vergoclient.ui.guis.GuiClickGui;
+import xyz.vergoclient.ui.click.GuiClickGui;
 import xyz.vergoclient.ui.guis.GuiStart;
 import xyz.vergoclient.ui.guis.LogInGui;
 import xyz.vergoclient.ui.hud.Hud;
@@ -37,7 +37,7 @@ public class Vergo {
 
 	public static Discord discord = new Discord();
 
-	public static transient String version = "b1.0";
+	public static transient String version = "b1.01";
 
 	public static transient boolean isDev = false;
 
@@ -68,10 +68,8 @@ public class Vergo {
 						
 						if (FileManager.defaultKeybindsFile.exists()) {
 							KeyboardManager.keybinds = FileManager.readFromFile(FileManager.defaultKeybindsFile, new FileKeybinds());
-							System.out.println(KeyboardManager.keybinds);
 						}else {
 							KeyboardManager.keybinds = new FileKeybinds();
-							System.out.println(KeyboardManager.keybinds);
 						}
 						
 						if (FileManager.altsFile.exists()) {
