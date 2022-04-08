@@ -345,7 +345,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
 		mc.fontRendererObj.drawStringWithShadow(ChatFormatting.GRAY + "Current Account: " + ChatFormatting.AQUA + mc.getSession().getUsername(), 4, 4, 0xFFFFFFFF);
 
-		String welcomeMsg = "Logged in as:  " + AccountUtils.account.username + "#" + FormattingUtil.formatUID();
+		String welcomeMsg = "Logged in as: " + AccountUtils.account.username + "#" + FormattingUtil.formatUID();
 
 		String betaMsg = "You are on a BETA build of Vergo";
 		String devMsg = "You are on a DEV build of Vergo";
