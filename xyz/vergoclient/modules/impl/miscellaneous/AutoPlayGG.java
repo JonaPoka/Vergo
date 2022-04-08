@@ -21,7 +21,7 @@ public class AutoPlayGG extends Module implements OnEventInterface {
 
     //public static NumberSetting commandDelay = new NumberSetting("Delay", 1000, 0, 5000, 10);
 
-    public ModeSetting teamMode = new ModeSetting("Team Mode", "Sky Solo Normal", "Sky Solo Normal", "Sky Solo Insane");
+    public ModeSetting teamMode = new ModeSetting("Team Mode", "Solo Normal", "Solo Normal", "Solo Insane");
 
     public static BooleanSetting autoGG = new BooleanSetting("Auto-GG", true);
 
@@ -61,7 +61,7 @@ public class AutoPlayGG extends Module implements OnEventInterface {
             if (packetEvent.packet instanceof S02PacketChat) {
                 S02PacketChat packet = (S02PacketChat) packetEvent.packet;
 
-                if (teamMode.is("Sky Solo Normal") || teamMode.is("Sky Solo Insane")) {
+                if (teamMode.is("Solo Normal") || teamMode.is("Solo Insane")) {
                     if (packet.getChatComponent().getUnformattedText().contains("You died! Want to play again?") || packet.getChatComponent().getUnformattedText().contains("You won! Want to play again?") ||
                             packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to return to lobby!") || packet.getChatComponent().getUnformattedText().contains("Queued! Use the bed to cancel!")) {
 
@@ -83,9 +83,10 @@ public class AutoPlayGG extends Module implements OnEventInterface {
     public void doCommands() {
         //autoTimer.reset();
         //if(autoTimer.hasTimeElapsed(commandDelay.getValueAsLong(), true)) {
-            if (teamMode.is("Sky Solo Normal")) {
+        if (autoTimer.hasTimeElapsed(3000, true))
+            if (teamMode.is("Solo Normal")) {
                 mc.thePlayer.sendChatMessage("/play solo_normal");
-            } else if (teamMode.is("Sky Solo Insane")) {
+            } else if (teamMode.is("Solo Insane")) {
                 mc.thePlayer.sendChatMessage("/play solo_insane");
             } else if (teamMode.is("Teams Normal")) {
                 mc.thePlayer.sendChatMessage("/play teams_normal");
