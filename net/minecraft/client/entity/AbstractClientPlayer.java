@@ -2,6 +2,7 @@ package net.minecraft.client.entity;
 
 import com.mojang.authlib.GameProfile;
 
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.impl.EventSetCape;
 import xyz.vergoclient.event.impl.EventSetSkin;
 
@@ -88,14 +89,10 @@ public abstract class AbstractClientPlayer extends EntityPlayer
      */
     public ResourceLocation getLocationSkin()
     {
-    	
-    	EventSetSkin event = new EventSetSkin(this, DefaultPlayerSkin.getDefaultSkin(this.getUniqueID()));
-    	event.fire();
-    	if (event.resourceLocation != DefaultPlayerSkin.getDefaultSkin(this.getUniqueID())) {
-    		return event.resourceLocation;
-    	}
-    	
-    	
+        EventSetSkin event = new EventSetSkin(this, DefaultPlayerSkin.getDefaultSkin(this.getUniqueID()));
+        event.fire();
+
+
         NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
         return networkplayerinfo == null ? DefaultPlayerSkin.getDefaultSkin(this.getUniqueID()) : networkplayerinfo.getLocationSkin();
         
@@ -103,11 +100,6 @@ public abstract class AbstractClientPlayer extends EntityPlayer
 
     public ResourceLocation getLocationCape()
     {
-    	
-    	EventSetCape event = new EventSetCape(this, null);
-    	event.fire();
-    	if (event.resourceLocation != null)
-    		return event.resourceLocation;
     	
         if (!Config.isShowCapes())
         {
@@ -119,6 +111,16 @@ public abstract class AbstractClientPlayer extends EntityPlayer
         }
         else
         {
+            if(this == Minecraft.getMinecraft().thePlayer && Vergo.config.modCape.isEnabled()) {
+                EventSetCape event = new EventSetCape(this, new ResourceLocation("Vergo/cape.png"));
+                event.fire();
+
+                if (event.resourceLocation != null)
+                    return event.resourceLocation;
+            } else {
+
+            }
+
             NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
             return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
         }

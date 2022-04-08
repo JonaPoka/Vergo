@@ -74,7 +74,7 @@ public class ModuleManager {
 	public Teams modTeams = new Teams();
 	public BanChecker modBanChecker = new BanChecker();
 	public Reach modReach = new Reach();
-	public ConfigSaver modAutoSaveConfig = new ConfigSaver();
+	public Cape modCape = new Cape();
 	public Hud modHud = new Hud();
 	public Nametags modNametags = new Nametags();
 	public StorageESP modChestESP = new StorageESP();
@@ -107,6 +107,7 @@ public class ModuleManager {
 		modAntibot = new LoaderModule<AntiBot>(modAntibot).generate();
 		modAutoPlay = new LoaderModule<AutoPlayGG>(modAutoPlay).generate();
 		modBlink = new LoaderModule<Blink>(modBlink).generate();
+		modCape = new LoaderModule<Cape>(modCape).generate();
 		modClickgui = new LoaderModule<ClickGui>(modClickgui).generate();
 		modDisabler = new LoaderModule<Disabler>(modDisabler).generate();
 		modResetVL = new LoaderModule<ResetVL>(modResetVL).generate();

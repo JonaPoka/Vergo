@@ -35,7 +35,7 @@ public class Speed extends Module implements OnEventInterface {
 		this.packTimer = new Timer();
 	}
 
-	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1", "Hypixel2", "Hypixel3", "Hypixel4");
+	public ModeSetting mode = new ModeSetting("Mode", "Hypixel1", "Hypixel1", "Hypixel2", "Hypixel3");
 
 	public BooleanSetting strafe = new BooleanSetting("Strafe", true);
 
@@ -44,7 +44,7 @@ public class Speed extends Module implements OnEventInterface {
 	@Override
 	public void loadSettings() {
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Hypixel1", "Hypixel2", "Hypixel3", "Hypixel4"));
+		mode.modes.addAll(Arrays.asList("Hypixel1", "Hypixel2", "Hypixel3"));
 
 		addSettings(mode, strafe);
 	}
@@ -83,9 +83,6 @@ public class Speed extends Module implements OnEventInterface {
 		} else if(mode.is("Hypixel3")) {
 			onHypixelEvent(e);
 		}
-		else if(mode.is("Hypixel4")) {
-			onHypixelEvent(e);
-		}
 
 	}
 
@@ -99,9 +96,6 @@ public class Speed extends Module implements OnEventInterface {
 				setInfo("Hypixel2");
 			} else if(mode.is("Hypixel3")) {
 				setInfo("Hypixel3");
-			}
-			else if(mode.is("Hypixel4")) {
-				setInfo("Hypixel4");
 			}
 
 		} else if (e instanceof EventUpdate && e.isPre()) {

@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.miscellaneous;
 
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
@@ -24,7 +25,11 @@ public class Disabler extends Module implements OnEventInterface {
 	public void loadSettings() {
 
 		mode.modes.clear();
-		mode.modes.addAll(Arrays.asList("Watchdog", "HypixelTest"));
+		if(Vergo.isDev) {
+			mode.modes.addAll(Arrays.asList("Watchdog", "HypixelTest"));
+		} else {
+			mode.modes.addAll(Arrays.asList("Watchdog"));
+		}
 		addSettings(mode);
 		
 	}
@@ -32,8 +37,10 @@ public class Disabler extends Module implements OnEventInterface {
 	@Override
 	public void onEnable() {
 
-		if(mode.is("HypixelTest")) {
-			ChatUtils.addProtMsg("Warning! Experimental Disabler!");
+		if(mode.is("Hypixel Test")) {
+			if(!Vergo.isDev) {
+				mode.setMode("Watchdog");
+			}
 		}
 
 	}
@@ -55,6 +62,7 @@ public class Disabler extends Module implements OnEventInterface {
 		}
 
 		if(mode.is("Watchdog")) {
+
 			// Strafe Disabler
 			HypixelStrafe hypixelStrafe = new HypixelStrafe();
 			hypixelStrafe.onEvent(e);
@@ -62,6 +70,7 @@ public class Disabler extends Module implements OnEventInterface {
 			// Timer Disabler
 			HypixelTimer hypixelTimer = new HypixelTimer();
 			hypixelTimer.onEvent(e);
+
 		} else if(mode.is("HypixelTest")) {
 			WatchdogTest wdTest = new WatchdogTest();
 			wdTest.onEvent(e);
