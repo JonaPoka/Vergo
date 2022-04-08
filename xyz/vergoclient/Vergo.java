@@ -1,5 +1,7 @@
 package xyz.vergoclient;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import org.apache.http.client.methods.HttpPost;
@@ -13,6 +15,7 @@ import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.tasks.backgroundTasks.sessionInfo.SessionBGTask;
+import xyz.vergoclient.ui.click.test.ClickGUI;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.ui.click.GuiClickGui;
 import xyz.vergoclient.ui.guis.GuiStart;
@@ -57,6 +60,10 @@ public class Vergo {
 		return notificationManager;
 	}
 
+	@Getter
+	@Setter
+	private static ClickGUI clickGUI;
+
 	public static void startup() {
 		
 		// Startup tasks initiate here.
@@ -95,6 +102,12 @@ public class Vergo {
 					public void task() {
 						config = new ModuleManager();
 						config.init();
+					}
+				},
+				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
+					@Override
+					public void task() {
+						setClickGUI(new ClickGUI());
 					}
 				},
 				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {

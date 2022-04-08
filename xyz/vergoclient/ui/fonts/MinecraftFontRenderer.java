@@ -192,6 +192,10 @@ public class MinecraftFontRenderer extends CFont {
 //        RenderSystem.setColor(Color.WHITE);
         return (float)x2 / 2.0f;
     }
+
+    public float getMiddleOfBox(float boxHeight) {
+        return boxHeight / 2f - getHeight() / 2f;
+    }
     
     public float drawSmoothString(String text, double x2, double y2, int color, boolean shadow) {
         x2 -= 1.0;

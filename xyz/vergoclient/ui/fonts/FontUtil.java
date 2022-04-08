@@ -181,7 +181,6 @@ public class FontUtil {
 		return font;
 	}
 
-	
 	public static Minecraft mc = Minecraft.getMinecraft();
 	public static FontRenderer fr = mc.fontRendererObj;
 	/*public static JelloFontRenderer jelloFont = JelloFontRenderer.createFontRenderer(getJelloFont(20, false));

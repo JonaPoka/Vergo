@@ -10,6 +10,7 @@ import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL14.glBlendFuncSeparate;
+import static xyz.vergoclient.ui.notifications.ingame.NotificationManager.interpolate;
 
 public class ColorUtils {
     /*
@@ -18,6 +19,64 @@ public class ColorUtils {
         Forever grateful <3
 
      */
+
+    public static int darker(int hexColor, int factor) {
+        float alpha = (float) (hexColor >> 24 & 255);
+        float red = Math.max((float) (hexColor >> 16 & 255) - (float) (hexColor >> 16 & 255) / (100.0F / (float) factor), 0.0F);
+        float green = Math.max((float) (hexColor >> 8 & 255) - (float) (hexColor >> 8 & 255) / (100.0F / (float) factor), 0.0F);
+        float blue = Math.max((float) (hexColor & 255) - (float) (hexColor & 255) / (100.0F / (float) factor), 0.0F);
+        return (int) ((float) (((int) alpha << 24) + ((int) red << 16) + ((int) green << 8)) + blue);
+    }
+
+    public static Color brighter(Color color, float FACTOR) {
+        int r = color.getRed();
+        int g = color.getGreen();
+        int b = color.getBlue();
+        int alpha = color.getAlpha();
+
+        /* From 2D group:
+         * 1. black.brighter() should return grey
+         * 2. applying brighter to blue will always return blue, brighter
+         * 3. non pure color (non zero rgb) will eventually return white
+         */
+        int i = (int) (1.0 / (1.0 - FACTOR));
+        if (r == 0 && g == 0 && b == 0) {
+            return new Color(i, i, i, alpha);
+        }
+        if (r > 0 && r < i) r = i;
+        if (g > 0 && g < i) g = i;
+        if (b > 0 && b < i) b = i;
+
+        return new Color(Math.min((int) (r / FACTOR), 255),
+                Math.min((int) (g / FACTOR), 255),
+                Math.min((int) (b / FACTOR), 255),
+                alpha);
+    }
+
+    //The next few methods are for interpolating colors
+    public static int interpolateColor(Color color1, Color color2, float amount) {
+        amount = Math.min(1, Math.max(0, amount));
+        return interpolateColorC(color1, color2, amount).getRGB();
+    }
+
+    public static int interpolateColor(int color1, int color2, float amount) {
+        amount = Math.min(1, Math.max(0, amount));
+        Color cColor1 = new Color(color1);
+        Color cColor2 = new Color(color2);
+        return interpolateColorC(cColor1, cColor2, amount).getRGB();
+    }
+
+    public static Color interpolateColorC(Color color1, Color color2, float amount) {
+        amount = Math.min(1, Math.max(0, amount));
+        return new Color(interpolateInt(color1.getRed(), color2.getRed(), amount),
+                interpolateInt(color1.getGreen(), color2.getGreen(), amount),
+                interpolateInt(color1.getBlue(), color2.getBlue(), amount),
+                interpolateInt(color1.getAlpha(), color2.getAlpha(), amount));
+    }
+
+    public static int interpolateInt(int oldValue, int newValue, double interpolationValue){
+        return interpolate(oldValue, newValue, (float) interpolationValue).intValue();
+    }
 
     public static Color rainbow(int speed, int index, float saturation, float brightness, float opacity) {
         int angle = (int) ((System.currentTimeMillis() / speed + index) % 360);
