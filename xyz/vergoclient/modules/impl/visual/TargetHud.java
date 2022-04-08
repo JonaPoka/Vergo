@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.visual;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,9 +20,11 @@ import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.modules.impl.combat.KillAura;
 import xyz.vergoclient.settings.ModeSetting;
+import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.ui.click.GuiClickGui;
+import xyz.vergoclient.util.Gl.extras.RoundedUtils;
 import xyz.vergoclient.util.animations.Animation;
 import xyz.vergoclient.util.animations.Direction;
 import xyz.vergoclient.util.animations.impl.DecelerateAnimation;
@@ -30,6 +33,7 @@ import xyz.vergoclient.util.main.ColorUtils;
 import xyz.vergoclient.util.Gl.BloomUtil;
 import xyz.vergoclient.util.Gl.BlurUtil;
 import xyz.vergoclient.util.main.RenderUtils;
+import xyz.vergoclient.util.render.RenderUtils3;
 
 import java.awt.*;
 
@@ -41,10 +45,13 @@ public class TargetHud extends Module implements OnEventInterface {
 
 	public ModeSetting mode = new ModeSetting("Mode", "Vergo", "Vergo");
 
+	public NumberSetting xPos = new NumberSetting("X Pos", 484, 0, 1000, 10),
+						 yPos = new NumberSetting("Y Pos", 383, 0, 1000, 10);
+
 	@Override
 	public void loadSettings() {
 
-		addSettings(mode);
+		addSettings(mode, xPos, yPos);
 	}
 
 	Animation openingAnimation;
@@ -93,8 +100,6 @@ public class TargetHud extends Module implements OnEventInterface {
 			if (ent != null) {
 				GlStateManager.pushMatrix();
 
-				GlStateManager.translate(484, 383, 1);
-
 				double barSpeed = 6;
 				if (healthBar > healthBarTarget) {
 					healthBar = ((healthBar) - ((healthBar - healthBarTarget) / barSpeed));
@@ -113,18 +118,18 @@ public class TargetHud extends Module implements OnEventInterface {
 				String clientTag = "";
 
 				// All the location and scale data.
-				float x = 484;
-				float y = 383;
 				float width = (float) Math.max(75, FontUtil.arialMedium.getStringWidth(clientTag + playerName) + 25);
 				float boxScale = 1;
+
+				// Sets everything to the right position.
+				GlStateManager.translate(xPos.getValueAsInt(), yPos.getValueAsInt(), 1);
 
 				// Draws The Text
 				fr.drawString(playerName, 30f, 4f, -1);
 				fr.drawString(healthStr, 37 + width - FontUtil.bakakakmedium.getStringWidth(healthStr) - 2, 4f, -1);
 
 				// This draws the background blur
-				BlurUtil.blurAreaRounded(x, y, 40 + width, 40, 5f);
-
+				BlurUtil.blurAreaRounded(xPos.getValueAsInt(), yPos.getValueAsInt(), 40 + width, 40, 5f);
 
 				// This draws the players 3D model.
 				drawPlayerModel(ent);
@@ -135,17 +140,26 @@ public class TargetHud extends Module implements OnEventInterface {
 					healthBar = 82;
 				}
 
+				GlStateManager.popMatrix();
 
 				final int startColour = ColorUtils.fadeBetween(new Color(255, 0, 115).getRGB(), new Color(109, 0, 182).getRGB(), 0);
 				final int endColour = ColorUtils.fadeBetween(new Color(255, 0, 115).getRGB(), new Color(109, 0, 182).getRGB(), 250);
 
-				RenderUtils.drawAlphaRoundedRect(27, 30, 82, 5f, 0f, getColor(5, 7, 15, 90));
+				RenderUtils.drawAlphaRoundedRect(xPos.getValueAsInt() + 27, yPos.getValueAsInt() + 30, 82, 5f, 0f, getColor(5, 7, 15, 90));
 
-				ColorUtils.glDrawSidewaysGradientRect(27, 30f, healthBar, 5f, endColour, startColour);
+				//BloomUtil.drawAndBloom(() -> ColorUtils.drawRoundedRect(xPos.getValueAsInt(), yPos.getValueAsInt(), 40 + width, 40, 10f, startColour));
 
-				BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(x + 27, y + 29.5f, healthBar, 5f, endColour, startColour));
+				RoundedUtils.drawRoundOutline(xPos.getValueAsFloat(), yPos.getValueAsFloat(), 40 + width, 40, 3f, .2f, ColorUtils.applyOpacity(Color.white, 0), new Color(startColour));
 
-				BloomUtil.drawAndBloom(() -> ColorUtils.drawRoundedRect(x, y, 40 + width, 40, 10f, startColour));
+				ColorUtils.glDrawSidewaysGradientRect(xPos.getValueAsInt() + 27, yPos.getValueAsInt() + 30, healthBar, 5f, endColour, startColour);
+
+				GlStateManager.pushMatrix();
+				GlStateManager.translate(1, yPos.getValueAsInt() + 1, 1);
+
+				if(ent instanceof EntityPlayer) {
+					EntityPlayer player = (EntityPlayer) ent;
+					renderArmor(player, xPos.getValueAsInt() + 65);
+				}
 
 				GlStateManager.popMatrix();
 

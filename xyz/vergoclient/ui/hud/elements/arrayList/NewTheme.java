@@ -39,6 +39,8 @@ public class NewTheme implements OnEventInterface {
 
         JelloFontRenderer fr = FontUtil.kanitNormal;
 
+        ScaledResolution sr = new ScaledResolution(mc);
+
         ArrayList<Module> modules = new ArrayList<>();
         ModuleManager.modules.forEach(module -> {
             if (module.arrayListAnimation > 0.01 || module.isEnabled()) modules.add(module);
@@ -47,6 +49,9 @@ public class NewTheme implements OnEventInterface {
         Collections.reverse(modules);
 
         boolean updateToggleMovement = arrayListToggleMovement.hasTimeElapsed(1000 / 40, true);
+
+        final int startColour = ColorUtils.fadeBetween(new Color(109, 0, 182).getRGB(), new Color(120, 0, 192).getRGB(), 0);
+        final int endColour = ColorUtils.fadeBetween(new Color(109, 0, 182).getRGB(), new Color(120, 0, 192).getRGB(), 250);
 
         double offset = 0;
         for (Module module : modules) {
@@ -67,13 +72,15 @@ public class NewTheme implements OnEventInterface {
                 }
             }
 
-            ScaledResolution sr = new ScaledResolution(mc);
-
             GlStateManager.pushMatrix();
 
             double squeeze = module.arrayListAnimation * 2;
             if (squeeze > 1)
                 squeeze = 1;
+
+            String finalTextToRender = textToRender;
+            double finalOffset = offset;
+            BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(sr.getScaledWidth() - fr.getStringWidth(finalTextToRender) - 6.5, (double) 2.5, fr.getStringWidth(finalTextToRender) + 6.5, 1, startColour, endColour));
 
             GlStateManager.translate((float) (sr.getScaledWidth() - (fr.getStringWidth(textToRender) / 2) - 2), (float) (offset * (fr.FONT_HEIGHT + 4)) + 0, 0);
 
@@ -83,18 +90,7 @@ public class NewTheme implements OnEventInterface {
 
             BlurUtil.blurArea(sr.getScaledWidth() - fr.getStringWidth(textToRender) - 6.5, 3, sr.getScaledWidth(), (offset + 1) * (fr.FONT_HEIGHT + 4));
 
-            String finalString = textToRender;
-            double finalOffset = offset;
-
             //BloomUtil.drawAndBloom(() -> RenderUtils2.drawRect((float) (sr.getScaledWidth() - fr.getStringWidth(finalString) - 6.5), 0, sr.getScaledWidth(), (float) (finalOffset + 1) * (fr.FONT_HEIGHT + 4), new Color(30, 30, 30).getRGB()));
-
-            final String finalText = textToRender;
-            final double offsetFin = offset;
-
-            final int startColour = ColorUtils.fadeBetween(new Color(109, 0, 182).getRGB(), new Color(120, 0, 192).getRGB(), 0);
-            final int endColour = ColorUtils.fadeBetween(new Color(109, 0, 182).getRGB(), new Color(120, 0, 192).getRGB(), 250);
-
-            BloomUtil.drawAndBloom(() -> ColorUtils.glDrawSidewaysGradientRect(sr.getScaledWidth() - fr.getStringWidth(finalText) - 6.5, (double) 2.5, (offsetFin + 1) * (fr.FONT_HEIGHT + 4), 1, startColour, endColour));
 
             float align = 3.5f;
 

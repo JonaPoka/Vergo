@@ -3,6 +3,7 @@ package xyz.vergoclient.modules.impl.combat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.EnumFacing;
 import org.apache.commons.lang3.RandomUtils;
@@ -54,7 +55,7 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 	public NumberSetting rangeSetting = new NumberSetting("Range", 3.8, 0.5, 6, 0.1),
 			minApsSetting = new NumberSetting("Min", 10, 0.1, 20, 0.1),
 			maxApsSetting = new NumberSetting("Max", 14, 0.1, 20, 0.1),
-	tickSwitchTimeSetting = new NumberSetting("Switch Timer", 20, 1, 200, 1);
+	tickSwitchTimeSetting = new NumberSetting("Switch Timer", 20, 1, 100, 1);
 	public BooleanSetting targetPlayersSetting = new BooleanSetting("Players", true),
 			targetAnimalsSetting = new BooleanSetting("Animals", false),
 			targetMobsSetting = new BooleanSetting("Mobs", false),
@@ -63,7 +64,7 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 	visualizeTargetCircle = new BooleanSetting("Visualize Target", true);
 	public ModeSetting targetSelectionSetting = new ModeSetting("Attack Mode", "Switch", "Switch", "Single"),
 			targetSortingSetting = new ModeSetting("Priority", "Health", "Health", "Distance"),
-			rotationSetting = new ModeSetting("Rotations", "Lock", /*"Smooth",*/ "Lock"/*, "Spin", "None", "Almost legit", "Bezier Curve"*/),
+			rotationSetting = new ModeSetting("Rotations", "Lock", "Smoother", "Lock"/*, "Spin", "None", "Almost legit", "Bezier Curve"*/),
 			autoblockSetting = new ModeSetting("Block Mode", "Hypixel");
 
 	@Override
@@ -72,8 +73,10 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 		autoblockSetting.modes.clear();
 		autoblockSetting.modes.addAll(Arrays.asList("None", "Hypixel"));
 
+		rotationSetting.modes.addAll(Arrays.asList("Lock", "Smoother"));
+
 		addSettings(rangeSetting, minApsSetting, maxApsSetting, targetPlayersSetting, targetAnimalsSetting,
-				targetMobsSetting, targetOtherSetting, rayTraceCheck, targetSelectionSetting, targetSortingSetting,
+				targetMobsSetting, targetOtherSetting, rayTraceCheck, rotationSetting, targetSelectionSetting, targetSortingSetting,
 				autoblockSetting, visualizeTargetCircle);
 
 	}
@@ -206,19 +209,44 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 			if ((!autoblockSetting.is("Legit") || !apsTimer.hasTimeElapsed((long) (1000 / currentAps), false)))
 				block(true);
 
-			// Sets the rotations
-			boolean shouldHit = setRotations(event);
+			if(rotationSetting.is("Lock")) {
+				// Sets the rotations
+				boolean shouldHit = setRotations(event);
 
-			RenderUtils.setCustomYaw(event.getYaw());
-			RenderUtils.setCustomPitch(event.getPitch());
+				// If the rotations haven't looked at the player yet then don't send a damage
+				// packet
+				if (!shouldHit)
+					return;
 
-			// So rotations don't ban
-			lastTarget = target;
+				RenderUtils.setCustomYaw(event.getYaw());
+				RenderUtils.setCustomPitch(event.getPitch());
+			} else if(rotationSetting.is("Smoother")) {
 
-			// If the rotations haven't looked at the player yet then don't send a damage
-			// packet
-			if (!shouldHit)
-				return;
+				// New Updated Smoother Rotations
+				float[] rotations = getRotationsToEnt(target);
+
+				// So rotations don't ban
+				lastTarget = target;
+
+				// Gets the sensitivity, then sets the rotations to the correct thing.
+				float sens = RotationUtils.getSensitivityMultiplier();
+
+				// Smooth the rotations.
+				rotations[0] = RotationUtils.smoothRotation(mc.thePlayer.rotationYaw, rotations[0], 360);
+				rotations[1] = RotationUtils.smoothRotation(mc.thePlayer.rotationPitch, rotations[1], 90);
+
+				// Round Up The rotations.
+				rotations[0] = Math.round(rotations[0] / sens) * sens;
+				rotations[1] = Math.round(rotations[1] / sens) * sens;
+
+				// Client sided rotations.
+				RenderUtils.setCustomYaw(rotations[0]);
+				RenderUtils.setCustomPitch(rotations[1]);
+
+				// Server-sided Rotations.
+				event.setYaw(rotations[0]);
+				event.setPitch(rotations[1]);
+			}
 
 			// Hits at the aps that the user set
 			if (apsTimer.hasTimeElapsed((long) (1000 / currentAps), true)) {
@@ -312,8 +340,21 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 	// Returns false if the rotation is not finished
 	public static transient float lastYaw = 0, lastPitch = 0;
 
-	private boolean setRotations(EventUpdate e) {
+	private float[] getRotationsToEnt(Entity ent) {
+		final double differenceX = ent.posX - mc.thePlayer.posX;
+		final double differenceY = (ent.posY + ent.height) - (mc.thePlayer.posY + mc.thePlayer.height) - 0.5;
+		final double differenceZ = ent.posZ - mc.thePlayer.posZ;
+		final float rotationYaw = (float) (Math.atan2(differenceZ, differenceX) * 180.0D / Math.PI) - 90.0f;
+		final float rotationPitch = (float) (Math.atan2(differenceY, mc.thePlayer.getDistanceToEntity(ent)) * 180.0D
+				/ Math.PI);
+		final float finishedYaw = mc.thePlayer.rotationYaw
+				+ MathHelper.wrapAngleTo180_float(rotationYaw - mc.thePlayer.rotationYaw);
+		final float finishedPitch = mc.thePlayer.rotationPitch
+				+ MathHelper.wrapAngleTo180_float(rotationPitch - mc.thePlayer.rotationPitch);
+		return new float[]{finishedYaw, -MathHelper.clamp_float(finishedPitch, -90, 90)};
+	}
 
+	private boolean setRotations(EventUpdate e) {
 
 		if (rotationSetting.is("Lock")) {
 			float[] rots = RotationUtils.getRotationToEntity(target);

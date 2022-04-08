@@ -15,7 +15,6 @@ import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.ModuleManager;
 import xyz.vergoclient.security.account.AccountUtils;
 import xyz.vergoclient.tasks.backgroundTasks.sessionInfo.SessionBGTask;
-import xyz.vergoclient.ui.click.test.ClickGUI;
 import xyz.vergoclient.ui.guis.GuiAltManager;
 import xyz.vergoclient.ui.click.GuiClickGui;
 import xyz.vergoclient.ui.guis.GuiStart;
@@ -60,9 +59,9 @@ public class Vergo {
 		return notificationManager;
 	}
 
-	@Getter
-	@Setter
-	private static ClickGUI clickGUI;
+	//@Getter
+	//@Setter
+	//private static ClickGUI clickGUI;
 
 	public static void startup() {
 		
@@ -104,12 +103,12 @@ public class Vergo {
 						config.init();
 					}
 				},
-				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
-					@Override
-					public void task() {
-						setClickGUI(new ClickGUI());
-					}
-				},
+				//new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
+				//	@Override
+				//	public void task() {
+						//setClickGUI(new ClickGUI());
+					//}
+				//},
 				new StartupTask(RandomStringUtil.getRandomLoadingMsg()) {
 					@Override
 					public void task() {
@@ -121,13 +120,11 @@ public class Vergo {
 					public void task() {
 						if (FileManager.clickguiTabs.exists()) {
 							GuiClickGui.tabs = FileManager.readFromFile(FileManager.clickguiTabs, new GuiClickGui.TabFile());
-							System.out.println(GuiClickGui.tabs);
 						}else {
 							for (Module.Category category : Module.Category.values()) {
 								GuiClickGui.ClickguiTab clickguiTab = new GuiClickGui.ClickguiTab();
 								clickguiTab.category = category;
 								GuiClickGui.tabs.tabs.add(clickguiTab);
-								System.out.println(GuiClickGui.tabs);
 							}
 						}
 					}

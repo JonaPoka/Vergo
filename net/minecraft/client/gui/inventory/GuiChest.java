@@ -7,6 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
+import xyz.vergoclient.Vergo;
+import xyz.vergoclient.modules.impl.miscellaneous.InvMove;
 
 public class GuiChest extends GuiContainer
 {

@@ -9,7 +9,26 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 public class RotationUtils {
-	
+
+	public static float getSensitivityMultiplier() {
+		float SENSITIVITY = Minecraft.getMinecraft().gameSettings.mouseSensitivity * 0.6F + 0.2F;
+		return (SENSITIVITY * SENSITIVITY * SENSITIVITY * 8.0F) * 0.15F;
+	}
+
+	public static float smoothRotation(float from, float to, float speed) {
+		float f = MathHelper.wrapAngleTo180_float(to - from);
+
+		if (f > speed) {
+			f = speed;
+		}
+
+		if (f < -speed) {
+			f = -speed;
+		}
+
+		return from + f;
+	}
+
 	public static float updateRotation(float current, float intended, float factor) {
 		float var4 = MathHelper.wrapAngleTo180_float(intended - current);
 

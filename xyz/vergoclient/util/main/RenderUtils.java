@@ -47,6 +47,20 @@ public class RenderUtils {
 		shouldSetCustomPitch = true;
 	}
 
+	public static float smoothRotation(float from, float to, float speed) {
+		float f = MathHelper.wrapAngleTo180_float(to - from);
+
+		if (f > speed) {
+			f = speed;
+		}
+
+		if (f < -speed) {
+			f = -speed;
+		}
+
+		return from + f;
+	}
+
 	public static void scale(float x, float y, float scale, Runnable data) {
 		GL11.glPushMatrix();
 		GL11.glTranslatef(x, y, 0);

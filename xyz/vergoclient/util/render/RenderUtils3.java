@@ -2,6 +2,7 @@ package xyz.vergoclient.util.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import xyz.vergoclient.util.animations.Animation;

@@ -1,7 +1,5 @@
 package xyz.vergoclient.util.helper;
 
-import xyz.vergoclient.ui.click.test.elements.Rect;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Random;
@@ -17,9 +15,9 @@ public class MathUtils {
         return x > minX && x < maxX && y > minY && y < maxY;
     }
 
-    public static boolean contains(float x, float y, Rect rect) {
-        return x > rect.getX() && x < rect.getX() + rect.getWidth() && y > rect.getY() && y < rect.getY() + rect.getHeight();
-    }
+    //public static boolean contains(float x, float y, Rect rect) {
+    //    return x > rect.getX() && x < rect.getX() + rect.getWidth() && y > rect.getY() && y < rect.getY() + rect.getHeight();
+    //}
 
     static {
         rng = new Random();

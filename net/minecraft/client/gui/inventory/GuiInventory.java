@@ -14,6 +14,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import xyz.vergoclient.Vergo;
+import xyz.vergoclient.modules.impl.miscellaneous.InvMove;
 
 public class GuiInventory extends InventoryEffectRenderer
 {

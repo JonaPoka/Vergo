@@ -9,6 +9,7 @@ import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
+import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.Gl.BlurUtil;
@@ -31,11 +32,14 @@ public class SessionInfo extends Module implements OnEventInterface {
 
     public BooleanSetting resetStats = new BooleanSetting("Reset Stats", false);
 
+    public NumberSetting xPos = new NumberSetting("X Pos", 3, 3, 1000, 1),
+                         yPos = new NumberSetting("Y Pos", 50, 5, 800, 1);
+
     @Override
     public void loadSettings() {
         colorSetting.modes.addAll(Arrays.asList("Clear", "VergoColour"));
 
-        addSettings(colorSetting, resetStats);
+        addSettings(xPos, yPos, colorSetting, resetStats);
     }
 
     @Override
@@ -69,8 +73,8 @@ public class SessionInfo extends Module implements OnEventInterface {
                 JelloFontRenderer fr2 = FontUtil.kanitNormal;
 
                 // Location Data
-                int boxX = 3;
-                int boxY = 50;
+                int boxX = xPos.getValueAsInt();
+                int boxY = yPos.getValueAsInt();
                 int boxWidth = 130;
                 int boxHeight = 90;
                 float boxCorners = 3f;
@@ -100,23 +104,23 @@ public class SessionInfo extends Module implements OnEventInterface {
 
                 // Playtime Text
                 fr2.drawString("Current Session:", boxX + (boxWidth / 2.7f) - (fr.getStringWidth("Current Session:") / 2), boxY + 22f, -1);
-                fr2.drawString(playtimeString, 46 + (fr2.getStringWidth("Current Session:") / 2), boxY + 22f, -1);
+                fr2.drawString(playtimeString, boxX + 46 + (fr2.getStringWidth("Current Session:") / 2), boxY + 22f, -1);
 
                 // Win Count
-                fr2.drawString("Wins: ", 8, boxY + 35f, -1);
-                fr2.drawString(winCount + "", 20 + (fr2.getStringWidth("Wins: ") / 2), boxY + 35f, -1);
+                fr2.drawString("Wins: ", boxX + 8, boxY + 35f, -1);
+                fr2.drawString(winCount + "", boxX + 20 + (fr2.getStringWidth("Wins: ") / 2), boxY + 35f, -1);
 
                 // Kill Count
-                fr2.drawString("Kills: ", 8, boxY + 48f, -1);
-                fr2.drawString(killCount + "", 17 + (fr2.getStringWidth("Kills: ") / 2), boxY + 48f, -1);
+                fr2.drawString("Kills: ", boxX + 8, boxY + 48f, -1);
+                fr2.drawString(killCount + "", boxX + 17 + (fr2.getStringWidth("Kills: ") / 2), boxY + 48f, -1);
 
                 // Death Count
-                fr2.drawString("Deaths: ", 8, boxY + 61f, -1);
-                fr2.drawString(deathCount + "", 24 + (fr2.getStringWidth("Deaths: ") / 2), boxY + 61f, -1);
+                fr2.drawString("Deaths: ", boxX + 8, boxY + 61f, -1);
+                fr2.drawString(deathCount + "", boxX + 24 + (fr2.getStringWidth("Deaths: ") / 2), boxY + 61f, -1);
 
                 // Games Played
-                fr2.drawString("Games Played: ", 8, boxY + 74f, -1);
-                fr2.drawString(gamesPlayed + "", 39 + (fr2.getStringWidth("Games Played: ") / 2), boxY + 74f, -1);
+                fr2.drawString("Games Played: ", boxX + 8, boxY + 74f, -1);
+                fr2.drawString(gamesPlayed + "", boxX + 39 + (fr2.getStringWidth("Games Played: ") / 2), boxY + 74f, -1);
 
                 GlStateManager.popMatrix();
             }

@@ -1,10 +1,14 @@
 package xyz.vergoclient.modules.impl.miscellaneous;
 
+import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.client.gui.inventory.GuiChest;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.network.play.server.S2DPacketOpenWindow;
 import net.minecraft.network.play.server.S2EPacketCloseWindow;
 import xyz.vergoclient.event.Event;
+import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventReceivePacket;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
@@ -38,9 +42,15 @@ public class InvMove extends Module implements OnEventInterface {
 
     @Override
     public void onEvent(Event e) {
-        if(e instanceof EventReceivePacket) {
-            EventReceivePacket event = (EventReceivePacket) e;
-            theSpoofMethod(event);
+        //if(e instanceof EventReceivePacket) {
+        //    EventReceivePacket event = (EventReceivePacket) e;
+        //    theSpoofMethod(event);
+        //}
+
+        if(e instanceof EventMove) {
+            if(e.isPre() && mc.currentScreen instanceof GuiContainer) {
+                updateStates();
+            }
         }
     }
 
