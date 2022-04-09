@@ -1,6 +1,7 @@
 package xyz.vergoclient.modules.impl.movement.scaffold;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemBlock;
@@ -21,6 +22,9 @@ import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.Gl.BlurUtil;
+import xyz.vergoclient.util.animations.Animation;
+import xyz.vergoclient.util.animations.Direction;
+import xyz.vergoclient.util.animations.impl.EaseBackIn;
 import xyz.vergoclient.util.main.MovementUtils;
 import xyz.vergoclient.util.main.RenderUtils;
 
@@ -43,9 +47,15 @@ public class NewScaffold extends Module implements OnEventInterface {
 
     public static int slot;
 
+    public static Animation openingAnimation;
+
     @Override
     public void onEnable() {
 
+        openingAnimation = new EaseBackIn(400, .4f, 2f);
+
+        if(openingAnimation.getDirection() == Direction.BACKWARDS)
+            openingAnimation.setDirection(Direction.FORWARDS);
     }
 
     @Override
@@ -56,61 +66,69 @@ public class NewScaffold extends Module implements OnEventInterface {
         }
         lastSlot = -1;
 
+        openingAnimation.setDirection(Direction.BACKWARDS);
+
     }
+
+
 
     @Override
     public void onEvent(Event e) {
 
         if (e instanceof EventRenderGUI) {
-            GlStateManager.pushMatrix();
-            int blocksLeft = 0;
+            ScaledResolution sr = new ScaledResolution(mc);
+            RenderUtils.scale(sr.getScaledWidth() / 2f, sr.getScaledHeight() / 2f, (float) openingAnimation.getOutput() + .6f, () -> {
 
-            for (short g = 0; g < 9; g++) {
+                GlStateManager.pushMatrix();
+                int blocksLeft = 0;
 
-                if (mc.thePlayer.inventoryContainer.getSlot(g + 36).getHasStack()
-                        && mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem() instanceof ItemBlock
-                        && mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().stackSize != 0
-                        && !((ItemBlock) mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem()).getBlock()
-                        .getLocalizedName().toLowerCase().contains("chest")
-                        && !((ItemBlock) mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem()).getBlock()
-                        .getLocalizedName().toLowerCase().contains("table")) {
-                    blocksLeft += mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().stackSize;
+                for (short g = 0; g < 9; g++) {
+
+                    if (mc.thePlayer.inventoryContainer.getSlot(g + 36).getHasStack()
+                            && mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem() instanceof ItemBlock
+                            && mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().stackSize != 0
+                            && !((ItemBlock) mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem()).getBlock()
+                            .getLocalizedName().toLowerCase().contains("chest")
+                            && !((ItemBlock) mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().getItem()).getBlock()
+                            .getLocalizedName().toLowerCase().contains("table")) {
+                        blocksLeft += mc.thePlayer.inventoryContainer.getSlot(g + 36).getStack().stackSize;
+                    }
+
                 }
 
-            }
+                DecimalFormat decimalFormat = new DecimalFormat("###");
+                String left = decimalFormat.format(blocksLeft);
 
-            DecimalFormat decimalFormat = new DecimalFormat("###");
-            String left = decimalFormat.format(blocksLeft);
-
-            JelloFontRenderer jfr = FontUtil.comfortaaSmall;
+                JelloFontRenderer jfr = FontUtil.comfortaaSmall;
 
 
-            if (blocksLeft > 0) {
+                if (blocksLeft > 0) {
 
-                BlurUtil.blurAreaRounded(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f);
-                RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) 100));
-                if (blocksLeft <= 99 && blocksLeft > 9) {
-                    jfr.drawString("0" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) 255));
-                } else if (blocksLeft <= 9) {
-                    jfr.drawString("00" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) 255));
+                    BlurUtil.blurAreaRounded(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f);
+                    RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, getColor(10, 10, 10, (int) 100));
+                    if (blocksLeft <= 99 && blocksLeft > 9) {
+                        jfr.drawString("0" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) 255));
+                    } else if (blocksLeft <= 9) {
+                        jfr.drawString("00" + left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) 255));
+                    } else {
+                        jfr.drawString(left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) 255));
+                    }
+                    GlStateManager.resetColor();
+                    RenderHelper.enableGUIStandardItemLighting();
+                    GlStateManager.color(1, 1, 1, 255);
+                    mc.getRenderItem().renderItemAndEffectIntoGUI(setStackToPlace(), GuiScreen.width / 2 - 7.5f, GuiScreen.height / 2 + 20);
+
                 } else {
-                    jfr.drawString(left, GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(255, 255, 255, (int) 255));
+                    BlurUtil.blurAreaRounded(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f);
+                    RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, new Color(10, 10, 10, 100));
+                    GlStateManager.resetColor();
+                    RenderHelper.enableGUIStandardItemLighting();
+                    GlStateManager.color(1, 1, 1, 255);
+                    jfr.drawString("000", GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(191, 9, 29, (int) 255));
                 }
-                GlStateManager.resetColor();
-                RenderHelper.enableGUIStandardItemLighting();
-                GlStateManager.color(1, 1, 1, 255);
-                mc.getRenderItem().renderItemAndEffectIntoGUI(setStackToPlace(), GuiScreen.width / 2 - 7.5f, GuiScreen.height / 2 + 20);
 
-            } else {
-                BlurUtil.blurAreaRounded(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f);
-                RenderUtils.drawAlphaRoundedRect(GuiScreen.width / 2 - 12f, GuiScreen.height / 2 + 18, 25, 30, 3f, new Color(10, 10, 10, 100));
-                GlStateManager.resetColor();
-                RenderHelper.enableGUIStandardItemLighting();
-                GlStateManager.color(1, 1, 1, 255);
-                jfr.drawString("000", GuiScreen.width / 2 - 5, GuiScreen.height / 2 + 40, getColor(191, 9, 29, (int) 255));
-            }
-
-            GlStateManager.popMatrix();
+                GlStateManager.popMatrix();
+            });
         }
 
         if (e instanceof EventReceivePacket && e.isPre()) {

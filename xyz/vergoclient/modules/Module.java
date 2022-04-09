@@ -3,9 +3,11 @@ package xyz.vergoclient.modules;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.text.WordUtils;
 import xyz.vergoclient.Vergo;
+import xyz.vergoclient.modules.impl.movement.scaffold.NewScaffold;
 import xyz.vergoclient.settings.Setting;
 import xyz.vergoclient.ui.notifications.ingame.NotificationManager;
 import xyz.vergoclient.ui.notifications.ingame.NotificationType;
+import xyz.vergoclient.util.animations.Direction;
 import xyz.vergoclient.util.anticheat.Player;
 
 import java.util.Arrays;
@@ -101,7 +103,15 @@ public abstract class Module {
 					String message = WordUtils.wrap("Toggled off " + getName(), 120);
 					NotificationManager.post(NotificationType.DISABLE, getName() + " Disabled!", message);
 				}
-				onDisable();
+
+				if(Vergo.config.modScaffold.isEnabled()) {
+					NewScaffold.openingAnimation.setDirection(Direction.BACKWARDS);
+					if(NewScaffold.openingAnimation.isDone() && NewScaffold.openingAnimation.getDirection() == Direction.BACKWARDS) {
+						onDisable();
+					}
+				} else {
+					onDisable();
+				}
 			}
 		}
 		
