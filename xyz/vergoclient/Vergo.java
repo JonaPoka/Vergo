@@ -39,9 +39,9 @@ public class Vergo {
 
 	public static Discord discord = new Discord();
 
-	public static transient String version = "b1.01";
+	public static transient String version = "b1.02";
 
-	public static transient boolean isDev = true;
+	public static transient boolean isDev = false;
 
 	public static transient boolean beta = false;
 
