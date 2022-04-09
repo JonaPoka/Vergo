@@ -98,6 +98,8 @@ public abstract class AbstractClientPlayer extends EntityPlayer
         
     }
 
+    private ResourceLocation cape;
+
     public ResourceLocation getLocationCape()
     {
     	
@@ -112,7 +114,14 @@ public abstract class AbstractClientPlayer extends EntityPlayer
         else
         {
             if(this == Minecraft.getMinecraft().thePlayer && Vergo.config.modCape.isEnabled()) {
-                EventSetCape event = new EventSetCape(this, new ResourceLocation("Vergo/cape.png"));
+
+                if(Vergo.config.modCape.mode.is("Red")) {
+                    cape = new ResourceLocation("Vergo/capes/redbg.png");
+                } else if(Vergo.config.modCape.mode.is("Blue")) {
+                    cape = new ResourceLocation("Vergo/capes/bluebg.png");
+                }
+
+                EventSetCape event = new EventSetCape(this, cape);
                 event.fire();
 
                 if (event.resourceLocation != null)
