@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.visual;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import org.lwjgl.opengl.GL11;
 
 import xyz.vergoclient.Vergo;
@@ -51,7 +52,7 @@ public class Nametags extends Module implements OnEventInterface {
 				}
 				Vec3 targetPos = MiscellaneousUtils.getRenderEntityPos(player);
 				double x = targetPos.xCoord, y = targetPos.yCoord + player.getEyeHeight() + 1, z = targetPos.zCoord;
-				String text = "\247f" + player.getName();
+				String text = ChatFormatting.WHITE + player.getName();
 				String scoreTitle = text;
 				String textNoColorFormatting = "";
 				boolean removeNext = false;

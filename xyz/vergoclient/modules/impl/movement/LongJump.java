@@ -9,16 +9,13 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import xyz.vergoclient.event.Event;
-import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
-import xyz.vergoclient.util.main.ChatUtils;
-import xyz.vergoclient.util.main.MovementUtils;
-import xyz.vergoclient.util.main.Timer;
-import xyz.vergoclient.util.main.TimerUtil;
+import xyz.vergoclient.util.main.*;
+import xyz.vergoclient.util.movement.Movement2;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -33,18 +30,18 @@ public class LongJump extends Module implements OnEventInterface {
         this.timer = new Timer();
     }
 
-    public ModeSetting mode = new ModeSetting("Mode", "HypixelBow", /*"Hypixel Bow",*/ "HypixelBow");
+    public ModeSetting mode = new ModeSetting("Mode", "HypixelBow", "HypixelDmg", "HypixelBow");
 
-    public BooleanSetting devSpeed = new BooleanSetting("BypassDevFilter", false), smoothGlide = new BooleanSetting("Glide", false);
+    public BooleanSetting devSpeed = new BooleanSetting("BypassDevFilter", false);
 
     public static transient TimerUtil hypixelTimer = new TimerUtil();
 
     @Override
     public void loadSettings() {
         mode.modes.clear();
-        mode.modes.addAll(Arrays.asList("HypixelBow"));
+        mode.modes.addAll(Arrays.asList("HypixelBow", "HypixelDmg"));
 
-        addSettings(mode, smoothGlide);
+        addSettings(mode);
     }
 
     public int i;
@@ -54,20 +51,23 @@ public class LongJump extends Module implements OnEventInterface {
 
     public ItemStack itemStack = null;
 
+    public int count;
+
     @Override
     public void onEnable() {
 
+        count = 0;
+
+        mc.gameSettings.keyBindSprint.pressed = false;
+
+        hasHurt = false;
 
         mc.gameSettings.keyBindSprint.pressed = false;
         mc.gameSettings.keyBindForward.pressed = false;
 
         this.timer.reset();
 
-        if(smoothGlide.isEnabled()) {
-            ChatUtils.addDevMessage("Glide option MAY flag on Hypixel.x");
-        }
-
-        if(MovementUtils.isMoving()) {
+        if (MovementUtils.isMoving()) {
             mc.thePlayer.movementInput.moveForward = 0.0f;
             mc.thePlayer.movementInput.moveStrafe = 0.0f;
             MovementUtils.setMotion(0.0f);
@@ -82,9 +82,7 @@ public class LongJump extends Module implements OnEventInterface {
             ChatUtils.addChatMessage("Did not find a bow in your hotbar.");
             toggle();
             return;
-        }
-
-        else {
+        } else {
             slotId = mc.thePlayer.inventory.currentItem;
             if (i != slotId) {
                 //ChatUtils.addChatMessage("Switching slot from " + slotId + " to " + i);
@@ -98,12 +96,22 @@ public class LongJump extends Module implements OnEventInterface {
     @Override
     public void onDisable() {
 
+        mc.thePlayer.speedInAir = 0.02f;
+
         mc.timer.timerSpeed = 1.0f;
 
         jumpCount = 0;
 
+        count = 0;
+
         mc.gameSettings.keyBindForward .pressed = false;
         mc.gameSettings.keyBindSprint.pressed = false;
+
+        if(mode.is("HypixelDmg")) {
+            mc.gameSettings.keyBindJump.pressed = false;
+            mc.gameSettings.keyBindForward.pressed = false;
+            mc.gameSettings.keyBindSprint.pressed = false;
+        }
 
     }
 
@@ -119,7 +127,23 @@ public class LongJump extends Module implements OnEventInterface {
     @Override
     public void onEvent(Event e) {
 
-        if (e instanceof EventUpdate && e.isPre()) {
+        // Calls hypixelBow()
+        if(e instanceof EventUpdate) {
+            EventUpdate event = (EventUpdate) e;
+            if (mode.is("Hypixel Bow")) {
+                hypixelBow(event);
+            }
+
+            if (mode.is("HypixelDmg")) {
+                doLongJump(event);
+            }
+        }
+
+    }
+
+
+    private void hypixelBow(EventUpdate e) {
+        if(e.isPre()) {
             if (mode.is("HypixelBow")) {
 
                 setInfo("HypixelBow");
@@ -130,7 +154,6 @@ public class LongJump extends Module implements OnEventInterface {
                         mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, random, true));
                         mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
 
-                        // Switch back to original slot
                         if (i != slotId) {
                             mc.getNetHandler().getNetworkManager().sendPacket(new C09PacketHeldItemChange(slotId));
                         }
@@ -159,26 +182,18 @@ public class LongJump extends Module implements OnEventInterface {
 
                 if (hasHurt) {
 
-                    //if (automated.isEnabled()) {
+                    mc.gameSettings.keyBindForward.pressed = true;
+                    mc.gameSettings.keyBindSprint.pressed = true;
 
-                        //if (autoMove.isEnabled()) {
-                            mc.gameSettings.keyBindForward.pressed = true;
-                            mc.gameSettings.keyBindSprint.pressed = true;
-                        //}
+                    if (mc.gameSettings.keyBindJump.isKeyDown() || mc.gameSettings.keyBindJump.isPressed()) {
 
-                        //if (autoJump.isEnabled()) {
-                            if (mc.gameSettings.keyBindJump.isKeyDown() || mc.gameSettings.keyBindJump.isPressed()) {
+                    }
+                    if (jumpCount == 0) {
+                        mc.thePlayer.jump();
+                        jumpCount++;
+                    } else {
 
-                            }
-                            if (jumpCount == 0) {
-                                mc.thePlayer.jump();
-                                jumpCount++;
-                            } else {
-
-                            }
-                        //}
-
-                   // }
+                    }
 
                     MovementUtils.setMotion(0.6);
 
@@ -188,20 +203,58 @@ public class LongJump extends Module implements OnEventInterface {
                     }
 
                 }
-
             }
-
         }
 
-        if(e instanceof EventMove && e.isPre()) {
-            EventMove event = (EventMove) e;
+    }
 
-            if(mc.thePlayer.fallDistance <= 0.1 && smoothGlide.isEnabled()) {
-                if (event.y <= 0.2) {
-                    event.y *= 0.3;
+    public void doLongJump(EventUpdate e) {
+
+        if(e.isPre()) {
+
+            if (!hasHurt) {
+
+                if (mc.thePlayer.ticksExisted - ticks == 3) {
+                    mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -89.5f, true));
+                    mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
+
+                    //// Switch back to original slot
+                    if (i != slotId) {
+                        mc.getNetHandler().getNetworkManager().sendPacket(new C09PacketHeldItemChange(slotId));
+                    }
+
                 }
             }
+
+            if (mc.thePlayer.hurtTime == 9) {
+                hasHurt = true;
+            }
+
+            double yaw = Movement2.getDirection();
+
+            if (hasHurt) {
+                switch (count) {
+                    case 0:
+                        //mc.thePlayer.motionX = -Math.sin(yaw) * 1.005;
+                        //mc.thePlayer.motionZ = Math.cos(yaw) * 1.005;
+                        mc.thePlayer.speedInAir = 0.024f;
+                        mc.thePlayer.motionY += 0.4529654364;
+                        break;
+                    case 20:
+                        mc.thePlayer.speedInAir = 0.02f;
+                        break;
+                    case 30:
+                        break;
+                    case 35:
+                        toggle();
+                        break;
+                }
+                count++;
+                ChatUtils.addDevMessage(count);
+            }
+
         }
+
     }
 
 }

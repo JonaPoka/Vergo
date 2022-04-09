@@ -11,6 +11,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import xyz.vergoclient.event.impl.EventUpdate;
 import xyz.vergoclient.util.main.MovementUtils;
 
 public class ScaffoldUtils {
@@ -228,9 +229,9 @@ public class ScaffoldUtils {
 
     public static float[] getFacingRotations2(final int paramInt1, final double d, final int paramInt3) {
         final EntitySnowball localEntityPig = new EntitySnowball(Minecraft.getMinecraft().theWorld);
-        localEntityPig.posX = paramInt1 + 0.5;
-        localEntityPig.posY = d + 0.5;
-        localEntityPig.posZ = paramInt3 + 0.5;
+        localEntityPig.posX = paramInt1 + 1;
+        localEntityPig.posY = d + 1;
+        localEntityPig.posZ = paramInt3 + 1;
         return getRotationsNeeded(localEntityPig);
     }
 

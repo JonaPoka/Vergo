@@ -35,9 +35,6 @@ public class TargetStrafe extends Module implements OnEventInterface {
 			ChatUtils.addProtMsg("Disabler has been enabled for strafe.");
 		}*/
 
-		if(Vergo.config.modDisabler.isDisabled()) {
-			ChatUtils.addProtMsg("CAUTION! THIS IS DETECTED!");
-		}
 	}
 
 	@Override

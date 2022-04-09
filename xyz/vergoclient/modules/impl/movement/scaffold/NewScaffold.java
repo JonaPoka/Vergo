@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
@@ -25,8 +26,10 @@ import xyz.vergoclient.util.Gl.BlurUtil;
 import xyz.vergoclient.util.animations.Animation;
 import xyz.vergoclient.util.animations.Direction;
 import xyz.vergoclient.util.animations.impl.EaseBackIn;
+import xyz.vergoclient.util.main.ChatUtils;
 import xyz.vergoclient.util.main.MovementUtils;
 import xyz.vergoclient.util.main.RenderUtils;
+import xyz.vergoclient.util.main.RotationUtils;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -51,6 +54,8 @@ public class NewScaffold extends Module implements OnEventInterface {
 
     @Override
     public void onEnable() {
+
+        mc.timer.timerSpeed = 1f;
 
         openingAnimation = new EaseBackIn(400, .4f, 2f);
 
@@ -146,43 +151,63 @@ public class NewScaffold extends Module implements OnEventInterface {
 
         }
 
-        if (e instanceof EventMove && e.isPre()) {
-
-            if(mc.thePlayer.isSprinting()) {
+        if (e instanceof EventUpdate) {
+            if (mc.thePlayer.isSprinting()) {
                 mc.thePlayer.setSprinting(false);
             }
 
-            // Setting Block Cache
-            blockCache = ScaffoldUtils.grab();
-            if (blockCache != null) {
-                lastBlockCache = ScaffoldUtils.grab();
+        }
+        if(e instanceof EventMove) {
+            if(e.isPre()) {
+
+                // Setting Block Cache
+                blockCache = ScaffoldUtils.grab();
+                if (blockCache != null) {
+                    lastBlockCache = ScaffoldUtils.grab();
+                } else {
+                    return;
+                }
+
+                int slot = ScaffoldUtils.grabBlockSlot();
+                if (slot == -1) return;
+
+
+                // Setting Slot
+                mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot));
+
+
+                // Placing Blocks, Without jumping!
+                if (blockCache == null) return;
+
+                mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getStackInSlot(slot), lastBlockCache.position, lastBlockCache.facing, ScaffoldUtils.getHypixelVec3(lastBlockCache));
+
+                mc.thePlayer.swingItem();
+
+                mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
+
+                blockCache = null;
+
+                // Slowdown if speed pot is active.
+                if (mc.thePlayer.isPotionActive(Potion.moveSpeed.id)) {
+                    mc.thePlayer.motionX *= 0.66;
+                    mc.thePlayer.motionZ *= 0.66;
+                }
+
             } else {
-                return;
-            }
+                if(e.isPost()) {
+                    int slot = ScaffoldUtils.grabBlockSlot();
+                    if (slot == -1) return;
 
-            int slot = ScaffoldUtils.grabBlockSlot();
-            if (slot == -1) return;
+                    // Placing Blocks (Post)
+                    if (blockCache == null) return;
+                    mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getStackInSlot(slot), lastBlockCache.position, lastBlockCache.facing, ScaffoldUtils.getHypixelVec3(lastBlockCache));
 
+                    mc.thePlayer.swingItem();
 
-            // Setting Slot
-            mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot));
+                    mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
 
-
-            // Placing Blocks, Without jumping!
-            if (blockCache == null) return;
-
-            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getStackInSlot(slot), lastBlockCache.position, lastBlockCache.facing, ScaffoldUtils.getHypixelVec3(lastBlockCache));
-
-            mc.thePlayer.swingItem();
-
-            mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
-
-            blockCache = null;
-
-            // Slowdown if speed pot is active.
-            if(mc.thePlayer.isPotionActive(Potion.moveSpeed.id)){
-                mc.thePlayer.motionX *= 0.66;
-                mc.thePlayer.motionZ *= 0.66;
+                    blockCache = null;
+                }
             }
         }
 
@@ -192,6 +217,51 @@ public class NewScaffold extends Module implements OnEventInterface {
         }
 
     }
+
+    /* Old / Outdated?
+    private BlockInfo findFacingAndBlockPosForBlock(BlockPos input) {
+
+        BlockInfo output = new BlockInfo();
+        output.pos = input;
+
+        // One block
+        for (EnumFacing face : EnumFacing.VALUES) {
+
+            if (mc.theWorld.getBlockState(output.pos.offset(face)).getBlock() != Blocks.air) {
+
+                output.pos = output.pos.offset(face);
+                output.facing = face.getOpposite();
+                output.targetPos = new BlockPos(input.getX(), input.getY(), input.getZ());
+                return output;
+
+            }
+
+        }
+
+        // Two blocks
+        for (EnumFacing face : EnumFacing.VALUES) {
+
+            if (mc.theWorld.getBlockState(output.pos.offset(face)).getBlock() == Blocks.air) {
+
+                for (EnumFacing face1 : EnumFacing.VALUES) {
+
+                    if (mc.theWorld.getBlockState(output.pos.offset(face).offset(face1)).getBlock() != Blocks.air) {
+
+                        output.pos = output.pos.offset(face).offset(face1);
+                        output.facing = face.getOpposite();
+                        output.targetPos = output.pos.offset(face);
+                        return output;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        return null;
+    }*/
 
     private ItemStack setStackToPlace() {
 
@@ -251,7 +321,7 @@ public class NewScaffold extends Module implements OnEventInterface {
             return null;
         }
         Vec3 positionEyes = mc.thePlayer.getPositionEyes(2.0f);
-        Vec3 add = new Vec3((double)blockPos.getX() + 0.1, (double)blockPos.getY() + 0.1, (double)blockPos.getZ() + 0.1);
+        Vec3 add = new Vec3((double)blockPos.getX() + 1, (double)blockPos.getY() + 0.1, (double)blockPos.getZ() + 1);
         double n = add.xCoord - positionEyes.xCoord;
         double n2 = add.yCoord - positionEyes.yCoord;
         double n3 = add.zCoord - positionEyes.zCoord;

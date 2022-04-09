@@ -1,15 +1,12 @@
 package xyz.vergoclient.modules.impl.miscellaneous;
 
-import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
-import xyz.vergoclient.modules.impl.miscellaneous.disabler.HypixelStrafe;
 import xyz.vergoclient.modules.impl.miscellaneous.disabler.HypixelTimer;
 import xyz.vergoclient.modules.impl.miscellaneous.disabler.WatchdogTest;
 import xyz.vergoclient.settings.ModeSetting;
-import xyz.vergoclient.util.main.ChatUtils;
 
 import java.util.Arrays;
 
