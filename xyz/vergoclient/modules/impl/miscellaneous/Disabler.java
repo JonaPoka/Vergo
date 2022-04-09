@@ -19,17 +19,15 @@ public class Disabler extends Module implements OnEventInterface {
 		super("Disabler", Category.MISCELLANEOUS);
 	}
 	
-	public ModeSetting mode = new ModeSetting("Disabler", "Watchdog", "Watchdog", "HypixelTest");
+	public ModeSetting mode = new ModeSetting("Disabler", "Watchdog", "Watchdog");
 
 	@Override
 	public void loadSettings() {
 
 		mode.modes.clear();
-		if(Vergo.isDev) {
-			mode.modes.addAll(Arrays.asList("Watchdog", "HypixelTest"));
-		} else {
-			mode.modes.addAll(Arrays.asList("Watchdog"));
-		}
+
+		mode.modes.addAll(Arrays.asList("Watchdog"));
+
 		addSettings(mode);
 		
 	}
@@ -37,11 +35,7 @@ public class Disabler extends Module implements OnEventInterface {
 	@Override
 	public void onEnable() {
 
-		if(mode.is("Hypixel Test")) {
-			if(!Vergo.isDev) {
-				mode.setMode("Watchdog");
-			}
-		}
+
 
 	}
 	
@@ -56,25 +50,16 @@ public class Disabler extends Module implements OnEventInterface {
 		if(e instanceof EventTick) {
 			if (mode.is("Watchdog")) {
 				setInfo("Watchdog");
-			} else if (mode.is("HypixelTest")) {
-				setInfo("Experimental");
 			}
 		}
 
-		if(mode.is("Watchdog")) {
+		// Strafe Disabler
+		WatchdogTest wdTest = new WatchdogTest();
+		wdTest.onEvent(e);
 
-			// Strafe Disabler
-			HypixelStrafe hypixelStrafe = new HypixelStrafe();
-			hypixelStrafe.onEvent(e);
-
-			// Timer Disabler
-			HypixelTimer hypixelTimer = new HypixelTimer();
-			hypixelTimer.onEvent(e);
-
-		} else if(mode.is("HypixelTest")) {
-			WatchdogTest wdTest = new WatchdogTest();
-			wdTest.onEvent(e);
-		}
+		// Timer Disabler
+		HypixelTimer hypixelTimer = new HypixelTimer();
+		hypixelTimer.onEvent(e);
 
 	}
 	

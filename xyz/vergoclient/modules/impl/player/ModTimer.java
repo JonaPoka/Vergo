@@ -30,11 +30,6 @@ public class ModTimer extends Module implements OnEventInterface {
 		if (Vergo.config.modBlink.isEnabled()) {
 			Vergo.config.modBlink.toggle();
 		}
-
-		if(ServerUtils.isOnHypixel()) {
-			ChatUtils.addProtMsg("WARNING! Timer doesn't work on Hypixel!");
-			ChatUtils.addProtMsg("We recommend turning it off!");
-		}
 	}
 	
 	@Override

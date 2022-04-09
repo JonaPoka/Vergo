@@ -110,7 +110,7 @@ public class ModuleManager {
 		modCape = new LoaderModule<Cape>(modCape).generate();
 		modClickgui = new LoaderModule<ClickGui>(modClickgui).generate();
 		modDisabler = new LoaderModule<Disabler>(modDisabler).generate();
-		modResetVL = new LoaderModule<ResetVL>(modResetVL).generate();
+		//modResetVL = new LoaderModule<ResetVL>(modResetVL).generate();
 		modTeams = new LoaderModule<Teams>(modTeams).generate();
 
 		// Player

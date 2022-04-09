@@ -130,6 +130,10 @@ public class NewScaffold extends Module implements OnEventInterface {
 
         if (e instanceof EventMove && e.isPre()) {
 
+            if(mc.thePlayer.isSprinting()) {
+                mc.thePlayer.setSprinting(false);
+            }
+
             // Setting Block Cache
             blockCache = ScaffoldUtils.grab();
             if (blockCache != null) {
@@ -207,25 +211,20 @@ public class NewScaffold extends Module implements OnEventInterface {
     }
 
     private void rotationInformation(EventUpdate e) {
-        if(mc.gameSettings.keyBindJump.isKeyDown()) {
-            e.setPitch(89);
-            RenderUtils.setCustomPitch(e.getPitch());
+        if (lastBlockCache != null) {
+            rotations = ScaffoldUtils.getFacingRotations2(lastBlockCache.getPosition().getX(), lastBlockCache.getPosition().getY(), lastBlockCache.getPosition().getZ());
+
+            e.setYaw(rotations[0]);
+            e.setPitch(81);
+
+            RenderUtils.setCustomYaw(rotations[0]);
+            RenderUtils.setCustomPitch(81);
         } else {
-            if (lastBlockCache != null) {
-                rotations = ScaffoldUtils.getFacingRotations2(lastBlockCache.getPosition().getX(), lastBlockCache.getPosition().getY(), lastBlockCache.getPosition().getZ());
+            e.setPitch(81);
+            e.setYaw(mc.thePlayer.rotationYaw + 180);
 
-                e.setYaw(rotations[0]);
-                e.setPitch(81);
-
-                RenderUtils.setCustomYaw(rotations[0]);
-                RenderUtils.setCustomPitch(81);
-            } else {
-                e.setPitch(81);
-                e.setYaw(mc.thePlayer.rotationYaw + 180);
-
-                RenderUtils.setCustomPitch(81);
-                RenderUtils.setCustomYaw(mc.thePlayer.rotationYaw + 180);
-            }
+            RenderUtils.setCustomPitch(81);
+            RenderUtils.setCustomYaw(mc.thePlayer.rotationYaw + 180);
         }
     }
 

@@ -7,6 +7,7 @@ import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.settings.ModeSetting;
+import xyz.vergoclient.util.main.ChatUtils;
 import xyz.vergoclient.util.main.MovementUtils;
 
 import java.util.Arrays;
@@ -35,12 +36,11 @@ public class Criticals extends Module implements OnEventInterface {
             }
         }
 
-        if(e instanceof EventMove && e.isPre()) {
-            if (KillAura.target != null && MovementUtils.isOnGround(0.001)) {
-                if (KillAura.target.hurtTime > 20) {
-                    for (double offset : new double[]{0.06f, 0.01f}) {
-                        mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + offset + (Math.random() * 0.001), mc.thePlayer.posZ, false));
-                    }
+        if (KillAura.target != null && MovementUtils.isOnGround(0.001)) {
+            if (KillAura.target.hurtTime > 20) {
+                for (double offset : new double[]{0.06f, 0.01f}) {
+                    mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + offset + (Math.random() * 0.001), mc.thePlayer.posZ, false));
+                    ChatUtils.addChatMessage("CRIT!");
                 }
             }
         }

@@ -19,7 +19,7 @@ public class SessionChanger {
 
 	public static String login(String email, String password, boolean autoRemove) {
 
-		System.out.println("Logging in with [" + email + ":********]");
+		//System.out.println("Logging in with [" + email + ":********]");
 		final YggdrasilAuthenticationService authenticationService = new YggdrasilAuthenticationService(Proxy.NO_PROXY,
 				"");
 		final YggdrasilUserAuthentication authentication = (YggdrasilUserAuthentication) authenticationService
@@ -62,7 +62,7 @@ public class SessionChanger {
 
 	public static Session getSession(String email, String password) {
 
-		System.out.println("Logging in with [" + email + ":********]");
+		//System.out.println("Logging in with [" + email + ":********]");
 		final YggdrasilAuthenticationService authenticationService = new YggdrasilAuthenticationService(Proxy.NO_PROXY,
 				"");
 		final YggdrasilUserAuthentication authentication = (YggdrasilUserAuthentication) authenticationService.createUserAuthentication(Agent.MINECRAFT);

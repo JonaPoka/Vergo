@@ -83,6 +83,7 @@ public class TargetHud extends Module implements OnEventInterface {
 
 	private void renderVergoTargetHud(EventRenderGUI e) {
 		if (mode.is("Vergo")) {
+
 			ScaledResolution sr = new ScaledResolution(mc);
 
 			EntityLivingBase ent = null;

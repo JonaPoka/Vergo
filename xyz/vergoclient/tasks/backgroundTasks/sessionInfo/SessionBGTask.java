@@ -18,7 +18,7 @@ public class SessionBGTask implements OnEventInterface {
             if(event.packet instanceof S02PacketChat) {
                 S02PacketChat packet = (S02PacketChat) event.packet;
 
-                if(packet.getChatComponent().getUnformattedText().contains("was killed by " + mc.thePlayer.getName())) {
+                if(packet.getChatComponent().getUnformattedText().contains("was killed by " + mc.thePlayer.getName()) || packet.getChatComponent().getUnformattedText().contains("by " + mc.thePlayer.getName() + ".")) {
                     SessionInfo.killCount += 1;
                 }
 

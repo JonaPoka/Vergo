@@ -75,7 +75,7 @@ public class SessionInfo extends Module implements OnEventInterface {
                 // Location Data
                 int boxX = xPos.getValueAsInt();
                 int boxY = yPos.getValueAsInt();
-                int boxWidth = 130;
+                int boxWidth = 135;
                 int boxHeight = 90;
                 float boxCorners = 3f;
 

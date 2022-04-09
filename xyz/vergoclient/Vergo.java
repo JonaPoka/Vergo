@@ -41,7 +41,7 @@ public class Vergo {
 
 	public static transient String version = "b1.01";
 
-	public static transient boolean isDev = false;
+	public static transient boolean isDev = true;
 
 	public static transient boolean beta = false;
 
@@ -195,8 +195,6 @@ public class Vergo {
 
 	public static void protTime() {
 
-		// rough and ugly code to shutdown Vergo if connection to the website is lost.
-
 		java.util.Timer timer = new java.util.Timer();
 
 		timer.schedule( new TimerTask() {
@@ -223,8 +221,6 @@ public class Vergo {
 
 	public static void verProtTime() {
 
-		// rough and ugly code to shutdown Vergo if connection to the website is lost.
-
 		java.util.Timer timer = new java.util.Timer();
 
 		timer.schedule( new TimerTask() {
@@ -233,7 +229,6 @@ public class Vergo {
 					String response1 = NetworkManager.getNetworkManager().sendPost(new HttpPost("https://vergoclient.xyz/api/verCheck.php"));
 					if(!response1.equals(Vergo.version)) {
 
-						// If your Vergo version doesnt match latest throw in log and shutdown.
 						System.out.println(String.format("Vergo has an update <%s>. You are on %s. Update your client to continue using Vergo.", response1, Vergo.version));
 						Minecraft.getMinecraft().shutdown();
 
