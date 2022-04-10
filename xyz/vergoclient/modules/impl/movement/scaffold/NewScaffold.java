@@ -1,5 +1,6 @@
 package xyz.vergoclient.modules.impl.movement.scaffold;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -22,6 +23,9 @@ import xyz.vergoclient.event.impl.*;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.modules.impl.combat.KillAura;
+import xyz.vergoclient.settings.BooleanSetting;
+import xyz.vergoclient.settings.ModeSetting;
+import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.Gl.BlurUtil;
@@ -35,6 +39,7 @@ import xyz.vergoclient.util.main.RotationUtils;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 import static xyz.vergoclient.modules.impl.visual.TargetHud.getColor;
 
@@ -76,8 +81,6 @@ public class NewScaffold extends Module implements OnEventInterface {
         openingAnimation.setDirection(Direction.BACKWARDS);
 
     }
-
-
 
     @Override
     public void onEvent(Event e) {
@@ -159,8 +162,13 @@ public class NewScaffold extends Module implements OnEventInterface {
             }
 
         }
-        if(e instanceof EventMove) {
-            if(e.isPre()) {
+
+        if(e instanceof EventUpdate) {
+            EventUpdate event = (EventUpdate) e;
+            rotationInformation(event);
+        }
+
+        if(e instanceof EventMove && e.isPost()) {
 
                 // Setting Block Cache
                 blockCache = ScaffoldUtils.grab();
@@ -172,7 +180,6 @@ public class NewScaffold extends Module implements OnEventInterface {
 
                 int slot = ScaffoldUtils.grabBlockSlot();
                 if (slot == -1) return;
-
 
                 // Setting Slot
                 mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot));
@@ -194,29 +201,7 @@ public class NewScaffold extends Module implements OnEventInterface {
                     mc.thePlayer.motionX *= 0.66;
                     mc.thePlayer.motionZ *= 0.66;
                 }
-
-            } else {
-                if(e.isPost()) {
-                    int slot = ScaffoldUtils.grabBlockSlot();
-                    if (slot == -1) return;
-
-                    // Placing Blocks (Post)
-                    if (blockCache == null) return;
-                    mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getStackInSlot(slot), lastBlockCache.position, lastBlockCache.facing, ScaffoldUtils.getHypixelVec3(lastBlockCache));
-
-                    mc.thePlayer.swingItem();
-
-                    mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
-
-                    blockCache = null;
-                }
             }
-        }
-
-        if(e instanceof EventUpdate) {
-            EventUpdate event = (EventUpdate) e;
-            rotationInformation(event);
-        }
 
     }
 

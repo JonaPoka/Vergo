@@ -54,6 +54,7 @@ public class ModuleManager {
 	public InvMove modInvMove = new InvMove();
 	public SmallHand modSmallItems = new SmallHand();
 	public Animations modAnimations = new Animations();
+	public ItemPhysics modItemPhysics = new ItemPhysics();
 	public NoSlow modNoSlow = new NoSlow();
 	public TargetStrafe modTargetStrafe = new TargetStrafe();
 	public Sprint modSprint = new Sprint();
@@ -95,6 +96,7 @@ public class ModuleManager {
 		modChams = new LoaderModule<Chams>(modChams).generate();
 		modChinaHat = new LoaderModule<ChinaHat>(modChinaHat).generate();
 		modHud = new LoaderModule<Hud>(modHud).generate();
+		modItemPhysics = new LoaderModule<ItemPhysics>(modItemPhysics).generate();
 		modNametags = new LoaderModule<Nametags>(modNametags).generate();
 		modNotifications = new LoaderModule<Notifications>(modNotifications).generate();
 		modPlayerESP = new LoaderModule<PlayerESP>(modPlayerESP).generate();

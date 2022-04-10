@@ -1,11 +1,13 @@
 package xyz.vergoclient.modules.impl.miscellaneous;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
 import xyz.vergoclient.modules.impl.miscellaneous.disabler.HypixelTimer;
 import xyz.vergoclient.modules.impl.miscellaneous.disabler.WatchdogTest;
+import xyz.vergoclient.settings.BooleanSetting;
 import xyz.vergoclient.settings.ModeSetting;
 
 import java.util.Arrays;
@@ -18,6 +20,9 @@ public class Disabler extends Module implements OnEventInterface {
 	
 	public ModeSetting mode = new ModeSetting("Disabler", "Watchdog", "Watchdog");
 
+	public BooleanSetting strafeToggle = new BooleanSetting("Strafe Disabler", true),
+							timerToggle = new BooleanSetting("Timer Disabler", true);
+
 	@Override
 	public void loadSettings() {
 
@@ -25,7 +30,7 @@ public class Disabler extends Module implements OnEventInterface {
 
 		mode.modes.addAll(Arrays.asList("Watchdog"));
 
-		addSettings(mode);
+		addSettings(mode, strafeToggle, timerToggle);
 		
 	}
 
@@ -51,12 +56,16 @@ public class Disabler extends Module implements OnEventInterface {
 		}
 
 		// Strafe Disabler
-		WatchdogTest wdTest = new WatchdogTest();
-		wdTest.onEvent(e);
+		if(strafeToggle.isEnabled()) {
+			WatchdogTest wdTest = new WatchdogTest();
+			wdTest.onEvent(e);
+		}
 
-		// Timer Disabler
-		HypixelTimer hypixelTimer = new HypixelTimer();
-		hypixelTimer.onEvent(e);
+		if(timerToggle.isEnabled()) {
+			// Timer Disabler
+			HypixelTimer hypixelTimer = new HypixelTimer();
+			hypixelTimer.onEvent(e);
+		}
 
 	}
 	

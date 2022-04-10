@@ -30,16 +30,14 @@ public class LongJump extends Module implements OnEventInterface {
         this.timer = new Timer();
     }
 
-    public ModeSetting mode = new ModeSetting("Mode", "HypixelBow", "HypixelDmg", "HypixelBow");
-
-    public BooleanSetting devSpeed = new BooleanSetting("BypassDevFilter", false);
+    public ModeSetting mode = new ModeSetting("Mode", "HypixelDmg", "HypixelDmg"/*, "HypixelBow"*/);
 
     public static transient TimerUtil hypixelTimer = new TimerUtil();
 
     @Override
     public void loadSettings() {
         mode.modes.clear();
-        mode.modes.addAll(Arrays.asList("HypixelBow", "HypixelDmg"));
+        mode.modes.addAll(Arrays.asList(/*"HypixelBow",*/ "HypixelDmg"));
 
         addSettings(mode);
     }
@@ -53,6 +51,8 @@ public class LongJump extends Module implements OnEventInterface {
 
     public int count;
 
+    public TimerUtil toggleTimer = new TimerUtil();
+
     @Override
     public void onEnable() {
 
@@ -61,6 +61,8 @@ public class LongJump extends Module implements OnEventInterface {
         mc.gameSettings.keyBindSprint.pressed = false;
 
         hasHurt = false;
+
+        toggleTimer.reset();
 
         mc.gameSettings.keyBindSprint.pressed = false;
         mc.gameSettings.keyBindForward.pressed = false;
@@ -104,6 +106,8 @@ public class LongJump extends Module implements OnEventInterface {
 
         count = 0;
 
+        hasHurt = false;
+
         mc.gameSettings.keyBindForward .pressed = false;
         mc.gameSettings.keyBindSprint.pressed = false;
 
@@ -118,8 +122,6 @@ public class LongJump extends Module implements OnEventInterface {
     public boolean veloWasOn = false;
 
     public int jumpCount = 0;
-
-    public float oldPitch;
 
     Random r = new Random();
     float random = -88.500000f + r.nextFloat() * (-90.000000f - -89.000000f);
@@ -208,6 +210,8 @@ public class LongJump extends Module implements OnEventInterface {
 
     }
 
+    public double oldYaw;
+
     public void doLongJump(EventUpdate e) {
 
         if(e.isPre()) {
@@ -215,10 +219,11 @@ public class LongJump extends Module implements OnEventInterface {
             if (!hasHurt) {
 
                 if (mc.thePlayer.ticksExisted - ticks == 3) {
-                    mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -89.5f, true));
+
+                    mc.getNetHandler().getNetworkManager().sendPacket(new C03PacketPlayer.C05PacketPlayerLook(mc.thePlayer.rotationYaw, -89.6f, true));
                     mc.getNetHandler().getNetworkManager().sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
 
-                    //// Switch back to original slot
+                    // Switch back to original slot
                     if (i != slotId) {
                         mc.getNetHandler().getNetworkManager().sendPacket(new C09PacketHeldItemChange(slotId));
                     }
@@ -235,15 +240,20 @@ public class LongJump extends Module implements OnEventInterface {
             if (hasHurt) {
                 switch (count) {
                     case 0:
-                        mc.thePlayer.motionX = -Math.sin(yaw) * 1.005;
-                        mc.thePlayer.motionZ = Math.cos(yaw) * 1.005;
-                        mc.thePlayer.motionY += 0.4329654364;
+                        mc.thePlayer.jump();
+                        mc.thePlayer.setSprinting(true);
+                        mc.gameSettings.keyBindForward.pressed = true;
+                        mc.thePlayer.speedInAir = 0.0355f;
+                        mc.thePlayer.motionY += 0.4529654364;
                         break;
                     case 20:
+                        mc.thePlayer.setSprinting(true);
+                        mc.gameSettings.keyBindForward.pressed = true;
+                        mc.thePlayer.speedInAir = 0.02f;
                         break;
-                    case 30:
-                        break;
-                    case 35:
+                    case 21:
+                        mc.thePlayer.setSprinting(false);
+                        mc.gameSettings.keyBindForward.pressed = false;
                         toggle();
                         break;
                 }
