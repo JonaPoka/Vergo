@@ -197,11 +197,12 @@ public class KillAura extends Module implements OnSettingChangeInterface, OnEven
 
 			// If there is no target return
 			if (target == null) {
-				if (mc.gameSettings.keyBindUseItem.isKeyDown()) {
+				if(mc.thePlayer.isUsingItem() && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword && !mc.gameSettings.keyBindUseItem.isPressed()) {
 					mc.thePlayer.clearItemInUse();
 					return;
+				} else if(mc.thePlayer.isUsingItem() && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword && mc.gameSettings.keyBindUseItem.isPressed()) {
+					return;
 				} else {
-					mc.thePlayer.clearItemInUse();
 					return;
 				}
 			}

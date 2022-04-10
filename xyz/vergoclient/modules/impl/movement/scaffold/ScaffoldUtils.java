@@ -76,7 +76,7 @@ public class ScaffoldUtils {
         EnumFacing face = data.facing;
         double x = (double) pos.getX() + 0.5, y = (double) pos.getY() + 0.5, z = (double) pos.getZ() + 0.5;
         if (face != EnumFacing.UP && face != EnumFacing.DOWN) {
-            y += 0.5;
+            y += 1;
         } else {
             x += 0.3;
             z += 0.3;
@@ -229,9 +229,9 @@ public class ScaffoldUtils {
 
     public static float[] getFacingRotations2(final int paramInt1, final double d, final int paramInt3) {
         final EntitySnowball localEntityPig = new EntitySnowball(Minecraft.getMinecraft().theWorld);
-        localEntityPig.posX = paramInt1 + 1;
-        localEntityPig.posY = d + 1;
-        localEntityPig.posZ = paramInt3 + 1;
+        localEntityPig.posX = paramInt1 + 0.5;
+        localEntityPig.posY = d + 0.5;
+        localEntityPig.posZ = paramInt3 + 0.5;
         return getRotationsNeeded(localEntityPig);
     }
 

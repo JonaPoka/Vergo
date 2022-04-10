@@ -235,13 +235,11 @@ public class LongJump extends Module implements OnEventInterface {
             if (hasHurt) {
                 switch (count) {
                     case 0:
-                        //mc.thePlayer.motionX = -Math.sin(yaw) * 1.005;
-                        //mc.thePlayer.motionZ = Math.cos(yaw) * 1.005;
-                        mc.thePlayer.speedInAir = 0.024f;
-                        mc.thePlayer.motionY += 0.4529654364;
+                        mc.thePlayer.motionX = -Math.sin(yaw) * 1.005;
+                        mc.thePlayer.motionZ = Math.cos(yaw) * 1.005;
+                        mc.thePlayer.motionY += 0.4329654364;
                         break;
                     case 20:
-                        mc.thePlayer.speedInAir = 0.02f;
                         break;
                     case 30:
                         break;

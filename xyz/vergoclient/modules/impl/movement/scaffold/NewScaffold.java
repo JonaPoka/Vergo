@@ -16,10 +16,12 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import org.apache.commons.lang3.RandomUtils;
+import xyz.vergoclient.Vergo;
 import xyz.vergoclient.event.Event;
 import xyz.vergoclient.event.impl.*;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
+import xyz.vergoclient.modules.impl.combat.KillAura;
 import xyz.vergoclient.ui.fonts.FontUtil;
 import xyz.vergoclient.ui.fonts.JelloFontRenderer;
 import xyz.vergoclient.util.Gl.BlurUtil;
@@ -217,51 +219,6 @@ public class NewScaffold extends Module implements OnEventInterface {
         }
 
     }
-
-    /* Old / Outdated?
-    private BlockInfo findFacingAndBlockPosForBlock(BlockPos input) {
-
-        BlockInfo output = new BlockInfo();
-        output.pos = input;
-
-        // One block
-        for (EnumFacing face : EnumFacing.VALUES) {
-
-            if (mc.theWorld.getBlockState(output.pos.offset(face)).getBlock() != Blocks.air) {
-
-                output.pos = output.pos.offset(face);
-                output.facing = face.getOpposite();
-                output.targetPos = new BlockPos(input.getX(), input.getY(), input.getZ());
-                return output;
-
-            }
-
-        }
-
-        // Two blocks
-        for (EnumFacing face : EnumFacing.VALUES) {
-
-            if (mc.theWorld.getBlockState(output.pos.offset(face)).getBlock() == Blocks.air) {
-
-                for (EnumFacing face1 : EnumFacing.VALUES) {
-
-                    if (mc.theWorld.getBlockState(output.pos.offset(face).offset(face1)).getBlock() != Blocks.air) {
-
-                        output.pos = output.pos.offset(face).offset(face1);
-                        output.facing = face.getOpposite();
-                        output.targetPos = output.pos.offset(face);
-                        return output;
-
-                    }
-
-                }
-
-            }
-
-        }
-
-        return null;
-    }*/
 
     private ItemStack setStackToPlace() {
 

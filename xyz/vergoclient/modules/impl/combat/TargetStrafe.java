@@ -9,6 +9,8 @@ import xyz.vergoclient.event.impl.EventMove;
 import xyz.vergoclient.event.impl.EventTick;
 import xyz.vergoclient.modules.Module;
 import xyz.vergoclient.modules.OnEventInterface;
+import xyz.vergoclient.settings.BooleanSetting;
+import xyz.vergoclient.settings.ModeSetting;
 import xyz.vergoclient.settings.NumberSetting;
 import xyz.vergoclient.util.main.ChatUtils;
 import xyz.vergoclient.util.main.MovementUtils;
@@ -27,6 +29,9 @@ public class TargetStrafe extends Module implements OnEventInterface {
 
 	public static NumberSetting range = new NumberSetting("Range", 1.5, 1, 8, 0.1);
 
+	public static BooleanSetting control = new BooleanSetting("Controllable", false), wallCheck = new BooleanSetting("Wall Check", true),
+								 voidCheck = new BooleanSetting("Void Check", true);
+
 	@Override
 	public void onEnable() {
 
@@ -44,14 +49,15 @@ public class TargetStrafe extends Module implements OnEventInterface {
 
 	@Override
 	public void loadSettings() {
-		addSettings(range);
+
+		addSettings(range, control, voidCheck, wallCheck);
 	}
 
 	@Override
 	public void onEvent(Event e) {
 
 		if (e instanceof EventTick) {
-			setInfo("Hypixel " + canStrafe());
+			setInfo("Hypixel");
 		}
 
 		if (e instanceof EventMove) {
